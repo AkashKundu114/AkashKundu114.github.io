@@ -30,7 +30,7 @@ const Footer = () => (
     <Wrapper>
       <img width="35px" src={logo} alt="akash kundu" />
       <p style={{ float: 'right' }}>
-        Designed by <a href="https://github.com/anuraghazra">Anurag Hazra</a> | Built by <a href="https://github.com/AkashKundu114">Akash Kundu</a> | With <a href="https://www.gatsbyjs.com/">Gastby</a>
+        Designed by <a href="https://github.com/anuraghazra">Anurag Hazra</a> | Built by <a href="https://github.com/AkashKundu114">Akash Kundu</a>
       </p>
     </Wrapper>
   </FooterWrapper>
