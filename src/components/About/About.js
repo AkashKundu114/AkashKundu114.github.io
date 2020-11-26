@@ -19,20 +19,7 @@ const About = () => {
           <Avatar src="hfest_avatar_2.jpg" />
         </div>
         <p>
-          Hi, I'm Anurag Hazra, a passionate self-taught frontEnd web developer
-          from India, currently working at{' '}
-          <a className="about__link" href="https://timeless.co">
-            timeless.co
-          </a>{' '}
-          as a FrontEnd engineer. I tend to make use of modern web technologies
-          to build websites that look great, feel fantastic, and function
-          correctly. I am especially focusing on Reactjs.
-          <br />
-          <br />
-          I'm also a certified graphic designer from "Ramakrishna Mission
-          Shilpamandira". I also do Graphic and UI designing. Since I love both
-          programming and designing, I'm also interested in creating
-          programmatic designs and creative coding projects.
+          Hi, my name is Akash Kundu. I am a school student and occasionally designing websites, applications, and everything in between. I do developer friendly code which is very too easy to understand and customized it as per needs.
         </p>
       </AboutInfo>
 
