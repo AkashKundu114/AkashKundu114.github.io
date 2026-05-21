@@ -42,7 +42,7 @@ export default function About() {
               <div
                 style={{
                   width: 72, height: 72, borderRadius: '50%',
-                  background: '#080808', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: '#05080f', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontFamily: 'Syne, sans-serif', fontSize: '1.7rem', fontWeight: 800, color: 'var(--accent)',
                 }}
               >
@@ -85,7 +85,6 @@ export default function About() {
               {strengths.map(({ icon, title, desc }) => (
                 <div
                   key={title}
-                  className="strength-card"
                   style={{ padding: '1.2rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px', transition: 'all 0.25s' }}
                   onMouseEnter={e => {
                     e.currentTarget.style.borderColor = 'var(--accent)'

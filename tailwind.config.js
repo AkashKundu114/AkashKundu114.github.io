@@ -29,9 +29,6 @@ export default {
         blink: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0' } },
         fadeUp: { to: { opacity: '1', transform: 'translateY(0)' } },
       },
-      transitionTimingFunction: {
-        smooth: 'cubic-bezier(0.4,0,0.2,1)',
-      },
     },
   },
   plugins: [],

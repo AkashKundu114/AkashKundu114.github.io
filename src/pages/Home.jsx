@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom'
 import { skills } from '../data/skills'
 
 export default function Home() {
-  // Scroll to top on mount
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section
-        className="relative flex items-center min-h-screen overflow-hidden hero-grid"
+        className="hero-grid relative min-h-screen flex items-center overflow-hidden"
         style={{ paddingTop: '6rem' }}
       >
         <div className="container">
@@ -21,7 +20,7 @@ export default function Home() {
               className="fade-up inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-mono uppercase mb-8"
               style={{
                 background: 'var(--accent-dim)',
-                borderColor: 'rgba(184,255,0,0.22)',
+                borderColor: 'rgba(79,163,255,0.22)',
                 color: 'var(--accent)',
                 fontSize: '0.66rem', letterSpacing: '0.12em',
               }}
@@ -47,18 +46,17 @@ export default function Home() {
             </p>
 
             {/* CTA buttons */}
-            <div className="flex flex-wrap gap-3 mb-6 fade-up d3">
+            <div className="fade-up d3 flex flex-wrap gap-3 mb-6">
               <Link to="/projects" className="btn btn-primary">View Projects →</Link>
               <Link to="/contact"  className="btn btn-outline">Get in Touch</Link>
 
-              {/* ── CV Download Button ── */}
+              {/* CV Download Button */}
               <a
                 href="/cv/AkashKundu_CV.pdf"
                 download
                 className="btn btn-outline"
                 title="Download my latest CV"
               >
-                {/* Arrow down icon */}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z" />
                 </svg>
@@ -67,7 +65,7 @@ export default function Home() {
             </div>
 
             {/* Social chips */}
-            <div className="flex flex-wrap gap-2 fade-up d4 mb-14">
+            <div className="fade-up d4 flex flex-wrap gap-2 mb-14">
               {[
                 { href: 'https://www.linkedin.com/in/akashkundu114/', label: 'LinkedIn', icon: <LinkedInIcon /> },
                 { href: 'https://github.com/AkashKundu114',           label: 'GitHub',   icon: <GitHubIcon /> },
@@ -99,19 +97,19 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Stats */}
+            {/* Stats — CGPA removed */}
             <div
-              className="flex flex-wrap gap-10 fade-up d5"
+              className="fade-up d5 flex flex-wrap gap-10"
               style={{ paddingTop: '2.5rem', borderTop: '1px solid var(--border)' }}
             >
               {[
-                { num: '5+',   label: 'Projects Built' },
-                { num: '16+',  label: 'Technologies' },
-                { num: '7.61', label: 'Current CGPA' },
-                { num: "'27",  label: 'Graduating' },
+                { num: '5+',  label: 'Projects Built' },
+                { num: '16+', label: 'Technologies' },
+                { num: '6+',  label: 'Certifications' },
+                { num: "'27", label: 'Graduating' },
               ].map(({ num, label }) => (
                 <div key={label}>
-                  <span className="block font-bold font-display text-ink" style={{ fontSize: '2rem' }}>{num}</span>
+                  <span className="block font-display font-bold" style={{ fontSize: '2rem', color: 'var(--ink)' }}>{num}</span>
                   <span className="block font-mono uppercase" style={{ fontSize: '0.6rem', letterSpacing: '0.12em', color: 'var(--muted)' }}>{label}</span>
                 </div>
               ))}
@@ -127,7 +125,7 @@ export default function Home() {
       >
         <div className="container">
           <div className="label reveal">Technologies</div>
-          <div className="flex flex-wrap gap-2 reveal reveal-delay-1">
+          <div className="reveal reveal-delay-1 flex flex-wrap gap-2">
             {skills.map(sk => (
               <span key={sk.id} className="skill-tag">{sk.name}</span>
             ))}
