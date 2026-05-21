@@ -10,7 +10,7 @@ export default function Home() {
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section
-        className="hero-grid relative min-h-screen flex items-center overflow-hidden"
+        className="relative flex items-center min-h-screen overflow-hidden hero-grid"
         style={{ paddingTop: '6rem' }}
       >
         <div className="container">
@@ -47,7 +47,7 @@ export default function Home() {
             </p>
 
             {/* CTA buttons */}
-            <div className="fade-up d3 flex flex-wrap gap-3 mb-6">
+            <div className="flex flex-wrap gap-3 mb-6 fade-up d3">
               <Link to="/projects" className="btn btn-primary">View Projects →</Link>
               <Link to="/contact"  className="btn btn-outline">Get in Touch</Link>
 
@@ -67,7 +67,7 @@ export default function Home() {
             </div>
 
             {/* Social chips */}
-            <div className="fade-up d4 flex flex-wrap gap-2 mb-14">
+            <div className="flex flex-wrap gap-2 fade-up d4 mb-14">
               {[
                 { href: 'https://www.linkedin.com/in/akashkundu114/', label: 'LinkedIn', icon: <LinkedInIcon /> },
                 { href: 'https://github.com/AkashKundu114',           label: 'GitHub',   icon: <GitHubIcon /> },
@@ -101,7 +101,7 @@ export default function Home() {
 
             {/* Stats */}
             <div
-              className="fade-up d5 flex flex-wrap gap-10"
+              className="flex flex-wrap gap-10 fade-up d5"
               style={{ paddingTop: '2.5rem', borderTop: '1px solid var(--border)' }}
             >
               {[
@@ -111,7 +111,7 @@ export default function Home() {
                 { num: "'27",  label: 'Graduating' },
               ].map(({ num, label }) => (
                 <div key={label}>
-                  <span className="block font-display font-bold text-ink" style={{ fontSize: '2rem' }}>{num}</span>
+                  <span className="block font-bold font-display text-ink" style={{ fontSize: '2rem' }}>{num}</span>
                   <span className="block font-mono uppercase" style={{ fontSize: '0.6rem', letterSpacing: '0.12em', color: 'var(--muted)' }}>{label}</span>
                 </div>
               ))}
@@ -127,7 +127,7 @@ export default function Home() {
       >
         <div className="container">
           <div className="label reveal">Technologies</div>
-          <div className="reveal reveal-delay-1 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 reveal reveal-delay-1">
             {skills.map(sk => (
               <span key={sk.id} className="skill-tag">{sk.name}</span>
             ))}
