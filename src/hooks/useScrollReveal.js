@@ -1,24 +1,20 @@
 import { useEffect, useRef } from 'react'
-export function useScrollReveal(options = {}) {
+export function useScrollReveal(options={}) {
   const ref = useRef(null)
   useEffect(() => {
     const el = ref.current; if (!el) return
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target) }
-    }, { threshold: 0.08, ...options })
-    observer.observe(el); return () => observer.disconnect()
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } }, { threshold:0.08,...options })
+    obs.observe(el); return () => obs.disconnect()
   }, [])
   return ref
 }
 export function useRevealChildren() {
-  const containerRef = useRef(null)
+  const ref = useRef(null)
   useEffect(() => {
-    const container = containerRef.current; if (!container) return
-    const children = container.querySelectorAll('.reveal')
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target) } })
-    }, { threshold: 0.08 })
-    children.forEach(el => observer.observe(el)); return () => observer.disconnect()
+    const container = ref.current; if (!container) return
+    const els = container.querySelectorAll('.reveal')
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } }) }, { threshold:0.08 })
+    els.forEach(el => obs.observe(el)); return () => obs.disconnect()
   }, [])
-  return containerRef
+  return ref
 }

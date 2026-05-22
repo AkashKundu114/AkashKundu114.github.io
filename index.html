@@ -3,14 +3,113 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Akash Kundu</title>
-    <meta name="description" content="A personal portfolio website for Akash Kundu, a CS student and aspiring data analyst. Showcasing projects, skills, and contact information." />
+
+    <!-- ── Primary SEO ──────────────────────────────────────────────────── -->
+    <title>Akash Kundu — CS Student & Aspiring Data Analyst | Kolkata</title>
+    <meta name="description"
+      content="Akash Kundu — B.Tech Computer Science student at Techno India University, Kolkata. Aspiring Data Analyst skilled in Python, Java, React, Machine Learning, SQL, Tableau, and AI-driven applications. Open to internships in Data Analytics and AI/ML." />
+    <meta name="keywords"
+      content="Akash Kundu, Data Analyst, Machine Learning, Python, Java, React, Tableau, SQL, AI, Computer Science, Techno India University, Kolkata, internship, portfolio, web developer, data science" />
+    <meta name="author" content="Akash Kundu" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://akashkundu.me/" />
+
+    <!-- ── Open Graph (LinkedIn / Facebook previews) ────────────────────── -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://akashkundu.me/" />
+    <meta property="og:title"       content="Akash Kundu — Data Analyst & CS Student" />
+    <meta property="og:description" content="B.Tech CSE student specialising in Data Analytics, AI/ML, and full-stack development. Open to internships." />
+    <meta property="og:image"       content="https://akashkundu.me/icons/og-image.png" />
+
+    <!-- ── Twitter Card ─────────────────────────────────────────────────── -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Akash Kundu — Data Analyst & CS Student" />
+    <meta name="twitter:description" content="B.Tech CSE student specialising in Data Analytics, AI/ML, and full-stack development." />
+    <meta name="twitter:image"       content="https://akashkundu.me/icons/og-image.png" />
+
+    <!-- ── PWA / Theme ──────────────────────────────────────────────────── -->
+    <meta name="theme-color" content="#4fa3ff" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+
+    <!-- ── JSON-LD Structured Data — Person schema ──────────────────────
+         This is what Google & LinkedIn parsers read to understand who you
+         are. It's also ATS-friendly because it labels every fact clearly.
+         ─────────────────────────────────────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Akash Kundu",
+      "url": "https://akashkundu.me",
+      "email": "akashkundu7487@gmail.com",
+      "telephone": "+919064349004",
+      "jobTitle": "Aspiring Data Analyst",
+      "description": "B.Tech Computer Science student at Techno India University, Kolkata. Specialising in Data Analytics, Machine Learning, and full-stack web development. Open to internships.",
+      "image": "https://akashkundu.me/icons/og-image.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kolkata",
+        "addressRegion": "West Bengal",
+        "addressCountry": "IN"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Techno India University",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Kolkata",
+          "addressRegion": "West Bengal",
+          "addressCountry": "IN"
+        }
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/akashkundu114/",
+        "https://github.com/AkashKundu114"
+      ],
+      "knowsAbout": [
+        "Data Analytics", "Machine Learning", "Artificial Intelligence",
+        "Python", "Java", "JavaScript", "TypeScript", "React", "Next.js",
+        "SQL", "Tableau", "Docker", "Spring Boot", "Deep Learning",
+        "Natural Language Processing", "Data Visualization"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "AI-ML Virtual Internship",
+          "credentialCategory": "Certificate",
+          "recognizedBy": { "@type": "Organization", "name": "AICTE EduSkills" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Data Analytics Job Simulation",
+          "credentialCategory": "Certificate",
+          "recognizedBy": { "@type": "Organization", "name": "Deloitte Australia" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Getting Started with Enterprise-grade AI",
+          "credentialCategory": "Certificate",
+          "recognizedBy": { "@type": "Organization", "name": "IBM SkillsBuild" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "2024 Complete Python Bootcamp",
+          "credentialCategory": "Certificate",
+          "recognizedBy": { "@type": "Organization", "name": "Udemy" }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ── Fonts ─────────────────────────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Semantic landmark for screen readers & crawlers -->
+    <div id="root" role="main" aria-label="Akash Kundu Portfolio"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
