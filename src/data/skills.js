@@ -1,23 +1,32 @@
+// Skills synced to AkashKundu_CV.pdf (May 2026)
 export const skills = [
-  { id:1,  name:'Java',          category:'Programming Languages' },
-  { id:2,  name:'Python',        category:'Programming Languages' },
-  { id:3,  name:'JavaScript',    category:'Programming Languages' },
-  { id:4,  name:'TypeScript',    category:'Programming Languages' },
-  { id:5,  name:'C / C++',       category:'Programming Languages' },
-  { id:6,  name:'SQL',           category:'Programming Languages' },
-  { id:7,  name:'HTML5',         category:'Web Development' },
-  { id:8,  name:'CSS3',          category:'Web Development' },
-  { id:9,  name:'React',         category:'Web Development' },
-  { id:10, name:'Next.js',       category:'Web Development' },
-  { id:11, name:'Tailwind CSS',  category:'Web Development' },
-  { id:12, name:'Spring Boot',   category:'Web Development' },
-  { id:13, name:'Git / GitHub',  category:'Tools & Technologies' },
-  { id:14, name:'Docker',        category:'Tools & Technologies' },
-  { id:15, name:'CI/CD',         category:'Tools & Technologies' },
-  { id:16, name:'Tableau',       category:'Tools & Technologies' },
-  { id:17, name:'Excel',         category:'Tools & Technologies' },
-  { id:18, name:'AI / ML',       category:'Tools & Technologies' },
+  // Languages
+  { id:1,  name:'Python',          category:'Languages' },
+  { id:2,  name:'Java',            category:'Languages' },
+  { id:3,  name:'JavaScript',      category:'Languages' },
+  { id:4,  name:'TypeScript',      category:'Languages' },
+  { id:5,  name:'SQL',             category:'Languages' },
+  // Web & APIs
+  { id:6,  name:'React.js',        category:'Web & APIs' },
+  { id:7,  name:'Next.js',         category:'Web & APIs' },
+  { id:8,  name:'FastAPI',         category:'Web & APIs' },
+  { id:9,  name:'Node.js',         category:'Web & APIs' },
+  { id:10, name:'Tailwind CSS',    category:'Web & APIs' },
+  { id:11, name:'REST APIs',       category:'Web & APIs' },
+  // AI & Data
+  { id:12, name:'PyTorch',         category:'AI & Data' },
+  { id:13, name:'Scikit-learn',    category:'AI & Data' },
+  { id:14, name:'Ollama (LLMs)',   category:'AI & Data' },
+  { id:15, name:'Computer Vision', category:'AI & Data' },
+  { id:16, name:'Pandas',          category:'AI & Data' },
+  { id:17, name:'CatBoost',        category:'AI & Data' },
+  { id:18, name:'PostgreSQL',      category:'AI & Data' },
+  // Tools
+  { id:19, name:'Git / GitHub',    category:'Tools' },
+  { id:20, name:'Docker',          category:'Tools' },
+  { id:21, name:'CI/CD',           category:'Tools' },
+  { id:22, name:'Azure',           category:'Tools' },
 ]
 export function getGroupedSkills() {
-  return skills.reduce((acc,sk) => { (acc[sk.category]??=[]).push(sk); return acc }, {})
+  return skills.reduce((acc, sk) => { (acc[sk.category] ??= []).push(sk); return acc }, {})
 }

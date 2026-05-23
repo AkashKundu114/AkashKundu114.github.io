@@ -77,7 +77,7 @@ export default function About() {
                 {metaRows.map(({ key, val, link, accent }) => (
                   <div
                     key={key}
-                    className="flex justify-between items-start gap-3"
+                    className="flex items-start justify-between gap-3"
                     style={{ padding: '0.72rem 0', borderBottom: '1px solid var(--border)' }}
                   >
                     <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.56rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted)', flexShrink: 0, paddingTop: '0.1rem' }}>{key}</span>
