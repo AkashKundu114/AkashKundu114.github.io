@@ -19,14 +19,18 @@ export default function Education() {
             Computer science fundamentals, with a consistent academic record.
           </p>
 
-          <div className="reveal timeline">
-            {education.map(edu => (
-              <div key={edu.id} className={`timeline-item${edu.current ? ' is-current' : ''}`}>
+          <div className="timeline stagger">
+            {education.map((edu, i) => (
+              <div
+                key={edu.id}
+                className={`timeline-item reveal${edu.current ? ' is-current' : ''}`}
+                style={{ '--i': i }}
+              >
                 <div className="flex items-center gap-2" style={{ marginBottom: '0.4rem' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: edu.current ? 'var(--accent)' : 'var(--muted)' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: edu.current ? 'var(--ink)' : 'var(--muted)' }}>
                     {edu.startYear} — {edu.endYear}
                   </span>
-                  {edu.current && <span className="tag tag-accent">Current</span>}
+                  {edu.current && <span className="tag tag-active">Current</span>}
                 </div>
                 <h3 style={{ marginBottom: '0.25rem' }}>{edu.degree}</h3>
                 <p style={{ fontSize: '0.88rem', marginBottom: '0.15rem' }}>{edu.institution}</p>

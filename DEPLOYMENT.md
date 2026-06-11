@@ -217,7 +217,7 @@ Once DNS propagates:
 
 Every time you make changes:
 ```bash
-# Make your changes to src/data/projects.js, certificates.js, etc.
+
 git add .
 git commit -m "Update: added new project screenshots"
 git push

@@ -79,12 +79,9 @@ export default function ProjectDetail() {
 
       <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          {/* Back nav */}
           <button onClick={() => navigate('/projects')} className="reveal btn btn-sm btn-pill" style={{ marginBottom: '32px', gap: '6px' }}>
             ← Projects
           </button>
-
-          {/* Header */}
           <div className="reveal" style={{ marginBottom: '32px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <span className="tag">{project.year}</span>
@@ -103,8 +100,6 @@ export default function ProjectDetail() {
               )}
             </div>
           </div>
-
-          {/* Body grid */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'minmax(0,1.5fr) minmax(0,1fr)',
@@ -112,13 +107,10 @@ export default function ProjectDetail() {
             alignItems: 'start',
           }} id="detail-grid">
             <div>
-              {/* Overview */}
               <div className="reveal card" style={{ padding: '24px', marginBottom: '12px' }}>
                 <div className="label" style={{ marginBottom: '8px' }}>overview</div>
                 <p style={{ fontSize: '13px', lineHeight: 1.8, fontFamily: 'var(--font-mono)', whiteSpace: 'pre-line' }}>{project.description}</p>
               </div>
-
-              {/* AI Architecture */}
               {project.aiArchitecture && (
                 <div className="reveal">
                   <SectionBlock
@@ -130,8 +122,6 @@ export default function ProjectDetail() {
                   />
                 </div>
               )}
-
-              {/* UI & Deployment */}
               {project.uiDeployment && (
                 <div className="reveal">
                   <SectionBlock
@@ -143,8 +133,6 @@ export default function ProjectDetail() {
                   />
                 </div>
               )}
-
-              {/* Screenshots */}
               <div className="reveal">
                 <div className="label" style={{ marginBottom: '14px' }}>screenshots</div>
                 {hasScreenshots ? (
@@ -165,8 +153,6 @@ export default function ProjectDetail() {
                 )}
               </div>
             </div>
-
-            {/* Sidebar: Key features */}
             <div>
               <div className="reveal card" style={{ padding: '24px', position: 'sticky', top: '5rem' }}>
                 <div className="label" style={{ marginBottom: '14px' }}>key features</div>

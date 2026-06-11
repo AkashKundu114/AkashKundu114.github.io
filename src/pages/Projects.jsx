@@ -59,7 +59,6 @@ export default function Projects() {
             End-to-end builds — models, APIs, and the interfaces in front of them.
           </p>
 
-          {/* Search + filter controls */}
           <div className="reveal" style={{
             padding: '16px 20px',
             background: 'var(--surface)',
@@ -117,7 +116,6 @@ export default function Projects() {
             </div>
           </div>
 
-          {/* Results count */}
           {hasFilters && (
             <div className="reveal" style={{
               fontFamily: 'var(--font-mono)',
@@ -133,7 +131,6 @@ export default function Projects() {
             </div>
           )}
 
-          {/* Projects list */}
           {filtered.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {filtered.map((p, i) => (

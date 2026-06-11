@@ -31,56 +31,56 @@ A production-grade personal portfolio built with React 18, featuring a full-stac
 ```
 portfolio/
 ├── .github/
-│   └── workflows/deploy.yml        # GitHub Actions CI/CD
+│   └── workflows/deploy.yml
 │
 ├── backend/
-│   └── contact_api.py              # FastAPI contact microservice
+│   └── contact_api.py
 │
 ├── public/
-│   ├── icons/                      # PWA icons (192px, 512px, favicon.svg)
-│   ├── certificates/               # Certificate PDFs + images
-│   ├── cv/AkashKundu_CV.pdf        # Downloadable CV
-│   └── CNAME                       # akashkundu.me
+│   ├── icons/
+│   ├── certificates/
+│   ├── cv/AkashKundu_CV.pdf
+│   └── CNAME
 │
 ├── src/
 │   ├── components/
 │   │   ├── Navbar.jsx
 │   │   ├── Footer.jsx
-│   │   └── PageTransition.jsx      # Framer Motion wrapper
+│   │   └── PageTransition.jsx
 │   │
 │   ├── context/
-│   │   ├── ThemeContext.jsx         # Dark / light mode
-│   │   └── DataContext.jsx          # CMS data layer (localStorage → API-ready)
+│   │   ├── ThemeContext.jsx
+│   │   └── DataContext.jsx
 │   │
 │   ├── data/
-│   │   ├── projects.js              # Projects with P→I→I case study fields
-│   │   ├── certificates.js          # All 6 certificates
+│   │   ├── projects.js
+│   │   ├── certificates.js
 │   │   ├── education.js
 │   │   └── skills.js
 │   │
 │   ├── hooks/
-│   │   └── useScrollReveal.js       # Intersection Observer reveal
+│   │   └── useScrollReveal.js
 │   │
 │   ├── pages/
-│   │   ├── Home.jsx                 # Hero + T-shaped domain cards + featured projects
-│   │   ├── About.jsx                # Story narrative + principles + timeline
-│   │   ├── Skills.jsx               # Glassmorphism T-shaped skill cards
-│   │   ├── Projects.jsx             # Fuse.js fuzzy + multi-tag filter
-│   │   ├── ProjectDetail.jsx        # Case study: AI Architecture + UI & Deployment
+│   │   ├── Home.jsx
+│   │   ├── About.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Projects.jsx
+│   │   ├── ProjectDetail.jsx
 │   │   ├── Certificates.jsx
 │   │   ├── CertificateDetail.jsx
 │   │   ├── Education.jsx
-│   │   ├── Contact.jsx              # Backend-ready contact form
-│   │   └── Admin.jsx                # Password-gated CMS dashboard
+│   │   ├── Contact.jsx
+│   │   └── Admin.jsx
 │   │
-│   ├── App.jsx                      # Lazy routes + AnimatePresence
+│   ├── App.jsx
 │   ├── main.jsx
-│   └── index.css                    # Design tokens + global styles
+│   └── index.css
 │
-├── .env.example                     # Environment variable reference
-├── AkashKundu_CV.tex                # LaTeX source for the CV
-├── index.html                       # JSON-LD schema + SEO meta
-├── vite.config.js                   # Vite + VitePWA config
+├── .env.example
+├── AkashKundu_CV.tex
+├── index.html
+├── vite.config.js
 ├── tailwind.config.js
 └── package.json
 ```
@@ -111,12 +111,12 @@ cp .env.example .env
 Edit `.env`:
 
 ```env
-# Admin dashboard password
+
 VITE_ADMIN_PASSWORD=your_secret_password
 
-# Contact form endpoint — choose one:
+
 VITE_CONTACT_API=http://localhost:8000/api/contact
-# VITE_FORMSPREE_ID=your_formspree_id
+
 ```
 
 ### 3. Run locally
@@ -131,7 +131,7 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ```bash
 npm run build
-npm run preview      # preview the built output
+npm run preview
 ```
 
 ---
@@ -165,13 +165,13 @@ Navigate to **`/#/admin`** (not linked in the nav intentionally).
 The `DataContext.jsx` is architected for a clean swap:
 
 ```jsx
-// Currently (localStorage):
+
 const persist = (key, setter) => (data) => {
   setter(data)
   localStorage.setItem(key, JSON.stringify(data))
 }
 
-// To use a backend API, replace with:
+
 const saveProjects = async (data) => {
   setProjects(data)
   await fetch('/api/projects', {
@@ -301,9 +301,9 @@ Then in **GitHub → Settings → Pages → Custom domain**: enter `akashkundu.m
 The entire colour system lives in CSS custom properties in `src/index.css`:
 
 ```css
-:root {                              /* dark mode (default) */
+:root {
   --bg:      #05080f;
-  --accent:  #4fa3ff;                /* change this to rebrand the whole site */
+  --accent:  #4fa3ff;
   --ink:     #e8edf5;
   --muted:   #5a7090;
   --surface: #0d1117;

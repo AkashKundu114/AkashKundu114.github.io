@@ -34,8 +34,6 @@ export default function Certificates() {
           <p className="reveal" style={{ fontSize: '13px', maxWidth: '52ch', lineHeight: 1.8, marginBottom: '32px', fontFamily: 'var(--font-mono)' }}>
             Completed certifications across data, AI/ML, security, and web development.
           </p>
-
-          {/* Category filter */}
           <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '28px' }}>
             {allCategories.map(cat => (
               <button
@@ -48,8 +46,6 @@ export default function Certificates() {
               </button>
             ))}
           </div>
-
-          {/* List */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {filtered.map((cert, i) => {
               const color = catColors[cert.category] || '#6b7280'

@@ -51,12 +51,12 @@ export default function Skills() {
             Most days split between AI/data work and the backend or frontend wrapped around it. Grouped by layer — not a ranking.
           </p>
 
-          <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {groups.map((g, i) => (
               <div
                 key={g.name}
-                className="card card-hover"
-                style={{ padding: '20px 24px' }}
+                className="card card-hover reveal"
+                style={{ padding: '20px 24px', '--i': i }}
               >
                 <div style={{
                   display: 'flex',
@@ -64,7 +64,6 @@ export default function Skills() {
                   alignItems: 'center',
                   gap: '16px',
                 }}>
-                  {/* Group header */}
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -86,8 +85,6 @@ export default function Skills() {
                     }}>{g.icon}</span>
                     <h3 style={{ fontSize: '0.875rem' }}>{g.name}</h3>
                   </div>
-
-                  {/* Tags */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', flex: 1 }}>
                     {g.items.map(item => (
                       <span key={item} className="tag">{item}</span>
@@ -97,8 +94,6 @@ export default function Skills() {
               </div>
             ))}
           </div>
-
-          {/* Proficiency note */}
           <div className="reveal" style={{
             marginTop: '32px',
             padding: '16px 20px',

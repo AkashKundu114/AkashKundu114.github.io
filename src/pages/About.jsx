@@ -49,8 +49,6 @@ export default function About() {
           <h2 className="reveal" style={{ marginBottom: '48px', maxWidth: '28ch' }}>
             B.Tech CSE student building across the AI and web stack.
           </h2>
-
-          {/* Two-col layout */}
           <div className="reveal" style={{
             display: 'grid',
             gridTemplateColumns: '260px 1fr',
@@ -58,8 +56,6 @@ export default function About() {
             alignItems: 'start',
             marginBottom: '64px',
           }} id="about-grid">
-
-            {/* Meta panel */}
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
               {meta.map(({ key, val, link }) => (
                 <div key={key} style={{
@@ -79,8 +75,6 @@ export default function About() {
                 <Link to="/contact" className="btn btn-sm btn-pill">Contact</Link>
               </div>
             </div>
-
-            {/* Body copy */}
             <div>
               <p style={{ fontSize: '15px', lineHeight: 1.85, marginBottom: '16px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
                 I got into this because I kept running into the same problem: a model that works well in a notebook is still a long way from something a person can actually use. Closing that gap — between a trained model and a usable interface — is what most of my projects are about.
@@ -93,8 +87,6 @@ export default function About() {
               </p>
             </div>
           </div>
-
-          {/* Principles */}
           <div className="reveal" style={{ marginBottom: '64px' }}>
             <div className="label">how I work</div>
             <div style={{
@@ -118,8 +110,6 @@ export default function About() {
               ))}
             </div>
           </div>
-
-          {/* Timeline */}
           <div className="reveal">
             <div className="label">timeline</div>
             <div className="timeline">

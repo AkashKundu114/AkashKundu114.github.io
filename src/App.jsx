@@ -5,6 +5,7 @@ import { ThemeProvider }  from './context/ThemeContext'
 import { DataProvider }   from './context/DataContext'
 import Navbar  from './components/Navbar'
 import Footer  from './components/Footer'
+import AmbientBackground from './components/AmbientBackground'
 
 const Home              = lazy(() => import('./pages/Home'))
 const About             = lazy(() => import('./pages/About'))
@@ -70,6 +71,7 @@ export default function App() {
       <DataProvider>
         <HashRouter>
           <div className="min-h-screen bg-bg text-ink">
+            <AmbientBackground />
             <Navbar />
             <main>
               <Suspense fallback={<PageLoader />}>

@@ -120,13 +120,9 @@ export default function Home() {
 
   return (
     <PageTransition>
-
-      {/* ── HERO ───────────────────────────────────────────── */}
       <section style={{ paddingTop: '96px', paddingBottom: '64px', position: 'relative', overflow: 'hidden' }}>
         <AmbientCanvas />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-
-          {/* system version badge */}
           <div style={{ marginBottom: '24px' }}>
             <span style={{
               display: 'inline-flex',
@@ -148,8 +144,6 @@ export default function Home() {
               ENV ALPHA v1.2.0_rc — OPEN TO INTERNSHIPS
             </span>
           </div>
-
-          {/* headline */}
           <h1 style={{ maxWidth: '780px', marginBottom: '24px', letterSpacing: '-0.02em', lineHeight: '1.04' }}>
             Map your thoughts.<br />Synthesize data.<br />Generate reality.
           </h1>
@@ -163,8 +157,6 @@ export default function Home() {
             <Link to="/contact" className="btn btn-lg btn-pill">Get in touch</Link>
             <a href="/cv/AkashKundu_CV.pdf" download className="btn btn-lg btn-pill">Resume ↓</a>
           </div>
-
-          {/* Node pipeline strip */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -187,8 +179,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ── DOMAIN BENTO ──────────────────────────────────── */}
       <section className="section">
         <div className="container">
           <div className="label">what I work on</div>
@@ -231,8 +221,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ── FEATURED PROJECTS ──────────────────────────────── */}
       <section className="section">
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
@@ -272,8 +260,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ── FOOTER CTA ────────────────────────────────────── */}
       <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
           <div>

@@ -59,8 +59,6 @@ export default function Navbar() {
     <nav className="nav-fixed" style={{ boxShadow: scrolled ? '0 1px 0 var(--border)' : 'none' }}>
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '3.25rem' }}>
-
-          {/* Logo */}
           <Link to="/" style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 600,
@@ -86,8 +84,6 @@ export default function Navbar() {
             }}>AK</span>
             Akash Kundu
           </Link>
-
-          {/* Desktop links */}
           <div className="hidden md:flex" style={{ alignItems: 'center', gap: '2px' }}>
             {navLinks.map(({ to, label }) => (
               <Link key={to} to={to} className={`nav-link${location.pathname === to ? ' active' : ''}`}>
@@ -95,8 +91,6 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-
-          {/* Right controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <a
               href="https://github.com/AkashKundu114"
@@ -119,8 +113,6 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
-        {/* Mobile menu */}
         {open && (
           <div style={{
             borderTop: '1px solid var(--border)',

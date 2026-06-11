@@ -50,7 +50,6 @@ export default function CertificateDetail() {
 
       <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          {/* Back nav */}
           <button
             onClick={() => navigate('/certificates')}
             className="reveal btn btn-sm btn-pill"
@@ -58,16 +57,12 @@ export default function CertificateDetail() {
           >
             ← Certificates
           </button>
-
-          {/* Two-col layout */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr)',
             gap: '32px',
             alignItems: 'start',
           }} id="cert-detail-grid">
-
-            {/* Left: image + PDF */}
             <div className="reveal">
               {cert.image ? (
                 <div
@@ -95,8 +90,6 @@ export default function CertificateDetail() {
                 />
               )}
             </div>
-
-            {/* Right: info panel */}
             <div style={{ position: 'sticky', top: '5rem' }}>
               <div className="reveal" style={{ marginBottom: '12px' }}>
                 <span style={{
@@ -115,8 +108,6 @@ export default function CertificateDetail() {
                 {cert.title}
               </h1>
               <p className="reveal" style={{ fontSize: '13px', marginBottom: '24px', fontFamily: 'var(--font-mono)' }}>{cert.issuer}</p>
-
-              {/* Meta table */}
               <div className="reveal card" style={{ padding: 0, overflow: 'hidden', marginBottom: '20px' }}>
                 {[
                   { label: 'Issued by', value: cert.issuer },
