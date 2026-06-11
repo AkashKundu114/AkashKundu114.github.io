@@ -4,6 +4,15 @@ import { useData } from '../context/DataContext'
 import { useRevealChildren } from '../hooks/useScrollReveal'
 import PageTransition from '../components/PageTransition'
 
+const catColors = {
+  'Data Science': '#2563eb',
+  'Programming':  '#16a34a',
+  'Cloud':        '#0891b2',
+  'AI/ML':        '#7c3aed',
+  'Web Dev':      '#d97706',
+  'General':      '#6b7280',
+}
+
 export default function CertificateDetail() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
   const { id } = useParams()
@@ -14,13 +23,15 @@ export default function CertificateDetail() {
   const cert = certificates.find(c => c.id === id)
 
   if (!cert) return (
-    <section style={{ paddingTop: '8rem' }}>
-      <div className="container text-center">
-        <p style={{ marginBottom: '1.5rem' }}>Certificate not found.</p>
-        <Link to="/certificates" className="btn">← Back to certificates</Link>
+    <section style={{ paddingTop: '96px' }}>
+      <div className="container" style={{ textAlign: 'center' }}>
+        <p style={{ marginBottom: '20px', fontFamily: 'var(--font-mono)' }}>Certificate not found.</p>
+        <Link to="/certificates" className="btn btn-pill">← Back to certificates</Link>
       </div>
     </section>
   )
+
+  const color = catColors[cert.category] || '#6b7280'
 
   return (
     <PageTransition>
@@ -28,78 +39,135 @@ export default function CertificateDetail() {
         <div className="lightbox-overlay" onClick={() => setZoomed(false)} role="dialog" aria-modal="true">
           <div style={{ position: 'relative' }} onClick={e => e.stopPropagation()}>
             <img src={cert.image} alt={cert.title} />
-            <button onClick={() => setZoomed(false)} aria-label="Close"
-              style={{ position: 'absolute', top: '-2rem', right: 0, background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '1.2rem', cursor: 'pointer' }}>✕</button>
+            <button
+              onClick={() => setZoomed(false)}
+              aria-label="Close"
+              style={{ position: 'absolute', top: '-28px', right: 0, background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '1.1rem', cursor: 'pointer' }}
+            >✕</button>
           </div>
         </div>
       )}
 
-      <section style={{ paddingTop: '8rem' }} ref={ref}>
+      <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          <button onClick={() => navigate('/certificates')} className="reveal nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: '2rem' }}>
-            ← Back to certificates
+          {/* Back nav */}
+          <button
+            onClick={() => navigate('/certificates')}
+            className="reveal btn btn-sm btn-pill"
+            style={{ marginBottom: '32px' }}
+          >
+            ← Certificates
           </button>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.6fr) minmax(0,1fr)', gap: '3rem', alignItems: 'start' }} className="cert-detail-grid">
+          {/* Two-col layout */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr)',
+            gap: '32px',
+            alignItems: 'start',
+          }} id="cert-detail-grid">
+
+            {/* Left: image + PDF */}
             <div className="reveal">
               {cert.image ? (
-                <div className="card" style={{ overflow: 'hidden', cursor: 'zoom-in' }} onClick={() => setZoomed(true)}>
-                  <img src={cert.image} alt={cert.title} style={{ width: '100%', display: 'block', objectFit: 'contain', background: 'var(--surface-2)' }} />
+                <div
+                  className="card"
+                  style={{ overflow: 'hidden', cursor: 'zoom-in', marginBottom: '12px' }}
+                  onClick={() => setZoomed(true)}
+                >
+                  <img
+                    src={cert.image}
+                    alt={cert.title}
+                    style={{ width: '100%', display: 'block', objectFit: 'contain', background: 'var(--surface-2)' }}
+                  />
                 </div>
               ) : (
-                <div className="card" style={{ padding: '4rem 2rem', textAlign: 'center' }}>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem' }}>No certificate image added yet.</p>
+                <div className="card" style={{ padding: '60px 24px', textAlign: 'center', marginBottom: '12px' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>No certificate image added yet.</p>
                 </div>
               )}
               {cert.file?.endsWith('.pdf') && (
-                <div style={{ marginTop: '1.25rem' }}>
-                  <iframe src={cert.file} title={`${cert.title} PDF`} className="card" style={{ width: '100%', height: '480px' }} />
-                </div>
+                <iframe
+                  src={cert.file}
+                  title={`${cert.title} PDF`}
+                  className="card"
+                  style={{ width: '100%', height: '480px', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)' }}
+                />
               )}
             </div>
 
+            {/* Right: info panel */}
             <div style={{ position: 'sticky', top: '5rem' }}>
-              <div className="reveal" style={{ marginBottom: '0.75rem' }}>
-                <span className="tag">{cert.category}</span>
+              <div className="reveal" style={{ marginBottom: '12px' }}>
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  padding: '3px 12px',
+                  borderRadius: 'var(--radius-pill)',
+                  background: color + '14',
+                  color: color,
+                  border: `1px solid ${color}30`,
+                }}>{cert.category}</span>
               </div>
-              <h1 className="reveal" style={{ fontSize: 'clamp(1.4rem,4vw,2rem)', marginBottom: '0.5rem' }}>{cert.title}</h1>
-              <p className="reveal" style={{ fontSize: '0.95rem', marginBottom: '1.75rem' }}>{cert.issuer}</p>
 
-              <div className="reveal card" style={{ marginBottom: '1.25rem' }}>
+              <h1 className="reveal" style={{ fontSize: 'clamp(1.3rem, 3.5vw, 1.9rem)', marginBottom: '8px', lineHeight: 1.1 }}>
+                {cert.title}
+              </h1>
+              <p className="reveal" style={{ fontSize: '13px', marginBottom: '24px', fontFamily: 'var(--font-mono)' }}>{cert.issuer}</p>
+
+              {/* Meta table */}
+              <div className="reveal card" style={{ padding: 0, overflow: 'hidden', marginBottom: '20px' }}>
                 {[
                   { label: 'Issued by', value: cert.issuer },
                   { label: 'Date', value: cert.date },
                   { label: 'Credential ID', value: cert.credentialId },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex justify-between items-start gap-4" style={{ padding: '0.75rem 1.1rem', borderBottom: '1px solid var(--border)' }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--muted)', flexShrink: 0 }}>{label.toUpperCase()}</span>
-                    <span style={{ fontSize: '0.82rem', fontWeight: 500, textAlign: 'right', wordBreak: 'break-all' }}>{value}</span>
+                ].map(({ label, value }) => value && (
+                  <div key={label} style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                    padding: '12px 18px',
+                    borderBottom: '1px solid var(--border)',
+                  }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, color: 'var(--muted-2)', letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}>{label}</span>
+                    <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 500, textAlign: 'right', wordBreak: 'break-all', color: 'var(--ink)' }}>{value}</span>
                   </div>
                 ))}
               </div>
 
               {cert.description && (
-                <div className="reveal" style={{ marginBottom: '1.25rem' }}>
-                  <p style={{ fontSize: '0.87rem', lineHeight: 1.8 }}>{cert.description}</p>
+                <div className="reveal" style={{ marginBottom: '20px' }}>
+                  <p style={{ fontSize: '13px', lineHeight: 1.8, fontFamily: 'var(--font-mono)' }}>{cert.description}</p>
                 </div>
               )}
 
-              <div className="reveal" style={{ marginBottom: '1.75rem' }}>
-                <div className="label" style={{ marginBottom: '0.6rem' }}>skills covered</div>
-                <div className="flex flex-wrap gap-1.5">
+              <div className="reveal" style={{ marginBottom: '24px' }}>
+                <div className="label" style={{ marginBottom: '10px' }}>skills covered</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                   {(cert.skills ?? []).map(s => <span key={s} className="tag">{s}</span>)}
                 </div>
               </div>
 
-              <div className="reveal flex flex-col gap-2">
-                {cert.file && <a href={cert.file} download className="btn btn-primary" style={{ justifyContent: 'center' }}>Download certificate</a>}
-                {cert.verifyUrl && <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="btn" style={{ justifyContent: 'center' }}>Verify credential ↗</a>}
+              <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {cert.file && (
+                  <a href={cert.file} download className="btn btn-primary" style={{ justifyContent: 'center', borderRadius: 'var(--radius-pill)' }}>
+                    Download certificate ↓
+                  </a>
+                )}
+                {cert.verifyUrl && (
+                  <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="btn" style={{ justifyContent: 'center', borderRadius: 'var(--radius-pill)' }}>
+                    Verify credential ↗
+                  </a>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
-      <style>{`@media(max-width:768px){.cert-detail-grid{grid-template-columns:1fr!important;gap:2rem!important}}`}</style>
+
+      <style>{`@media(max-width:768px){#cert-detail-grid{grid-template-columns:1fr!important;gap:20px!important}}`}</style>
     </PageTransition>
   )
 }

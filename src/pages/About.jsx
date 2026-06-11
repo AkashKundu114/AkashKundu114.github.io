@@ -8,28 +8,32 @@ const meta = [
   { key: 'Email', val: 'akashkundu7487@gmail.com', link: 'mailto:akashkundu7487@gmail.com' },
   { key: 'Phone', val: '+91 9064349004', link: 'tel:+919064349004' },
   { key: 'Status', val: 'Open to internships' },
-  { key: 'Languages', val: 'Bengali, English, Hindi' },
+  { key: 'Languages', val: 'Bengali · English · Hindi' },
+  { key: 'Education', val: 'B.Tech CSE — Techno India University, 2027' },
 ]
 
 const principles = [
   {
+    id: '01',
     title: 'A model is half the work',
-    desc: 'An accurate model that nobody can use is not a finished project. I try to ship the interface alongside the model, not as an afterthought.',
+    desc: 'An accurate model nobody can use is not a finished project. I ship the interface alongside the model, not as an afterthought.',
   },
   {
+    id: '02',
     title: 'End to end, on purpose',
-    desc: 'I like understanding a system from the data going in to the pixels coming out — it makes the trade-offs at each layer easier to reason about.',
+    desc: 'Understanding a system from data in to pixels out makes the trade-offs at each layer easier to reason about.',
   },
   {
-    title: 'Depth over breadth, one project at a time',
-    desc: 'Each project is picked to learn something specific in depth, then documented properly so the learning sticks.',
+    id: '03',
+    title: 'Depth over breadth',
+    desc: 'Each project is picked to learn something specific in depth, then documented properly so the learning actually sticks.',
   },
 ]
 
 const timeline = [
-  { year: '2023', event: 'Started B.Tech CSE at Techno India University. Began the Web Development bootcamp and built a first WebSocket chat app.', current: false },
-  { year: '2024', event: 'Shipped the eye-disease predictor, the AI hardware benchmark engine, and an early version of Copper. Completed IBM and Python certifications.', current: false },
-  { year: '2025', event: 'Completed Deloitte\'s data analytics and cyber simulations. Rebuilt this site as a full-stack portfolio with an admin CMS and a FastAPI backend.', current: true },
+  { year: '2023', event: 'Started B.Tech CSE at Techno India University. Built a first WebSocket chat app and completed the web development bootcamp.', current: false },
+  { year: '2024', event: 'Shipped the eye-disease predictor, AI hardware benchmark engine, and early Copper. Completed IBM and Python certifications.', current: false },
+  { year: '2025', event: "Completed Deloitte's data analytics and cyber simulations. Rebuilt this site as a full-stack portfolio with admin CMS and FastAPI backend.", current: true },
   { year: '2027', event: 'Expected graduation — looking for a role in data engineering or applied ML.', current: true },
 ]
 
@@ -39,78 +43,99 @@ export default function About() {
 
   return (
     <PageTransition>
-      <section style={{ paddingTop: '8rem' }} ref={ref}>
+      <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
           <div className="label reveal">about</div>
-          <h2 className="reveal" style={{ marginBottom: '3rem', maxWidth: '32ch' }}>
-            B.Tech CSE student, building things across the AI and web stack.
+          <h2 className="reveal" style={{ marginBottom: '48px', maxWidth: '28ch' }}>
+            B.Tech CSE student building across the AI and web stack.
           </h2>
 
-          <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '3.5rem', alignItems: 'start', marginBottom: '4.5rem' }}>
-            <div className="reveal card" style={{ padding: '1.25rem 1.5rem' }}>
+          {/* Two-col layout */}
+          <div className="reveal" style={{
+            display: 'grid',
+            gridTemplateColumns: '260px 1fr',
+            gap: '48px',
+            alignItems: 'start',
+            marginBottom: '64px',
+          }} id="about-grid">
+
+            {/* Meta panel */}
+            <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
               {meta.map(({ key, val, link }) => (
-                <div key={key} style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--border)' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.06em', color: 'var(--muted)', marginBottom: '0.25rem' }}>
-                    {key.toUpperCase()}
+                <div key={key} style={{
+                  padding: '14px 20px',
+                  borderBottom: '1px solid var(--border)',
+                }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.08em', color: 'var(--muted-2)', marginBottom: '4px', textTransform: 'uppercase' }}>
+                    {key}
                   </div>
                   {link
-                    ? <a href={link} style={{ fontSize: '0.85rem', fontWeight: 500 }}>{val}</a>
-                    : <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>{val}</span>}
+                    ? <a href={link} style={{ fontSize: '13px', fontFamily: 'var(--font-mono)', color: 'var(--ink)', fontWeight: 500 }}>{val}</a>
+                    : <span style={{ fontSize: '13px', fontFamily: 'var(--font-mono)', color: 'var(--ink)', fontWeight: 500 }}>{val}</span>}
                 </div>
               ))}
-              <div style={{ paddingTop: '0.75rem' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.06em', color: 'var(--muted)', marginBottom: '0.25rem' }}>
-                  EDUCATION
-                </div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>B.Tech CSE, Techno India University — class of 2027</span>
+              <div style={{ padding: '16px 20px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <Link to="/projects" className="btn btn-primary btn-sm btn-pill">Projects</Link>
+                <Link to="/contact" className="btn btn-sm btn-pill">Contact</Link>
               </div>
             </div>
 
-            <div className="reveal">
-              <p style={{ fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.1rem' }}>
-                I got into this because I kept running into the same problem: a model that
-                works well in a notebook is still a long way from something a person can
-                actually use. Closing that gap — between a trained model and a usable
-                interface — is what most of my projects are about.
+            {/* Body copy */}
+            <div>
+              <p style={{ fontSize: '15px', lineHeight: 1.85, marginBottom: '16px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
+                I got into this because I kept running into the same problem: a model that works well in a notebook is still a long way from something a person can actually use. Closing that gap — between a trained model and a usable interface — is what most of my projects are about.
               </p>
-              <p style={{ fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.1rem' }}>
-                In practice that means spending time on data preparation and model training,
-                then just as much time on the API and frontend that sit in front of it.
-                I'd rather have one project working end to end than three half-finished ones.
+              <p style={{ fontSize: '15px', lineHeight: 1.85, marginBottom: '16px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
+                In practice that means spending time on data prep and model training, then just as much time on the API and frontend that sit in front of it. I'd rather have one project working end to end than three half-finished ones.
               </p>
-              <p style={{ fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.75rem' }}>
-                Outside of coursework, I'm currently working on Copper, an offline desktop
-                assistant built on Tauri and a locally-run LLM, and rebuilding this site's
-                backend to move off localStorage onto a proper API.
+              <p style={{ fontSize: '15px', lineHeight: 1.85, fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
+                Currently working on Copper — an offline desktop assistant built on Tauri and a locally-run LLM — and rebuilding this site's backend to move off localStorage onto a proper API.
               </p>
-              <div className="flex flex-wrap gap-2.5">
-                <Link to="/projects" className="btn btn-primary">See my projects</Link>
-                <Link to="/skills" className="btn">Skills</Link>
-              </div>
             </div>
           </div>
 
-          <div className="reveal" style={{ marginBottom: '4.5rem' }}>
+          {/* Principles */}
+          <div className="reveal" style={{ marginBottom: '64px' }}>
             <div className="label">how I work</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)' }} className="principles-grid">
-              {principles.map(({ title, desc }) => (
-                <div key={title} style={{ background: 'var(--surface)', padding: '1.5rem' }}>
-                  <h3 style={{ marginBottom: '0.6rem' }}>{title}</h3>
-                  <p style={{ fontSize: '0.86rem', lineHeight: 1.75 }}>{desc}</p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '12px',
+            }} id="principles-grid">
+              {principles.map(({ id, title, desc }) => (
+                <div key={id} className="card" style={{ padding: '24px' }}>
+                  <div style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: 'var(--muted-2)',
+                    marginBottom: '12px',
+                    letterSpacing: '0.06em',
+                  }}>{id}</div>
+                  <h3 style={{ marginBottom: '10px', fontSize: '0.9rem' }}>{title}</h3>
+                  <p style={{ fontSize: '13px', lineHeight: 1.75 }}>{desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Timeline */}
           <div className="reveal">
             <div className="label">timeline</div>
             <div className="timeline">
               {timeline.map(({ year, event, current }) => (
-                <div key={year} className={`timeline-item${current ? ' is-current' : ''}`}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: current ? 'var(--accent)' : 'var(--muted)', marginBottom: '0.35rem' }}>
-                    {year}
+                <div key={year + event} className={`timeline-item${current ? ' is-current' : ''}`}>
+                  <div style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: current ? 'var(--ink)' : 'var(--muted-2)',
+                    marginBottom: '6px',
+                    letterSpacing: '0.04em',
+                  }}>
+                    {year} {current && <span className="tag" style={{ marginLeft: '6px', fontSize: '10px' }}>current</span>}
                   </div>
-                  <p style={{ fontSize: '0.88rem', lineHeight: 1.75, maxWidth: '60ch' }}>{event}</p>
+                  <p style={{ fontSize: '13px', lineHeight: 1.75, maxWidth: '55ch', fontFamily: 'var(--font-mono)' }}>{event}</p>
                 </div>
               ))}
             </div>
@@ -119,12 +144,8 @@ export default function About() {
       </section>
 
       <style>{`
-        @media (max-width: 880px) {
-          .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
-        }
-        @media (max-width: 700px) {
-          .principles-grid { grid-template-columns: 1fr !important; }
-        }
+        @media (max-width: 860px) { #about-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
+        @media (max-width: 680px) { #principles-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </PageTransition>
   )

@@ -24,7 +24,7 @@ export default function Projects() {
   const navigate = useNavigate()
   const ref = useRevealChildren()
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery]           = useState('')
   const [selectedTags, setSelectedTags] = useState([])
 
   const allTechs = useMemo(() =>
@@ -49,57 +49,94 @@ export default function Projects() {
 
   return (
     <PageTransition>
-      <section style={{ paddingTop: '8rem' }} ref={ref}>
+      <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
           <div className="label reveal">projects</div>
-          <h2 className="reveal" style={{ marginBottom: '2rem', maxWidth: '32ch' }}>
+          <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
             Things I've built.
           </h2>
+          <p className="reveal" style={{ fontSize: '13px', maxWidth: '52ch', lineHeight: 1.8, marginBottom: '36px', fontFamily: 'var(--font-mono)' }}>
+            End-to-end builds — models, APIs, and the interfaces in front of them.
+          </p>
 
-          <div className="reveal" style={{ marginBottom: '1rem', maxWidth: 420 }}>
-            <input
-              type="text"
-              placeholder="Search projects (typos OK)"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              className="form-input"
-              style={{ fontSize: '0.85rem' }}
-            />
-          </div>
-
-          <div className="reveal" style={{ marginBottom: '2rem' }}>
-            <div className="flex flex-wrap gap-1.5">
-              {allTechs.map(tag => {
-                const active = selectedTags.includes(tag)
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`tag${active ? ' tag-accent' : ''}`}
-                    style={{
-                      cursor: 'pointer',
-                      background: active ? 'var(--accent-soft)' : 'transparent',
-                    }}
-                  >
-                    {tag}
-                  </button>
-                )
-              })}
+          {/* Search + filter controls */}
+          <div className="reveal" style={{
+            padding: '16px 20px',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-card)',
+            marginBottom: '24px',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" style={{ color: 'var(--muted-2)', flexShrink: 0 }}>
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search projects — typos OK"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '13px',
+                  color: 'var(--ink)',
+                }}
+              />
+              {hasFilters && (
+                <button
+                  onClick={clearAll}
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '11px',
+                    color: 'var(--muted)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '2px 8px',
+                    borderRadius: 'var(--radius-pill)',
+                    border: '1px solid var(--border)',
+                  }}
+                >clear</button>
+              )}
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+              {allTechs.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`tag${selectedTags.includes(tag) ? ' tag-active' : ''}`}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {tag}
+                </button>
+              ))}
             </div>
           </div>
 
+          {/* Results count */}
           {hasFilters && (
-            <div className="reveal flex items-center justify-between" style={{ marginBottom: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--muted)' }}>
-              <span>{filtered.length} result{filtered.length !== 1 ? 's' : ''}</span>
-              <button onClick={clearAll} style={{ color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}>
-                clear filters
-              </button>
+            <div className="reveal" style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              color: 'var(--muted-2)',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}>
+              <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--ink)' }} />
+              {filtered.length} result{filtered.length !== 1 ? 's' : ''} found
             </div>
           )}
 
+          {/* Projects list */}
           {filtered.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {filtered.map(p => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {filtered.map((p, i) => (
                 <div
                   key={p.id}
                   className="row-card reveal"
@@ -108,18 +145,18 @@ export default function Projects() {
                   tabIndex={0}
                   onKeyDown={e => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
                 >
-                  <div className="flex items-start justify-between gap-4 flex-wrap">
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1, minWidth: 240 }}>
-                      <div className="flex items-center gap-2" style={{ marginBottom: '0.5rem' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--muted)' }}>{p.year}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted-2)' }}>{p.year}</span>
                         {p.status && <span className="tag">{p.status}</span>}
                       </div>
-                      <h3 style={{ marginBottom: '0.5rem' }}>{p.title}</h3>
-                      <p style={{ fontSize: '0.86rem', lineHeight: 1.7, maxWidth: '60ch' }}>{p.shortDesc}</p>
+                      <h3 style={{ marginBottom: '6px', fontSize: '0.95rem' }}>{p.title}</h3>
+                      <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '55ch', fontFamily: 'var(--font-mono)' }}>{p.shortDesc}</p>
                     </div>
-                    <div className="flex flex-wrap gap-1.5" style={{ maxWidth: 240, justifyContent: 'flex-end' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', maxWidth: '240px', justifyContent: 'flex-end' }}>
                       {(p.technologies ?? []).map(t => (
-                        <span key={t} className={`tag${selectedTags.includes(t) ? ' tag-accent' : ''}`}>{t}</span>
+                        <span key={t} className={`tag${selectedTags.includes(t) ? ' tag-active' : ''}`}>{t}</span>
                       ))}
                     </div>
                   </div>
@@ -127,10 +164,13 @@ export default function Projects() {
               ))}
             </div>
           ) : (
-            <div className="card" style={{ padding: '3rem', textAlign: 'center', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontSize: '0.8rem' }}>
-              {hasFilters
-                ? <>No projects match. <button onClick={clearAll} style={{ color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}>Clear filters</button></>
-                : 'No projects added yet.'}
+            <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
+                No projects match.{' '}
+                <button onClick={clearAll} style={{ color: 'var(--ink)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}>
+                  Clear filters
+                </button>
+              </p>
             </div>
           )}
         </div>

@@ -7,14 +7,14 @@ const navLinks = [
   { to: '/about',        label: 'About' },
   { to: '/skills',       label: 'Skills' },
   { to: '/projects',     label: 'Projects' },
-  { to: '/certificates', label: 'Certificates' },
+  { to: '/certificates', label: 'Certs' },
   { to: '/education',    label: 'Education' },
   { to: '/contact',      label: 'Contact' },
 ]
 
 function SunIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
     </svg>
@@ -22,8 +22,22 @@ function SunIcon() {
 }
 function MoonIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
+    </svg>
+  )
+}
+function MenuIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+      <path d="M3 6h18M3 12h18M3 18h18" />
+    </svg>
+  )
+}
+function CloseIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+      <path d="M18 6 6 18M6 6l12 12" />
     </svg>
   )
 }
@@ -31,21 +45,97 @@ function MoonIcon() {
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
   useEffect(() => setOpen(false), [location])
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <nav className="nav-fixed">
+    <nav className="nav-fixed" style={{ boxShadow: scrolled ? '0 1px 0 var(--border)' : 'none' }}>
       <div className="container">
-        <div className="flex items-center justify-between" style={{ height: '3.4rem' }}>
-          <Link to="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.95rem' }}>
-            akash<span style={{ color: 'var(--accent)' }}>.</span>kundu
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '3.25rem' }}>
+
+          {/* Logo */}
+          <Link to="/" style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 600,
+            fontSize: '0.9rem',
+            color: 'var(--ink)',
+            letterSpacing: '-0.01em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+          }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '22px',
+              height: '22px',
+              background: 'var(--ink)',
+              color: 'var(--bg)',
+              borderRadius: '5px',
+              fontSize: '11px',
+              fontWeight: 600,
+              fontFamily: 'var(--font-mono)',
+            }}>AK</span>
+            Akash Kundu
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          {/* Desktop links */}
+          <div className="hidden md:flex" style={{ alignItems: 'center', gap: '2px' }}>
             {navLinks.map(({ to, label }) => (
               <Link key={to} to={to} className={`nav-link${location.pathname === to ? ' active' : ''}`}>
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <a
+              href="https://github.com/AkashKundu114"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-sm hidden md:inline-flex"
+              style={{ borderRadius: 'var(--radius-pill)' }}
+            >
+              GitHub ↗
+            </a>
+            <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
+              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+            </button>
+            <button
+              onClick={() => setOpen(o => !o)}
+              className="theme-toggle md:hidden"
+              aria-label="Toggle menu"
+            >
+              {open ? <CloseIcon /> : <MenuIcon />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {open && (
+          <div style={{
+            borderTop: '1px solid var(--border)',
+            padding: '12px 0 16px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2px',
+          }}>
+            {navLinks.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className={`nav-link${location.pathname === to ? ' active' : ''}`}
+                style={{ padding: '10px 12px' }}
+              >
                 {label}
               </Link>
             ))}
@@ -54,35 +144,8 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               className="nav-link"
-              style={{ marginLeft: '0.4rem', borderLeft: '1px solid var(--border)', paddingLeft: '1rem' }}
+              style={{ padding: '10px 12px' }}
             >
-              GitHub ↗
-            </a>
-            <button onClick={toggleTheme} className="theme-toggle" style={{ marginLeft: '0.6rem' }} aria-label="Toggle theme">
-              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-            </button>
-          </div>
-
-          <div className="flex md:hidden items-center gap-2">
-            <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
-              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-            </button>
-            <button onClick={() => setOpen(o => !o)} className="theme-toggle" aria-label="Toggle menu" style={{ width: 30, height: 30 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                {open ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {open && (
-          <div className="md:hidden flex flex-col" style={{ borderTop: '1px solid var(--border)', padding: '0.5rem 0 0.9rem' }}>
-            {navLinks.map(({ to, label }) => (
-              <Link key={to} to={to} className={`nav-link${location.pathname === to ? ' active' : ''}`} style={{ padding: '0.55rem 0' }}>
-                {label}
-              </Link>
-            ))}
-            <a href="https://github.com/AkashKundu114" target="_blank" rel="noopener noreferrer" className="nav-link" style={{ padding: '0.55rem 0' }}>
               GitHub ↗
             </a>
           </div>
