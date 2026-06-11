@@ -1,26 +1,12 @@
-/**
- * Admin Dashboard — /admin
- * ─────────────────────────────────────────────────────────────────────────
- * SETUP:
- *   1. Set VITE_ADMIN_PASSWORD=yourpassword in a .env file (never commit it).
- *   2. The route is intentionally unlisted in the nav; access via /#/admin.
- *   3. Session persists until the browser tab is closed.
- *
- * DATA:
- *   All edits are stored in localStorage via DataContext and instantly
- *   reflected on every other page.  To wire up a real backend, replace the
- *   CRUD calls in DataContext.jsx with fetch() calls to your API endpoint.
- * ─────────────────────────────────────────────────────────────────────────
- */
+
+
 import { useState, useEffect } from 'react'
 import { useData } from '../context/DataContext'
 import { categoryColors } from '../data/certificates'
 import PageTransition from '../components/PageTransition'
 
-/* ── Password from env, fallback for dev ── */
 const ADMIN_PW = import.meta.env.VITE_ADMIN_PASSWORD || 'admin2024'
 
-/* ── Helpers ── */
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
 
 const emptyProject = {
@@ -35,9 +21,6 @@ const emptyCert = {
   verifyUrl: '', description: '',
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   LOGIN SCREEN
-   ══════════════════════════════════════════════════════════════════════════ */
 function LoginScreen({ onSuccess }) {
   const [pw, setPw] = useState('')
   const [err, setErr] = useState(false)
@@ -111,9 +94,6 @@ function LoginScreen({ onSuccess }) {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   MODAL — generic wrapper
-   ══════════════════════════════════════════════════════════════════════════ */
 function Modal({ title, onClose, children }) {
   useEffect(() => {
     const esc = (e) => { if (e.key === 'Escape') onClose() }
@@ -148,7 +128,6 @@ function Modal({ title, onClose, children }) {
   )
 }
 
-/* ── shared field component ── */
 function Field({ label, children, hint }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -161,9 +140,6 @@ function Field({ label, children, hint }) {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   PROJECT FORM
-   ══════════════════════════════════════════════════════════════════════════ */
 function ProjectForm({ initial, onSave, onClose }) {
   const [form, setForm] = useState(initial ?? emptyProject)
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }))
@@ -225,9 +201,6 @@ function ProjectForm({ initial, onSave, onClose }) {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   CERTIFICATE FORM
-   ══════════════════════════════════════════════════════════════════════════ */
 const CATEGORIES = ['Data Science', 'Programming', 'Cloud', 'AI/ML', 'Web Dev', 'General']
 
 function CertForm({ initial, onSave, onClose }) {
@@ -300,9 +273,6 @@ function CertForm({ initial, onSave, onClose }) {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   STAT CARD
-   ══════════════════════════════════════════════════════════════════════════ */
 function StatCard({ icon, label, value, accent }) {
   return (
     <div style={{
@@ -317,17 +287,13 @@ function StatCard({ icon, label, value, accent }) {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   MAIN DASHBOARD
-   ══════════════════════════════════════════════════════════════════════════ */
 function Dashboard({ onLogout }) {
   const { projects, certificates, addProject, updateProject, deleteProject, addCertificate, updateCertificate, deleteCertificate, resetToDefaults } = useData()
 
   const [tab,       setTab]       = useState('overview')
-  const [modal,     setModal]     = useState(null) // null | { type, item? }
-  const [deleteConf,setDeleteConf]= useState(null) // null | { type, id, title }
+  const [modal,     setModal]     = useState(null) 
+  const [deleteConf,setDeleteConf]= useState(null) 
 
-  /* ── helpers ── */
   const openAdd  = (type)       => setModal({ type, item: null })
   const openEdit = (type, item) => setModal({ type, item })
   const closeModal = ()         => setModal(null)
@@ -355,13 +321,11 @@ function Dashboard({ onLogout }) {
     { id: 'settings',      label: 'Settings',       icon: '◉' },
   ]
 
-  /* ── sidebar width ── */
   const SW = 220
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', paddingTop: '4.5rem' }}>
 
-      {/* ── Sidebar ── */}
       <aside style={{
         width: SW, flexShrink: 0,
         background: 'var(--surface)', borderRight: '1px solid var(--border)',
@@ -412,10 +376,8 @@ function Dashboard({ onLogout }) {
         </div>
       </aside>
 
-      {/* ── Main content ── */}
       <main style={{ flex: 1, marginLeft: SW, padding: '2.5rem', minHeight: '100vh' }}>
 
-        {/* ── OVERVIEW ── */}
         {tab === 'overview' && (
           <div>
             <div style={{ marginBottom: '2rem' }}>
@@ -452,7 +414,6 @@ function Dashboard({ onLogout }) {
           </div>
         )}
 
-        {/* ── PROJECTS ── */}
         {tab === 'projects' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
@@ -498,7 +459,6 @@ function Dashboard({ onLogout }) {
           </div>
         )}
 
-        {/* ── CERTIFICATES ── */}
         {tab === 'certificates' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
@@ -544,7 +504,6 @@ function Dashboard({ onLogout }) {
           </div>
         )}
 
-        {/* ── SETTINGS ── */}
         {tab === 'settings' && (
           <div style={{ maxWidth: 560 }}>
             <div style={{ marginBottom: '2rem' }}>
@@ -584,7 +543,6 @@ VITE_CONTACT_API=http://localhost:8000/api/contact`}
         )}
       </main>
 
-      {/* ── Modals ── */}
       {modal?.type === 'project' && (
         <Modal title={modal.item ? 'Edit Project' : 'New Project'} onClose={closeModal}>
           <ProjectForm initial={modal.item ? { ...modal.item, technologies: (modal.item.technologies || []).join(', '), features: (modal.item.features || []).join('\n') } : undefined} onSave={handleSaveProject} onClose={closeModal} />
@@ -596,7 +554,6 @@ VITE_CONTACT_API=http://localhost:8000/api/contact`}
         </Modal>
       )}
 
-      {/* ── Delete confirmation ── */}
       {deleteConf && (
         <Modal title="Confirm Delete" onClose={() => setDeleteConf(null)}>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', marginBottom: '1.5rem' }}>
@@ -612,9 +569,6 @@ VITE_CONTACT_API=http://localhost:8000/api/contact`}
   )
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   EXPORT — handles auth gate
-   ══════════════════════════════════════════════════════════════════════════ */
 export default function Admin() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem('_adminAuthed') === '1')
 

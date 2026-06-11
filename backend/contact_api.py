@@ -1,35 +1,3 @@
-"""
-backend/contact_api.py
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Custom contact-form microservice — replaces Formspree entirely.
-
-SETUP
-─────
-1. Install deps:
-   pip install fastapi uvicorn[standard] pydantic[email] python-dotenv slowapi
-
-2. Create .env in this folder:
-   SMTP_HOST=smtp.gmail.com
-   SMTP_PORT=587
-   SMTP_USER=youraddress@gmail.com
-   SMTP_PASS=your_app_password          # Gmail → Settings → App Passwords
-   TO_EMAIL=akashkundu7487@gmail.com
-   ALLOWED_ORIGIN=https://akashkundu.me
-
-3. Run locally:
-   uvicorn contact_api:app --reload --port 8000
-
-4. In your portfolio .env:
-   VITE_CONTACT_API=http://localhost:8000/api/contact
-
-DEPLOY (free tier)
-──────────────────
-• Railway.app  →  connect GitHub, set env vars, point domain
-• Render.com   →  similar, free tier sleeps after 15 min
-• Fly.io       →  always-on free tier with 256 MB RAM
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-"""
-
 import os
 import re
 import smtplib
@@ -44,14 +12,12 @@ from fastapi.responses      import JSONResponse
 from pydantic               import BaseModel, EmailStr, field_validator
 from dotenv                 import load_dotenv
 
-# ── slowapi for IP-based rate limiting ──────────────────────────────────
 from slowapi              import Limiter, _rate_limit_exceeded_handler
 from slowapi.util         import get_remote_address
 from slowapi.errors       import RateLimitExceeded
 
 load_dotenv()
 
-# ── Config ──────────────────────────────────────────────────────────────
 SMTP_HOST      = os.getenv("SMTP_HOST",      "smtp.gmail.com")
 SMTP_PORT      = int(os.getenv("SMTP_PORT",  "587"))
 SMTP_USER      = os.getenv("SMTP_USER",      "")
@@ -59,7 +25,6 @@ SMTP_PASS      = os.getenv("SMTP_PASS",      "")
 TO_EMAIL       = os.getenv("TO_EMAIL",       "akashkundu7487@gmail.com")
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:5173")
 
-# ── Rate limiter: 5 requests / minute per IP ────────────────────────────
 limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(title="Akash Kundu — Contact API", version="1.0.0")
@@ -73,7 +38,6 @@ app.add_middleware(
     allow_headers  = ["Content-Type", "Accept"],
 )
 
-# ── Request model with server-side validation ───────────────────────────
 class ContactMessage(BaseModel):
     name:    str
     email:   EmailStr
@@ -85,7 +49,7 @@ class ContactMessage(BaseModel):
         v = v.strip()
         if len(v) < 2 or len(v) > 80:
             raise ValueError("Name must be 2–80 characters")
-        return html.escape(v)          # XSS-safe
+        return html.escape(v)
 
     @field_validator("message")
     @classmethod
@@ -99,14 +63,13 @@ class ContactMessage(BaseModel):
     @classmethod
     def validate_email(cls, v: str) -> str:
         v = v.strip().lower()
-        # Block obvious disposable domains
+
         blocked = {"mailinator.com", "guerrillamail.com", "tempmail.com"}
         domain  = v.split("@")[-1]
         if domain in blocked:
             raise ValueError("Disposable email addresses are not accepted")
         return v
 
-# ── Email sender ─────────────────────────────────────────────────────────
 def send_email(msg: ContactMessage) -> None:
     subject = f"[Portfolio] New message from {msg.name}"
     timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
@@ -147,14 +110,9 @@ def send_email(msg: ContactMessage) -> None:
         server.login(SMTP_USER, SMTP_PASS)
         server.sendmail(SMTP_USER, [TO_EMAIL], email.as_string())
 
-# ── Endpoint ─────────────────────────────────────────────────────────────
 @app.post("/api/contact")
 @limiter.limit("5/minute")
 async def contact(request: Request, msg: ContactMessage):
-    """
-    Accepts a contact form submission, validates it, and sends an email.
-    Rate limited to 5 requests/minute per IP to prevent spam.
-    """
     if not SMTP_USER or not SMTP_PASS:
         raise HTTPException(
             status_code=503,
@@ -171,7 +129,6 @@ async def contact(request: Request, msg: ContactMessage):
         raise HTTPException(status_code=500, detail="Failed to send email")
 
     return JSONResponse({"ok": True, "message": "Message delivered successfully"})
-
 
 @app.get("/health")
 async def health():

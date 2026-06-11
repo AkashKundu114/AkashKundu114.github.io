@@ -1,13 +1,5 @@
-/**
- * DataContext — replaces static data file imports across the app.
- *
- * Data priority:  localStorage (admin edits)  >  bundled static files
- * Admin can add/edit/delete projects & certificates; changes persist in the
- * browser and are picked up by every page on next render.
- *
- * To wire up a real backend later, replace the localStorage calls in
- * saveProjects / saveCertificates with fetch() calls to your API.
- */
+
+
 import { createContext, useContext, useState } from 'react'
 import { projects  as staticProjects  } from '../data/projects'
 import { certificates as staticCertificates } from '../data/certificates'
@@ -31,15 +23,13 @@ export function DataProvider({ children }) {
     readStore('portfolio_certificates', staticCertificates)
   )
 
-  /* ── internal persist helpers ── */
   const persist = (key, setter) => (data) => {
     setter(data)
-    try { localStorage.setItem(key, JSON.stringify(data)) } catch { /* quota */ }
+    try { localStorage.setItem(key, JSON.stringify(data)) } catch {  }
   }
   const saveProjects     = persist('portfolio_projects', setProjects)
   const saveCertificates = persist('portfolio_certificates', setCertificates)
 
-  /* ── projects CRUD ── */
   const addProject = (p) =>
     saveProjects([...projects, { ...p, id: `proj-${Date.now()}`, screenshots: [] }])
 
@@ -49,7 +39,6 @@ export function DataProvider({ children }) {
   const deleteProject = (id) =>
     saveProjects(projects.filter(p => p.id !== id))
 
-  /* ── certificates CRUD ── */
   const addCertificate = (c) =>
     saveCertificates([...certificates, { ...c, id: `cert-${Date.now()}`, skills: c.skills ?? [] }])
 
@@ -59,7 +48,6 @@ export function DataProvider({ children }) {
   const deleteCertificate = (id) =>
     saveCertificates(certificates.filter(c => c.id !== id))
 
-  /* ── hard reset ── */
   const resetToDefaults = () => {
     saveProjects(staticProjects)
     saveCertificates(staticCertificates)

@@ -3,41 +3,34 @@ import { Link } from 'react-router-dom'
 import { useRevealChildren } from '../hooks/useScrollReveal'
 import PageTransition from '../components/PageTransition'
 
-const metaRows = [
-  { key: 'Name',      val: 'Akash Kundu' },
-  { key: 'Location',  val: 'Kolkata, West Bengal' },
-  { key: 'Email',     val: 'akashkundu7487@gmail.com', link: 'mailto:akashkundu7487@gmail.com' },
-  { key: 'Phone',     val: '+91 9064349004', link: 'tel:+919064349004' },
-  { key: 'Status',    val: '● Open to Internship Opportunities', accent: true },
-  { key: 'Languages', val: 'Bengali · English · Hindi' },
+const meta = [
+  { key: 'Location', val: 'Kolkata, West Bengal' },
+  { key: 'Email', val: 'akashkundu7487@gmail.com', link: 'mailto:akashkundu7487@gmail.com' },
+  { key: 'Phone', val: '+91 9064349004', link: 'tel:+919064349004' },
+  { key: 'Status', val: 'Open to internships' },
+  { key: 'Languages', val: 'Bengali, English, Hindi' },
 ]
 
 const principles = [
   {
-    icon: '◈',
-    title: 'Models Are Only Half the Work',
-    desc: 'A highly accurate ML model is only as impactful as the interface used to interact with it. I build both.',
-    color: 'rgba(129,140,248,1)',
+    title: 'A model is half the work',
+    desc: 'An accurate model that nobody can use is not a finished project. I try to ship the interface alongside the model, not as an afterthought.',
   },
   {
-    icon: '◎',
-    title: 'End-to-End Thinking',
-    desc: 'From data ingestion and model training, through API design, to the final pixel — I care about the whole system.',
-    color: 'rgba(79,163,255,1)',
+    title: 'End to end, on purpose',
+    desc: 'I like understanding a system from the data going in to the pixels coming out — it makes the trade-offs at each layer easier to reason about.',
   },
   {
-    icon: '◐',
-    title: 'Build to Understand',
-    desc: 'Every project is a deliberate choice to learn deeply, not broadly. I ship working systems, then study why they work.',
-    color: 'rgba(52,211,153,1)',
+    title: 'Depth over breadth, one project at a time',
+    desc: 'Each project is picked to learn something specific in depth, then documented properly so the learning sticks.',
   },
 ]
 
 const timeline = [
-  { year: '2023', event: 'Enrolled B.Tech CSE at Techno India University. Started Udemy Web Dev Bootcamp and built first real WebSocket application.' },
-  { year: '2024', event: 'Shipped 4 production projects: AI Eye Predictor, Stock Prediction System, Copper AI Assistant, and local LLM deployment. Completed IBM, Udemy Python, and Google certificates.' },
-  { year: '2025', event: 'Completed Deloitte Data Analytics & Cyber simulations. Built full-stack portfolio CMS with admin panel, PWA, and FastAPI backend. Actively seeking first internship.' },
-  { year: '2027', event: 'Expected B.Tech graduation — targeting a Data Engineering or AI/ML Engineering role.' },
+  { year: '2023', event: 'Started B.Tech CSE at Techno India University. Began the Web Development bootcamp and built a first WebSocket chat app.', current: false },
+  { year: '2024', event: 'Shipped the eye-disease predictor, the AI hardware benchmark engine, and an early version of Copper. Completed IBM and Python certifications.', current: false },
+  { year: '2025', event: 'Completed Deloitte\'s data analytics and cyber simulations. Rebuilt this site as a full-stack portfolio with an admin CMS and a FastAPI backend.', current: true },
+  { year: '2027', event: 'Expected graduation — looking for a role in data engineering or applied ML.', current: true },
 ]
 
 export default function About() {
@@ -46,151 +39,90 @@ export default function About() {
 
   return (
     <PageTransition>
-      <section className="section" style={{ paddingTop: '9rem' }} ref={ref}>
-        <span className="section-num">01</span>
+      <section style={{ paddingTop: '8rem' }} ref={ref}>
         <div className="container">
-
-          <div className="label reveal">About Me</div>
-          <h2 className="reveal" style={{ marginBottom: '4rem' }}>
-            A little about<br />
-            <em style={{ color: 'var(--accent)', fontStyle: 'normal' }}>who I am.</em>
+          <div className="label reveal">about</div>
+          <h2 className="reveal" style={{ marginBottom: '3rem', maxWidth: '32ch' }}>
+            B.Tech CSE student, building things across the AI and web stack.
           </h2>
 
-          {/* ── Top grid: profile card + story ── */}
-          <div
-            className="about-grid"
-            style={{ display: 'grid', gridTemplateColumns: '1fr 1.7fr', gap: '5rem', alignItems: 'start', marginBottom: '5rem' }}
-          >
-            {/* Profile card */}
-            <div className="reveal" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 6, overflow: 'hidden', position: 'sticky', top: '6rem' }}>
-              <div style={{ background: 'var(--accent)', padding: '2rem', display: 'flex', justifyContent: 'center' }}>
-                <div style={{
-                  width: 80, height: 80, borderRadius: '50%',
-                  background: '#05080f', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'Syne, sans-serif', fontSize: '1.8rem', fontWeight: 800, color: 'var(--accent)',
-                  border: '2px solid rgba(79,163,255,0.3)',
-                }}>
-                  AK
-                </div>
-              </div>
-              <div style={{ padding: '1.2rem' }}>
-                {metaRows.map(({ key, val, link, accent }) => (
-                  <div
-                    key={key}
-                    className="flex items-start justify-between gap-3"
-                    style={{ padding: '0.72rem 0', borderBottom: '1px solid var(--border)' }}
-                  >
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.56rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted)', flexShrink: 0, paddingTop: '0.1rem' }}>{key}</span>
-                    {link
-                      ? <a href={link} style={{ fontSize: '0.78rem', fontWeight: 500, textAlign: 'right', wordBreak: 'break-all', color: 'var(--ink)' }}>{val}</a>
-                      : <span style={{ fontSize: '0.78rem', fontWeight: 500, textAlign: 'right', color: accent ? 'var(--accent)' : 'var(--ink)' }}>{val}</span>
-                    }
+          <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '3.5rem', alignItems: 'start', marginBottom: '4.5rem' }}>
+            <div className="reveal card" style={{ padding: '1.25rem 1.5rem' }}>
+              {meta.map(({ key, val, link }) => (
+                <div key={key} style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.06em', color: 'var(--muted)', marginBottom: '0.25rem' }}>
+                    {key.toUpperCase()}
                   </div>
-                ))}
+                  {link
+                    ? <a href={link} style={{ fontSize: '0.85rem', fontWeight: 500 }}>{val}</a>
+                    : <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>{val}</span>}
+                </div>
+              ))}
+              <div style={{ paddingTop: '0.75rem' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.06em', color: 'var(--muted)', marginBottom: '0.25rem' }}>
+                  EDUCATION
+                </div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>B.Tech CSE, Techno India University — class of 2027</span>
               </div>
             </div>
 
-            {/* Story */}
-            <div>
-              <div className="reveal" style={{ marginBottom: '2rem' }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1rem' }}>
-                  The Story
-                </div>
-                <p style={{ fontSize: '1rem', lineHeight: 1.85, color: 'var(--muted)', marginBottom: '1.2rem' }}>
-                  My journey into tech is driven by a single desire: to make complex data
-                  accessible and actionable. While studying Computer Science, I kept running
-                  into the same realization — a highly accurate machine learning model is only
-                  as impactful as the interface used to interact with it.
-                </p>
-                <p style={{ fontSize: '1rem', lineHeight: 1.85, color: 'var(--muted)', marginBottom: '1.2rem' }}>
-                  That realization shaped how I approach every project. I spend serious time
-                  extracting insights from datasets and fine-tuning models, but I'm equally
-                  passionate about using React and modern frameworks to build intuitive,
-                  responsive interfaces that put those AI tools directly into the hands of users.
-                </p>
-                <p style={{ fontSize: '1rem', lineHeight: 1.85, color: 'var(--muted)' }}>
-                  Whether it's containerizing an API, training a vision model, or obsessing
-                  over a UI interaction detail —{' '}
-                  <strong style={{ color: 'var(--ink)', fontWeight: 600 }}>
-                    I love building complete, intelligent systems.
-                  </strong>
-                </p>
-              </div>
-
-              {/* CTA */}
-              <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <Link to="/projects" className="btn btn-primary">See My Projects →</Link>
-                <Link to="/skills"   className="btn btn-outline">Explore My Skills</Link>
+            <div className="reveal">
+              <p style={{ fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.1rem' }}>
+                I got into this because I kept running into the same problem: a model that
+                works well in a notebook is still a long way from something a person can
+                actually use. Closing that gap — between a trained model and a usable
+                interface — is what most of my projects are about.
+              </p>
+              <p style={{ fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.1rem' }}>
+                In practice that means spending time on data preparation and model training,
+                then just as much time on the API and frontend that sit in front of it.
+                I'd rather have one project working end to end than three half-finished ones.
+              </p>
+              <p style={{ fontSize: '1rem', lineHeight: 1.85, marginBottom: '1.75rem' }}>
+                Outside of coursework, I'm currently working on Copper, an offline desktop
+                assistant built on Tauri and a locally-run LLM, and rebuilding this site's
+                backend to move off localStorage onto a proper API.
+              </p>
+              <div className="flex flex-wrap gap-2.5">
+                <Link to="/projects" className="btn btn-primary">See my projects</Link>
+                <Link to="/skills" className="btn">Skills</Link>
               </div>
             </div>
           </div>
 
-          {/* ── Principles ── */}
-          <div className="reveal" style={{ marginBottom: '5rem' }}>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: '1.5rem' }}>
-              How I Think
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }} className="principles-grid">
-              {principles.map(({ icon, title, desc, color }) => (
-                <div
-                  key={title}
-                  style={{
-                    padding: '1.6rem',
-                    background: 'var(--surface)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 6,
-                    transition: 'all 0.25s',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = color.replace('1)', '0.4)')
-                    e.currentTarget.style.background = color.replace('1)', '0.06)')
-                    e.currentTarget.style.boxShadow = `0 0 24px ${color.replace('1)', '0.12)')}`
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'var(--border)'
-                    e.currentTarget.style.background = 'var(--surface)'
-                    e.currentTarget.style.boxShadow = 'none'
-                  }}
-                >
-                  <span style={{ display: 'block', fontSize: '1.3rem', color, marginBottom: '0.8rem' }}>{icon}</span>
-                  <span style={{ display: 'block', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '0.92rem', color: 'var(--ink)', marginBottom: '0.6rem', lineHeight: 1.25 }}>{title}</span>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.75 }}>{desc}</p>
+          <div className="reveal" style={{ marginBottom: '4.5rem' }}>
+            <div className="label">how I work</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)' }} className="principles-grid">
+              {principles.map(({ title, desc }) => (
+                <div key={title} style={{ background: 'var(--surface)', padding: '1.5rem' }}>
+                  <h3 style={{ marginBottom: '0.6rem' }}>{title}</h3>
+                  <p style={{ fontSize: '0.86rem', lineHeight: 1.75 }}>{desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ── Timeline ── */}
           <div className="reveal">
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: '2rem' }}>
-              Timeline
-            </div>
-            <div style={{ position: 'relative', paddingLeft: '2rem' }}>
-              <div style={{ position: 'absolute', left: 0, top: '0.5rem', bottom: '0.5rem', width: 1, background: 'var(--border)' }} />
-              {timeline.map(({ year, event }, i) => (
-                <div key={year} style={{ position: 'relative', paddingLeft: '2rem', paddingBottom: i < timeline.length - 1 ? '2.5rem' : 0 }}>
-                  <div style={{
-                    position: 'absolute', left: '-2rem', top: '0.3rem',
-                    width: 9, height: 9, borderRadius: '50%',
-                    background: i < 2 ? 'var(--accent)' : 'var(--border)',
-                    border: '2px solid var(--bg)',
-                    boxShadow: i < 2 ? '0 0 8px rgba(79,163,255,0.5)' : 'none',
-                  }} />
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', letterSpacing: '0.1em', color: 'var(--accent)', marginBottom: '0.3rem' }}>{year}</div>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--muted)', lineHeight: 1.75 }}>{event}</p>
+            <div className="label">timeline</div>
+            <div className="timeline">
+              {timeline.map(({ year, event, current }) => (
+                <div key={year} className={`timeline-item${current ? ' is-current' : ''}`}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: current ? 'var(--accent)' : 'var(--muted)', marginBottom: '0.35rem' }}>
+                    {year}
+                  </div>
+                  <p style={{ fontSize: '0.88rem', lineHeight: 1.75, maxWidth: '60ch' }}>{event}</p>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
       <style>{`
-        @media (max-width: 960px) {
-          .about-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+        @media (max-width: 880px) {
+          .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
         }
-        @media (max-width: 640px) {
+        @media (max-width: 700px) {
           .principles-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>

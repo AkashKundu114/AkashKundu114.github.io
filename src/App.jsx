@@ -6,10 +6,6 @@ import { DataProvider }   from './context/DataContext'
 import Navbar  from './components/Navbar'
 import Footer  from './components/Footer'
 
-/* ── Route-based code splitting ────────────────────────────────────────────
-   Each page chunk is downloaded only when the user navigates to that route.
-   This keeps the initial JS bundle small and improves Core Web Vitals (LCP).
-   ───────────────────────────────────────────────────────────────────────── */
 const Home              = lazy(() => import('./pages/Home'))
 const About             = lazy(() => import('./pages/About'))
 const Skills            = lazy(() => import('./pages/Skills'))
@@ -21,7 +17,6 @@ const Education         = lazy(() => import('./pages/Education'))
 const Contact           = lazy(() => import('./pages/Contact'))
 const Admin             = lazy(() => import('./pages/Admin'))
 
-/* ── Minimal skeleton shown while a lazy chunk loads ── */
 function PageLoader() {
   return (
     <div
@@ -48,10 +43,6 @@ function PageLoader() {
   )
 }
 
-/* ── Animated route switcher ─────────────────────────────────────────────
-   AnimatePresence + key=location.pathname lets each page play its own
-   exit animation before the next page mounts (mode="wait").
-   ───────────────────────────────────────────────────────────────────────── */
 function AnimatedRoutes() {
   const location = useLocation()
 
@@ -67,7 +58,6 @@ function AnimatedRoutes() {
         <Route path="/certificates/:id"  element={<CertificateDetail />} />
         <Route path="/education"         element={<Education />} />
         <Route path="/contact"           element={<Contact />} />
-        {/* Protected admin panel — not linked in the nav intentionally */}
         <Route path="/admin"             element={<Admin />} />
       </Routes>
     </AnimatePresence>

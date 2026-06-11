@@ -1,23 +1,27 @@
 export default function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="relative z-10" style={{ borderTop:'1px solid var(--border)',padding:'2.2rem 0' }}>
-      <div className="container">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <span className="font-mono" style={{ color:'var(--muted)',fontSize:'0.62rem',letterSpacing:'0.07em' }}>
-            © {year} Akash Kundu — Built with React &amp; Tailwind
+    <footer style={{ borderTop: '1px solid var(--border)' }}>
+      <div className="container" style={{ padding: '1.75rem' }}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--muted)' }}>
+            © {year} Akash Kundu
           </span>
-          <div className="flex flex-wrap gap-5">
+          <div className="flex flex-wrap gap-4">
             {[
-              { href:'mailto:akashkundu7487@gmail.com', label:'Email',    ext:false },
-              { href:'https://www.linkedin.com/in/akashkundu114/', label:'LinkedIn', ext:true },
-              { href:'https://github.com/AkashKundu114',           label:'GitHub',   ext:true },
-            ].map(({ href,label,ext }) => (
-              <a key={label} href={href} target={ext?'_blank':undefined} rel={ext?'noopener noreferrer':undefined}
-                className="font-mono uppercase transition-colors duration-200"
-                style={{ color:'var(--muted)',fontSize:'0.6rem',letterSpacing:'0.1em' }}
-                onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)'}}
-                onMouseLeave={e=>{e.currentTarget.style.color='var(--muted)'}}>
+              { href: 'mailto:akashkundu7487@gmail.com', label: 'Email' },
+              { href: 'https://www.linkedin.com/in/akashkundu114/', label: 'LinkedIn', ext: true },
+              { href: 'https://github.com/AkashKundu114', label: 'GitHub', ext: true },
+            ].map(({ href, label, ext }) => (
+              <a
+                key={label}
+                href={href}
+                target={ext ? '_blank' : undefined}
+                rel={ext ? 'noopener noreferrer' : undefined}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--muted)', transition: 'color var(--t)' }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--muted)' }}
+              >
                 {label}
               </a>
             ))}
