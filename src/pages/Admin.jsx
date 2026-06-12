@@ -411,7 +411,7 @@ function Dashboard({ onLogout }) {
 
             <div className="card" style={{ marginTop: '1.5rem', padding: '1.2rem 1.5rem', background: 'var(--surface-2)' }}>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <span className="node-badge" style={{ flexShrink: 0, marginTop: '2px' }}>tip</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--muted-2)', fontWeight: 600, letterSpacing: '0.06em', marginTop: '3px', whiteSpace: 'nowrap' }}>NOTE//</span>
                 <p style={{ fontSize: '0.8rem', lineHeight: 1.8, fontFamily: 'var(--font-mono)' }}>
                   Data currently lives in <code style={{ background: 'var(--surface-3)', padding: '1px 6px', borderRadius: '4px' }}>localStorage</code>. To
                   sync across devices, connect a FastAPI backend and update <code style={{ background: 'var(--surface-3)', padding: '1px 6px', borderRadius: '4px' }}>DataContext.jsx</code> to

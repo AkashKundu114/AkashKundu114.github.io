@@ -10,79 +10,60 @@ export default function AmbientBackground() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     let animId
-    let nodes = []
+    let motes = []
     let t = 0
 
     const resize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
-      const count = Math.max(14, Math.min(34, Math.floor((canvas.width * canvas.height) / 42000)))
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.4 + 0.6,
-        vx: (Math.random() - 0.5) * 0.16,
-        vy: (Math.random() - 0.5) * 0.16,
-        phase: Math.random() * Math.PI * 2,
+
+      const count = Math.max(7, Math.min(16, Math.floor((canvas.width * canvas.height) / 110000)))
+      motes = Array.from({ length: count }, () => ({
+        ox: Math.random() * canvas.width,
+        oy: Math.random() * canvas.height,
+        x: 0,
+        y: 0,
+        r: Math.random() * 2.6 + 0.6,
+        fx: 0.05 + Math.random() * 0.09,
+        fy: 0.04 + Math.random() * 0.08,
+        ax: canvas.width  * (0.02 + Math.random() * 0.03),
+        ay: canvas.height * (0.02 + Math.random() * 0.03),
+        px: Math.random() * Math.PI * 2,
+        py: Math.random() * Math.PI * 2,
+        baseAlpha: 0.05 + Math.random() * 0.07,
+        flickerSpeed: 0.15 + Math.random() * 0.35,
+        flickerPhase: Math.random() * Math.PI * 2,
       }))
     }
     resize()
     window.addEventListener('resize', resize)
 
-    const linkDist = 150
-
     const frame = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
       const rgb = isDark ? '241,240,237' : '17,24,39'
 
-      nodes.forEach(n => {
-        n.x += n.vx + Math.sin(t + n.phase) * 0.1
-        n.y += n.vy + Math.cos(t + n.phase) * 0.1
-        if (n.x < -20) n.x = canvas.width + 20
-        if (n.x > canvas.width + 20) n.x = -20
-        if (n.y < -20) n.y = canvas.height + 20
-        if (n.y > canvas.height + 20) n.y = -20
-      })
+      motes.forEach(m => {
+        m.x = m.ox + Math.sin(t * m.fx + m.px) * m.ax
+        m.y = m.oy + Math.cos(t * m.fy + m.py) * m.ay
+        const flicker = 0.65 + 0.35 * Math.sin(t * m.flickerSpeed + m.flickerPhase)
+        const alpha = m.baseAlpha * flicker
 
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x
-          const dy = nodes[i].y - nodes[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < linkDist) {
-            const alpha = (1 - dist / linkDist) * 0.05
-            ctx.beginPath()
-            ctx.moveTo(nodes[i].x, nodes[i].y)
-            ctx.lineTo(nodes[j].x, nodes[j].y)
-            ctx.strokeStyle = `rgba(${rgb},${alpha})`
-            ctx.lineWidth = 0.6
-            ctx.stroke()
-          }
-        }
-      }
-
-      nodes.forEach(n => {
-        const alpha = 0.1 + Math.sin(t + n.phase) * 0.04
         ctx.beginPath()
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${rgb},${Math.max(alpha, 0.02)})`
+        ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(${rgb},${alpha})`
         ctx.fill()
       })
     }
 
     const draw = () => {
-      t += 0.01
+      t += 0.35
       frame()
       animId = requestAnimationFrame(draw)
     }
 
-    if (reduceMotion) {
-      frame()
-    } else {
-      draw()
-    }
+    if (reduceMotion) frame()
+    else draw()
 
     return () => {
       cancelAnimationFrame(animId)
@@ -90,5 +71,10 @@ export default function AmbientBackground() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="ambient-bg" aria-hidden="true" />
+  return (
+    <>
+      <canvas ref={canvasRef} className="ambient-bg" aria-hidden="true" />
+      <div className="grain-overlay" aria-hidden="true" />
+    </>
+  )
 }
