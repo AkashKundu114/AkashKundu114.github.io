@@ -46,14 +46,14 @@ function LoginScreen({ onSuccess }) {
     }}>
       <div className="card" style={{
         width: '100%', maxWidth: 380, padding: '2.5rem',
-        animation: shake ? 'shake 0.4s ease' : 'none',
+        animation: shake ? 'shake 0.4s ease' : 'fadeSlideUp 0.5s var(--ease)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{
             width: 44, height: 44, borderRadius: 'var(--radius-control)',
-            background: 'var(--surface-2)', border: '1px solid var(--border)',
+            background: 'var(--accent-soft)', border: '1px solid var(--border-2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'var(--ink)', margin: '0 auto 1.2rem',
+            color: 'var(--accent)', margin: '0 auto 1.2rem',
           }}>
             <LockIcon />
           </div>
@@ -69,11 +69,11 @@ function LoginScreen({ onSuccess }) {
             onKeyDown={e => e.key === 'Enter' && attempt()}
             placeholder="Password"
             className="form-input"
-            style={{ borderColor: err ? '#dc2626' : undefined, textAlign: 'center', letterSpacing: '0.2em' }}
+            style={{ borderColor: err ? 'var(--danger)' : undefined, textAlign: 'center', letterSpacing: '0.2em' }}
             autoFocus
           />
           {err && (
-            <p style={{ fontSize: '0.72rem', color: '#dc2626', textAlign: 'center', fontFamily: 'var(--font-mono)' }}>
+            <p style={{ fontSize: '0.72rem', color: 'var(--danger)', textAlign: 'center', fontFamily: 'var(--font-mono)' }}>
               Incorrect password. Try again.
             </p>
           )}
@@ -111,7 +111,7 @@ function Modal({ title, onClose, children }) {
     <div
       onClick={onClose}
       style={{
-        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
+        position: 'fixed', inset: 0, background: 'rgba(11,16,38,0.6)',
         zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '2rem', backdropFilter: 'blur(4px)',
       }}
@@ -121,7 +121,7 @@ function Modal({ title, onClose, children }) {
         className="card"
         style={{
           width: '100%', maxWidth: 620, maxHeight: '90vh', overflowY: 'auto',
-          padding: '2rem',
+          padding: '2rem', animation: 'fadeSlideUp 0.3s var(--ease)',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -139,7 +139,7 @@ function Field({ label, children, hint }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
       <label style={{
         fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-        letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted-2)',
+        letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--accent)',
       }}>
         {label}
       </label>
@@ -210,7 +210,7 @@ function ProjectForm({ initial, onSave, onClose }) {
   )
 }
 
-const CATEGORIES = ['Data Science', 'Programming', 'Cloud', 'AI/ML', 'Web Dev', 'General']
+const CATEGORIES = ['Data Science', 'Programming', 'Cloud', 'AI/ML', 'Security', 'Web Dev', 'General']
 
 function CertForm({ initial, onSave, onClose }) {
   const [form, setForm] = useState(initial ?? emptyCert)
@@ -285,15 +285,15 @@ function CertForm({ initial, onSave, onClose }) {
 function StatCard({ icon, label, value, accent }) {
   return (
     <div
-      className="card"
+      className="card card-hover"
       style={{
         padding: '1.5rem',
         background: accent ? 'var(--accent-soft)' : 'var(--surface)',
-        borderColor: accent ? 'var(--border-2)' : 'var(--border)',
+        borderColor: accent ? 'var(--accent)' : 'var(--border)',
       }}
     >
-      <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem', color: accent ? 'var(--ink)' : 'var(--muted)' }}>{icon}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 600, color: 'var(--ink)', lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem', color: accent ? 'var(--accent)' : 'var(--muted)' }}>{icon}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--ink)', lineHeight: 1 }}>{value}</div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted-2)', marginTop: '0.4rem' }}>{label}</div>
     </div>
   )
@@ -346,7 +346,7 @@ function Dashboard({ onLogout }) {
       }}>
         <div style={{ padding: '0 1.2rem 1.5rem', borderBottom: '1px solid var(--border)', marginBottom: '1rem' }}>
           <div style={{ fontSize: '0.95rem', fontWeight: 600 }}>
-            Admin<span style={{ color: 'var(--muted-2)' }}>.</span>
+            Admin<span style={{ color: 'var(--accent)' }}>.</span>
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--muted-2)', marginTop: '0.3rem' }}>
             Portfolio CMS
@@ -400,7 +400,7 @@ function Dashboard({ onLogout }) {
               <StatCard icon="◉" label="Storage"      value="Local" />
             </div>
 
-            <div className="card" style={{ padding: '1.5rem' }}>
+            <div className="card card-hover" style={{ padding: '1.5rem' }}>
               <h3 style={{ marginBottom: '1rem' }}>Quick actions</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <button className="btn btn-primary btn-sm btn-pill" onClick={() => { setTab('projects'); openAdd('project') }}>+ Add project</button>
@@ -409,9 +409,9 @@ function Dashboard({ onLogout }) {
               </div>
             </div>
 
-            <div className="card" style={{ marginTop: '1.5rem', padding: '1.2rem 1.5rem', background: 'var(--surface-2)' }}>
+            <div className="card" style={{ marginTop: '1.5rem', padding: '1.2rem 1.5rem', background: 'var(--surface-2)', borderLeft: '3px solid var(--accent)' }}>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--muted-2)', fontWeight: 600, letterSpacing: '0.06em', marginTop: '3px', whiteSpace: 'nowrap' }}>NOTE//</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.06em', marginTop: '3px', whiteSpace: 'nowrap' }}>NOTE//</span>
                 <p style={{ fontSize: '0.8rem', lineHeight: 1.8, fontFamily: 'var(--font-mono)' }}>
                   Data currently lives in <code style={{ background: 'var(--surface-3)', padding: '1px 6px', borderRadius: '4px' }}>localStorage</code>. To
                   sync across devices, connect a FastAPI backend and update <code style={{ background: 'var(--surface-3)', padding: '1px 6px', borderRadius: '4px' }}>DataContext.jsx</code> to
@@ -474,13 +474,15 @@ function Dashboard({ onLogout }) {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {certificates.map(c => (
+              {certificates.map(c => {
+                const color = categoryColors[c.category] || '#5C6A99'
+                return (
                 <div key={c.id} className="card card-hover" style={{
                   padding: '1.2rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1.2rem',
                 }}>
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.1em', fontWeight: 700,
-                    background: categoryColors[c.category] || '#94a3b8', color: '#0a0a0d',
+                    fontFamily: 'var(--font-mono)', fontSize: '0.55rem', letterSpacing: '0.08em', fontWeight: 700,
+                    background: color + '18', color: color, border: `1px solid ${color}40`,
                     padding: '0.2rem 0.6rem', borderRadius: 'var(--radius-pill)', flexShrink: 0,
                   }}>{c.category}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
@@ -493,7 +495,7 @@ function Dashboard({ onLogout }) {
                     <button className="btn btn-danger btn-sm" onClick={() => confirmDelete('cert', c.id, c.title)}>Del</button>
                   </div>
                 </div>
-              ))}
+              )})}
               {certificates.length === 0 && (
                 <div className="card" style={{ textAlign: 'center', padding: '4rem', borderStyle: 'dashed', color: 'var(--muted)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
                   No certificates yet. Click "+ Add certificate" to get started.
@@ -511,7 +513,7 @@ function Dashboard({ onLogout }) {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div className="card" style={{ padding: '1.5rem' }}>
+              <div className="card card-hover" style={{ padding: '1.5rem' }}>
                 <h3 style={{ marginBottom: '0.5rem' }}>Reset to defaults</h3>
                 <p style={{ fontSize: '0.83rem', marginBottom: '1.2rem' }}>Discard all custom edits and restore the original bundled data. This cannot be undone.</p>
                 <button className="btn btn-danger btn-sm" onClick={() => { if (confirm('Reset ALL data to defaults? This cannot be undone.')) resetToDefaults() }}>
@@ -519,7 +521,7 @@ function Dashboard({ onLogout }) {
                 </button>
               </div>
 
-              <div className="card" style={{ padding: '1.5rem' }}>
+              <div className="card card-hover" style={{ padding: '1.5rem' }}>
                 <h3 style={{ marginBottom: '0.5rem' }}>Environment variables</h3>
                 <p style={{ fontSize: '0.83rem', marginBottom: '1rem' }}>Add these to your <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--surface-2)', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>.env</code> file in the project root:</p>
                 <pre style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-control)', padding: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--ink)', overflowX: 'auto', lineHeight: 1.8 }}>
@@ -528,7 +530,7 @@ VITE_CONTACT_API=http://localhost:8000/api/contact`}
                 </pre>
               </div>
 
-              <div className="card" style={{ padding: '1.5rem' }}>
+              <div className="card card-hover" style={{ padding: '1.5rem' }}>
                 <h3 style={{ marginBottom: '0.5rem' }}>Export data</h3>
                 <p style={{ fontSize: '0.83rem', marginBottom: '1.2rem' }}>Download current data as JSON for backup or backend seeding.</p>
                 <button className="btn btn-sm" onClick={() => {

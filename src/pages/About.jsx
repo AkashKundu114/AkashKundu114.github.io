@@ -56,13 +56,13 @@ export default function About() {
             alignItems: 'start',
             marginBottom: '64px',
           }} id="about-grid">
-            <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div className="card card-hover" style={{ padding: 0, overflow: 'hidden' }}>
               {meta.map(({ key, val, link }) => (
                 <div key={key} style={{
                   padding: '14px 20px',
                   borderBottom: '1px solid var(--border)',
                 }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.08em', color: 'var(--muted-2)', marginBottom: '4px', textTransform: 'uppercase' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.08em', color: 'var(--accent)', marginBottom: '4px', textTransform: 'uppercase' }}>
                     {key}
                   </div>
                   {link
@@ -89,18 +89,18 @@ export default function About() {
           </div>
           <div className="reveal" style={{ marginBottom: '64px' }}>
             <div className="label">how I work</div>
-            <div style={{
+            <div className="stagger" style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '12px',
             }} id="principles-grid">
-              {principles.map(({ id, title, desc }) => (
-                <div key={id} className="card" style={{ padding: '24px' }}>
+              {principles.map(({ id, title, desc }, i) => (
+                <div key={id} className="card card-hover reveal" style={{ padding: '24px', '--i': i }}>
                   <div style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: '11px',
-                    fontWeight: 600,
-                    color: 'var(--muted-2)',
+                    fontWeight: 700,
+                    color: 'var(--accent)',
                     marginBottom: '12px',
                     letterSpacing: '0.06em',
                   }}>{id}</div>
@@ -112,18 +112,18 @@ export default function About() {
           </div>
           <div className="reveal">
             <div className="label">timeline</div>
-            <div className="timeline">
-              {timeline.map(({ year, event, current }) => (
-                <div key={year + event} className={`timeline-item${current ? ' is-current' : ''}`}>
+            <div className="timeline stagger">
+              {timeline.map(({ year, event, current }, i) => (
+                <div key={year + event} className={`timeline-item reveal${current ? ' is-current' : ''}`} style={{ '--i': i }}>
                   <div style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: '11px',
                     fontWeight: 600,
-                    color: current ? 'var(--ink)' : 'var(--muted-2)',
+                    color: current ? 'var(--accent)' : 'var(--muted-2)',
                     marginBottom: '6px',
                     letterSpacing: '0.04em',
                   }}>
-                    {year} {current && <span className="tag" style={{ marginLeft: '6px', fontSize: '10px' }}>current</span>}
+                    {year} {current && <span className="tag tag-active" style={{ marginLeft: '6px', fontSize: '10px' }}>current</span>}
                   </div>
                   <p style={{ fontSize: '13px', lineHeight: 1.75, maxWidth: '55ch', fontFamily: 'var(--font-mono)' }}>{event}</p>
                 </div>

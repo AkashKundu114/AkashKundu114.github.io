@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 
 export default function AmbientBackground() {
   const canvasRef = useRef(null)
+  const blobRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -12,6 +13,12 @@ export default function AmbientBackground() {
     let animId
     let motes = []
     let t = 0
+
+    // mouse-follow glow blob state
+    let mx = window.innerWidth / 2
+    let my = window.innerHeight / 2
+    let bx = mx
+    let by = my
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -30,7 +37,7 @@ export default function AmbientBackground() {
         ay: canvas.height * (0.02 + Math.random() * 0.03),
         px: Math.random() * Math.PI * 2,
         py: Math.random() * Math.PI * 2,
-        baseAlpha: 0.05 + Math.random() * 0.07,
+        baseAlpha: 0.06 + Math.random() * 0.08,
         flickerSpeed: 0.15 + Math.random() * 0.35,
         flickerPhase: Math.random() * Math.PI * 2,
       }))
@@ -38,10 +45,14 @@ export default function AmbientBackground() {
     resize()
     window.addEventListener('resize', resize)
 
+    const onMove = (e) => { mx = e.clientX; my = e.clientY }
+    window.addEventListener('mousemove', onMove, { passive: true })
+
     const frame = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
-      const rgb = isDark ? '241,240,237' : '17,24,39'
+      // dark: Powder Blue dust on Deep Blue · light: Deep Blue dust on Floral White
+      const rgb = isDark ? '175,210,250' : '24,35,80'
 
       motes.forEach(m => {
         m.x = m.ox + Math.sin(t * m.fx + m.px) * m.ax
@@ -54,6 +65,12 @@ export default function AmbientBackground() {
         ctx.fillStyle = `rgba(${rgb},${alpha})`
         ctx.fill()
       })
+
+      if (blobRef.current) {
+        bx += (mx - bx) * 0.045
+        by += (my - by) * 0.045
+        blobRef.current.style.transform = `translate(${bx - 210}px, ${by - 210}px)`
+      }
     }
 
     const draw = () => {
@@ -68,11 +85,13 @@ export default function AmbientBackground() {
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('mousemove', onMove)
     }
   }, [])
 
   return (
     <>
+      <div ref={blobRef} className="ambient-blob" aria-hidden="true" />
       <canvas ref={canvasRef} className="ambient-bg" aria-hidden="true" />
       <div className="grain-overlay" aria-hidden="true" />
     </>

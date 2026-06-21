@@ -22,7 +22,7 @@ function SectionBlock({ label, heading, body, points, stack }) {
             fontFamily: 'var(--font-mono)',
             color: 'var(--muted)',
           }}>
-            <span style={{ position: 'absolute', left: 0, color: 'var(--ink)', fontWeight: 600 }}>—</span>
+            <span style={{ position: 'absolute', left: 0, color: 'var(--accent)', fontWeight: 600 }}>—</span>
             {pt}
           </li>
         ))}
@@ -65,14 +65,14 @@ export default function ProjectDetail() {
             {project.screenshots.length > 1 && (
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '14px', gap: '12px' }}>
                 <button onClick={() => setLightbox(i => (i - 1 + project.screenshots.length) % project.screenshots.length)} className="btn btn-sm btn-pill">← Prev</button>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.5)', alignSelf: 'center' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(254,250,239,0.6)', alignSelf: 'center' }}>
                   {lightbox + 1} / {project.screenshots.length}
                 </span>
                 <button onClick={() => setLightbox(i => (i + 1) % project.screenshots.length)} className="btn btn-sm btn-pill">Next →</button>
               </div>
             )}
             <button onClick={() => setLightbox(null)} aria-label="Close"
-              style={{ position: 'absolute', top: '-28px', right: 0, background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '1.1rem', cursor: 'pointer' }}>✕</button>
+              style={{ position: 'absolute', top: '-28px', right: 0, background: 'none', border: 'none', color: 'rgba(254,250,239,0.7)', fontSize: '1.1rem', cursor: 'pointer' }}>✕</button>
           </div>
         </div>
       )}
@@ -136,9 +136,9 @@ export default function ProjectDetail() {
               <div className="reveal">
                 <div className="label" style={{ marginBottom: '14px' }}>screenshots</div>
                 {hasScreenshots ? (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px' }}>
+                  <div className="stagger" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px' }}>
                     {project.screenshots.map((shot, i) => (
-                      <div key={i} className="card" style={{ overflow: 'hidden', cursor: 'zoom-in' }} onClick={() => setLightbox(i)}>
+                      <div key={i} className="card card-hover reveal" style={{ overflow: 'hidden', cursor: 'zoom-in', '--i': i }} onClick={() => setLightbox(i)}>
                         <img src={shot.src} alt={shot.caption} style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
                         <div style={{ padding: '8px 12px' }}>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted-2)' }}>{shot.caption}</span>
@@ -166,7 +166,7 @@ export default function ProjectDetail() {
                       fontFamily: 'var(--font-mono)',
                       color: 'var(--muted)',
                     }}>
-                      <span style={{ position: 'absolute', left: 0, color: 'var(--ink)', fontWeight: 600 }}>—</span>
+                      <span style={{ position: 'absolute', left: 0, color: 'var(--accent)', fontWeight: 600 }}>—</span>
                       {f}
                     </li>
                   ))}

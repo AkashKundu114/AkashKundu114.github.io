@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useData } from '../context/DataContext'
+import { categoryColors } from '../data/certificates'
 import { useRevealChildren } from '../hooks/useScrollReveal'
 import PageTransition from '../components/PageTransition'
-
-const catColors = {
-  'Data Science': '#2563eb',
-  'Programming':  '#16a34a',
-  'Cloud':        '#0891b2',
-  'AI/ML':        '#7c3aed',
-  'Web Dev':      '#d97706',
-  'General':      '#6b7280',
-}
 
 export default function CertificateDetail() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
@@ -31,7 +23,7 @@ export default function CertificateDetail() {
     </section>
   )
 
-  const color = catColors[cert.category] || '#6b7280'
+  const color = categoryColors[cert.category] || '#5C6A99'
 
   return (
     <PageTransition>
@@ -42,7 +34,7 @@ export default function CertificateDetail() {
             <button
               onClick={() => setZoomed(false)}
               aria-label="Close"
-              style={{ position: 'absolute', top: '-28px', right: 0, background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '1.1rem', cursor: 'pointer' }}
+              style={{ position: 'absolute', top: '-28px', right: 0, background: 'none', border: 'none', color: 'rgba(254,250,239,0.7)', fontSize: '1.1rem', cursor: 'pointer' }}
             >✕</button>
           </div>
         </div>
@@ -66,7 +58,7 @@ export default function CertificateDetail() {
             <div className="reveal">
               {cert.image ? (
                 <div
-                  className="card"
+                  className="card card-hover"
                   style={{ overflow: 'hidden', cursor: 'zoom-in', marginBottom: '12px' }}
                   onClick={() => setZoomed(true)}
                 >
@@ -98,9 +90,9 @@ export default function CertificateDetail() {
                   fontWeight: 600,
                   padding: '3px 12px',
                   borderRadius: 'var(--radius-pill)',
-                  background: color + '14',
+                  background: color + '18',
                   color: color,
-                  border: `1px solid ${color}30`,
+                  border: `1px solid ${color}40`,
                 }}>{cert.category}</span>
               </div>
 
@@ -122,7 +114,7 @@ export default function CertificateDetail() {
                     padding: '12px 18px',
                     borderBottom: '1px solid var(--border)',
                   }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, color: 'var(--muted-2)', letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}>{label}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase', flexShrink: 0 }}>{label}</span>
                     <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 500, textAlign: 'right', wordBreak: 'break-all', color: 'var(--ink)' }}>{value}</span>
                   </div>
                 ))}

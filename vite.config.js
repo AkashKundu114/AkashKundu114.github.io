@@ -12,8 +12,8 @@ export default defineConfig({
         name: 'Akash Kundu — Portfolio',
         short_name: 'Akash.dev',
         description: 'B.Tech CSE Student — Data Analytics & AI/ML Portfolio',
-        theme_color: '#4fa3ff',
-        background_color: '#05080f',
+        theme_color: '#182350',
+        background_color: '#182350',
         display: 'standalone',
         start_url: '/',
         icons: [

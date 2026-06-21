@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useData } from '../context/DataContext'
+import { useRevealChildren } from '../hooks/useScrollReveal'
 import PageTransition from '../components/PageTransition'
 
 const domains = [
@@ -9,21 +10,21 @@ const domains = [
     icon: '◈',
     desc: 'Training models and data pipelines — from raw inputs to something a product can act on.',
     tags: ['PyTorch', 'CatBoost', 'Ollama', 'Pandas', 'Computer Vision', 'SQL'],
-    nodeColor: '#2563eb',
+    nodeColor: '#3D6FB4',
   },
   {
     label: 'Backend',
     icon: '◉',
     desc: 'APIs and services between a model and the people using it — built reliable, not just demo-able.',
     tags: ['FastAPI', 'Node.js', 'Spring Boot', 'PostgreSQL', 'Docker'],
-    nodeColor: '#16a34a',
+    nodeColor: '#8C6B3F',
   },
   {
     label: 'Frontend',
     icon: '◎',
     desc: 'Interfaces that make everything above usable — fast, responsive, friction-free.',
     tags: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Tauri', 'PWA'],
-    nodeColor: '#d97706',
+    nodeColor: '#B9915E',
   },
 ]
 
@@ -63,8 +64,9 @@ function AmbientCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
-      const lineColor = isDark ? 'rgba(255,255,255,' : 'rgba(0,0,0,'
-      const dotColor  = isDark ? 'rgba(255,255,255,' : 'rgba(17,24,39,'
+      // dark: Powder Blue network on Deep Blue · light: Deep Blue network on Floral White
+      const lineColor = isDark ? 'rgba(175,210,250,' : 'rgba(24,35,80,'
+      const dotColor  = isDark ? 'rgba(175,210,250,' : 'rgba(24,35,80,'
 
       nodes.forEach(n => {
         n.x += n.vx + Math.sin(t + n.phase) * 0.15
@@ -79,7 +81,7 @@ function AmbientCanvas() {
           const dy = nodes[i].y - nodes[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist < 140) {
-            const alpha = (1 - dist / 140) * 0.08
+            const alpha = (1 - dist / 140) * 0.1
             ctx.beginPath()
             ctx.moveTo(nodes[i].x, nodes[i].y)
             ctx.lineTo(nodes[j].x, nodes[j].y)
@@ -91,7 +93,7 @@ function AmbientCanvas() {
       }
 
       nodes.forEach(n => {
-        const alpha = 0.18 + Math.sin(t + n.phase) * 0.06
+        const alpha = 0.22 + Math.sin(t + n.phase) * 0.08
         ctx.beginPath()
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
         ctx.fillStyle = dotColor + alpha + ')'
@@ -114,16 +116,27 @@ function AmbientCanvas() {
 
 export default function Home() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
-  const { projects } = useData()
+  const { projects, certificates } = useData()
   const navigate = useNavigate()
+  const ref = useRevealChildren()
   const featured = projects.slice(0, 3)
+
+  const techCount = new Set(projects.flatMap(p => p.technologies ?? [])).size
+
+  const stats = [
+    { n: projects.length, l: 'AI/ML & full-stack projects' },
+    { n: certificates.length, l: 'Certificates earned' },
+    { n: `${techCount}+`, l: 'Technologies used' },
+    { n: '2027', l: 'Expected graduation' },
+  ]
 
   return (
     <PageTransition>
+      <div ref={ref}>
       <section style={{ paddingTop: '96px', paddingBottom: '64px', position: 'relative', overflow: 'hidden' }}>
         <AmbientCanvas />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ marginBottom: '24px' }}>
+          <div className="reveal" style={{ marginBottom: '24px' }}>
             <span style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -131,67 +144,68 @@ export default function Home() {
               fontFamily: 'var(--font-mono)',
               fontSize: '11px',
               fontWeight: 600,
-              color: 'var(--muted)',
+              color: 'var(--accent)',
               padding: '4px 12px',
-              border: '1px solid var(--border)',
+              border: '1px solid var(--border-2)',
               borderRadius: 'var(--radius-pill)',
               background: 'var(--surface)',
             }}>
               <span style={{
                 width: '6px', height: '6px', borderRadius: '50%',
-                background: '#16a34a', animation: 'pulse-dot 2.4s ease-in-out infinite',
+                background: 'var(--success)', animation: 'pulse-dot 2.4s ease-in-out infinite',
               }} />
               ENV ALPHA v1.2.0_rc — OPEN TO INTERNSHIPS
             </span>
           </div>
-          <h1 style={{ maxWidth: '780px', marginBottom: '24px', letterSpacing: '-0.02em', lineHeight: '1.04' }}>
-            Map your thoughts.<br />Synthesize data.<br />Generate reality.
+          <h1 className="reveal" style={{ maxWidth: '780px', marginBottom: '24px', letterSpacing: '-0.02em', lineHeight: '1.04' }}>
+            Map your thoughts.<br /><span style={{ color: 'var(--accent-2)' }}>Synthesize data.</span><br /><span style={{ color: 'var(--accent)' }}>Generate reality.</span>
           </h1>
 
-          <p style={{ fontSize: '15px', lineHeight: 1.75, maxWidth: '520px', marginBottom: '32px', fontFamily: 'var(--font-mono)', fontWeight: 400, color: 'var(--muted)' }}>
+          <p className="reveal" style={{ fontSize: '15px', lineHeight: 1.75, maxWidth: '520px', marginBottom: '32px', fontFamily: 'var(--font-mono)', fontWeight: 400, color: 'var(--muted)' }}>
             B.Tech CSE student at Techno India University, Kolkata. I build across the full stack — training ML models, wiring the APIs in front of them, and writing the React interfaces people actually use.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '48px' }}>
+          <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '40px' }}>
             <Link to="/projects" className="btn btn-primary btn-lg btn-pill">View projects</Link>
             <Link to="/contact" className="btn btn-lg btn-pill">Get in touch</Link>
             <a href="/cv/AkashKundu_CV.pdf" download className="btn btn-lg btn-pill">Resume ↓</a>
           </div>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '6px',
-            padding: '14px 16px',
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-card)',
-          }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, color: 'var(--muted-2)', letterSpacing: '0.06em', marginRight: '6px', alignSelf: 'center' }}>PIPELINE//</span>
-            {systemNodes.map((node, i) => (
-              <span key={node} className="node-badge" style={{
-                '--i': i,
-                animationDelay: `${i * 0.1}s`,
-                color: i % 3 === 0 ? '#2563eb' : i % 3 === 1 ? '#16a34a' : '#d97706',
-              }}>
-                {node}
-              </span>
+
+          <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '40px', marginBottom: '40px' }} id="stats-row">
+            {stats.map(s => (
+              <div key={s.l} className="stat-block">
+                <div className="stat-number"><span>{s.n}</span></div>
+                <div className="stat-label">{s.l}</div>
+              </div>
             ))}
+          </div>
+
+          <div className="reveal marquee-wrap" style={{ margin: '0 -2rem' }}>
+            <div className="marquee-track">
+              {[...systemNodes, ...systemNodes].map((node, i) => (
+                <span key={node + i} className="marquee-item" style={{
+                  color: i % 3 === 0 ? 'var(--node-blue)' : i % 3 === 1 ? 'var(--node-green)' : 'var(--node-amber)',
+                }}>
+                  <span className="marquee-diamond">◆</span>{node}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
       <section className="section">
         <div className="container">
           <div className="label">what I work on</div>
-          <h2 style={{ marginBottom: '32px', maxWidth: '28ch' }}>
+          <h2 className="reveal" style={{ marginBottom: '32px', maxWidth: '28ch' }}>
             Three layers, every project.
           </h2>
 
-          <div className="bento-grid" style={{ gridTemplateColumns: 'repeat(3,1fr)' }} id="domain-grid">
+          <div className="bento-grid stagger" style={{ gridTemplateColumns: 'repeat(3,1fr)' }} id="domain-grid">
             {domains.map((d, i) => (
               <div
                 key={d.label}
-                className="card card-hover"
-                style={{ padding: '28px 24px' }}
+                className="card card-hover reveal"
+                style={{ padding: '28px 24px', '--i': i }}
               >
                 <div style={{
                   display: 'flex',
@@ -204,8 +218,8 @@ export default function Home() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '32px', height: '32px',
-                    background: 'var(--surface-2)',
-                    border: '1px solid var(--border)',
+                    background: d.nodeColor + '14',
+                    border: `1px solid ${d.nodeColor}40`,
                     borderRadius: '8px',
                     fontSize: '14px',
                     color: d.nodeColor,
@@ -223,7 +237,7 @@ export default function Home() {
       </section>
       <section className="section">
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
+          <div className="reveal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
               <div className="label">selected work</div>
               <h2>Recent projects</h2>
@@ -231,16 +245,16 @@ export default function Home() {
             <Link to="/projects" className="btn btn-sm" style={{ borderRadius: 'var(--radius-pill)' }}>All projects →</Link>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {featured.map((p, i) => (
               <div
                 key={p.id}
-                className="row-card"
+                className="row-card reveal"
                 onClick={() => navigate(`/projects/${p.id}`)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={e => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
-                style={{ animationDelay: `${i * 80}ms` }}
+                style={{ '--i': i }}
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
                   <div style={{ flex: 1, minWidth: 240 }}>
@@ -261,7 +275,7 @@ export default function Home() {
         </div>
       </section>
       <section className="section" style={{ background: 'var(--surface)' }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
+        <div className="container reveal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px', borderLeft: '3px solid var(--accent)', paddingLeft: '20px' }}>
           <div>
             <div className="label">status</div>
             <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)' }}>Open to internships.</h2>
@@ -280,8 +294,10 @@ export default function Home() {
         }
         @media (max-width: 600px) {
           #domain-grid { grid-template-columns: 1fr !important; }
+          #stats-row { gap: 24px !important; }
         }
       `}</style>
+      </div>
     </PageTransition>
   )
 }

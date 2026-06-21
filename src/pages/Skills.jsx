@@ -6,33 +6,38 @@ const groups = [
   {
     name: 'Languages',
     icon: '{ }',
-    color: '#2563eb',
+    color: '#3D6FB4',
     items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'SQL'],
   },
   {
     name: 'AI & Data',
     icon: '◈',
-    color: '#7c3aed',
+    color: '#2B3A6E',
     items: ['PyTorch', 'Scikit-learn', 'CatBoost', 'Computer Vision', 'Grad-CAM', 'Ollama (LLMs)', 'Pandas', 'NumPy'],
   },
   {
     name: 'Backend & Infrastructure',
     icon: '⬡',
-    color: '#16a34a',
+    color: '#8C6B3F',
     items: ['FastAPI', 'Node.js', 'Spring Boot', 'REST APIs', 'PostgreSQL', 'Docker', 'Azure', 'Git', 'CI/CD'],
   },
   {
     name: 'Frontend',
     icon: '◎',
-    color: '#d97706',
+    color: '#B9915E',
     items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Tauri', 'Framer Motion', 'PWA', 'Vite'],
   },
   {
     name: 'Visualisation',
     icon: '▦',
-    color: '#0891b2',
+    color: '#6FA8E0',
     items: ['Tableau', 'Matplotlib', 'Seaborn'],
   },
+]
+
+const marqueeSkills = [
+  'PyTorch', 'FastAPI', 'React', 'Node.js', 'CatBoost', 'Ollama', 'Docker',
+  'PostgreSQL', 'Tauri', 'Pandas', 'TypeScript', 'Scikit-learn', 'Grad-CAM', 'Azure',
 ]
 
 export default function Skills() {
@@ -43,7 +48,7 @@ export default function Skills() {
     <PageTransition>
       <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          <div className="label reveal">skills</div>
+          <div className="label reveal">technical stack</div>
           <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
             What I work with day to day.
           </h2>
@@ -76,8 +81,8 @@ export default function Skills() {
                       justifyContent: 'center',
                       width: '30px',
                       height: '30px',
-                      background: g.color + '12',
-                      border: `1px solid ${g.color}30`,
+                      background: g.color + '14',
+                      border: `1px solid ${g.color}40`,
                       borderRadius: '8px',
                       fontSize: '13px',
                       color: g.color,
@@ -99,15 +104,26 @@ export default function Skills() {
             padding: '16px 20px',
             background: 'var(--surface)',
             border: '1px solid var(--border)',
+            borderLeft: '3px solid var(--accent)',
             borderRadius: 'var(--radius-card)',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '12px',
           }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--muted-2)', fontWeight: 600, letterSpacing: '0.06em', marginTop: '1px', whiteSpace: 'nowrap' }}>NOTE//</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.06em', marginTop: '1px', whiteSpace: 'nowrap' }}>NOTE//</span>
             <p style={{ fontSize: '12px', lineHeight: 1.7, fontFamily: 'var(--font-mono)' }}>
               Python and React are daily drivers. Java and Spring Boot are coursework-level. Everything in the AI & Data row comes from real project work — training, evaluating, and deploying models — not tutorial completion.
             </p>
+          </div>
+
+          <div className="reveal marquee-wrap" style={{ marginTop: '40px' }}>
+            <div className="marquee-track">
+              {[...marqueeSkills, ...marqueeSkills].map((s, i) => (
+                <span key={s + i} className="marquee-item">
+                  <span className="marquee-diamond">◆</span>{s}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

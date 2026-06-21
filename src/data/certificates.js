@@ -31,7 +31,7 @@ export const certificates = [
     issuer: 'Deloitte Australia — Forage',
     date: 'July 2025',
     credentialId: 'fb5o2xehahXK4Qmga',
-    category: 'General',
+    category: 'Security',
     skills: ['Cyber Security', 'Risk Assessment', 'Security Analysis', 'Threat Detection'],
     image: '/certificates/deloitte-cyber.jpg',
     file:  '/certificates/Deloitte_Australia_-_Cyber_Job_Simulation.pdf',
@@ -79,11 +79,14 @@ export const certificates = [
   },
 ]
 
+// Navy / Powder Blue / Floral White / Pale Brown derived palette — shared across
+// Certificates, CertificateDetail and Admin for consistent category colour-coding.
 export const categoryColors = {
-  'Data Science': '#4fa3ff',
-  'Programming':  '#38bdf8',
-  'Cloud':        '#60a5fa',
-  'AI/ML':        '#818cf8',
-  'Web Dev':      '#34d399',
-  'General':      '#94a3b8',
+  'Data Science': '#3D6FB4',
+  'Programming':  '#B9915E',
+  'Cloud':        '#6FA8E0',
+  'AI/ML':        '#2B3A6E',
+  'Web Dev':      '#8C6B3F',
+  'Security':     '#A65C4D',
+  'General':      '#5C6A99',
 }

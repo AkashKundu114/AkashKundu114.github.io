@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState } from 'react'
 import { useRevealChildren } from '../hooks/useScrollReveal'
 import PageTransition from '../components/PageTransition'
@@ -93,10 +92,10 @@ export default function Contact() {
                 open to opportunities
               </div>
 
-              <div className="card" style={{ marginBottom: '1.25rem' }}>
+              <div className="card card-hover" style={{ marginBottom: '1.25rem' }}>
                 {contactInfo.map(({ label, value, href }) => (
                   <div key={label} style={{ padding: '0.85rem 1.1rem', borderBottom: '1px solid var(--border)' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--muted)', marginBottom: '0.25rem' }}>{label.toUpperCase()}</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>{label.toUpperCase()}</div>
                     {href
                       ? <a href={href} style={{ fontSize: '0.88rem', fontWeight: 500 }}>{value}</a>
                       : <span style={{ fontSize: '0.88rem', fontWeight: 500 }}>{value}</span>}
@@ -107,17 +106,17 @@ export default function Contact() {
 
             <div className="reveal">
               {status === 'success' && (
-                <div style={{ padding: '0.85rem 1.1rem', borderRadius: 'var(--radius)', marginBottom: '1.25rem', border: '1px solid var(--accent)', color: 'var(--accent)', fontSize: '0.84rem' }}>
+                <div style={{ padding: '0.85rem 1.1rem', borderRadius: 'var(--radius-control)', marginBottom: '1.25rem', border: '1px solid var(--accent)', background: 'var(--accent-soft)', color: 'var(--ink)', fontSize: '0.84rem', fontFamily: 'var(--font-mono)' }}>
                   Message sent — I'll get back to you soon.
                 </div>
               )}
               {status === 'error' && (
-                <div style={{ padding: '0.85rem 1.1rem', borderRadius: 'var(--radius)', marginBottom: '1.25rem', border: '1px solid var(--danger)', color: 'var(--danger)', fontSize: '0.84rem' }}>
+                <div style={{ padding: '0.85rem 1.1rem', borderRadius: 'var(--radius-control)', marginBottom: '1.25rem', border: '1px solid var(--danger)', background: 'var(--danger-soft)', color: 'var(--danger)', fontSize: '0.84rem', fontFamily: 'var(--font-mono)' }}>
                   Something went wrong. Email me directly at akashkundu7487@gmail.com
                 </div>
               )}
               {status === 'no-endpoint' && (
-                <div style={{ padding: '0.85rem 1.1rem', borderRadius: 'var(--radius)', marginBottom: '1.25rem', border: '1px solid var(--border)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', color: 'var(--muted)', lineHeight: 1.7 }}>
+                <div style={{ padding: '0.85rem 1.1rem', borderRadius: 'var(--radius-control)', marginBottom: '1.25rem', border: '1px solid var(--border)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', color: 'var(--muted)', lineHeight: 1.7 }}>
                   No endpoint configured — set <code>VITE_CONTACT_API</code> or <code>VITE_FORMSPREE_ID</code> in .env
                 </div>
               )}
@@ -145,7 +144,7 @@ export default function Contact() {
 
                 <button type="submit" className="btn btn-primary" disabled={status === 'sending'}
                   style={{ alignSelf: 'flex-start', opacity: status === 'sending' ? 0.7 : 1 }}>
-                  {status === 'sending' ? 'Sending…' : 'Send message'}
+                  {status === 'sending' ? 'Sending…' : 'Send message →'}
                 </button>
               </form>
             </div>

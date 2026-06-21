@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useData } from '../context/DataContext'
+import { categoryColors } from '../data/certificates'
 import { useRevealChildren } from '../hooks/useScrollReveal'
 import PageTransition from '../components/PageTransition'
-
-const catColors = {
-  'Data Science': '#2563eb',
-  'Programming':  '#16a34a',
-  'Cloud':        '#0891b2',
-  'AI/ML':        '#7c3aed',
-  'Web Dev':      '#d97706',
-  'General':      '#6b7280',
-}
 
 export default function Certificates() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
@@ -27,7 +19,7 @@ export default function Certificates() {
     <PageTransition>
       <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          <div className="label reveal">certificates</div>
+          <div className="label reveal">credentials</div>
           <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
             Certifications &amp; coursework.
           </h2>
@@ -46,13 +38,14 @@ export default function Certificates() {
               </button>
             ))}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {filtered.map((cert, i) => {
-              const color = catColors[cert.category] || '#6b7280'
+              const color = categoryColors[cert.category] || '#5C6A99'
               return (
                 <div
                   key={cert.id}
                   className="row-card reveal"
+                  style={{ '--i': i }}
                   onClick={() => navigate(`/certificates/${cert.id}`)}
                   role="button"
                   tabIndex={0}
@@ -67,9 +60,9 @@ export default function Certificates() {
                           fontWeight: 600,
                           padding: '2px 10px',
                           borderRadius: 'var(--radius-pill)',
-                          background: color + '14',
+                          background: color + '18',
                           color: color,
-                          border: `1px solid ${color}30`,
+                          border: `1px solid ${color}40`,
                         }}>{cert.category}</span>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted-2)' }}>{cert.date}</span>
                       </div>

@@ -51,7 +51,7 @@ export default function Projects() {
     <PageTransition>
       <section style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          <div className="label reveal">projects</div>
+          <div className="label reveal">selected work</div>
           <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
             Things I've built.
           </h2>
@@ -59,11 +59,8 @@ export default function Projects() {
             End-to-end builds — models, APIs, and the interfaces in front of them.
           </p>
 
-          <div className="reveal" style={{
+          <div className="reveal card" style={{
             padding: '16px 20px',
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-card)',
             marginBottom: '24px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
@@ -88,16 +85,11 @@ export default function Projects() {
               {hasFilters && (
                 <button
                   onClick={clearAll}
+                  className="tag"
                   style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: '11px',
-                    color: 'var(--muted)',
-                    background: 'none',
-                    border: 'none',
                     cursor: 'pointer',
-                    padding: '2px 8px',
-                    borderRadius: 'var(--radius-pill)',
-                    border: '1px solid var(--border)',
                   }}
                 >clear</button>
               )}
@@ -126,13 +118,13 @@ export default function Projects() {
               alignItems: 'center',
               gap: '8px',
             }}>
-              <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--ink)' }} />
+              <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)' }} />
               {filtered.length} result{filtered.length !== 1 ? 's' : ''} found
             </div>
           )}
 
           {filtered.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {filtered.map((p, i) => (
                 <div
                   key={p.id}
@@ -141,6 +133,7 @@ export default function Projects() {
                   role="button"
                   tabIndex={0}
                   onKeyDown={e => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
+                  style={{ '--i': i }}
                 >
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1, minWidth: 240 }}>
@@ -164,7 +157,7 @@ export default function Projects() {
             <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
                 No projects match.{' '}
-                <button onClick={clearAll} style={{ color: 'var(--ink)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}>
+                <button onClick={clearAll} style={{ color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}>
                   Clear filters
                 </button>
               </p>
