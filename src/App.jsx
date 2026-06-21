@@ -6,6 +6,7 @@ import { DataProvider }   from './context/DataContext'
 import Navbar  from './components/Navbar'
 import Footer  from './components/Footer'
 import AmbientBackground from './components/AmbientBackground'
+import CustomCursor from './components/CustomCursor'
 
 const Home              = lazy(() => import('./pages/Home'))
 const About             = lazy(() => import('./pages/About'))
@@ -72,6 +73,7 @@ export default function App() {
         <HashRouter>
           <div className="min-h-screen bg-bg text-ink">
             <AmbientBackground />
+            <CustomCursor />
             <Navbar />
             <main>
               <Suspense fallback={<PageLoader />}>
