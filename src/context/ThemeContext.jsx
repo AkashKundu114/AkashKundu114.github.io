@@ -1,9 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-const ThemeContext = createContext()
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
-  useEffect(() => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('theme', theme) }, [theme])
-  const toggleTheme = () => setTheme(t => t==='dark'?'light':'dark')
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
-}
+import { createContext, useContext } from 'react'
+// Single theme — no toggle needed. Kept as stub so existing imports don't break.
+const ThemeContext = createContext({ theme: 'dark', toggleTheme: () => {} })
+export function ThemeProvider({ children }) { return children }
 export const useTheme = () => useContext(ThemeContext)

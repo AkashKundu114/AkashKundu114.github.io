@@ -45,9 +45,32 @@ Category badge colours (`Certificates`, `CertificateDetail`, `Admin`, and
 - **Focus ring** — added a visible `:focus-visible` outline in the accent
   colour for keyboard navigation accessibility.
 
+## Custom animated cursor (latest addition)
+A two-part custom cursor — a small lead dot plus a softly-lagging ring —
+replaces the native pointer site-wide:
+- The ring eases toward the pointer each frame (lerp), giving it a trailing
+  feel; the dot tracks instantly.
+- Hovering any interactive element (links, buttons, cards, tags, nav links,
+  inputs) grows the ring ~1.9× and recolours both dot and ring to the Pale
+  Brown accent; the rest of the time it sits in Powder Blue.
+- Clicking pulses the ring down to 0.75× for tactile feedback.
+- Automatically disabled on touch/coarse-pointer devices (`pointer: coarse`),
+  so phones and tablets keep their normal touch behaviour untouched.
+- Respects `prefers-reduced-motion`: the trailing lag is removed (the ring
+  follows instantly) instead of turning off the cursor outright.
+- Sits above the lightbox/admin modal overlays (z-index 10000) so it never
+  disappears behind them.
+
+New file: `src/components/CustomCursor.jsx`, mounted once in `src/App.jsx`
+alongside `AmbientBackground`. Styles live in `src/index.css` under
+"Custom cursor".
+
+
 ## Files changed
-- `src/index.css` — palette + all new animation/utility classes
+- `src/index.css` — palette + all new animation/utility classes + cursor styles
 - `index.html`, `vite.config.js` — PWA/theme-color meta updated to Deep Blue
+- `src/App.jsx` — mounts the new `CustomCursor` component
+- `src/components/CustomCursor.jsx` — new animated dot + ring custom cursor
 - `src/components/AmbientBackground.jsx` — recoloured + mouse-follow blob
 - `src/components/PageTransition.jsx` — slightly richer enter/exit motion
 - `src/data/certificates.js` — shared category colour map
@@ -60,7 +83,7 @@ Category badge colours (`Certificates`, `CertificateDetail`, `Admin`, and
 - `src/pages/Contact.jsx` — card-hover, danger/accent colour fixes
 - `src/pages/Admin.jsx` — danger colour fixes, shared category colours
 
-Everything else (Navbar, Footer, App.jsx, DataContext, hooks, data/projects.js,
-data/skills.js, data/education.js, backend, deploy config) was left untouched
-because it already pulls all its colour from the CSS variables above and
-needed no animation changes.
+Everything else (Navbar, Footer, DataContext, ThemeContext, hooks,
+data/projects.js, data/skills.js, data/education.js, backend, deploy config)
+was left untouched because it already pulls all its colour from the CSS
+variables above and needed no animation changes.
