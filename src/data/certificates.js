@@ -1,5 +1,33 @@
 export const certificates = [
   {
+    id: 'microsoft-azure-ai-developer',
+    title: 'Azure AI Apps and Agents Developer Associate',
+    issuer: 'Microsoft',
+    date: 'June 2026',
+    credentialId: '1E752ACA4DE83BA0',
+    category: 'AI/ML',
+    skills: ['Azure AI Studio', 'AI Agents', 'Azure OpenAI', 'Prompt Engineering', 'Responsible AI', 'Azure'],
+    image: '/certificates/microsoft-azure-ai-developer.jpg',
+    file:  '/certificates/Azure_AI_Apps_and_Agents_Developer_Associate.pdf',
+    verifyUrl: 'https://learn.microsoft.com/en-us/users/akashkundu-6432/credentials/1e752aca4de83ba0',
+    description: 'Microsoft Certified: Azure AI Apps and Agents Developer Associate — credential ID 1E752ACA4DE83BA0, certification number 1BA7D6-38M756. Earned June 28, 2026; valid through June 28, 2027.',
+  },
+
+  {
+    id: 'oracle-agentic-ai-foundations',
+    title: 'Agentic AI Certified Foundations Associate',
+    issuer: 'Oracle University',
+    date: 'June 2026',
+    credentialId: '329122175AAI26OFA',
+    category: 'AI/ML',
+    skills: ['Agentic AI', 'AI Agents', 'Oracle Cloud', 'AI Foundations', 'Multi-Agent Systems'],
+    image: '/certificates/oracle-agentic-ai-foundations.jpg',
+    file:  '/certificates/Oracle_Agentic_AI_Certified_Foundations_Associate.pdf',
+    verifyUrl: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=ADFFFC4D49A07C356C19C8AED66AFB44C084BB14F26A196AE1E848C9F1392841',
+    description: 'Oracle Certified Foundations Associate in Agentic AI, issued by Oracle University on June 23, 2026. Credential number 329122175AAI26OFA, recognised by Oracle Corporation.',
+  },
+
+  {
     id: 'aicte-aiml-internship',
     title: 'AI-ML Virtual Internship',
     issuer: 'AICTE EduSkills — Google for Developers',
@@ -12,6 +40,7 @@ export const certificates = [
     verifyUrl: null,
     description: 'Successfully completed the 10-week AI-ML Virtual Internship program during October–December 2025, supported by Google for Developers under the India Edu Program. Achieved Grade O (Outstanding, 90–100).',
   },
+
   {
     id: 'deloitte-data-analytics',
     title: 'Data Analytics Job Simulation',
@@ -25,19 +54,21 @@ export const certificates = [
     verifyUrl: null,
     description: 'Completed practical tasks in data analysis and forensic technology as part of the Deloitte Australia Data Analytics virtual job simulation on Forage, covering real-world scenarios across July 2025 to May 2026.',
   },
+
   {
     id: 'deloitte-cyber',
     title: 'Cyber Security Job Simulation',
     issuer: 'Deloitte Australia — Forage',
     date: 'July 2025',
     credentialId: 'fb5o2xehahXK4Qmga',
-    category: 'Security',
+    category: 'General',
     skills: ['Cyber Security', 'Risk Assessment', 'Security Analysis', 'Threat Detection'],
     image: '/certificates/deloitte-cyber.jpg',
     file:  '/certificates/Deloitte_Australia_-_Cyber_Job_Simulation.pdf',
     verifyUrl: null,
     description: 'Completed practical tasks in cybersecurity as part of the Deloitte Australia Cyber virtual job simulation on Forage, gaining hands-on exposure to real-world cyber defence scenarios.',
   },
+
   {
     id: 'ibm-enterprise-ai',
     title: 'Getting Started with Enterprise-grade AI',
@@ -51,6 +82,7 @@ export const certificates = [
     verifyUrl: 'https://www.credly.com/badges/c7c52a49-bc57-4eeb-ac99-7ec573e74ccc',
     description: 'Recognised for satisfying the requirements for Getting Started with Enterprise-grade AI, issued by IBM SkillsBuild. Credential verifiable on Credly.',
   },
+
   {
     id: 'udemy-python-bootcamp',
     title: '2024 Complete Python Bootcamp: Zero to Hero',
@@ -64,6 +96,7 @@ export const certificates = [
     verifyUrl: 'https://ude.my/UC-77e0fe74-cab5-44f6-97f2-039a1a3c90a7',
     description: 'Completed 11.5 hours of comprehensive Python training covering fundamentals, data structures, OOP, scripting, and practical problem-solving from zero to hero.',
   },
+  
   {
     id: 'udemy-webdev-bootcamp',
     title: 'The Complete 2023 Web Development Bootcamp',
@@ -79,14 +112,11 @@ export const certificates = [
   },
 ]
 
-// Navy / Powder Blue / Floral White / Pale Brown derived palette — shared across
-// Certificates, CertificateDetail and Admin for consistent category colour-coding.
 export const categoryColors = {
-  'Data Science': '#3D6FB4',
-  'Programming':  '#B9915E',
-  'Cloud':        '#6FA8E0',
-  'AI/ML':        '#2B3A6E',
-  'Web Dev':      '#8C6B3F',
-  'Security':     '#A65C4D',
-  'General':      '#5C6A99',
+  'Data Science': '#4fa3ff',
+  'Programming':  '#38bdf8',
+  'Cloud':        '#60a5fa',
+  'AI/ML':        '#818cf8',
+  'Web Dev':      '#34d399',
+  'General':      '#94a3b8',
 }
