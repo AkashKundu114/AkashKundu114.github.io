@@ -34,7 +34,6 @@ const ticker = [
   'Output Stage','Render Pipeline','Inference Core','Feature Extractor',
 ]
 
-/* Animated network graph canvas */
 function NetCanvas() {
   const ref = useRef(null)
   useEffect(() => {
