@@ -60,7 +60,7 @@ export const certificates: Certificate[] = [
     credentialId: '329122175OCI26DCFA',
     category: 'AI/ML',
     skills: ['Oracle Cloud', 'AI Databases', 'Data Engineering', 'Machine Learning'],
-    image: '/certificates/oracle-ai-database-foundations.png',
+    image: '/certificates/Oracle AI Database Certified Foundations Associate.jpg',
     file:  '/certificates/Oracle_AI_Database_Certified_Foundations_Associate.pdf',
     verifyUrl: null,
     description: 'Achieved foundational certification in AI Databases as measured by Oracle University\'s associate exam, by demonstrating core competencies in AI-driven database management and Oracle Cloud Infrastructure.',
