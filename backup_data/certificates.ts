@@ -9,8 +9,8 @@ export const certificates = [
     skills: ['Azure AI Studio', 'AI Agents', 'Azure OpenAI', 'Prompt Engineering', 'Responsible AI', 'Azure'],
     image: '/certificates/microsoft-azure-ai-developer.png',
     file:  '/certificates/Azure_AI_Apps_and_Agents_Developer_Associate.pdf',
-    verifyUrl: 'https://learn.microsoft.com/en-us/users/akashkundu-6432/credentials/1e752aca4de83ba0',
-    description: 'Microsoft Certified: Azure AI Apps and Agents Developer Associate — credential ID 1E752ACA4DE83BA0, certification number 1BA7D6-38M756. Earned June 28, 2026; valid through June 28, 2027.',
+    verifyUrl: 'https:
+    description: 'Demonstrated mastery of AI integration on Azure as measured by passing the Microsoft Certified Associate exam (1BA7D6-38M756), by developing and deploying enterprise-grade AI agents and OpenAI applications.',
   },
 
   {
@@ -23,8 +23,8 @@ export const certificates = [
     skills: ['Agentic AI', 'AI Agents', 'Oracle Cloud', 'AI Foundations', 'Multi-Agent Systems'],
     image: '/certificates/oracle-agentic-ai-foundations.png',
     file:  '/certificates/Oracle_Agentic_AI_Certified_Foundations_Associate.pdf',
-    verifyUrl: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=ADFFFC4D49A07C356C19C8AED66AFB44C084BB14F26A196AE1E848C9F1392841',
-    description: 'Oracle Certified Foundations Associate in Agentic AI, issued by Oracle University on June 23, 2026. Credential number 329122175AAI26OFA, recognised by Oracle Corporation.',
+    verifyUrl: 'https:
+    description: 'Achieved foundational certification in Agentic AI as measured by Oracle University\'s associate exam, by demonstrating core competencies in designing and evaluating multi-agent systems.',
   },
 
   {
@@ -38,7 +38,7 @@ export const certificates = [
     image: '/certificates/aicte-aiml-internship.jpg',
     file:  '/certificates/AICTE_EduSkills_-_AI-ML_Virtual_Internship.pdf',
     verifyUrl: null,
-    description: 'Successfully completed the 10-week AI-ML Virtual Internship program during October–December 2025, supported by Google for Developers under the India Edu Program. Achieved Grade O (Outstanding, 90–100).',
+    description: 'Completed a 10-week AI-ML Virtual Internship as measured by achieving an Outstanding Grade (90–100), by developing real-world machine learning models under the Google for Developers India Edu Program.',
   },
 
   {
@@ -52,7 +52,7 @@ export const certificates = [
     image: '/certificates/deloitte-data-analytics.jpg',
     file:  '/certificates/Deloitte_Australia_-_Data_Analytics_Job_Simulation.pdf',
     verifyUrl: null,
-    description: 'Completed practical tasks in data analysis and forensic technology as part of the Deloitte Australia Data Analytics virtual job simulation on Forage, covering real-world scenarios across July 2025 to May 2026.',
+    description: 'Executed data analysis and forensic technology tasks as measured by the successful completion of the Deloitte Australia simulation, by deriving business intelligence insights from raw enterprise datasets.',
   },
 
   {
@@ -66,7 +66,7 @@ export const certificates = [
     image: '/certificates/deloitte-cyber.jpg',
     file:  '/certificates/Deloitte_Australia_-_Cyber_Job_Simulation.pdf',
     verifyUrl: null,
-    description: 'Completed practical tasks in cybersecurity as part of the Deloitte Australia Cyber virtual job simulation on Forage, gaining hands-on exposure to real-world cyber defence scenarios.',
+    description: 'Conducted risk assessments and threat detection as measured by the completion of Deloitte Australia\'s Cyber Job Simulation, by analyzing and mitigating simulated enterprise security breaches.',
   },
 
   {
@@ -79,8 +79,8 @@ export const certificates = [
     skills: ['Enterprise AI', 'IBM Watson', 'AI Strategy', 'Machine Learning'],
     image: '/certificates/ibm-enterprise-ai.jpg',
     file:  '/certificates/IBM_SkillsBuild_-_Getting_Started_with_Enterprise-grade_AI.pdf',
-    verifyUrl: 'https://www.credly.com/badges/c7c52a49-bc57-4eeb-ac99-7ec573e74ccc',
-    description: 'Recognised for satisfying the requirements for Getting Started with Enterprise-grade AI, issued by IBM SkillsBuild. Credential verifiable on Credly.',
+    verifyUrl: 'https:
+    description: 'Gained proficiency in enterprise AI implementation as measured by the IBM SkillsBuild credential, by utilizing IBM Watson to formulate enterprise-scale machine learning strategies.',
   },
 
   {
@@ -93,8 +93,8 @@ export const certificates = [
     skills: ['Python', 'Data Structures', 'OOP', 'Scripting', 'Problem Solving'],
     image: '/certificates/udemy-python-bootcamp.jpg',
     file:  '/certificates/Udemy_-_Complete_Python_Bootcamp.pdf',
-    verifyUrl: 'https://ude.my/UC-77e0fe74-cab5-44f6-97f2-039a1a3c90a7',
-    description: 'Completed 11.5 hours of comprehensive Python training covering fundamentals, data structures, OOP, scripting, and practical problem-solving from zero to hero.',
+    verifyUrl: 'https:
+    description: 'Mastered Python programming fundamentals as measured by 11.5 hours of completed coursework and a final certification, by developing scripts, object-oriented systems, and data structures.',
   },
   
   {
@@ -107,16 +107,16 @@ export const certificates = [
     skills: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'React', 'SQL'],
     image: '/certificates/udemy-webdev-bootcamp.jpg',
     file:  '/certificates/Udemy_-_Complete_Web_Development_Bootcamp.pdf',
-    verifyUrl: 'https://ude.my/UC-78906b7b-6124-4686-b794-cb689b4578a5',
-    description: 'Completed 63 hours of full-stack web development training with Dr. Angela Yu, covering front-end to back-end technologies including HTML, CSS, JavaScript, React, and Node.js.',
+    verifyUrl: 'https:
+    description: 'Attained full-stack web development capabilities as measured by completing 63 hours of intensive training, by building and deploying applications using HTML, CSS, JavaScript, React, Node.js, and SQL.',
   },
-]
+];
 
-export const categoryColors = {
+export const categoryColors: Record<string, string> = {
   'Data Science': '#4fa3ff',
   'Programming':  '#38bdf8',
   'Cloud':        '#60a5fa',
   'AI/ML':        '#818cf8',
   'Web Dev':      '#34d399',
   'General':      '#94a3b8',
-}
+};

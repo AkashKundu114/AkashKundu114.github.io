@@ -33,10 +33,21 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins  = [ALLOWED_ORIGIN, "http://localhost:5173"],
-    allow_methods  = ["POST", "OPTIONS"],
-    allow_headers  = ["Content-Type", "Accept"],
+    allow_origins  = [ALLOWED_ORIGIN, "http://localhost:5173", "https://akashkundu.me"],
+    allow_credentials=True,
+    allow_methods  = ["POST", "OPTIONS", "GET"],
+    allow_headers  = ["Content-Type", "Accept", "Authorization"],
 )
+
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Content-Security-Policy"] = "default-src 'self'"
+    return response
 
 class ContactMessage(BaseModel):
     name:    str

@@ -139,7 +139,7 @@ export default function Home() {
               </span>
             </div>
 
-            <h1 className="reveal" style={{ maxWidth:'820px', marginBottom:'28px', lineHeight:1.02 }}>
+            <h1 className="reveal heading-xl" style={{ maxWidth:'820px', marginBottom:'28px', lineHeight:1.02 }}>
               Map your thoughts.{' '}
               <span style={{ color:'var(--muted)' }}>Synthesize data.</span>{' '}
               <span style={{ color:'var(--accent)', WebkitTextStroke:'0px' }}>Generate reality.</span>

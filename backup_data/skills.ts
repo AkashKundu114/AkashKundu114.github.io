@@ -1,5 +1,10 @@
+export interface Skill {
+  id: number;
+  name: string;
+  category: string;
+}
 
-export const skills = [
+export const skills: Skill[] = [
   { id:1,  name:'Python',          category:'Languages' },
   { id:2,  name:'Java',            category:'Languages' },
   { id:3,  name:'JavaScript',      category:'Languages' },
@@ -23,6 +28,11 @@ export const skills = [
   { id:21, name:'CI/CD',           category:'Tools' },
   { id:22, name:'Azure',           category:'Tools' },
 ]
-export function getGroupedSkills() {
-  return skills.reduce((acc, sk) => { (acc[sk.category] ??= []).push(sk); return acc }, {})
+
+export function getGroupedSkills(): Record<string, Skill[]> {
+  return skills.reduce((acc: Record<string, Skill[]>, sk: Skill) => {
+    if (!acc[sk.category]) acc[sk.category] = [];
+    acc[sk.category].push(sk);
+    return acc;
+  }, {});
 }

@@ -1,10 +1,38 @@
-export const projects = [
+export interface Project {
+  id: string;
+  title: string;
+  status: string;
+  shortDesc: string;
+  description: string;
+  problem: string;
+  aiArchitecture: {
+    heading: string;
+    body: string;
+    points: string[];
+    stack: string[];
+  };
+  uiDeployment: {
+    heading: string;
+    body: string;
+    points: string[];
+    deployed: string;
+    stack: string[];
+  };
+  technologies: string[];
+  year: string;
+  github: string | null;
+  liveLink: string | null;
+  features: string[];
+  screenshots: string[];
+}
+
+export const projects: Project[] = [
   {
     id: 'copper-ai-assistant',
     title: 'COPPER — AI Desktop Productivity Assistant',
     status: 'In Progress',
     shortDesc: 'A fully offline desktop AI assistant built on Tauri + Ollama with voice I/O, coding automation, and <50ms local inference latency.',
-    description: 'Most productivity tools offload AI to the cloud, creating latency, cost, and privacy problems. COPPER is architected for 100% offline execution — a Tauri-based native desktop app serving a locally-deployed Ollama LLM, with voice-to-text pipelines, persistent database memory for context, and deep system-level automation hooks. Everything runs on your machine, under 50ms.',
+    description: 'Developed a fully offline desktop AI assistant as measured by achieving <50ms local inference latency on consumer hardware, by integrating a Tauri-based native application with a locally-deployed Ollama LLM and Whisper STT.',
     problem: 'Cloud AI assistants are unsuitable for developers working with sensitive codebases or in offline environments. There is no native desktop tool that combines local LLM inference, voice I/O, and system-level automation in a single low-latency package.',
     aiArchitecture: {
       heading: 'Local Ollama LLM with voice pipeline and database-backed memory',
@@ -36,11 +64,11 @@ export const projects = [
     github: null,
     liveLink: null,
     features: [
-      '100% offline local LLM inference via Ollama — <50ms latency on consumer hardware',
-      'Voice-to-text pipeline processing real-world daily queries via Whisper STT',
-      'Database-backed persistent memory for cross-session context continuity',
-      'System-level automation hooks for coding tasks and file operations',
-      'Native desktop app via Tauri — cross-platform, no Electron overhead',
+      'Eliminated cloud reliance as measured by 100% offline execution, by integrating local LLM inference via Ollama with <50ms latency.',
+      'Streamlined user input as measured by processing 10+ daily queries, by building a voice-to-text pipeline via Whisper STT.',
+      'Enhanced context continuity as measured by seamless cross-session interactions, by implementing a database-backed persistent memory layer.',
+      'Automated developer workflows as measured by reduced manual CLI usage, by creating system-level automation hooks for file operations.',
+      'Delivered native performance as measured by low overhead execution, by building a cross-platform desktop app via Tauri.',
     ],
     screenshots: [],
   },
@@ -49,7 +77,7 @@ export const projects = [
     title: 'AI-Based Eye Disease Predictor',
     status: 'Completed',
     shortDesc: 'CNN trained on 5,000+ images classifying 7 eye diseases with >85% accuracy, Grad-CAM visual explanations, and automated clinical PDF reports.',
-    description: 'Early detection of eye diseases dramatically improves treatment outcomes, but specialist diagnosis is expensive and inaccessible. This system classifies 7 conditions from retinal photographs, overlays Grad-CAM heat-maps to show exactly which regions drove the prediction, and auto-generates a clinical PDF report. The automated pipeline reduced manual diagnostic review time by 40%.',
+    description: 'Engineered an AI-driven eye disease prediction system as measured by >85% classification accuracy across 7 distinct conditions, by training a Convolutional Neural Network (PyTorch) on 5,000+ images with Grad-CAM visual explanations.',
     problem: 'Ophthalmologic diagnosis requires expensive specialists and equipment, creating access barriers in underserved regions. There was no lightweight, explainable tool for pre-screening patients that could generate actionable clinical documentation.',
     aiArchitecture: {
       heading: 'CNN (PyTorch) trained on 5,000+ images with Grad-CAM interpretability pipeline',
@@ -81,11 +109,11 @@ export const projects = [
     github: null,
     liveLink: null,
     features: [
-      'CNN (PyTorch) trained on 5,000+ labelled retinal images, >85% classification accuracy',
-      'Classifies 7 distinct eye diseases from retinal photographs',
-      'Grad-CAM heat-map overlays for clinical interpretability and model trust',
-      'Automated PDF diagnostic report generation — 40% reduction in manual review time',
-      'Data augmentation pipeline preventing overfitting on medical imaging dataset',
+      'Improved diagnostic accuracy as measured by >85% classification success, by training a CNN (PyTorch) on 5,000+ labelled retinal images.',
+      'Expanded pre-screening capabilities as measured by the classification of 7 distinct eye diseases, by utilizing a custom PyTorch backbone.',
+      'Increased clinical trust as measured by transparent prediction rationale, by implementing Grad-CAM heat-map overlays for interpretability.',
+      'Reduced manual review time as measured by a 40% efficiency gain, by engineering an automated PDF diagnostic report generation pipeline.',
+      'Prevented model overfitting as measured by consistent validation performance, by executing a robust medical imaging data augmentation pipeline.',
     ],
     screenshots: [],
   },
@@ -94,7 +122,7 @@ export const projects = [
     title: 'AI Hardware Benchmark Engine',
     status: 'In Progress',
     shortDesc: 'Full-stack ML app predicting hardware performance across 3 heavy AI workloads using CatBoost, custom scrapers, and a FastAPI serving layer.',
-    description: 'Consumers and engineers have no reliable way to predict how specific hardware will perform on AI inference, rendering, or compute-heavy workloads without running expensive benchmarks themselves. This engine scrapes 6+ hardware specification tables, trains a CatBoost model on real benchmark data, and serves predictions via a FastAPI endpoint — giving targeted upgrade recommendations without running a single benchmark.',
+    description: 'Constructed an AI hardware performance prediction engine as measured by reliable benchmark estimations across 3 heavy workloads, by utilizing custom web scrapers, a CatBoost regression model, and a FastAPI serving layer.',
     problem: 'Hardware upgrade decisions for AI workloads require either expensive benchmarking rigs or unreliable anecdotal comparisons. There is no accessible tool that predicts multi-workload performance from a hardware spec sheet.',
     aiArchitecture: {
       heading: 'CatBoost regression model trained on scraped hardware benchmark data',
@@ -126,11 +154,11 @@ export const projects = [
     github: null,
     liveLink: null,
     features: [
-      'CatBoost model predicting performance across AI inference, rendering, and compute workloads',
-      'Custom scraping pipeline processing 6+ hardware specification tables',
-      'FastAPI model serving with JSON API for targeted upgrade recommendations',
-      'Feature engineering pipeline converting raw specs to ML-ready inputs',
-      'Cross-validation with RMSE evaluation for prediction reliability',
+      'Delivered accurate hardware predictions as measured by cross-validated RMSE evaluation, by training a CatBoost model on AI inference, rendering, and compute workloads.',
+      'Aggregated comprehensive hardware data as measured by processing 6+ specification tables, by developing a custom Python scraping pipeline.',
+      'Provided targeted upgrade suggestions as measured by performance-per-dollar rankings, by deploying a FastAPI model serving JSON API.',
+      'Optimized machine learning inputs as measured by improved model accuracy, by engineering a feature pipeline converting raw specs to ML-ready formats.',
+      'Ensured prediction reliability as measured by consistent performance across hardware tiers, by utilizing robust cross-validation techniques.',
     ],
     screenshots: [],
   },
@@ -139,7 +167,7 @@ export const projects = [
     title: 'E2EE Multi-User Chat Application',
     status: 'Completed',
     shortDesc: 'Real-time chat supporting 50+ concurrent users with 256-bit end-to-end encryption, JWT auth, and sub-100ms WebSocket message delivery.',
-    description: 'Built as a self-hostable, privacy-first alternative to cloud chat platforms, this application delivers real-time messaging with genuine end-to-end encryption — messages are encrypted on the client before transmission and only decrypted by the intended recipient. Supports 50+ concurrent users across 10+ named rooms with JWT session authentication, achieving sub-100ms message delivery under load.',
+    description: 'Developed a real-time, privacy-first chat application as measured by supporting 50+ concurrent users with sub-100ms message delivery, by implementing a Node.js WebSocket engine and 256-bit AES end-to-end encryption.',
     problem: 'Cloud chat platforms store messages in plaintext on their servers. Small teams handling sensitive discussions need a self-hostable alternative where messages are encrypted end-to-end and never readable by the server.',
     aiArchitecture: {
       heading: 'Node.js WebSocket engine with 256-bit E2EE and JWT authentication',
@@ -171,11 +199,11 @@ export const projects = [
     github: null,
     liveLink: null,
     features: [
-      '50+ concurrent users with real-time pub-sub WebSocket message routing',
-      '256-bit AES end-to-end encryption — server routes ciphertext, never plaintext',
-      'JWT authentication with per-frame token validation on every connection',
-      'Sub-100ms message delivery across 10+ concurrent named chat rooms',
-      'React frontend with responsive design and graceful reconnection logic',
+      'Scaled real-time communication as measured by supporting 50+ concurrent users, by designing a pub-sub WebSocket message routing architecture.',
+      'Secured user privacy as measured by zero plaintext server exposure, by implementing 256-bit AES end-to-end encryption.',
+      'Ensured secure session management as measured by robust connection validation, by integrating JWT authentication with per-frame token validation.',
+      'Achieved rapid message delivery as measured by sub-100ms latency across 10+ concurrent named chat rooms, by optimizing Node.js server performance.',
+      'Enhanced user experience as measured by seamless session recovery, by building a React frontend with graceful reconnection logic.',
     ],
     screenshots: [],
   },
@@ -184,7 +212,7 @@ export const projects = [
     title: 'Portfolio CMS & Admin Dashboard',
     status: 'Completed',
     shortDesc: 'Full-stack headless CMS powering this portfolio — protected admin panel, dynamic CRUD, FastAPI contact API, and PWA with GitHub Actions CI/CD.',
-    description: 'Rather than hardcoding portfolio content in static files, this site is backed by a full CMS architecture: a secured admin panel, a DataContext abstraction layer API-ready by design, a FastAPI microservice with rate-limiting and SMTP email, and a PWA with service worker caching — all deployed via GitHub Actions on every push.',
+    description: 'Architected a full-stack portfolio content management system as measured by automated GitHub Actions CI/CD deployments and dynamic content rendering, by developing a React PWA, a DataContext abstraction layer, and a FastAPI contact microservice.',
     problem: 'Static portfolio sites require a full code deployment to update a single project description. Content management should be decoupled from the codebase entirely.',
     aiArchitecture: {
       heading: 'DataContext abstraction layer — localStorage today, API tomorrow',
@@ -214,14 +242,14 @@ export const projects = [
     technologies: ['React', 'FastAPI', 'Python', 'Vite PWA', 'Framer Motion', 'Fuse.js', 'GitHub Actions'],
     year: '2025',
     github: null,
-    liveLink: 'https://akashkundu.me',
+    liveLink: 'https:
     features: [
-      'DataContext abstraction layer — localStorage now, REST API-ready by design',
-      'Secured admin panel with full CRUD for all portfolio content',
-      'Fuse.js fuzzy search with multi-tag AND filtering on projects page',
-      'PWA with Workbox service worker — installable and offline-capable',
-      'GitHub Actions CI/CD with environment secret injection for automated deployment',
+      'Decoupled content management as measured by dynamic data rendering, by creating a REST API-ready DataContext abstraction layer.',
+      'Secured content administration as measured by restricted backend access, by building a password-gated admin panel with full CRUD capabilities.',
+      'Improved project discoverability as measured by accurate multi-criteria queries, by integrating Fuse.js fuzzy search and multi-tag AND filtering.',
+      'Optimized application performance as measured by offline capabilities, by converting the application into a PWA using a Workbox service worker.',
+      'Automated deployment workflows as measured by zero-touch publishing, by configuring GitHub Actions CI/CD with environment secret injection.',
     ],
     screenshots: [],
   },
-]
+];
