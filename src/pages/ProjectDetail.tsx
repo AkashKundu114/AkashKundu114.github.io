@@ -19,7 +19,7 @@ function SectionBlock({ label, heading, body, points, stack }) {
         ))}
       </ul>
       {stack && (
-        <div style={{ display:'flex', flexWrap:'wrap', gap:'4px', borderTop:'1px solid var(--border)', paddingTop:'14px' }}>
+        <div style={{ display:'flex', flexWrap:'wrap', gap:'4px', borderTop:'1px solid var(--border)', paddingTop: '88px' }}>
           {stack.map(s => <span key={s} className="tag">{s}</span>)}
         </div>
       )}
@@ -37,7 +37,7 @@ export default function ProjectDetail() {
   const project = projects.find(p => p.id === id)
 
   if (!project) return (
-    <section style={{ paddingTop:'96px' }}>
+    <section style={{ paddingTop: '88px' }}>
       <div className="container" style={{ textAlign:'center' }}>
         <p style={{ marginBottom:'20px', fontFamily:'var(--font-mono)' }}>Project not found.</p>
         <Link to="/projects" className="btn">← Back to projects</Link>
@@ -68,7 +68,7 @@ export default function ProjectDetail() {
         </div>
       )}
 
-      <section style={{ paddingTop:'96px' }} ref={ref}>
+      <section style={{ paddingTop: '88px' }} ref={ref}>
         <div className="container">
           <button onClick={() => navigate('/projects')} className="reveal btn btn-sm" style={{ marginBottom:'32px' }}>← Projects</button>
 

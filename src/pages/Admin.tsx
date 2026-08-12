@@ -31,7 +31,7 @@ function LoginScreen({ onSuccess }) {
   }
 
   return (
-    <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', paddingTop:'5rem' }}>
+    <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', paddingTop: '88px' }}>
       <div className="card" style={{ width:'100%', maxWidth:360, padding:'2.5rem', animation: shake ? 'shake 0.4s ease' : 'fadeSlideUp 0.4s var(--ease)' }}>
         <div style={{ textAlign:'center', marginBottom:'2rem' }}>
           <div style={{ width:44, height:44, background:'var(--accent-soft)', border:'1px solid var(--border-2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--accent)', margin:'0 auto 1.2rem', borderRadius:0 }}>
@@ -203,7 +203,7 @@ function Dashboard({ onLogout }) {
   const SW = 220
 
   return (
-    <div style={{ display:'flex', minHeight:'100vh', paddingTop:'4.5rem' }}>
+    <div style={{ display:'flex', minHeight:'100vh', paddingTop: '88px' }}>
       {/* Sidebar */}
       <aside style={{ width:SW, flexShrink:0, background:'var(--surface)', borderRight:'1px solid var(--border)', padding:'1.5rem 0', position:'fixed', top:'4.5rem', bottom:0, zIndex:10, overflowY:'auto' }}>
         <div style={{ padding:'0 1.2rem 1.4rem', borderBottom:'1px solid var(--border)', marginBottom:'1rem' }}>

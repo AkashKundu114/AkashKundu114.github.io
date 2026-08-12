@@ -15,7 +15,7 @@ export default function CertificateDetail() {
   const cert = certificates.find(c => c.id === id)
 
   if (!cert) return (
-    <section style={{ paddingTop:'96px' }}>
+    <section style={{ paddingTop: '88px' }}>
       <div className="container" style={{ textAlign:'center' }}>
         <p style={{ marginBottom:'20px', fontFamily:'var(--font-mono)' }}>Certificate not found.</p>
         <Link to="/certificates" className="btn">← Back to certificates</Link>
@@ -36,7 +36,7 @@ export default function CertificateDetail() {
         </div>
       )}
 
-      <section style={{ paddingTop:'96px' }} ref={ref}>
+      <section style={{ paddingTop: '88px' }} ref={ref}>
         <div className="container">
           <button onClick={() => navigate('/certificates')} className="reveal btn btn-sm" style={{ marginBottom:'32px' }}>← Certificates</button>
 

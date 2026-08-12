@@ -32,7 +32,7 @@ export default function Projects() {
 
   return (
     <PageTransition>
-      <section style={{ paddingTop:'96px' }} ref={ref}>
+      <section style={{ paddingTop: '88px' }} ref={ref}>
         <div className="container">
           <div className="label reveal">selected work</div>
           <h2 className="reveal" style={{ marginBottom:'12px', maxWidth:'28ch' }}>Things I've built.</h2>

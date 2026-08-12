@@ -119,7 +119,7 @@ export default function Home() {
       <div ref={ref}>
 
         {/* ── Hero ── */}
-        <section style={{ paddingTop:'96px', paddingBottom:'64px', position:'relative', overflow:'hidden', minHeight:'92vh', display:'flex', alignItems:'center' }}>
+        <section style={{ paddingTop: '88px', paddingBottom:'64px', position:'relative', overflow:'hidden', minHeight:'92vh', display:'flex', alignItems:'center' }}>
           <NetCanvas />
           <div className="container" style={{ position:'relative', zIndex:1, width:'100%' }}>
 

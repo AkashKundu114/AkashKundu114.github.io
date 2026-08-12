@@ -30,7 +30,7 @@ export default function About() {
   const ref = useRevealChildren()
   return (
     <PageTransition>
-      <section style={{ paddingTop:'96px' }} ref={ref}>
+      <section style={{ paddingTop: '88px' }} ref={ref}>
         <div className="container">
           <div className="label reveal">about</div>
           <h2 className="reveal" style={{ marginBottom:'48px', maxWidth:'28ch' }}>
