@@ -20,9 +20,9 @@ export default function Certificates() {
 
   return (
     <PageTransition>
-      <section className="section" style={{ paddingTop: '88px' }} ref={ref}>
-        <span className="section-num">05</span>
+      <section className="section" ref={ref}>
         <div className="container">
+          <span className="section-num">05</span>
 
           {/* ── Header ── */}
           <div className="label reveal">Achievements</div>

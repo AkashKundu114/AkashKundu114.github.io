@@ -69,7 +69,7 @@ export default function Contact() {
 
   return (
     <PageTransition>
-      <section style={{ paddingTop: '88px' }} ref={ref}>
+      <section className="section" ref={ref}>
         <div className="container">
           <div className="label reveal">contact</div>
           <h2 className="reveal" style={{ marginBottom:'0.85rem', maxWidth:'32ch' }}>Let's work together.</h2>

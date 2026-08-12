@@ -15,7 +15,7 @@ export default function CertificateDetail() {
   const cert = certificates.find(c => c.id === id)
 
   if (!cert) return (
-    <section style={{ paddingTop: '88px' }}>
+    <section className="section">
       <div className="container" style={{ textAlign:'center' }}>
         <p style={{ marginBottom:'20px', fontFamily:'var(--font-mono)' }}>Certificate not found.</p>
         <Link to="/certificates" className="btn">← Back to certificates</Link>
@@ -36,13 +36,16 @@ export default function CertificateDetail() {
         </div>
       )}
 
-      <section style={{ paddingTop: '88px' }} ref={ref}>
+      <section className="section" ref={ref}>
         <div className="container">
           <button onClick={() => navigate('/certificates')} className="reveal btn btn-sm" style={{ marginBottom:'32px' }}>← Certificates</button>
 
           <div style={{ display:'grid', gridTemplateColumns:'minmax(0,1.5fr) minmax(0,1fr)', gap:'28px', alignItems:'start' }} id="cert-detail-grid">
             <div className="reveal">
-              {cert.image ? (
+              {cert.file?.endsWith('.pdf') ? (
+                <iframe src={cert.file} title={`${cert.title} PDF`} className="card"
+                  style={{ width:'100%', height:'540px', border:'1px solid var(--border)', borderRadius:0 }} />
+              ) : cert.image ? (
                 <div className="card card-hover" style={{ overflow:'hidden', cursor:'none', marginBottom:'10px' }} onClick={() => setZoomed(true)}>
                   <img src={cert.image} alt={cert.title} style={{ width:'100%', display:'block', objectFit:'contain', background:'var(--surface-2)' }} />
                 </div>
@@ -50,10 +53,6 @@ export default function CertificateDetail() {
                 <div className="card" style={{ padding:'60px 24px', textAlign:'center', marginBottom:'10px' }}>
                   <p style={{ fontFamily:'var(--font-mono)', fontSize:'12px' }}>No certificate image added yet.</p>
                 </div>
-              )}
-              {cert.file?.endsWith('.pdf') && (
-                <iframe src={cert.file} title={`${cert.title} PDF`} className="card"
-                  style={{ width:'100%', height:'480px', border:'1px solid var(--border)', borderRadius:0 }} />
               )}
             </div>
 
@@ -81,7 +80,7 @@ export default function CertificateDetail() {
 
               {cert.description && (
                 <div className="reveal" style={{ marginBottom:'20px' }}>
-                  <p style={{ fontSize:'13px', lineHeight:1.8, fontFamily:'var(--font-mono)' }}>{cert.description}</p>
+                  <p style={{ fontSize:'13px', lineHeight:1.8, fontFamily:'var(--font-body)' }}>{cert.description}</p>
                 </div>
               )}
 

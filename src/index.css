@@ -56,7 +56,7 @@
 
   /* Fonts -------------------------------------- */
   --font-display: 'Inter', sans-serif;
-  --font-body:    'JetBrains Mono', monospace;
+  --font-body:    'Inter', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 }
 

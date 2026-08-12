@@ -9,10 +9,10 @@ function SectionBlock({ label, heading, body, points, stack }) {
     <div className="card" style={{ padding:'24px', marginBottom:'8px' }}>
       <div className="label" style={{ marginBottom:'8px' }}>{label}</div>
       <h3 style={{ fontSize:'0.95rem', lineHeight:1.4, color:'var(--ink)', marginBottom:'14px' }}>{heading}</h3>
-      <p style={{ fontSize:'13px', lineHeight:1.8, marginBottom:'16px', fontFamily:'var(--font-mono)' }}>{body}</p>
+      <p style={{ fontSize:'13px', lineHeight:1.8, marginBottom:'16px', fontFamily:'var(--font-body)' }}>{body}</p>
       <ul style={{ display:'flex', flexDirection:'column', gap:'8px', marginBottom: stack?'16px':0 }}>
         {points.map((pt,i) => (
-          <li key={i} style={{ fontSize:'13px', lineHeight:1.65, paddingLeft:'16px', position:'relative', fontFamily:'var(--font-mono)', color:'var(--muted)' }}>
+          <li key={i} style={{ fontSize:'13px', lineHeight:1.65, paddingLeft:'16px', position:'relative', fontFamily:'var(--font-body)', color:'var(--muted)' }}>
             <span style={{ position:'absolute', left:0, color:'var(--accent)', fontWeight:700 }}>—</span>
             {pt}
           </li>
@@ -91,7 +91,7 @@ export default function ProjectDetail() {
             <div>
               <div className="reveal card" style={{ padding:'24px', marginBottom:'8px' }}>
                 <div className="label" style={{ marginBottom:'8px' }}>overview</div>
-                <p style={{ fontSize:'13px', lineHeight:1.85, fontFamily:'var(--font-mono)', whiteSpace:'pre-line' }}>{project.description}</p>
+                <p style={{ fontSize:'13px', lineHeight:1.85, fontFamily:'var(--font-body)', whiteSpace:'pre-line' }}>{project.description}</p>
               </div>
               {project.aiArchitecture && <div className="reveal"><SectionBlock label="data & ai" heading={project.aiArchitecture.heading} body={project.aiArchitecture.body} points={project.aiArchitecture.points} stack={project.aiArchitecture.stack} /></div>}
               {project.uiDeployment  && <div className="reveal"><SectionBlock label="interface & deployment" heading={project.uiDeployment.heading} body={project.uiDeployment.body} points={project.uiDeployment.points} stack={project.uiDeployment.stack} /></div>}
@@ -122,7 +122,7 @@ export default function ProjectDetail() {
                 <div className="label" style={{ marginBottom:'14px' }}>key features</div>
                 <ul style={{ display:'flex', flexDirection:'column', gap:'12px', marginBottom:'20px' }}>
                   {(project.features??[]).map((f,i) => (
-                    <li key={i} style={{ fontSize:'13px', lineHeight:1.65, paddingLeft:'16px', position:'relative', fontFamily:'var(--font-mono)', color:'var(--muted)' }}>
+                    <li key={i} style={{ fontSize:'13px', lineHeight:1.65, paddingLeft:'16px', position:'relative', fontFamily:'var(--font-body)', color:'var(--muted)' }}>
                       <span style={{ position:'absolute', left:0, color:'var(--accent)', fontWeight:700 }}>—</span>
                       {f}
                     </li>

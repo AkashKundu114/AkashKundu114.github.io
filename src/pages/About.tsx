@@ -30,7 +30,7 @@ export default function About() {
   const ref = useRevealChildren()
   return (
     <PageTransition>
-      <section style={{ paddingTop: '88px' }} ref={ref}>
+      <section className="section" ref={ref}>
         <div className="container">
           <div className="label reveal">about</div>
           <h2 className="reveal" style={{ marginBottom:'48px', maxWidth:'28ch' }}>
@@ -63,7 +63,7 @@ export default function About() {
                 'In practice that means spending time on data prep and model training, then just as much time on the API and frontend that sit in front of it. I\'d rather have one project working end to end than three half-finished ones.',
                 'Currently working on Copper — an offline desktop assistant built on Tauri and a locally-run LLM — and rebuilding this site\'s backend to move off localStorage onto a proper API.',
               ].map((para, i) => (
-                <p key={i} style={{ fontSize:'14px', lineHeight:1.85, marginBottom:'16px', fontFamily:'var(--font-mono)', color:'var(--muted)' }}>{para}</p>
+                <p key={i} style={{ fontSize:'14px', lineHeight:1.85, marginBottom:'16px', fontFamily:'var(--font-body)', color:'var(--muted)' }}>{para}</p>
               ))}
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function About() {
                   <div style={{ fontFamily:'var(--font-mono)', fontSize:'10px', fontWeight:700, color:current?'var(--accent)':'var(--muted-2)', marginBottom:'6px', letterSpacing:'0.08em' }}>
                     {year}{current && <span className="tag tag-active" style={{ marginLeft:'8px', fontSize:'9px' }}>now</span>}
                   </div>
-                  <p style={{ fontSize:'13px', lineHeight:1.75, maxWidth:'55ch', fontFamily:'var(--font-mono)' }}>{event}</p>
+                  <p style={{ fontSize:'13px', lineHeight:1.75, maxWidth:'55ch', fontFamily:'var(--font-body)' }}>{event}</p>
                 </div>
               ))}
             </div>
