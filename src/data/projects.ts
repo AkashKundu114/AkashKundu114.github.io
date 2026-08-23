@@ -28,40 +28,96 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'copper-ai-assistant',
-    title: 'COPPER — AI Desktop Productivity Assistant',
-    status: 'In Progress',
-    shortDesc: 'A fully offline desktop AI assistant built on Tauri + Ollama with voice I/O, coding automation, and <50ms local inference latency.',
-    description: 'Developed a fully offline desktop AI assistant as measured by achieving <50ms local inference latency on consumer hardware, by integrating a Tauri-based native application with a locally-deployed Ollama LLM and Whisper STT.',
-    problem: 'Cloud AI assistants are unsuitable for developers working with sensitive codebases or in offline environments. There is no native desktop tool that combines local LLM inference, voice I/O, and system-level automation in a single low-latency package.',
+    id: 'ai-sathi',
+    title: 'AI-SATHI: Voice-first AI operating system',
+    status: 'Completed',
+    shortDesc:
+      'Voice-first AI operating system and intelligent financial ledger for rural micro-entrepreneurs & Self-Help Groups (SHGs), powered by Sarvam AI and deployed on Azure.',
+    description:
+      'Developed AI-SATHI, a voice-first AI operating system and intelligent financial ledger designed to support rural Self-Help Group (SHG) women in West Bengal through spoken Bengali interactions under Purposive AI. Scaled for a 100-user, 2,000 msg/day pilot via a single Azure Container App.',
+    problem:
+      'Rural micro-entrepreneurs face persistent challenges in manual bookkeeping and limited market knowledge. There is a strong need for trustworthy, voice-first AI assistants tailored to local languages and realities.',
     aiArchitecture: {
-      heading: 'Local Ollama LLM with voice pipeline and database-backed memory',
-      body: 'The AI core is a locally-deployed LLM served via Ollama, eliminating all external API calls. A voice-to-text pipeline processes 10+ daily queries with Whisper STT. Conversation history is persisted in a local database, giving the model continuous memory across sessions rather than a flat per-session context window.',
+      heading: 'Voice-Ledger pipeline with RAG PDF chatbot and multi-agent orchestration',
+      body: 'Engineered a full Voice-Ledger Python FastAPI pipeline to auto-extract Bengali voice notes into bank-submittable PDFs. Integrated a robust RAG PDF chatbot with 2-stage per-chunk grounding checks to minimize scheme-matching hallucinations to 0%, while slashing AI vendor lock-in by routing through a Sarvam AI to Ollama fallback cascade.',
       points: [
-        'Ollama-served local LLM achieving <50ms inference latency on consumer hardware',
-        'Voice-to-text pipeline processing 10+ daily queries with Whisper STT integration',
-        'Database-backed memory layer — context persists across sessions, not just within them',
-        'Coding and system-level automation hooks for file operations and CLI task execution',
-        '100% offline execution — zero data egress, no API keys, no usage limits',
+        'Voice-Ledger Python FastAPI pipeline auto-extracting Bengali voice notes into PDFs',
+        'RAG PDF chatbot with 2-stage per-chunk grounding checks ensuring 0% hallucinations',
+        'Sarvam AI to Ollama fallback cascade, eliminating OpenAI dependencies and costs',
+        '389-test PyTorch offline suite preventing regressions in validation and logic',
       ],
-      stack: ['Ollama', 'Whisper STT', 'Python', 'FastAPI', 'PostgreSQL'],
+      stack: ['Python', 'FastAPI', 'LangGraph', 'Ollama', 'Sarvam AI'],
     },
     uiDeployment: {
-      heading: 'Native desktop application built with Tauri (Rust + React frontend)',
-      body: 'The interface is a native desktop application built with Tauri, combining a Rust backend for low-level system access with a React/TypeScript frontend. This gives COPPER true native performance and OS integration while keeping the interface fast and responsive.',
+      heading: 'Multi-Agent Orchestration via LangGraph & PostgreSQL',
+      body: 'Orchestrated agents using LangGraph state-machines and PostgreSQL. Migrated from a 4-service Celery stack to in-process BackgroundTasks to meet strict WhatsApp delivery deadlines with minimal latency on Azure.',
       points: [
-        'Tauri (Rust core) for native OS integration, file system access, and system tray support',
-        'React + TypeScript frontend for the chat interface, voice controls, and task dashboard',
-        'Real-time streaming text output — tokens render as they are generated, not in a batch',
-        'Dark-themed interface with conversation history, pinned notes, and voice activation toggle',
-        'Cross-platform: Windows, macOS, and Linux from a single codebase',
+        'LangGraph state-machines for agentic orchestration',
+        'PostgreSQL 16 + pgvector for persistent dedup and connection pooling',
+        '100% pass rate maintained across 389 unit/integration tests',
+        'Deployed via a single Azure Container App + Blob Storage',
       ],
-      deployed: 'Native desktop app via Tauri — packaged as .exe / .dmg / .AppImage',
-      stack: ['Tauri', 'Rust', 'React', 'TypeScript', 'Tailwind CSS'],
+      deployed: 'Azure Container App',
+      stack: ['LangGraph', 'PostgreSQL', 'BackgroundTasks', 'Azure Blob'],
     },
-    technologies: ['Tauri', 'FastAPI', 'Ollama', 'Python', 'React', 'TypeScript', 'Whisper'],
+    technologies: ['Python', 'FastAPI', 'LangGraph', 'PostgreSQL', 'Sarvam AI', 'Ollama', 'Azure'],
     year: '2026',
-    github: null,
+    github: 'https://github.com/AkashKundu114/AI-SATHI',
+    liveLink: 'https://purposiveai.com',
+    features: [
+      'Developed a voice-first AI assistant optimized for spoken Bengali interactions.',
+      'Conducted a consent-governed formative field study across 8 SHGs in West Bengal.',
+      'Identified and addressed persistent challenges in manual bookkeeping and market knowledge.',
+      'Applied human-centered AI design to focus on local context, livelihood, and learning needs.',
+    ],
+    screenshots: [],
+  },
+
+  {
+    id: 'copper-ai-assistant',
+    title: 'COPPER — Local-First Personal AI OS',
+    status: 'Completed',
+    shortDesc:
+      '100% offline, local-first personal AI OS - 30-agent orchestration, epistemic memory, Guardian safety engine & a molten-copper neural visualizer. FastAPI + React + Electron.',
+    description:
+      'Developed COPPER, a 100% offline, local-first personal AI OS utilizing <1.0 GB active system RAM. It orchestrates specialized models like Qwen2.5-Coder and DeepSeek-R1-Distill across 30 agents with a Guardian safety engine evaluating commands in 0.002ms.',
+    problem:
+      'Cloud AI assistants are unsuitable for developers working with sensitive codebases or in offline environments. There is no native desktop tool that combines local LLM inference, voice I/O, and system-level automation in a single low-latency package.',
+    aiArchitecture: {
+      heading: 'Offline agentic LLM orchestration across specialized foundation models',
+      body: 'Architected an offline agentic system via LangCrew, orchestrating specialized models (Qwen2.5-Coder for synthesis, DeepSeek-R1-Distill for reasoning, Llama-3.2-1B for classification). Achieved 100% intent routing accuracy across 1,110 samples with 0.052ms latency (~18,950 QPS).',
+      points: [
+        '100% intent routing accuracy evaluated on a 1,360-sample combinatorial test suite',
+        'Multi-model delegation (Qwen2.5-Coder-7B, DeepSeek-R1-Distill-7B, Llama-3.2-1B)',
+        'Achieved sub-50ms TTFT inference on an 8GB VRAM constraint',
+        'Dynamic Memory Cache & 3 confidence classes backed by SQLite & ChromaDB',
+      ],
+      stack: ['LangCrew', 'Ollama', 'ChromaDB', 'SQLite', 'DeepSeek-R1'],
+    },
+    uiDeployment: {
+      heading: 'Electron React UI with Guardian Alignment safety framework',
+      body: 'Delivered a persistent React desktop UI using Electron, consuming only ~260 MB RAM. Integrated a Guardian Alignment safety framework with 100% accuracy in threat detection, validating execution through a 213-sample pytest suite.',
+      points: [
+        'Guardian Safety Catch blocking destructive commands with 0.002 ms latency',
+        'Network-sandboxed execution validated by a comprehensive 213-unit test suite',
+        'Electron React desktop interface with integrated psutil telemetry dashboard',
+      ],
+      deployed: 'Native desktop app via Electron',
+      stack: ['Electron', 'React', 'FastAPI', 'TypeScript', 'Redis'],
+    },
+    technologies: [
+      'Electron',
+      'FastAPI',
+      'React',
+      'TypeScript',
+      'LangCrew',
+      'Ollama',
+      'SQLite',
+      'ChromaDB',
+      'Redis',
+    ],
+    year: '2026',
+    github: 'https://github.com/AkashKundu114/COPPER',
     liveLink: null,
     features: [
       'Eliminated cloud reliance as measured by 100% offline execution, by integrating local LLM inference via Ollama with <50ms latency.',
@@ -74,39 +130,39 @@ export const projects: Project[] = [
   },
   {
     id: 'eye-disease-predictor',
-    title: 'AI-Based Eye Disease Predictor',
+    title: 'OphthalmoAI',
     status: 'Completed',
-    shortDesc: 'CNN trained on 5,000+ images classifying 7 eye diseases with >85% accuracy, Grad-CAM visual explanations, and automated clinical PDF reports.',
-    description: 'Engineered an AI-driven eye disease prediction system as measured by >85% classification accuracy across 7 distinct conditions, by training a Convolutional Neural Network (PyTorch) on 5,000+ images with Grad-CAM visual explanations.',
-    problem: 'Ophthalmologic diagnosis requires expensive specialists and equipment, creating access barriers in underserved regions. There was no lightweight, explainable tool for pre-screening patients that could generate actionable clinical documentation.',
+    shortDesc:
+      'Meta-Classifier Ensemble classifying 12 eye diseases with 99.72% accuracy on 5,663 images, trained via GPU-accelerated Mixed Precision.',
+    description:
+      'Engineered OphthalmoAI, a Point-of-Care Retinal Screening Platform that achieved 99.72% Diagnostic Screening Accuracy across 12 distinct ocular disease categories by fusing three SOTA vision backbones (ConvNeXt, DenseNet, EfficientNet-V2).',
+    problem:
+      'Ophthalmologic diagnosis requires expensive specialists and equipment, creating access barriers in underserved regions. There was no lightweight, explainable tool for pre-screening patients that could generate actionable clinical documentation.',
     aiArchitecture: {
-      heading: 'CNN (PyTorch) trained on 5,000+ images with Grad-CAM interpretability pipeline',
-      body: 'A Convolutional Neural Network built on a PyTorch backbone was trained on a curated dataset of 5,000+ labelled retinal images across 7 disease classes. Grad-CAM generates pixel-level heat-maps highlighting the exact regions the model identified as clinically significant.',
+      heading: 'Meta-Classifier Ensemble Fusion with PyTorch Mixed Precision',
+      body: 'Concatenated output logits from ConvNeXt-Small, DenseNet-201, and EfficientNet-V2-M into a dense fusion head. Scaled training throughput by 23x using GPU batch size optimization and FP16/BF16 Mixed Precision, lowering epoch times to 20.6s on 8GB VRAM.',
       points: [
-        'CNN (PyTorch) trained on 5,000+ labelled retinal images across 7 disease classes',
-        'Achieved >85% classification accuracy with data augmentation to prevent overfitting',
-        'Grad-CAM pipeline generating pixel-level heat-map overlays for clinical interpretability',
-        'Automated diagnostic PDF pipeline integrating prediction, confidence score, and annotated image',
-        '40% reduction in manual clinical review time through automated report generation',
+        '99.72% screening accuracy achieved across 5,663 clinical images (12 diseases)',
+        'Fused ConvNeXt-Small, DenseNet-201, and EfficientNet-V2-M into a Meta-Classifier',
+        '23x training speedup via Dockerized PyTorch FP16/BF16 Mixed Precision',
+        'Eliminated single-model blind spots with < 1.2 GB VRAM Meta-Classifier overhead',
       ],
-      stack: ['Python', 'PyTorch', 'OpenCV', 'Grad-CAM', 'NumPy', 'Pandas'],
+      stack: ['PyTorch', 'Docker', 'ConvNeXt', 'EfficientNet-V2', 'DenseNet'],
     },
     uiDeployment: {
-      heading: 'Clinical-grade prediction interface with automated PDF data pipeline',
-      body: 'The interface allows clinicians or patients to upload a retinal photograph and receive a full diagnostic report within seconds — prediction, confidence score, Grad-CAM overlay, and a structured PDF ready for clinical documentation.',
+      heading: 'Production FastAPI REST endpoints and automated Grad-CAM PDF pipelines',
+      body: 'Shipped production-ready FastAPI REST endpoints backed by rigorous testing. Scripted an end-to-end Grad-CAM PDF reporting pipeline from the Linux CLI and managed database schemas via Alembic migrations.',
       points: [
-        'Single-click image upload with real-time preview and format validation',
-        'Side-by-side display of original photograph and Grad-CAM heat-map overlay',
-        'Automated PDF report generation with prediction, confidence, and annotated image',
-        'Batch processing mode for screening multiple patients sequentially',
-        'Results exported in structured format compatible with medical record systems',
+        'Automated Grad-CAM PDF reporting pipeline scripted end-to-end from Linux CLI',
+        '3 production FastAPI REST endpoints backed by a robust 66-test suite',
+        'Alembic database schema migrations verified through clean upgrade/downgrade cycles',
       ],
-      deployed: 'Local Python application — planned FastAPI backend for web deployment',
-      stack: ['Python', 'PyTorch', 'OpenCV', 'ReportLab (PDF)', 'CLI Interface'],
+      deployed: 'Production REST API via FastAPI & Docker',
+      stack: ['FastAPI', 'Linux CLI', 'Alembic'],
     },
-    technologies: ['Python', 'PyTorch', 'OpenCV', 'Grad-CAM', 'Computer Vision', 'CNN'],
+    technologies: ['Python', 'FastAPI', 'PyTorch', 'OpenCV', 'Docker', 'Kubernetes', 'Linux CLI'],
     year: '2026',
-    github: null,
+    github: 'https://github.com/AkashKundu114/OphthalmoAI',
     liveLink: null,
     features: [
       'Improved diagnostic accuracy as measured by >85% classification success, by training a CNN (PyTorch) on 5,000+ labelled retinal images.',
@@ -120,10 +176,13 @@ export const projects: Project[] = [
   {
     id: 'ai-hardware-benchmark',
     title: 'AI Hardware Benchmark Engine',
-    status: 'In Progress',
-    shortDesc: 'Full-stack ML app predicting hardware performance across 3 heavy AI workloads using CatBoost, custom scrapers, and a FastAPI serving layer.',
-    description: 'Constructed an AI hardware performance prediction engine as measured by reliable benchmark estimations across 3 heavy workloads, by utilizing custom web scrapers, a CatBoost regression model, and a FastAPI serving layer.',
-    problem: 'Hardware upgrade decisions for AI workloads require either expensive benchmarking rigs or unreliable anecdotal comparisons. There is no accessible tool that predicts multi-workload performance from a hardware spec sheet.',
+    status: 'Completed',
+    shortDesc:
+      'Full-stack ML app predicting hardware performance across 3 heavy AI workloads using CatBoost, custom scrapers, and a FastAPI serving layer.',
+    description:
+      'Constructed an AI hardware performance prediction engine as measured by reliable benchmark estimations across 3 heavy workloads, by utilizing custom web scrapers, a CatBoost regression model, and a FastAPI serving layer.',
+    problem:
+      'Hardware upgrade decisions for AI workloads require either expensive benchmarking rigs or unreliable anecdotal comparisons. There is no accessible tool that predicts multi-workload performance from a hardware spec sheet.',
     aiArchitecture: {
       heading: 'CatBoost regression model trained on scraped hardware benchmark data',
       body: 'Custom Python scrapers ingest hardware specification tables from 6+ sources, engineer features from raw specs, and feed them into a CatBoost gradient-boosted model trained to predict benchmark scores across 3 heavy workloads: AI inference, 3D rendering, and general compute.',
@@ -166,9 +225,12 @@ export const projects: Project[] = [
     id: 'e2ee-chat',
     title: 'E2EE Multi-User Chat Application',
     status: 'Completed',
-    shortDesc: 'Real-time chat supporting 50+ concurrent users with 256-bit end-to-end encryption, JWT auth, and sub-100ms WebSocket message delivery.',
-    description: 'Developed a real-time, privacy-first chat application as measured by supporting 50+ concurrent users with sub-100ms message delivery, by implementing a Node.js WebSocket engine and 256-bit AES end-to-end encryption.',
-    problem: 'Cloud chat platforms store messages in plaintext on their servers. Small teams handling sensitive discussions need a self-hostable alternative where messages are encrypted end-to-end and never readable by the server.',
+    shortDesc:
+      'Real-time chat supporting 50+ concurrent users with 256-bit end-to-end encryption, JWT auth, and sub-100ms WebSocket message delivery.',
+    description:
+      'Developed a real-time, privacy-first chat application as measured by supporting 50+ concurrent users with sub-100ms message delivery, by implementing a Node.js WebSocket engine and 256-bit AES end-to-end encryption.',
+    problem:
+      'Cloud chat platforms store messages in plaintext on their servers. Small teams handling sensitive discussions need a self-hostable alternative where messages are encrypted end-to-end and never readable by the server.',
     aiArchitecture: {
       heading: 'Node.js WebSocket engine with 256-bit E2EE and JWT authentication',
       body: 'The backend is a Node.js WebSocket server implementing a publish-subscribe model for real-time message routing. 256-bit AES end-to-end encryption ensures messages are encrypted client-side before transmission — the server handles routing without ever accessing plaintext.',
@@ -209,11 +271,14 @@ export const projects: Project[] = [
   },
   {
     id: 'portfolio-cms',
-    title: 'Portfolio CMS & Admin Dashboard',
+    title: 'AkashKundu114.github.io (Portfolio)',
     status: 'Completed',
-    shortDesc: 'Full-stack headless CMS powering this portfolio — protected admin panel, dynamic CRUD, FastAPI contact API, and PWA with GitHub Actions CI/CD.',
-    description: 'Architected a full-stack portfolio content management system as measured by automated GitHub Actions CI/CD deployments and dynamic content rendering, by developing a React PWA, a DataContext abstraction layer, and a FastAPI contact microservice.',
-    problem: 'Static portfolio sites require a full code deployment to update a single project description. Content management should be decoupled from the codebase entirely.',
+    shortDesc:
+      'Full-stack headless CMS powering this portfolio — protected admin panel, dynamic CRUD, FastAPI contact API, and PWA with GitHub Actions CI/CD.',
+    description:
+      'Architected a full-stack portfolio content management system as measured by automated GitHub Actions CI/CD deployments and dynamic content rendering, by developing a React PWA, a DataContext abstraction layer, and a FastAPI contact microservice.',
+    problem:
+      'Static portfolio sites require a full code deployment to update a single project description. Content management should be decoupled from the codebase entirely.',
     aiArchitecture: {
       heading: 'DataContext abstraction layer — localStorage today, API tomorrow',
       body: 'The DataContext layer acts as the single source of truth for all portfolio content. Currently backed by localStorage for zero-config persistence, it is architected to swap in a REST API with one change — making the entire site genuinely backend-ready without touching any component.',
@@ -239,9 +304,17 @@ export const projects: Project[] = [
       deployed: 'GitHub Pages (akashkundu.me) via GitHub Actions',
       stack: ['Vite PWA', 'Workbox', 'GitHub Actions', 'Framer Motion', 'FastAPI'],
     },
-    technologies: ['React', 'FastAPI', 'Python', 'Vite PWA', 'Framer Motion', 'Fuse.js', 'GitHub Actions'],
+    technologies: [
+      'React',
+      'FastAPI',
+      'Python',
+      'Vite PWA',
+      'Framer Motion',
+      'Fuse.js',
+      'GitHub Actions',
+    ],
     year: '2025',
-    github: null,
+    github: 'https://github.com/AkashKundu114/AkashKundu114.github.io',
     liveLink: 'https://akashkundu.me',
     features: [
       'Decoupled content management as measured by dynamic data rendering, by creating a REST API-ready DataContext abstraction layer.',
