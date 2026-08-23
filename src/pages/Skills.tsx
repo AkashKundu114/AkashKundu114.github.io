@@ -1,90 +1,30 @@
 import { useEffect } from 'react';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { skills } from '../data/skills';
 
-const groups = [
-  {
-    name: 'Languages',
-    icon: '{ }',
-    color: '#AFD2FA',
-    items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'SQL'],
-  },
-  {
-    name: 'AI & Data',
-    icon: '◈',
-    color: '#B9915E',
-    items: [
-      'PyTorch',
-      'Scikit-learn',
-      'CatBoost',
-      'Computer Vision',
-      'Grad-CAM',
-      'Ollama (LLMs)',
-      'Pandas',
-      'NumPy',
-    ],
-  },
-  {
-    name: 'Backend & Infrastructure',
-    icon: '⬡',
-    color: '#FEFAEF',
-    items: [
-      'FastAPI',
-      'Node.js',
-      'Spring Boot',
-      'REST APIs',
-      'PostgreSQL',
-      'Docker',
-      'Azure',
-      'Git',
-      'CI/CD',
-    ],
-  },
-  {
-    name: 'Frontend',
-    icon: '◎',
-    color: '#AFD2FA',
-    items: [
-      'React',
-      'Next.js',
-      'TypeScript',
-      'Tailwind CSS',
-      'Tauri',
-      'Framer Motion',
-      'PWA',
-      'Vite',
-    ],
-  },
-  {
-    name: 'Visualisation',
-    icon: '▦',
-    color: '#B9915E',
-    items: ['Tableau', 'Matplotlib', 'Seaborn'],
-  },
+const groupDefs = [
+  { name: 'Languages', icon: '', color: '#AFD2FA' },
+  { name: 'AI & ML', icon: '◈', color: '#B9915E' },
+  { name: 'Backend & DB', icon: '◉', color: '#FEFAEF' },
+  { name: 'DevOps & Tools', icon: '◎', color: '#AFD2FA' },
 ];
 
-const marqueeSkills = [
-  'PyTorch',
-  'FastAPI',
-  'React',
-  'Node.js',
-  'CatBoost',
-  'Ollama',
-  'Docker',
-  'PostgreSQL',
-  'Tauri',
-  'Pandas',
-  'TypeScript',
-  'Scikit-learn',
-  'Grad-CAM',
-  'Azure',
-];
+const marqueeSkills = skills.map((s) => s.name);
 
 export default function Skills() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const ref = useRevealChildren();
+
+  const groups = groupDefs
+    .map((g) => ({
+      ...g,
+      items: skills.filter((s) => s.category === g.name).map((s) => s.name),
+    }))
+    .filter((g) => g.items.length > 0);
+
   return (
     <PageTransition>
       <section style={{ paddingTop: '88px' }} ref={ref}>

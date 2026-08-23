@@ -31,5 +31,5 @@ export function getGroupedSkills(): Record<string, Skill[]> {
     if (!acc[sk.category]) acc[sk.category] = [];
     acc[sk.category].push(sk);
     return acc;
-  }, {});
+  });
 }

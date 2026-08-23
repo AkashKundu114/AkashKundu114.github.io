@@ -59,7 +59,7 @@ const timeline = [
     year: '2027',
     event:
       'Expected graduation. Actively seeking AI Engineer / Software Engineer (SWE) roles to build scalable ML systems and agentic workflows.',
-    current: true,
+    current: false,
   },
 ];
 
