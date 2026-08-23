@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { skills } from '../data/skills';
 
 const domains = [
   {
@@ -28,19 +29,7 @@ const domains = [
   },
 ];
 
-const ticker = [
-  'Neural Network',
-  'Memory Nodes',
-  'Logic Gates',
-  'Prompt Forge',
-  'Pattern Recognition',
-  'Data Synthesis',
-  'Anomaly Detection',
-  'Output Stage',
-  'Render Pipeline',
-  'Inference Core',
-  'Feature Extractor',
-];
+const marqueeSkills = skills.map((s) => s.name);
 
 function NetCanvas() {
   const ref = useRef(null);
@@ -240,21 +229,16 @@ export default function Home() {
 
             <div className="reveal marquee-wrap" style={{ margin: '0 -2rem' }}>
               <div className="marquee-track">
-                {[...ticker, ...ticker].map((node, i) => (
+                {[...marqueeSkills, ...marqueeSkills].map((s, i) => (
                   <span
-                    key={node + i}
+                    key={s + i}
                     className="marquee-item"
                     style={{
-                      color:
-                        i % 3 === 0
-                          ? 'var(--link)'
-                          : i % 3 === 1
-                            ? 'var(--accent)'
-                            : 'var(--muted-2)',
+                      color: i % 2 === 0 ? 'var(--link)' : 'var(--accent)',
                     }}
                   >
                     <span className="marquee-diamond">◆</span>
-                    {node}
+                    {s}
                   </span>
                 ))}
               </div>
