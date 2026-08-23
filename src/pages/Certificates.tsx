@@ -25,7 +25,7 @@ export default function Certificates() {
     <PageTransition>
       <section className="section" ref={ref}>
         <div className="container">
-          <span className="section-num">05</span>
+          
 
           <div className="label reveal">Achievements</div>
           <h2 className="reveal" style={{ marginBottom: '1rem' }}>

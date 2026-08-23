@@ -45,7 +45,7 @@ export default function Projects() {
     setQuery('');
     setSelectedTags([]);
   };
-  const hasFilters = query.trim() || selectedTags.length;
+  const hasFilters = query.trim() !== '' || selectedTags.length > 0;
 
   return (
     <PageTransition>

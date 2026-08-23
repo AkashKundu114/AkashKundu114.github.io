@@ -26,9 +26,9 @@ export default function Contact() {
   }, []);
   const ref = useRevealChildren();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle');
-  const [touched, setTouched] = useState();
+  const [touched, setTouched] = useState({});
 
   const validate = (f) => {
     const e = {};
@@ -68,7 +68,7 @@ export default function Contact() {
       if (res.ok) {
         setStatus('success');
         setForm({ name: '', email: '', message: '' });
-        setTouched();
+        setTouched({});
       } else setStatus('error');
     } catch {
       setStatus('error');
