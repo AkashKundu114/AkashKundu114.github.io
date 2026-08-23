@@ -161,7 +161,7 @@ export default function Contact() {
             <div className="reveal">
               {status === 'success' && (
                 <Notice border="var(--accent)" bg="var(--accent-soft)" color="var(--ink)">
-                  Message sent — I'll get back to you soon.
+                  Message sent - I'll get back to you soon.
                 </Notice>
               )}
               {status === 'error' && (
@@ -171,7 +171,7 @@ export default function Contact() {
               )}
               {status === 'no-endpoint' && (
                 <Notice border="var(--border)" bg="var(--surface-2)" color="var(--muted)">
-                  No endpoint configured — set <code>VITE_CONTACT_API</code> or{' '}
+                  No endpoint configured - set <code>VITE_CONTACT_API</code> or{' '}
                   <code>VITE_FORMSPREE_ID</code> in .env
                 </Notice>
               )}

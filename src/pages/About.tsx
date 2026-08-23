@@ -9,7 +9,7 @@ const meta = [
   { key: 'Phone', val: '+91 9064349004', link: 'tel:+919064349004' },
   { key: 'Status', val: 'Open to internships' },
   { key: 'Languages', val: 'Bengali · English · Hindi' },
-  { key: 'Education', val: 'B.Tech CSE — Techno India University, 2027' },
+  { key: 'Education', val: 'B.Tech CSE - Techno India University, 2027' },
 ];
 
 const principles = [
@@ -146,7 +146,7 @@ export default function About() {
 
             <div>
               {[
-                'I build agentic AI systems, RAG pipelines, and computer vision models. I got into this because a model that works well in a Jupyter notebook is still a long way from something a person can actually use. Closing that gap — between a trained model and a usable interface — is what my projects are about.',
+                'I build agentic AI systems, RAG pipelines, and computer vision models. I got into this because a model that works well in a Jupyter notebook is still a long way from something a person can actually use. Closing that gap - between a trained model and a usable interface - is what my projects are about.',
                 'In practice, that means spending time on data prep and model fine-tuning, then just as much time engineering the FastAPI backend, LangGraph state-machines, and Electron/React frontends that sit in front of it.',
                 'Currently, I am an AI Research & Social Innovation Intern at Purposive AI, building voice-first Bengali AI tools (AI-SATHI) for rural micro-entrepreneurs, while scaling COPPER, my local-first 30-agent personal AI OS.',
               ].map((para, i) => (

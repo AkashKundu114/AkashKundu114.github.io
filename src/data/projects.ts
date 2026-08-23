@@ -75,7 +75,7 @@ export const projects: Project[] = [
 
   {
     id: 'copper-ai-assistant',
-    title: 'COPPER — Local-First Personal AI OS',
+    title: 'COPPER - Local-First Personal AI OS',
     status: 'Completed',
     shortDesc:
       '100% offline, local-first personal AI OS - 30-agent orchestration, epistemic memory, Guardian safety engine & a molten-copper neural visualizer. FastAPI + React + Electron.',
@@ -205,7 +205,7 @@ export const projects: Project[] = [
         'Automated data refresh pipeline keeping benchmark training data current',
         'React frontend (planned) for a consumer-facing hardware comparison tool',
       ],
-      deployed: 'FastAPI server — local development, planned Railway/Render deployment',
+      deployed: 'FastAPI server - local development, planned Railway/Render deployment',
       stack: ['FastAPI', 'Python', 'REST API', 'Uvicorn', 'Pydantic'],
     },
     technologies: ['Python', 'CatBoost', 'Pandas', 'FastAPI', 'Scikit-learn', 'Web Scraping'],
@@ -233,10 +233,10 @@ export const projects: Project[] = [
       'Cloud chat platforms store messages in plaintext on their servers. Small teams handling sensitive discussions need a self-hostable alternative where messages are encrypted end-to-end and never readable by the server.',
     aiArchitecture: {
       heading: 'Node.js WebSocket engine with 256-bit E2EE and JWT authentication',
-      body: 'The backend is a Node.js WebSocket server implementing a publish-subscribe model for real-time message routing. 256-bit AES end-to-end encryption ensures messages are encrypted client-side before transmission — the server handles routing without ever accessing plaintext.',
+      body: 'The backend is a Node.js WebSocket server implementing a publish-subscribe model for real-time message routing. 256-bit AES end-to-end encryption ensures messages are encrypted client-side before transmission - the server handles routing without ever accessing plaintext.',
       points: [
         'Node.js WebSocket server supporting 50+ concurrent users across 10+ named rooms',
-        '256-bit AES end-to-end encryption — messages encrypted client-side, server sees only ciphertext',
+        '256-bit AES end-to-end encryption - messages encrypted client-side, server sees only ciphertext',
         'JWT authentication with short expiry windows validated on every WebSocket handshake',
         'Publish-subscribe room model with per-room participant registry and message queue',
         'Sub-100ms message delivery latency under concurrent multi-user load',
@@ -247,13 +247,13 @@ export const projects: Project[] = [
       heading: 'React frontend with real-time rendering and responsive room navigation',
       body: 'The React frontend delivers a native-app-like feel with instant message rendering via WebSocket event listeners, instant room switching with unread counters, and a responsive layout adapting between desktop and mobile. Graceful reconnection logic handles network interruptions without losing state.',
       points: [
-        'React frontend with real-time message rendering — zero page refreshes',
+        'React frontend with real-time message rendering - zero page refreshes',
         'Instant room switching with persistent unread message counters',
         'Responsive layout with desktop sidebar and mobile bottom-nav adaptations',
         'Graceful WebSocket reconnection with state recovery on network interruption',
         'Typing indicators and real-time online presence status per room',
       ],
-      deployed: 'Self-hosted Node.js server — deployable on any VPS or local network',
+      deployed: 'Self-hosted Node.js server - deployable on any VPS or local network',
       stack: ['React', 'JavaScript', 'Tailwind CSS', 'WebSocket Client API'],
     },
     technologies: ['React', 'Node.js', 'WebSockets', 'JWT', 'AES-256', 'SQL'],
@@ -274,17 +274,17 @@ export const projects: Project[] = [
     title: 'AkashKundu114.github.io (Portfolio)',
     status: 'Completed',
     shortDesc:
-      'Full-stack headless CMS powering this portfolio — protected admin panel, dynamic CRUD, FastAPI contact API, and PWA with GitHub Actions CI/CD.',
+      'Full-stack headless CMS powering this portfolio - protected admin panel, dynamic CRUD, FastAPI contact API, and PWA with GitHub Actions CI/CD.',
     description:
       'Architected a full-stack portfolio content management system as measured by automated GitHub Actions CI/CD deployments and dynamic content rendering, by developing a React PWA, a DataContext abstraction layer, and a FastAPI contact microservice.',
     problem:
       'Static portfolio sites require a full code deployment to update a single project description. Content management should be decoupled from the codebase entirely.',
     aiArchitecture: {
-      heading: 'DataContext abstraction layer — localStorage today, API tomorrow',
-      body: 'The DataContext layer acts as the single source of truth for all portfolio content. Currently backed by localStorage for zero-config persistence, it is architected to swap in a REST API with one change — making the entire site genuinely backend-ready without touching any component.',
+      heading: 'DataContext abstraction layer - localStorage today, API tomorrow',
+      body: 'The DataContext layer acts as the single source of truth for all portfolio content. Currently backed by localStorage for zero-config persistence, it is architected to swap in a REST API with one change - making the entire site genuinely backend-ready without touching any component.',
       points: [
         'DataContext abstraction decoupling every component from the storage implementation',
-        'Fuse.js fuzzy search across all projects — tolerates typos and partial matches',
+        'Fuse.js fuzzy search across all projects - tolerates typos and partial matches',
         'Multi-tag AND-filter allowing simultaneous technology filtering on projects page',
         'JSON export functionality for data backup and backend database seeding',
         'FastAPI contact microservice with rate limiting, input sanitization, and SMTP delivery',
@@ -297,7 +297,7 @@ export const projects: Project[] = [
       points: [
         'Password-gated admin at /#/admin with session-based authentication and CRUD modals',
         'Framer Motion AnimatePresence for fluid page transitions and route animations',
-        'PWA conversion — Workbox service worker caches assets and Google Fonts offline',
+        'PWA conversion - Workbox service worker caches assets and Google Fonts offline',
         'GitHub Actions CI/CD pipeline deploying to GitHub Pages with injected environment secrets',
         'JSON-LD Person schema + full Open Graph meta for ATS and SEO optimisation',
       ],

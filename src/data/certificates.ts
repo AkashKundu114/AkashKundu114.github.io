@@ -97,7 +97,7 @@ export const certificates: Certificate[] = [
   {
     id: 'aicte-aiml-internship',
     title: 'AI-ML Virtual Internship',
-    issuer: 'AICTE EduSkills — Google for Developers',
+    issuer: 'AICTE EduSkills - Google for Developers',
     date: 'December 2025',
     credentialId: '859956dff8ef63ed7ad2d7792d6ae3ec',
     category: 'AI/ML',
@@ -111,7 +111,7 @@ export const certificates: Certificate[] = [
   {
     id: 'deloitte-data-analytics',
     title: 'Data Analytics Job Simulation',
-    issuer: 'Deloitte Australia — Forage',
+    issuer: 'Deloitte Australia - Forage',
     date: 'May 2026',
     credentialId: 'CAYjKLqidoNwFmh3y',
     category: 'Data Science',
@@ -125,7 +125,7 @@ export const certificates: Certificate[] = [
   {
     id: 'deloitte-cyber',
     title: 'Cyber Security Job Simulation',
-    issuer: 'Deloitte Australia — Forage',
+    issuer: 'Deloitte Australia - Forage',
     date: 'July 2025',
     credentialId: 'fb5o2xehahXK4Qmga',
     category: 'General',

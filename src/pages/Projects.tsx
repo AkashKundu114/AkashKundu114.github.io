@@ -65,7 +65,7 @@ export default function Projects() {
               fontFamily: 'var(--font-mono)',
             }}
           >
-            End-to-end builds — models, APIs, and the interfaces in front of them.
+            End-to-end builds - models, APIs, and the interfaces in front of them.
           </p>
 
           <div className="reveal card" style={{ padding: '16px 20px', marginBottom: '22px' }}>
@@ -87,7 +87,7 @@ export default function Projects() {
               </svg>
               <input
                 type="text"
-                placeholder="Search — typos OK"
+                placeholder="Search - typos OK"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 style={{

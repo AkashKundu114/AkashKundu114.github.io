@@ -48,7 +48,7 @@ function SectionBlock({ label, heading, body, points, stack }) {
             <span
               style={{ position: 'absolute', left: 0, color: 'var(--accent)', fontWeight: 700 }}
             >
-              —
+              -
             </span>
             {pt}
           </li>
@@ -369,7 +369,7 @@ export default function ProjectDetail() {
                           fontWeight: 700,
                         }}
                       >
-                        —
+                        -
                       </span>
                       {f}
                     </li>

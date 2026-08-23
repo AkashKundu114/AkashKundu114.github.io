@@ -8,10 +8,10 @@ const aisse = education.find((e) => e.id === 3);
 const cgpaM = cur?.grade.match(/[\d.]+/);
 const statCards = [
   { label: 'Current Semester', value: '5th', sub: 'of 8 total', accent: 'var(--link)' },
-  { label: 'CGPA', value: cgpaM ? cgpaM[0] : '—', sub: 'out of 10.0', accent: 'var(--accent)' },
+  { label: 'CGPA', value: cgpaM ? cgpaM[0] : '-', sub: 'out of 10.0', accent: 'var(--accent)' },
   {
     label: 'Secondary Score',
-    value: aisse?.grade ?? '—',
+    value: aisse?.grade ?? '-',
     sub: `AISSE ${aisse?.endYear ?? ''}`,
     accent: 'var(--muted)',
   },
@@ -61,7 +61,7 @@ export default function Education() {
                       letterSpacing: '0.08em',
                     }}
                   >
-                    {edu.startYear} — {edu.endYear}
+                    {edu.startYear} - {edu.endYear}
                   </span>
                   {edu.current && <span className="tag tag-active">Current</span>}
                 </div>

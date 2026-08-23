@@ -289,7 +289,7 @@ function ProjectForm({ initial, onSave, onClose }) {
             className="form-input"
             value={form.title}
             onChange={set('title')}
-            placeholder="Copper — AI Assistant"
+            placeholder="Copper - AI Assistant"
           />
         </Field>
         <Field label="Year">
@@ -402,7 +402,7 @@ function CertForm({ initial, onSave, onClose }) {
             className="form-input"
             value={form.issuer}
             onChange={set('issuer')}
-            placeholder="Coursera — DeepLearning.AI"
+            placeholder="Coursera - DeepLearning.AI"
           />
         </Field>
         <Field label="Category">

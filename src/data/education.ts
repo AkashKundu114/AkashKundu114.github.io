@@ -25,7 +25,7 @@ export const education: Education[] = [
   },
   {
     id: 2,
-    degree: 'Higher Secondary Education (Science — AISSCE)',
+    degree: 'Higher Secondary Education (Science - AISSCE)',
     institution: 'Arambagh Vivekananda Academy',
     location: 'Arambagh, West Bengal',
     startYear: '2021',

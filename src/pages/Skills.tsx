@@ -44,7 +44,7 @@ export default function Skills() {
             }}
           >
             Most days split between AI/data work and the backend or frontend wrapped around it.
-            Grouped by layer — not a ranking.
+            Grouped by layer - not a ranking.
           </p>
 
           <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -124,8 +124,8 @@ export default function Skills() {
             </span>
             <p style={{ fontSize: '12px', lineHeight: 1.75, fontFamily: 'var(--font-mono)' }}>
               Python and React are daily drivers. Java and Spring Boot are coursework-level.
-              Everything in the AI & Data row comes from real project work — training, evaluating,
-              and deploying models — not tutorial completion.
+              Everything in the AI & Data row comes from real project work - training, evaluating,
+              and deploying models - not tutorial completion.
             </p>
           </div>
 

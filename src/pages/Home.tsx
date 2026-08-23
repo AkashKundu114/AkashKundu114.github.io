@@ -9,21 +9,21 @@ const domains = [
   {
     label: 'AI & Data',
     icon: '◈',
-    desc: 'Training models and pipelines — from raw inputs to something a product can act on.',
+    desc: 'Training models and pipelines - from raw inputs to something a product can act on.',
     tags: ['PyTorch', 'CatBoost', 'Ollama', 'Pandas', 'Computer Vision', 'SQL'],
     color: '#AFD2FA',
   },
   {
     label: 'Backend',
     icon: '◉',
-    desc: 'APIs and services between a model and its users — built reliable, not just demo-able.',
+    desc: 'APIs and services between a model and its users - built reliable, not just demo-able.',
     tags: ['FastAPI', 'Node.js', 'Spring Boot', 'PostgreSQL', 'Docker'],
     color: '#B9915E',
   },
   {
     label: 'Frontend',
     icon: '◎',
-    desc: 'Interfaces that make everything above usable — fast, responsive, friction-free.',
+    desc: 'Interfaces that make everything above usable - fast, responsive, friction-free.',
     tags: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Tauri', 'PWA'],
     color: '#FEFAEF',
   },
@@ -437,7 +437,7 @@ export default function Home() {
                 <div className="label">status</div>
                 <h2 style={{ fontSize: 'clamp(1.4rem,3vw,2.1rem)' }}>Open to internships.</h2>
                 <p style={{ fontSize: '13px', marginTop: '6px' }}>
-                  Data analytics · AI/ML · full-stack — Kolkata, India
+                  Data analytics · AI/ML · full-stack - Kolkata, India
                 </p>
               </div>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>

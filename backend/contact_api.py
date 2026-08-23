@@ -27,7 +27,7 @@ ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:5173")
 
 limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(title="Akash Kundu — Contact API", version="1.0.0")
+app = FastAPI(title="Akash Kundu - Contact API", version="1.0.0")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -127,7 +127,7 @@ async def contact(request: Request, msg: ContactMessage):
     if not SMTP_USER or not SMTP_PASS:
         raise HTTPException(
             status_code=503,
-            detail="Email service not configured — set SMTP_USER and SMTP_PASS"
+            detail="Email service not configured - set SMTP_USER and SMTP_PASS"
         )
 
     try:
