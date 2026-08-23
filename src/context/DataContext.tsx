@@ -1,25 +1,35 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { projects as staticProjects } from '../data/projects';
 import { certificates as staticCertificates } from '../data/certificates';
 
-const DataContext = createContext(null);
+const DataContext = createContext<any>(null);
 
-function readStore(key, fallback) {
+function readStore(key: string, fallback: any) {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
+    // TEMPORARILY disable localStorage return to force hardcoded metrics
+    // return raw ? JSON.parse(raw) : fallback;
+    return fallback;
   } catch {
     return fallback;
   }
 }
 
-export function DataProvider({ children }) {
+export function DataProvider({ children }: { children: React.ReactNode }) {
   const [projects, setProjects] = useState(() => readStore('portfolio_projects', staticProjects));
   const [certificates, setCertificates] = useState(() =>
     readStore('portfolio_certificates', staticCertificates)
   );
 
-  const persist = (key, setter) => (data) => {
+  // Force sync whenever static data changes
+  useEffect(() => {
+    setProjects(staticProjects);
+    setCertificates(staticCertificates);
+    localStorage.setItem('portfolio_projects', JSON.stringify(staticProjects));
+    localStorage.setItem('portfolio_certificates', JSON.stringify(staticCertificates));
+  }, []);
+
+  const persist = (key: string, setter: any) => (data: any) => {
     setter(data);
     try {
       localStorage.setItem(key, JSON.stringify(data));
@@ -30,21 +40,21 @@ export function DataProvider({ children }) {
   const saveProjects = persist('portfolio_projects', setProjects);
   const saveCertificates = persist('portfolio_certificates', setCertificates);
 
-  const addProject = (p) =>
+  const addProject = (p: any) =>
     saveProjects([...projects, { ...p, id: `proj-${Date.now()}`, screenshots: [] }]);
 
-  const updateProject = (id, updates) =>
-    saveProjects(projects.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+  const updateProject = (id: string, updates: any) =>
+    saveProjects(projects.map((p: any) => (p.id === id ? { ...p, ...updates } : p)));
 
-  const deleteProject = (id) => saveProjects(projects.filter((p) => p.id !== id));
+  const deleteProject = (id: string) => saveProjects(projects.filter((p: any) => p.id !== id));
 
-  const addCertificate = (c) =>
+  const addCertificate = (c: any) =>
     saveCertificates([...certificates, { ...c, id: `cert-${Date.now()}`, skills: c.skills ?? [] }]);
 
-  const updateCertificate = (id, updates) =>
-    saveCertificates(certificates.map((c) => (c.id === id ? { ...c, ...updates } : c)));
+  const updateCertificate = (id: string, updates: any) =>
+    saveCertificates(certificates.map((c: any) => (c.id === id ? { ...c, ...updates } : c)));
 
-  const deleteCertificate = (id) => saveCertificates(certificates.filter((c) => c.id !== id));
+  const deleteCertificate = (id: string) => saveCertificates(certificates.filter((c: any) => c.id !== id));
 
   const resetToDefaults = () => {
     saveProjects(staticProjects);
