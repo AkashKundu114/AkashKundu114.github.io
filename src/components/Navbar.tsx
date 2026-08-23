@@ -57,7 +57,7 @@ export default function Navbar() {
   return (
     <nav
       className="nav-fixed"
-      style={{ boxShadow: scrolled ? '0 1px 0 rgba(175,210,250,0.08)' : 'none' }}
+      style={{ boxShadow: scrolled ? '0 1px 0 var(--border)' : 'none' }}
     >
       <div className="container">
         <div

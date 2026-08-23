@@ -204,7 +204,7 @@ export default function Home() {
                 color: 'var(--muted)',
               }}
             >
-              B.Tech CSE student at Techno India University, Kolkata — building across the full
+              B.Tech CSE student at Techno India University, Kolkata - building across the full
               stack from ML model to production UI.
             </p>
 
@@ -218,7 +218,7 @@ export default function Home() {
               <Link to="/contact" className="btn btn-lg">
                 Get in touch
               </Link>
-              <a href="/cv/AkashKundu_Resume.pdf" download className="btn btn-lg">
+              <a href="/cv/AkashKundu_CV.pdf" download className="btn btn-lg">
                 Resume ↓
               </a>
             </div>

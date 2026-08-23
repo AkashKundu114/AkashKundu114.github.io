@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { DataProvider } from './context/DataContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AmbientBackground from './components/AmbientBackground';
@@ -38,7 +39,7 @@ function PageLoader() {
           animation: 'blink 1.2s infinite',
         }}
       >
-        Loading…
+        Loading...
       </span>
     </div>
   );
@@ -66,20 +67,22 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <DataProvider>
-      <HashRouter>
-        <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--muted)' }}>
-          <AmbientBackground />
-          <CustomCursor />
-          <Navbar />
-          <main style={{ position: 'relative', zIndex: 2 }}>
-            <Suspense fallback={<PageLoader />}>
-              <AnimatedRoutes />
-            </Suspense>
-          </main>
-          <Footer />
-        </div>
-      </HashRouter>
-    </DataProvider>
+    <ThemeProvider>
+      <DataProvider>
+        <HashRouter>
+          <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--muted)' }}>
+            <AmbientBackground />
+            <CustomCursor />
+            <Navbar />
+            <main style={{ position: 'relative', zIndex: 2 }}>
+              <Suspense fallback={<PageLoader />}>
+                <AnimatedRoutes />
+              </Suspense>
+            </main>
+            <Footer />
+          </div>
+        </HashRouter>
+      </DataProvider>
+    </ThemeProvider>
   );
 }
