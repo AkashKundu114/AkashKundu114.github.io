@@ -18,6 +18,8 @@ const CertificateDetail = lazy(() => import('./pages/CertificateDetail'));
 const Education = lazy(() => import('./pages/Education'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Admin = lazy(() => import('./pages/Admin'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Privacy = lazy(() => import('./pages/Privacy'));
 
 function PageLoader() {
   return (
@@ -59,6 +61,9 @@ function AnimatedRoutes() {
         <Route path="/certificates/:id" element={<CertificateDetail />} />
         <Route path="/education" element={<Education />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/policy" element={<Terms />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </AnimatePresence>

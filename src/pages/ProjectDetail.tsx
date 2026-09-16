@@ -331,6 +331,47 @@ export default function ProjectDetail() {
                     </p>
                   </div>
                 )}
+
+                {project.id === 'eye-disease-predictor' && (
+                  <div
+                    style={{
+                      marginTop: '16px',
+                      padding: '14px 18px',
+                      background: 'rgba(229, 115, 115, 0.08)',
+                      border: '1px solid rgba(229, 115, 115, 0.35)',
+                      borderLeft: '3px solid #E57373',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '10px',
+                        color: '#E57373',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        fontWeight: 700,
+                        marginBottom: '6px',
+                      }}
+                    >
+                      ⚠ Clinical Research &amp; SaMD Policy Notice
+                    </div>
+                    <p style={{ fontSize: '12px', lineHeight: 1.65, color: 'var(--ink-2)', marginBottom: '8px' }}>
+                      OphthalmoAI is strictly an academic research exploration and is <strong>not certified as Software as a Medical Device (SaMD)</strong> by the FDA, CE, or CDSCO. Not intended for clinical diagnosis, patient triage, or direct medical treatment.
+                    </p>
+                    <Link
+                      to="/terms#medical-disclaimer"
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        color: '#E57373',
+                        textDecoration: 'underline',
+                        fontWeight: 600,
+                      }}
+                    >
+                      View Statutory Medical &amp; AI Disclaimers ↗
+                    </Link>
+                  </div>
+                )}
               </div>
 
               {/* Visual Architecture and Snapshot Showcase */}
@@ -511,6 +552,32 @@ export default function ProjectDetail() {
                   >
                     Contact About This Project
                   </Tactile3DButton>
+                </div>
+
+                <div
+                  style={{
+                    marginTop: '16px',
+                    paddingTop: '12px',
+                    borderTop: '1px solid var(--border)',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Link
+                    to="/terms"
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '10px',
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                      color: 'var(--muted-2)',
+                      textDecoration: 'none',
+                      transition: 'color var(--t)',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted-2)')}
+                  >
+                    Terms &amp; Ethics Policy ↗
+                  </Link>
                 </div>
               </div>
             </div>

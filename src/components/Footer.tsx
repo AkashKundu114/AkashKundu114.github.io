@@ -1,15 +1,17 @@
+import { Link } from 'react-router-dom';
+
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--surface)' }}>
-      <div className="container" style={{ padding: '28px 2rem' }}>
+      <div className="container" style={{ padding: '24px 2rem' }}>
         <div
           style={{
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '12px',
+            gap: '16px',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -36,6 +38,40 @@ export default function Footer() {
             >
               © {year} Akash Kundu
             </span>
+            <span style={{ color: 'var(--border)', fontSize: '10px', margin: '0 4px' }}>·</span>
+            <Link
+              to="/terms"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                color: 'var(--muted-2)',
+                textDecoration: 'none',
+                transition: 'color var(--t)',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted-2)')}
+            >
+              Terms
+            </Link>
+            <span style={{ color: 'var(--border)', fontSize: '10px' }}>·</span>
+            <Link
+              to="/privacy"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                color: 'var(--muted-2)',
+                textDecoration: 'none',
+                transition: 'color var(--t)',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted-2)')}
+            >
+              Privacy Policy
+            </Link>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {[
