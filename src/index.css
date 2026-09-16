@@ -310,7 +310,7 @@ pre {
   border: 1px solid var(--border-2);
   background: transparent;
   color: var(--muted);
-  cursor: none;
+  cursor: pointer;
   transition:
     border-color var(--t),
     background var(--t),
@@ -424,7 +424,7 @@ pre {
   color: var(--muted-2);
   padding: 6px 12px;
   transition: color var(--t);
-  cursor: none;
+  cursor: pointer;
 }
 .nav-link::after {
   content: '';
@@ -492,7 +492,7 @@ select.form-input {
   border-radius: 0;
   background: transparent;
   color: var(--muted-2);
-  cursor: none;
+  cursor: pointer;
   transition:
     border-color var(--t),
     color var(--t),
@@ -511,7 +511,7 @@ select.form-input {
   border: 1px solid var(--border);
   border-radius: 0;
   padding: 20px 24px;
-  cursor: none;
+  cursor: pointer;
   transition:
     border-color var(--t),
     background var(--t),
@@ -626,7 +626,7 @@ select.form-input {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  cursor: none;
+  cursor: default;
   backdrop-filter: blur(6px);
 }
 .lightbox-overlay img {
@@ -727,43 +727,7 @@ select.form-input {
   color: var(--muted-2);
 }
 
-.ambient-bg {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  display: block;
-  z-index: 0;
-}
-.ambient-blob {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(90px);
-  background: radial-gradient(
-    circle,
-    rgba(185, 145, 94, 0.08) 0%,
-    rgba(175, 210, 250, 0.04) 50%,
-    transparent 70%
-  );
-  will-change: transform;
-}
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.04;
-  mix-blend-mode: screen;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-}
+
 
 .cursor-canvas {
   position: fixed;
@@ -972,28 +936,93 @@ select.form-input {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Liquid Glass Elements */
-.liquid-glass-panel {
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  background: rgba(42, 10, 14, 0.72);
-  border: 1px solid rgba(251, 245, 156, 0.22);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+/* ==========================================================================
+   Liquid Glass Optical System & Ambient Luminous Mesh
+   ========================================================================== */
+
+/* Ambient Glowing Background Orbs (Provides radiant light for glass refraction) */
+.ambient-mesh-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
-[data-theme='theme-2'] .liquid-glass-panel {
-  background: rgba(44, 34, 68, 0.72);
-  border-color: rgba(168, 207, 23, 0.22);
+.glass-ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
 }
-[data-theme='theme-3'] .liquid-glass-panel {
-  background: rgba(51, 0, 28, 0.72);
-  border-color: rgba(255, 98, 6, 0.22);
+.orb-accent {
+  top: 10%;
+  right: 12%;
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
+  opacity: 0.18;
+  animation: floatOrb1 20s ease-in-out infinite alternate;
 }
-[data-theme='theme-4'] .liquid-glass-panel {
-  background: rgba(26, 1, 8, 0.72);
-  border-color: rgba(150, 161, 66, 0.22);
+.orb-link {
+  top: 45%;
+  left: 8%;
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, var(--link) 0%, transparent 68%);
+  opacity: 0.16;
+  animation: floatOrb2 25s ease-in-out infinite alternate;
 }
-[data-theme='theme-5'] .liquid-glass-panel {
-  background: rgba(0, 21, 36, 0.72);
-  border-color: rgba(146, 225, 255, 0.22);
+.orb-secondary {
+  bottom: 8%;
+  right: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
+  opacity: 0.14;
+  animation: floatOrb3 22s ease-in-out infinite alternate;
 }
+
+@keyframes floatOrb1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-60px, 45px) scale(1.12); }
+}
+@keyframes floatOrb2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(80px, -50px) scale(1.15); }
+}
+@keyframes floatOrb3 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-50px, -40px) scale(1.08); }
+}
+
+/* Liquid Glass Lens & Panels: Prominent Apple-style specular sheen & refraction */
+.liquid-glass-panel,
+.liquid-glass-lens {
+  backdrop-filter: blur(24px) saturate(180%) contrast(106%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(106%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(0, 0, 0, 0.22) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.50);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4),
+    0 18px 45px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s var(--ease);
+}
+
+.liquid-glass-lens:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.75);
+  box-shadow:
+    inset 0 2px 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4),
+    0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
 

@@ -56,7 +56,18 @@ function NetCanvas() {
       ph: Math.random() * Math.PI * 2,
       r: Math.random() * 1.8 + 0.6,
     }));
+    let isVisible = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(draw);
+      }
+    });
+    observer.observe(canvas);
+
     const draw = () => {
+      if (!isVisible) return;
       t += 0.01;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       nodes.forEach((n) => {
@@ -93,6 +104,7 @@ function NetCanvas() {
     draw();
     return () => {
       cancelAnimationFrame(raf);
+      observer.disconnect();
       window.removeEventListener('resize', resize);
     };
   }, []);
