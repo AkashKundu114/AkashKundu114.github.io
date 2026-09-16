@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <linearGradient id="copperBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#140803"/>
+      <stop offset="50%" stop-color="#261005"/>
+      <stop offset="100%" stop-color="#0a0301"/>
+    </linearGradient>
+    <linearGradient id="moltenCopper" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7b25"/>
+      <stop offset="50%" stop-color="#e05307"/>
+      <stop offset="100%" stop-color="#993200"/>
+    </linearGradient>
+    <linearGradient id="metalCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a1207" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#190a03" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="copperGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#copperBg)"/>
+
+  <!-- Molten Neural Visualizer Orb -->
+  <g transform="translate(1000, 140)" opacity="0.35">
+    <circle cx="0" cy="0" r="140" fill="url(#moltenCopper)" filter="url(#copperGlow)"/>
+    <circle cx="0" cy="0" r="90" fill="#140803"/>
+    <circle cx="0" cy="0" r="50" fill="url(#moltenCopper)" opacity="0.7"/>
+    <path d="M -120 0 Q 0 -130 120 0 Q 0 130 -120 0" stroke="#ffaa66" stroke-width="2" fill="none"/>
+    <path d="M 0 -120 Q 130 0 0 120 Q -130 0 0 -120" stroke="#ff7b25" stroke-width="1.5" fill="none"/>
+  </g>
+
+  <!-- Header Section -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="180" height="24" rx="2" fill="#ff7b25" fill-opacity="0.15" stroke="#ff7b25" stroke-opacity="0.4"/>
+    <text x="12" y="16" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">COPPER AI OS // ARCH</text>
+    <text x="0" y="55" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800">Local-First Neural OS &amp; 30-Agent Swarm</text>
+    <text x="0" y="78" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="12" opacity="0.8">100% OFFLINE · &lt; 1.0 GB RAM · GUARDIAN SAFETY IN 0.002ms</text>
+  </g>
+
+  <!-- Left: Electron React Interface Dashboard Preview -->
+  <g transform="translate(60, 160)">
+    <rect width="480" height="340" rx="4" fill="url(#metalCard)" stroke="#ff7b25" stroke-opacity="0.3" stroke-width="1"/>
+    
+    <!-- Window Bar -->
+    <rect x="0" y="0" width="480" height="32" rx="4" fill="#190a03" stroke="#ff7b25" stroke-opacity="0.2"/>
+    <circle cx="20" cy="16" r="5" fill="#ff5f56"/>
+    <circle cx="36" cy="16" r="5" fill="#ffbd2e"/>
+    <circle cx="52" cy="16" r="5" fill="#27c93f"/>
+    <text x="75" y="20" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">copper_daemon_v1.0.4 - [OFFLINE AIR-GAPPED]</text>
+
+    <!-- UI Telemetry Panel -->
+    <g transform="translate(20, 50)">
+      <rect width="210" height="110" rx="2" fill="#110501" stroke="#ff7b25" stroke-opacity="0.2"/>
+      <text x="14" y="24" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">ACTIVE RAM FOOTPRINT</text>
+      <text x="14" y="65" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="30" font-weight="800">260 MB</text>
+      <text x="14" y="90" fill="#27c93f" font-family="'Space Mono', monospace" font-size="10">● Electron + React GUI</text>
+
+      <rect x="230" y="0" width="210" height="110" rx="2" fill="#110501" stroke="#ff7b25" stroke-opacity="0.2"/>
+      <text x="244" y="24" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">TOTAL SYSTEM LOAD</text>
+      <text x="244" y="65" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="30" font-weight="800">&lt; 0.98 GB</text>
+      <text x="244" y="90" fill="#ff7b25" font-family="'Space Mono', monospace" font-size="10">● GUI + 30-Agent Engine</text>
+    </g>
+
+    <!-- Terminal & Guardian Catch Stream -->
+    <g transform="translate(20, 180)">
+      <rect width="440" height="135" rx="2" fill="#0c0401" stroke="#ff7b25" stroke-opacity="0.25"/>
+      <text x="16" y="24" fill="#ff7b25" font-family="'Space Mono', monospace" font-size="10">&gt; [GUARDIAN_FILTER] Evaluating user request...</text>
+      <text x="16" y="44" fill="#27c93f" font-family="'Space Mono', monospace" font-size="10">&gt; [STATUS: SAFE] 0.002ms threat evaluation · 0.00% FP</text>
+      <text x="16" y="64" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">&gt; [INTENT ROUTER] Synthesizing task across 30 agents...</text>
+      <text x="16" y="84" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="10">&gt; [Qwen2.5-Coder-7B] Generating AST AST_Hook.py [42 ms]</text>
+      <text x="16" y="104" fill="#6debaa" font-family="'Space Mono', monospace" font-size="10">&gt; [DeepSeek-R1-Distill] Formally verified logic chain [PASS]</text>
+      <text x="16" y="122" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="9" opacity="0.8">&gt; Telemetry: 18,950 QPS · SQLite ephemera synced</text>
+    </g>
+  </g>
+
+  <!-- Right: 30-Agent Mesh & Tri-Model Engine -->
+  <g transform="translate(570, 160)">
+    <rect width="570" height="340" rx="4" fill="url(#metalCard)" stroke="#ff7b25" stroke-opacity="0.3" stroke-width="1"/>
+    
+    <g transform="translate(24, 20)">
+      <text x="0" y="16" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="15" font-weight="700">Specialized Local Foundation Mesh (LangCrew)</text>
+      <text x="0" y="36" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">8GB VRAM CONSTRAINT · SUB-50ms TIME-TO-FIRST-TOKEN</text>
+    </g>
+
+    <!-- 3 Model Nodes -->
+    <g transform="translate(24, 75)">
+      <!-- Model 1 -->
+      <rect width="165" height="135" rx="3" fill="#140803" stroke="#ff7b25" stroke-opacity="0.3"/>
+      <rect x="12" y="12" width="6" height="6" fill="#ff7b25"/>
+      <text x="26" y="18" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">Synthesis Engine</text>
+      <text x="12" y="44" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" font-weight="700">Qwen2.5-Coder-7B</text>
+      <text x="12" y="66" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">Code synthesis</text>
+      <text x="12" y="82" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">AST manipulation</text>
+      <text x="12" y="98" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">CLI automation</text>
+      <text x="12" y="120" fill="#27c93f" font-family="'Space Mono', monospace" font-size="9">Local Ollama Quant</text>
+
+      <!-- Model 2 -->
+      <rect x="180" width="165" height="135" rx="3" fill="#140803" stroke="#ff7b25" stroke-opacity="0.3"/>
+      <rect x="192" y="12" width="6" height="6" fill="#ffaa66"/>
+      <text x="206" y="18" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">Reasoning Core</text>
+      <text x="192" y="44" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" font-weight="700">DeepSeek-R1-Distill</text>
+      <text x="192" y="66" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">Multi-step proofs</text>
+      <text x="192" y="82" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">Complex logic</text>
+      <text x="192" y="98" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">Decision planning</text>
+      <text x="192" y="120" fill="#27c93f" font-family="'Space Mono', monospace" font-size="9">Zero Cloud Latency</text>
+
+      <!-- Model 3 -->
+      <rect x="360" width="165" height="135" rx="3" fill="#140803" stroke="#ff7b25" stroke-opacity="0.3"/>
+      <rect x="372" y="12" width="6" height="6" fill="#6debaa"/>
+      <text x="386" y="18" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">Fast Classifier</text>
+      <text x="372" y="44" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" font-weight="700">Llama-3.2-1B</text>
+      <text x="372" y="66" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">Intent routing</text>
+      <text x="372" y="82" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">0.052ms routing</text>
+      <text x="372" y="98" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="9">100% accuracy</text>
+      <text x="372" y="120" fill="#27c93f" font-family="'Space Mono', monospace" font-size="9">18,950 QPS Throughput</text>
+    </g>
+
+    <!-- Memory & Storage Bar -->
+    <g transform="translate(24, 230)">
+      <rect width="525" height="85" rx="3" fill="#110501" stroke="#ffaa66" stroke-opacity="0.2"/>
+      <text x="16" y="24" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">EPISTEMIC PERSISTENT MEMORY LAYER</text>
+      <text x="16" y="48" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="11">SQLite (Relational State) + ChromaDB (Local Embeddings)</text>
+      <text x="16" y="68" fill="#27c93f" font-family="'Space Mono', monospace" font-size="10">3 Confidence Classes · Dynamic Working Cache · Cross-session State</text>
+    </g>
+  </g>
+
+  <!-- Bottom Metric Badges -->
+  <g transform="translate(60, 530)">
+    <rect x="0" y="0" width="260" height="90" rx="4" fill="#1b0802" stroke="#ff7b25" stroke-opacity="0.25"/>
+    <text x="20" y="30" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">GUARDIAN EVAL SPEED</text>
+    <text x="20" y="65" fill="#27c93f" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">0.002 ms</text>
+    <text x="175" y="62" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="10">100% block rate</text>
+
+    <rect x="280" y="0" width="260" height="90" rx="4" fill="#1b0802" stroke="#ff7b25" stroke-opacity="0.25"/>
+    <text x="300" y="30" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">INTENT ROUTING TEST</text>
+    <text x="300" y="65" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">1,360</text>
+    <text x="410" y="62" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">combinatorial tests</text>
+
+    <rect x="560" y="0" width="260" height="90" rx="4" fill="#1b0802" stroke="#ff7b25" stroke-opacity="0.25"/>
+    <text x="580" y="30" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">SYSTEM RAM USAGE</text>
+    <text x="580" y="65" fill="#ff7b25" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">&lt; 1.0 GB</text>
+    <text x="710" y="62" fill="#ffe0cf" font-family="'Space Mono', monospace" font-size="10">active memory</text>
+
+    <rect x="840" y="0" width="300" height="90" rx="4" fill="#1b0802" stroke="#ff7b25" stroke-opacity="0.25"/>
+    <text x="860" y="30" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">AGENTIC SWARM</text>
+    <text x="860" y="65" fill="#ffe0cf" font-family="'Space Grotesk', sans-serif" font-size="26" font-weight="800">30 Offline Agents</text>
+    <text x="860" y="80" fill="#ffaa66" font-family="'Space Mono', monospace" font-size="10">FastAPI · React · Electron</text>
+  </g>
+</svg>

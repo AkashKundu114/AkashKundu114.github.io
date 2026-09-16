@@ -1,3 +1,8 @@
+export interface ProjectScreenshot {
+  src: string;
+  caption: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -23,7 +28,7 @@ export interface Project {
   github: string | null;
   liveLink: string | null;
   features: string[];
-  screenshots: string[];
+  screenshots: ProjectScreenshot[];
 }
 
 export const projects: Project[] = [
@@ -71,7 +76,12 @@ export const projects: Project[] = [
       'Prevented agent state data loss, achieving 100% test pass rates, by orchestrating LangGraph state-machines backed by PostgreSQL pgvector.',
       'Reduced latency to meet strict deadlines, managing 2,000 daily messages, by migrating to in-process FastAPI BackgroundTasks.',
     ],
-    screenshots: [],
+    screenshots: [
+      {
+        src: '/projects/ai-sathi-architecture.svg',
+        caption: 'Voice-Ledger Pipeline: Sarvam AI + Ollama cascade, LangGraph state-machine, PostgreSQL pgvector RAG, and Azure Container deployment',
+      },
+    ],
   },
 
   {
@@ -127,7 +137,12 @@ export const projects: Project[] = [
       'Automated developer workflows as measured by reduced manual CLI usage, by creating system-level automation hooks for file operations.',
       'Delivered native performance as measured by low overhead execution, by building a cross-platform desktop app via Tauri.',
     ],
-    screenshots: [],
+    screenshots: [
+      {
+        src: '/projects/copper-ai-os.svg',
+        caption: 'COPPER OS Architecture: Molten neural visualizer, Guardian safety engine (0.002ms), 30-agent LangCrew mesh, and SQLite/ChromaDB memory',
+      },
+    ],
   },
   {
     id: 'eye-disease-predictor',
@@ -172,7 +187,12 @@ export const projects: Project[] = [
       'Deployed production-ready machine learning services, handling continuous diagnostic requests, by building robust FastAPI REST endpoints backed by Alembic migrations.',
       'Eliminated single-model blind spots, maintaining <1.2 GB VRAM overhead, by engineering a dense PyTorch Meta-Classifier Fusion head.',
     ],
-    screenshots: [],
+    screenshots: [
+      {
+        src: '/projects/ophthalmoai-pipeline.svg',
+        caption: 'OphthalmoAI Pipeline: 99.72% screening accuracy, Tri-Backbone Meta-Classifier, Grad-CAM attention heatmap, and FastAPI serving',
+      },
+    ],
   },
   {
     id: 'ai-hardware-benchmark',
@@ -324,6 +344,11 @@ export const projects: Project[] = [
       'Optimized application performance as measured by offline capabilities, by converting the application into a PWA using a Workbox service worker.',
       'Automated deployment workflows as measured by zero-touch publishing, by configuring GitHub Actions CI/CD with environment secret injection.',
     ],
-    screenshots: [],
+    screenshots: [
+      {
+        src: '/projects/portfolio-cms.svg',
+        caption: 'Portfolio Architecture: Headless DataContext, Workbox PWA offline caching, Fuse.js fuzzy index, and GitHub Actions automated deployment',
+      },
+    ],
   },
 ];

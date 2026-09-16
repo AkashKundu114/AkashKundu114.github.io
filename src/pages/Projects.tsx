@@ -4,6 +4,8 @@ import Fuse from 'fuse.js';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import LiquidGlassLens from '../components/LiquidGlassLens';
+import { ShinyButton, Tactile3DButton } from '../components/EvilButtons';
 
 const FUSE_OPTIONS = {
   keys: [
@@ -25,7 +27,7 @@ export default function Projects() {
   const navigate = useNavigate();
   const ref = useRevealChildren();
   const [query, setQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const allTechs = useMemo(
     () => [...new Set(projects.flatMap((p) => p.technologies ?? []))].sort(),
@@ -39,7 +41,7 @@ export default function Projects() {
     return r;
   }, [query, selectedTags, fuse, projects]);
 
-  const toggleTag = (t) =>
+  const toggleTag = (t: string) =>
     setSelectedTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
   const clearAll = () => {
     setQuery('');
@@ -49,45 +51,51 @@ export default function Projects() {
 
   return (
     <PageTransition>
-      <section className="section" ref={ref}>
+      <section className="section" style={{ paddingTop: '96px' }} ref={ref}>
         <div className="container">
-          <div className="label reveal">selected work</div>
+          <div className="label reveal">portfolio &amp; systems</div>
           <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
-            Things I've built.
+            Production &amp; Research Systems.
           </h2>
           <p
             className="reveal"
             style={{
               fontSize: '13px',
-              maxWidth: '52ch',
+              maxWidth: '56ch',
               lineHeight: 1.8,
               marginBottom: '36px',
               fontFamily: 'var(--font-mono)',
+              color: 'var(--ink-2)',
             }}
           >
-            End-to-end builds - models, APIs, and the interfaces in front of them.
+            End-to-end builds — PyTorch vision backbones, LangGraph agent swarms, FastAPI pipelines, and
+            production desktop/web interfaces.
           </p>
 
-          <div className="reveal card" style={{ padding: '16px 20px', marginBottom: '22px' }}>
+          <LiquidGlassLens
+            intensity="subtle"
+            className="reveal card"
+            style={{ padding: '18px 22px', marginBottom: '24px' }}
+          >
             <div
               style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}
             >
               <svg
-                width="13"
-                height="13"
+                width="14"
+                height="14"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="square"
-                style={{ color: 'var(--muted-2)', flexShrink: 0 }}
+                style={{ color: 'var(--accent)', flexShrink: 0 }}
               >
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
               </svg>
               <input
                 type="text"
-                placeholder="Search - typos OK"
+                placeholder="Search projects by tech, architecture, or title..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 style={{
@@ -101,33 +109,40 @@ export default function Projects() {
                 }}
               />
               {hasFilters && (
-                <button onClick={clearAll} className="tag" style={{ cursor: 'none' }}>
-                  clear
+                <button
+                  onClick={clearAll}
+                  className="tag tag-active"
+                  style={{ cursor: 'pointer' }}
+                >
+                  Clear filters ✕
                 </button>
               )}
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
               {allTechs.map((tag) => (
                 <button
                   key={tag}
                   onClick={() => toggleTag(tag)}
                   className={`tag${selectedTags.includes(tag) ? ' tag-active' : ''}`}
-                  style={{ cursor: 'none' }}
+                  style={{
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
                 >
                   {tag}
                 </button>
               ))}
             </div>
-          </div>
+          </LiquidGlassLens>
 
           {hasFilters && (
             <div
               className="reveal"
               style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                color: 'var(--muted-2)',
-                marginBottom: '14px',
+                fontSize: '11px',
+                color: 'var(--accent)',
+                marginBottom: '16px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -136,19 +151,20 @@ export default function Projects() {
               <span
                 style={{
                   display: 'inline-block',
-                  width: '5px',
-                  height: '5px',
+                  width: '6px',
+                  height: '6px',
                   background: 'var(--accent)',
+                  borderRadius: '50%',
                 }}
               />
-              {filtered.length} result{filtered.length !== 1 ? 's' : ''} found
+              {filtered.length} project{filtered.length !== 1 ? 's' : ''} matched
             </div>
           )}
 
           {filtered.length > 0 ? (
             <div
               className="stagger"
-              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
             >
               {filtered.map((p, i) => (
                 <div
@@ -158,18 +174,18 @@ export default function Projects() {
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
-                  style={{ '--i': i }}
+                  style={{ '--i': i, padding: '20px 24px' } as any}
                 >
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'flex-start',
                       justifyContent: 'space-between',
-                      gap: '16px',
+                      gap: '18px',
                       flexWrap: 'wrap',
                     }}
                   >
-                    <div style={{ flex: 1, minWidth: 240 }}>
+                    <div style={{ flex: 1, minWidth: 260 }}>
                       <div
                         style={{
                           display: 'flex',
@@ -189,16 +205,41 @@ export default function Projects() {
                           {p.year}
                         </span>
                         {p.status && <span className="tag">{p.status}</span>}
+                        {p.screenshots && p.screenshots.length > 0 && (
+                          <span
+                            className="tag"
+                            style={{
+                              borderColor: 'var(--accent)',
+                              color: 'var(--accent)',
+                              background: 'var(--accent-soft)',
+                            }}
+                          >
+                            Snapshot Available ✓
+                          </span>
+                        )}
+                        {p.liveLink && (
+                          <span
+                            className="tag"
+                            style={{
+                              borderColor: 'var(--success)',
+                              color: 'var(--success)',
+                              background: 'rgba(109,235,170,0.1)',
+                            }}
+                          >
+                            Live ↗
+                          </span>
+                        )}
                       </div>
-                      <h3 style={{ marginBottom: '6px', fontSize: '0.95rem', color: 'var(--ink)' }}>
+                      <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
                         {p.title}
                       </h3>
                       <p
                         style={{
                           fontSize: '13px',
                           lineHeight: 1.65,
-                          maxWidth: '55ch',
+                          maxWidth: '56ch',
                           fontFamily: 'var(--font-mono)',
+                          color: 'var(--ink-2)',
                         }}
                       >
                         {p.shortDesc}
@@ -207,37 +248,49 @@ export default function Projects() {
                     <div
                       style={{
                         display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: '4px',
-                        maxWidth: '240px',
-                        justifyContent: 'flex-end',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                        gap: '10px',
+                        minWidth: '220px',
                       }}
                     >
-                      {p.github && (
-                        <a
-                          href={p.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="btn btn-sm"
-                          style={{
-                            padding: '2px 8px',
-                            fontSize: '11px',
-                            height: 'auto',
-                            minHeight: 0,
-                          }}
-                        >
-                          Source ↗
-                        </a>
-                      )}
-                      {(p.technologies ?? []).map((t) => (
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '4px',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        {(p.technologies ?? []).map((t) => (
+                          <span
+                            key={t}
+                            className={`tag${selectedTags.includes(t) ? ' tag-active' : ''}`}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        {p.github && (
+                          <a
+                            href={p.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="btn btn-sm"
+                            style={{ padding: '3px 10px', fontSize: '10px' }}
+                          >
+                            GitHub ↗
+                          </a>
+                        )}
                         <span
-                          key={t}
-                          className={`tag${selectedTags.includes(t) ? ' tag-active' : ''}`}
+                          className="btn btn-sm btn-primary"
+                          style={{ padding: '3px 10px', fontSize: '10px' }}
                         >
-                          {t}
+                          Deep Dive →
                         </span>
-                      ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -246,14 +299,14 @@ export default function Projects() {
           ) : (
             <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
-                No projects match.{' '}
+                No projects match current filters.{' '}
                 <button
                   onClick={clearAll}
                   style={{
                     color: 'var(--accent)',
                     background: 'none',
                     border: 'none',
-                    cursor: 'none',
+                    cursor: 'pointer',
                     fontFamily: 'inherit',
                     fontSize: 'inherit',
                     textDecoration: 'underline',

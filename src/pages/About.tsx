@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 
 const meta = [
-  { key: 'Location', val: 'Kolkata, West Bengal' },
+  { key: 'Location', val: 'Kolkata, West Bengal (Open to Relocate / Remote)' },
   { key: 'Email', val: 'akashkundu7487@gmail.com', link: 'mailto:akashkundu7487@gmail.com' },
   { key: 'Phone', val: '+91 9064349004', link: 'tel:+919064349004' },
-  { key: 'Status', val: 'Open to internships' },
+  { key: 'Status', val: 'Open to Full-Time & Pre-Placement Roles (2027)' },
   { key: 'Languages', val: 'Bengali · English · Hindi' },
   { key: 'Education', val: 'B.Tech CSE - Techno India University, 2027' },
 ];
@@ -134,13 +135,16 @@ export default function About() {
                   )}
                 </div>
               ))}
-              <div style={{ padding: '14px 20px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <Link to="/projects" className="btn btn-primary btn-sm">
-                  Projects
-                </Link>
-                <Link to="/contact" className="btn btn-sm">
+              <div style={{ padding: '16px 20px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <ShinyButton to="/projects" size="sm">
+                  Projects →
+                </ShinyButton>
+                <Tactile3DButton to="/contact" size="sm">
                   Contact
-                </Link>
+                </Tactile3DButton>
+                <GlassButton href="/cv/AkashKundu_CV.pdf" download size="sm">
+                  Resume ↓
+                </GlassButton>
               </div>
             </div>
 

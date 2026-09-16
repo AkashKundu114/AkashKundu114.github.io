@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <linearGradient id="medBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#051419"/>
+      <stop offset="50%" stop-color="#0a232b"/>
+      <stop offset="100%" stop-color="#020a0d"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38ef7d"/>
+      <stop offset="100%" stop-color="#11998e"/>
+    </linearGradient>
+    <linearGradient id="retinaCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0e323d" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#071b22" stop-opacity="0.95"/>
+    </linearGradient>
+    <radialGradient id="gradCamHeat" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff0000" stop-opacity="0.85"/>
+      <stop offset="35%" stop-color="#ffaa00" stop-opacity="0.6"/>
+      <stop offset="65%" stop-color="#00ffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#001133" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#medBg)"/>
+
+  <!-- Header Section -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="180" height="24" rx="2" fill="#38ef7d" fill-opacity="0.15" stroke="#38ef7d" stroke-opacity="0.4"/>
+    <text x="12" y="16" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">OPHTHALMOAI PLATFORM</text>
+    <text x="0" y="55" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800">Point-of-Care Retinal Screening &amp; Grad-CAM Pipeline</text>
+    <text x="0" y="78" fill="#80deea" font-family="'Space Mono', monospace" font-size="12" opacity="0.85">99.72% SCREENING ACCURACY · 12 DISEASES · 5,663 CLINICAL IMAGES</text>
+  </g>
+
+  <!-- Left: Retinal Fundus Scan & GradCAM Attention Heatmap -->
+  <g transform="translate(60, 160)">
+    <rect width="360" height="340" rx="4" fill="url(#retinaCard)" stroke="#38ef7d" stroke-opacity="0.3" stroke-width="1"/>
+    
+    <text x="20" y="30" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">Retinal Fundus &amp; Grad-CAM Saliency</text>
+    <text x="20" y="48" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">Clinical Explainability &amp; Lesion Localization</text>
+
+    <!-- Simulated Retinal Scan with Heatmap overlay -->
+    <g transform="translate(40, 70)">
+      <circle cx="140" cy="120" r="115" fill="#1c0700" stroke="#80deea" stroke-opacity="0.4" stroke-width="1.5"/>
+      <!-- Optic Disc -->
+      <circle cx="95" cy="120" r="28" fill="#ffb74d" opacity="0.8"/>
+      <!-- Vessel branches -->
+      <path d="M 95 120 Q 140 80 210 65 M 95 120 Q 150 160 215 185 M 95 120 Q 70 70 50 40 M 95 120 Q 60 160 40 200" stroke="#d84315" stroke-width="3.5" fill="none" opacity="0.85"/>
+      <!-- Grad-CAM Saliency Heatmap Center -->
+      <circle cx="165" cy="130" r="75" fill="url(#gradCamHeat)"/>
+      <!-- Diagnostic Target Box -->
+      <rect x="125" y="90" width="80" height="75" fill="none" stroke="#38ef7d" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <text x="130" y="82" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="9" font-weight="700">Diabetic Retinopathy</text>
+    </g>
+
+    <g transform="translate(20, 285)">
+      <rect width="320" height="36" rx="2" fill="#041217" stroke="#38ef7d" stroke-opacity="0.3"/>
+      <text x="14" y="22" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="10" font-weight="700">Grad-CAM PDF Generator:</text>
+      <text x="175" y="22" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="10">40% lower clinician review</text>
+    </g>
+  </g>
+
+  <!-- Middle: Tri-Backbone Meta-Classifier Fusion -->
+  <g transform="translate(450, 160)">
+    <rect width="420" height="340" rx="4" fill="url(#retinaCard)" stroke="#38ef7d" stroke-opacity="0.3" stroke-width="1"/>
+    
+    <text x="20" y="30" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">Tri-Backbone Meta-Classifier Fusion</text>
+    <text x="20" y="48" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">PyTorch GPU Mixed Precision · 23x Training Speedup</text>
+
+    <!-- 3 Vision Ensembles -->
+    <g transform="translate(20, 70)">
+      <!-- Backbone 1 -->
+      <rect width="380" height="52" rx="3" fill="#041217" stroke="#80deea" stroke-opacity="0.25"/>
+      <text x="16" y="24" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="11" font-weight="700">ConvNeXt-Small</text>
+      <text x="16" y="42" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="9">7x7 depthwise convolutions · Macro feature extraction</text>
+      <text x="310" y="32" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">98.4% Indiv</text>
+
+      <!-- Backbone 2 -->
+      <rect y="64" width="380" height="52" rx="3" fill="#041217" stroke="#80deea" stroke-opacity="0.25"/>
+      <text x="16" y="88" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="11" font-weight="700">DenseNet-201</text>
+      <text x="16" y="106" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="9">Dense feature reuse · Multi-scale fine lesion detection</text>
+      <text x="310" y="96" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">98.9% Indiv</text>
+
+      <!-- Backbone 3 -->
+      <rect y="128" width="380" height="52" rx="3" fill="#041217" stroke="#80deea" stroke-opacity="0.25"/>
+      <text x="16" y="152" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="11" font-weight="700">EfficientNet-V2-M</text>
+      <text x="16" y="170" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="9">Fused-MBConv layers · High parameter efficiency</text>
+      <text x="310" y="160" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">99.1% Indiv</text>
+
+      <!-- Fusion Head -->
+      <rect y="195" width="380" height="58" rx="3" fill="#061e24" stroke="#38ef7d" stroke-width="1.2"/>
+      <text x="16" y="220" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="800">Dense Meta-Classifier Fusion Head</text>
+      <text x="16" y="240" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="10" font-weight="700">Fused Output Logits &gt; 99.72% Final Accuracy (&lt;1.2GB VRAM)</text>
+    </g>
+  </g>
+
+  <!-- Right: Serving & Deployment -->
+  <g transform="translate(900, 160)">
+    <rect width="240" height="340" rx="4" fill="url(#retinaCard)" stroke="#38ef7d" stroke-opacity="0.3" stroke-width="1"/>
+    
+    <text x="16" y="30" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">FastAPI &amp; Docker</text>
+    <text x="16" y="48" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">Production Serving Architecture</text>
+
+    <g transform="translate(16, 75)">
+      <rect width="208" height="65" rx="2" fill="#041217" stroke="#80deea" stroke-opacity="0.2"/>
+      <text x="12" y="24" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="10" font-weight="700">3 REST ENDPOINTS</text>
+      <text x="12" y="42" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="9">/predict /gradcam /report</text>
+      <text x="12" y="56" fill="#80deea" font-family="'Space Mono', monospace" font-size="8">Pydantic validation schemas</text>
+
+      <rect y="78" width="208" height="65" rx="2" fill="#041217" stroke="#80deea" stroke-opacity="0.2"/>
+      <text x="12" y="102" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="10" font-weight="700">ALEMBIC MIGRATIONS</text>
+      <text x="12" y="120" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="9">Verified schema cycles</text>
+      <text x="12" y="134" fill="#80deea" font-family="'Space Mono', monospace" font-size="8">PostgreSQL clinical logs</text>
+
+      <rect y="156" width="208" height="75" rx="2" fill="#061e24" stroke="#38ef7d" stroke-opacity="0.4"/>
+      <text x="12" y="180" fill="#38ef7d" font-family="'Space Mono', monospace" font-size="10" font-weight="700">66 PYTEST SUITE</text>
+      <text x="12" y="200" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="10">100% test pass rate</text>
+      <text x="12" y="218" fill="#80deea" font-family="'Space Mono', monospace" font-size="9">Epoch time: 20.6s on GPU</text>
+    </g>
+  </g>
+
+  <!-- Bottom Metric Badges -->
+  <g transform="translate(60, 530)">
+    <rect x="0" y="0" width="260" height="90" rx="4" fill="#061e24" stroke="#38ef7d" stroke-opacity="0.25"/>
+    <text x="20" y="30" fill="#80deea" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">SCREENING ACCURACY</text>
+    <text x="20" y="65" fill="#38ef7d" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">99.72%</text>
+    <text x="165" y="62" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="10">12 eye diseases</text>
+
+    <rect x="280" y="0" width="260" height="90" rx="4" fill="#061e24" stroke="#38ef7d" stroke-opacity="0.25"/>
+    <text x="300" y="30" fill="#80deea" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">DATASET EVALUATION</text>
+    <text x="300" y="65" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">5,663</text>
+    <text x="405" y="62" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">retinal images</text>
+
+    <rect x="560" y="0" width="260" height="90" rx="4" fill="#061e24" stroke="#38ef7d" stroke-opacity="0.25"/>
+    <text x="580" y="30" fill="#80deea" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">TRAINING SPEEDUP</text>
+    <text x="580" y="65" fill="#38ef7d" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">23x</text>
+    <text x="645" y="62" fill="#e0f7fa" font-family="'Space Mono', monospace" font-size="10">FP16 mixed precision</text>
+
+    <rect x="840" y="0" width="300" height="90" rx="4" fill="#061e24" stroke="#38ef7d" stroke-opacity="0.25"/>
+    <text x="860" y="30" fill="#80deea" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">EXPLAINABLE AI</text>
+    <text x="860" y="65" fill="#e0f7fa" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="800">Grad-CAM PDF</text>
+    <text x="860" y="80" fill="#80deea" font-family="'Space Mono', monospace" font-size="10">PyTorch · OpenCV · Docker</text>
+  </g>
+</svg>

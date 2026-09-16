@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <linearGradient id="portBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#141e34"/>
+      <stop offset="100%" stop-color="#070a14"/>
+    </linearGradient>
+    <linearGradient id="blueCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a2744" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0f1728" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#portBg)"/>
+
+  <!-- Header Section -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="180" height="24" rx="2" fill="#60a5fa" fill-opacity="0.15" stroke="#60a5fa" stroke-opacity="0.4"/>
+    <text x="12" y="16" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">HEADLESS CMS &amp; PWA</text>
+    <text x="0" y="55" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800">Decoupled Architecture &amp; Client-Side CMS</text>
+    <text x="0" y="78" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="12" opacity="0.85">REACT 18 · WORKBOX PWA · FASTAPI CONTACT MICROSERVICE · GITHUB ACTIONS</text>
+  </g>
+
+  <!-- 3 Major Architecture Blocks -->
+  <g transform="translate(60, 160)">
+    <!-- Block 1: UI & DataContext Abstraction -->
+    <rect width="340" height="340" rx="4" fill="url(#blueCard)" stroke="#60a5fa" stroke-opacity="0.3"/>
+    <text x="20" y="32" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">1. DataContext Abstraction</text>
+    <text x="20" y="52" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10">Decoupled Reactive Store</text>
+
+    <g transform="translate(20, 75)">
+      <rect width="300" height="65" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="24" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">Fuse.js Fuzzy Search</text>
+      <text x="14" y="42" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Multi-weighted search (title, tags, desc)</text>
+      <text x="14" y="56" fill="#4ade80" font-family="'Space Mono', monospace" font-size="8">Typo-tolerant instant querying</text>
+
+      <rect y="78" width="300" height="65" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="102" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">Storage Swappability</text>
+      <text x="14" y="120" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">localStorage today &gt; REST API tomorrow</text>
+      <text x="14" y="134" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="8">0 component modifications required</text>
+
+      <rect y="156" width="300" height="75" rx="2" fill="#0b1120" stroke="#4ade80" stroke-opacity="0.3"/>
+      <text x="14" y="180" fill="#4ade80" font-family="'Space Mono', monospace" font-size="11" font-weight="700">Workbox PWA Offline Cache</text>
+      <text x="14" y="198" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Precaches static assets &amp; Google fonts</text>
+      <text x="14" y="214" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="8">Installable PWA manifest v2</text>
+    </g>
+  </g>
+
+  <!-- Block 2: Protected Admin Panel -->
+  <g transform="translate(430, 160)">
+    <rect width="340" height="340" rx="4" fill="url(#blueCard)" stroke="#60a5fa" stroke-opacity="0.3"/>
+    <text x="20" y="32" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">2. Password-Gated Admin CMS</text>
+    <text x="20" y="52" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10">Dynamic In-Browser CRUD Studio</text>
+
+    <g transform="translate(20, 75)">
+      <rect width="300" height="65" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="24" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">Session Authentication</text>
+      <text x="14" y="42" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Protected route gate at /#/admin</text>
+      <text x="14" y="56" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="8">HMAC token check &amp; auto-expiry</text>
+
+      <rect y="78" width="300" height="65" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="102" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">Real-Time CRUD Modals</text>
+      <text x="14" y="120" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Dynamic project &amp; certification edits</text>
+      <text x="14" y="134" fill="#4ade80" font-family="'Space Mono', monospace" font-size="8">Instant local state synchronization</text>
+
+      <rect y="156" width="300" height="75" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="180" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">JSON Backup &amp; Seed</text>
+      <text x="14" y="198" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Export &amp; import entire portfolio data</text>
+      <text x="14" y="214" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="8">Seamless database migration target</text>
+    </g>
+  </g>
+
+  <!-- Block 3: CI/CD & Fast Microservice -->
+  <g transform="translate(800, 160)">
+    <rect width="340" height="340" rx="4" fill="url(#blueCard)" stroke="#60a5fa" stroke-opacity="0.3"/>
+    <text x="20" y="32" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">3. FastAPI API &amp; CI/CD</text>
+    <text x="20" y="52" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10">Automated Pipeline &amp; Contact Service</text>
+
+    <g transform="translate(20, 75)">
+      <rect width="300" height="65" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="24" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">GitHub Actions CI/CD</text>
+      <text x="14" y="42" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Auto build, test, and deploy to Pages</text>
+      <text x="14" y="56" fill="#4ade80" font-family="'Space Mono', monospace" font-size="8">Injected environment secrets</text>
+
+      <rect y="78" width="300" height="65" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="102" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">FastAPI Contact Microservice</text>
+      <text x="14" y="120" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">Rate limiting, input sanitization</text>
+      <text x="14" y="134" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="8">SMTP async mail delivery</text>
+
+      <rect y="156" width="300" height="75" rx="2" fill="#0b1120" stroke="#60a5fa" stroke-opacity="0.2"/>
+      <text x="14" y="180" fill="#60a5fa" font-family="'Space Mono', monospace" font-size="11" font-weight="700">ATS &amp; SEO Optimizations</text>
+      <text x="14" y="198" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="9">JSON-LD Person schema markup</text>
+      <text x="14" y="214" fill="#4ade80" font-family="'Space Mono', monospace" font-size="8">OpenGraph rich metadata</text>
+    </g>
+  </g>
+
+  <!-- Bottom Metric Badges -->
+  <g transform="translate(60, 530)">
+    <rect x="0" y="0" width="260" height="90" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-opacity="0.25"/>
+    <text x="20" y="30" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">DEPLOYMENT SPEED</text>
+    <text x="20" y="65" fill="#4ade80" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">100%</text>
+    <text x="135" y="62" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="10">Automated CI/CD</text>
+
+    <rect x="280" y="0" width="260" height="90" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-opacity="0.25"/>
+    <text x="300" y="30" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">SEARCH LATENCY</text>
+    <text x="300" y="65" fill="#60a5fa" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">&lt; 2 ms</text>
+    <text x="420" y="62" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="10">Fuse.js client index</text>
+
+    <rect x="560" y="0" width="260" height="90" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-opacity="0.25"/>
+    <text x="580" y="30" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">OFFLINE SUPPORT</text>
+    <text x="580" y="65" fill="#4ade80" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">PWA</text>
+    <text x="665" y="62" fill="#f8fafc" font-family="'Space Mono', monospace" font-size="10">ServiceWorker cache</text>
+
+    <rect x="840" y="0" width="300" height="90" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-opacity="0.25"/>
+    <text x="860" y="30" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">LIVE CUSTOM DOMAIN</text>
+    <text x="860" y="65" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="800">akashkundu.me</text>
+    <text x="860" y="80" fill="#93c5fd" font-family="'Space Mono', monospace" font-size="10">FastAPI Microservice backend</text>
+  </g>
+</svg>

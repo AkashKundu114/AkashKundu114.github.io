@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#140508"/>
+      <stop offset="50%" stop-color="#2a0a0e"/>
+      <stop offset="100%" stop-color="#0a0204"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbf59c"/>
+      <stop offset="100%" stop-color="#ffd592"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b0e14" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#22070a" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle Grid lines -->
+  <g opacity="0.12" stroke="#fbf59c" stroke-width="0.8">
+    <line x1="0" y1="135" x2="1200" y2="135"/>
+    <line x1="0" y1="270" x2="1200" y2="270"/>
+    <line x1="0" y1="405" x2="1200" y2="405"/>
+    <line x1="0" y1="540" x2="1200" y2="540"/>
+    <line x1="300" y1="0" x2="300" y2="675"/>
+    <line x1="600" y1="0" x2="600" y2="675"/>
+    <line x1="900" y1="0" x2="900" y2="675"/>
+  </g>
+
+  <!-- Header Section -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="160" height="24" rx="2" fill="#fbf59c" fill-opacity="0.12" stroke="#fbf59c" stroke-opacity="0.3"/>
+    <text x="12" y="16" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">AI-SATHI SYSTEM</text>
+    <text x="0" y="55" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800">Voice-Ledger &amp; Multi-Agent Architecture</text>
+    <text x="0" y="78" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="12" opacity="0.8">PILOT SCALE: 100 USERS · 2,000 MSG/DAY · AZURE CONTAINER APPS</text>
+  </g>
+
+  <!-- Architecture Flow Pipeline -->
+
+  <!-- Node 1: Voice Input & WhatsApp Gateway -->
+  <g transform="translate(60, 160)">
+    <rect width="230" height="340" rx="4" fill="url(#cardGrad)" stroke="#fbf59c" stroke-opacity="0.25" stroke-width="1"/>
+    <rect x="16" y="18" width="8" height="8" fill="#6debaa"/>
+    <text x="32" y="26" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">1. Ingestion Layer</text>
+    <text x="16" y="55" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">WHATSAPP CLOUD API</text>
+    <rect x="16" y="70" width="198" height="60" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="26" y="92" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="11">Spoken Bengali Audio</text>
+    <text x="26" y="112" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="9" opacity="0.7">OGG/Opus &lt; 2000 ms</text>
+
+    <text x="16" y="160" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">FASTAPI GATEWAY</text>
+    <rect x="16" y="175" width="198" height="75" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="26" y="196" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="11">FastAPI BackgroundTasks</text>
+    <text x="26" y="214" fill="#6debaa" font-family="'Space Mono', monospace" font-size="9">In-process Async Queue</text>
+    <text x="26" y="234" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="9" opacity="0.7">Dedup &amp; Secret Validation</text>
+
+    <rect x="16" y="275" width="198" height="42" rx="2" fill="#2a0a0e" stroke="#6debaa" stroke-opacity="0.4"/>
+    <text x="26" y="296" fill="#6debaa" font-family="'Space Mono', monospace" font-size="10" font-weight="700">SUB-200ms LATENCY</text>
+    <text x="26" y="309" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="9">Zero dropped webhooks</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 290 330 L 340 330" stroke="#fbf59c" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+  <polygon points="345,330 337,325 337,335" fill="#fbf59c"/>
+
+  <!-- Node 2: Speech & Intent Cascade -->
+  <g transform="translate(350, 160)">
+    <rect width="240" height="340" rx="4" fill="url(#cardGrad)" stroke="#fbf59c" stroke-opacity="0.25" stroke-width="1"/>
+    <rect x="16" y="18" width="8" height="8" fill="#ffd592"/>
+    <text x="32" y="26" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">2. Speech &amp; Intent</text>
+    
+    <text x="16" y="55" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">PRIMARY STT</text>
+    <rect x="16" y="70" width="208" height="70" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="26" y="92" fill="#ffd592" font-family="'Space Mono', monospace" font-size="11" font-weight="700">Sarvam AI Saaras STT</text>
+    <text x="26" y="110" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="10">Bengali dialect acoustics</text>
+    <text x="26" y="126" fill="#6debaa" font-family="'Space Mono', monospace" font-size="9">Native colloquial phrasing</text>
+
+    <text x="16" y="165" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">FALLBACK CASCADE</text>
+    <rect x="16" y="180" width="208" height="70" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="26" y="202" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="11">Local Ollama Whisper</text>
+    <text x="26" y="220" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="9">Zero Cloud Dependency</text>
+    <text x="26" y="236" fill="#6debaa" font-family="'Space Mono', monospace" font-size="9">100% Uptime Guarantee</text>
+
+    <rect x="16" y="275" width="208" height="42" rx="2" fill="#2a0a0e" stroke="#fbf59c" stroke-opacity="0.4"/>
+    <text x="26" y="296" fill="#ffd592" font-family="'Space Mono', monospace" font-size="10" font-weight="700">ZERO VENDOR LOCK-IN</text>
+    <text x="26" y="309" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="9">Cost slashed by 84%</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 590 330 L 640 330" stroke="#fbf59c" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+  <polygon points="645,330 637,325 637,335" fill="#fbf59c"/>
+
+  <!-- Node 3: LangGraph Agent & Grounded RAG -->
+  <g transform="translate(650, 160)">
+    <rect width="250" height="340" rx="4" fill="url(#cardGrad)" stroke="#fbf59c" stroke-opacity="0.25" stroke-width="1"/>
+    <rect x="16" y="18" width="8" height="8" fill="#fbf59c"/>
+    <text x="32" y="26" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">3. LangGraph &amp; RAG</text>
+
+    <text x="16" y="55" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">STATE-MACHINE ENGINE</text>
+    <rect x="16" y="70" width="218" height="70" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="26" y="92" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="11" font-weight="700">LangGraph Checkpointer</text>
+    <text x="26" y="110" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="10">Multi-turn session recovery</text>
+    <text x="26" y="126" fill="#6debaa" font-family="'Space Mono', monospace" font-size="9">PostgreSQL pgvector memory</text>
+
+    <text x="16" y="165" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">GROUNDING VERIFICATION</text>
+    <rect x="16" y="180" width="218" height="70" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="26" y="202" fill="#6debaa" font-family="'Space Mono', monospace" font-size="11">2-Stage Grounding Filter</text>
+    <text x="26" y="220" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="10">Per-chunk fact validation</text>
+    <text x="26" y="236" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="9">0% Financial Hallucination</text>
+
+    <rect x="16" y="275" width="218" height="42" rx="2" fill="#2a0a0e" stroke="#6debaa" stroke-opacity="0.4"/>
+    <text x="26" y="296" fill="#6debaa" font-family="'Space Mono', monospace" font-size="10" font-weight="700">389 PYTEST TEST SUITE</text>
+    <text x="26" y="309" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="9">100% passing offline suite</text>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 900 330 L 950 330" stroke="#fbf59c" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+  <polygon points="955,330 947,325 947,335" fill="#fbf59c"/>
+
+  <!-- Node 4: Artifact Generation & Cloud Output -->
+  <g transform="translate(960, 160)">
+    <rect width="180" height="340" rx="4" fill="url(#cardGrad)" stroke="#fbf59c" stroke-opacity="0.25" stroke-width="1"/>
+    <rect x="16" y="18" width="8" height="8" fill="#d2e8ff"/>
+    <text x="32" y="26" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">4. Outputs</text>
+
+    <text x="16" y="55" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">BANK-READY PDF</text>
+    <rect x="16" y="70" width="148" height="70" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="24" y="94" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="10">SHG Ledger PDF</text>
+    <text x="24" y="112" fill="#6debaa" font-family="'Space Mono', monospace" font-size="9">NABARD compliant</text>
+    <text x="24" y="128" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="8">Auto-balanced credit</text>
+
+    <text x="16" y="165" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" font-weight="700">AUDIO SYNTHESIS</text>
+    <rect x="16" y="180" width="148" height="70" rx="2" fill="#180407" stroke="#fbf59c" stroke-opacity="0.15"/>
+    <text x="24" y="202" fill="#ffd592" font-family="'Space Mono', monospace" font-size="10">Bengali Voice TTS</text>
+    <text x="24" y="220" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="9">Spoken confirmations</text>
+    <text x="24" y="236" fill="#6debaa" font-family="'Space Mono', monospace" font-size="8">Real-time WhatsApp</text>
+
+    <rect x="16" y="275" width="148" height="42" rx="2" fill="#2a0a0e" stroke="#d2e8ff" stroke-opacity="0.4"/>
+    <text x="24" y="296" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="9" font-weight="700">AZURE STORAGE</text>
+    <text x="24" y="309" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="8">Blob SAS signed URLs</text>
+  </g>
+
+  <!-- Bottom Metric Badges -->
+  <g transform="translate(60, 530)">
+    <rect x="0" y="0" width="260" height="90" rx="4" fill="#1e0609" stroke="#fbf59c" stroke-opacity="0.2"/>
+    <text x="20" y="30" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">HALLUCINATION RATE</text>
+    <text x="20" y="65" fill="#6debaa" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">0.00%</text>
+    <text x="135" y="62" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="10">2-stage verification</text>
+
+    <rect x="280" y="0" width="260" height="90" rx="4" fill="#1e0609" stroke="#fbf59c" stroke-opacity="0.2"/>
+    <text x="300" y="30" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">TEST SUITE COVERAGE</text>
+    <text x="300" y="65" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">389 Tests</text>
+    <text x="445" y="62" fill="#6debaa" font-family="'Space Mono', monospace" font-size="10">100% pass rate</text>
+
+    <rect x="560" y="0" width="260" height="90" rx="4" fill="#1e0609" stroke="#fbf59c" stroke-opacity="0.2"/>
+    <text x="580" y="30" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">PILOT PRODUCTION</text>
+    <text x="580" y="65" fill="#ffd592" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="800">2,000</text>
+    <text x="685" y="62" fill="#d2e8ff" font-family="'Space Mono', monospace" font-size="10">msg/day live traffic</text>
+
+    <rect x="840" y="0" width="300" height="90" rx="4" fill="#1e0609" stroke="#fbf59c" stroke-opacity="0.2"/>
+    <text x="860" y="30" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10" letter-spacing="1">INFRASTRUCTURE</text>
+    <text x="860" y="65" fill="#d2e8ff" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="800">Azure Container</text>
+    <text x="860" y="80" fill="#fbf59c" font-family="'Space Mono', monospace" font-size="10">FastAPI · PostgreSQL 16</text>
+  </g>
+</svg>

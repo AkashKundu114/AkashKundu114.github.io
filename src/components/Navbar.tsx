@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Tactile3DButton, GlassButton } from './EvilButtons';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -56,8 +57,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className="nav-fixed"
-      style={{ boxShadow: scrolled ? '0 1px 0 var(--border)' : 'none' }}
+      className={`nav-fixed ${scrolled ? 'liquid-glass-panel shadow-lg' : ''}`}
+      style={{
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        transition: 'all 0.3s ease',
+        borderBottom: scrolled ? '1px solid var(--border-2)' : '1px solid transparent',
+      }}
     >
       <div className="container">
         <div
@@ -65,7 +71,7 @@ export default function Navbar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: '3.25rem',
+            height: '3.4rem',
           }}
         >
           <Link
@@ -94,8 +100,8 @@ export default function Navbar() {
                 fontWeight: 800,
                 fontFamily: 'var(--font-mono)',
                 letterSpacing: '0.04em',
-
                 borderRadius: 0,
+                boxShadow: '0 0 12px var(--accent-glow)',
               }}
             >
               AK
@@ -115,15 +121,24 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <a
+              href="/cv/AkashKundu_CV.pdf"
+              download
+              className="hidden lg:inline-flex"
+            >
+              <GlassButton size="sm">
+                CV ↓
+              </GlassButton>
+            </a>
+            <Tactile3DButton
               href="https://github.com/AkashKundu114"
               target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-sm hidden md:inline-flex"
+              size="sm"
+              className="hidden md:inline-flex"
             >
               GitHub ↗
-            </a>
+            </Tactile3DButton>
             <button
               onClick={() => setOpen((o) => !o)}
               className="theme-toggle md:hidden"
@@ -136,12 +151,14 @@ export default function Navbar() {
 
         {open && (
           <div
+            className="liquid-glass-panel"
             style={{
               borderTop: '1px solid var(--border)',
-              padding: '12px 0 16px',
+              padding: '16px',
+              marginTop: '4px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '2px',
+              gap: '6px',
               animation: 'fadeSlideUp 0.2s var(--ease)',
             }}
           >
@@ -155,15 +172,25 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
-            <a
-              href="https://github.com/AkashKundu114"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="nav-link"
-              style={{ padding: '10px 12px' }}
-            >
-              GitHub ↗
-            </a>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+              <a
+                href="/cv/AkashKundu_CV.pdf"
+                download
+                style={{ flex: 1 }}
+              >
+                <GlassButton size="sm" className="w-full">
+                  Download CV ↓
+                </GlassButton>
+              </a>
+              <Tactile3DButton
+                href="https://github.com/AkashKundu114"
+                target="_blank"
+                size="sm"
+                style={{ flex: 1 }}
+              >
+                GitHub ↗
+              </Tactile3DButton>
+            </div>
           </div>
         )}
       </div>

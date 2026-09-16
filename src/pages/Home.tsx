@@ -4,27 +4,29 @@ import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { skills } from '../data/skills';
+import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
+import LiquidGlassLens from '../components/LiquidGlassLens';
 
 const domains = [
   {
-    label: 'AI & Data',
+    label: 'AI & Data Engineering',
     icon: '◈',
-    desc: 'Training models and pipelines - from raw inputs to something a product can act on.',
-    tags: ['PyTorch', 'CatBoost', 'Ollama', 'Pandas', 'Computer Vision', 'SQL'],
+    desc: 'Training models, agentic state-machines, and high-throughput vector pipelines from raw data to production.',
+    tags: ['PyTorch', 'LangGraph', 'Ollama', 'Sarvam AI', 'pgvector', 'OpenCV', 'SQL'],
     color: '#AFD2FA',
   },
   {
-    label: 'Backend',
+    label: 'Backend & Systems',
     icon: '◉',
-    desc: 'APIs and services between a model and its users - built reliable, not just demo-able.',
-    tags: ['FastAPI', 'Node.js', 'Spring Boot', 'PostgreSQL', 'Docker'],
+    desc: 'Low-latency async microservices, schema-migrated databases, and offline runtime engines.',
+    tags: ['FastAPI', 'Node.js', 'PostgreSQL', 'Docker', 'Redis', 'WebSockets', 'Alembic'],
     color: '#B9915E',
   },
   {
-    label: 'Frontend',
+    label: 'Modern Frontend & UI',
     icon: '◎',
-    desc: 'Interfaces that make everything above usable - fast, responsive, friction-free.',
-    tags: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Tauri', 'PWA'],
+    desc: 'Performant, tactile, and reactive interfaces — cross-platform desktop and installable PWAs.',
+    tags: ['React 18', 'TypeScript', 'Tailwind', 'Electron', 'Framer Motion', 'PWA'],
     color: '#FEFAEF',
   },
 ];
@@ -32,12 +34,13 @@ const domains = [
 const marqueeSkills = skills.map((s) => s.name);
 
 function NetCanvas() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    let raf,
+    if (!ctx) return;
+    let raf: number,
       t = 0;
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -119,9 +122,9 @@ export default function Home() {
 
   const stats = [
     { n: projects.length, l: 'projects shipped' },
-    { n: certificates.length, l: 'certificates' },
+    { n: certificates.length, l: 'industry certs' },
     { n: `${techCount}+`, l: 'technologies' },
-    { n: '2027', l: 'graduation' },
+    { n: '2027', l: 'final year (grad)' },
   ];
 
   return (
@@ -129,7 +132,7 @@ export default function Home() {
       <div ref={ref}>
         <section
           style={{
-            paddingTop: '88px',
+            paddingTop: '96px',
             paddingBottom: '64px',
             position: 'relative',
             overflow: 'hidden',
@@ -141,7 +144,8 @@ export default function Home() {
           <NetCanvas />
           <div className="container" style={{ position: 'relative', zIndex: 1, width: '100%' }}>
             <div className="reveal" style={{ marginBottom: '28px' }}>
-              <span
+              <LiquidGlassLens
+                intensity="subtle"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -149,32 +153,30 @@ export default function Home() {
                   fontFamily: 'var(--font-mono)',
                   fontSize: '10px',
                   fontWeight: 700,
-                  letterSpacing: '0.14em',
+                  letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                   color: 'var(--accent)',
-                  padding: '5px 14px',
-                  border: '1px solid rgba(185,145,94,0.35)',
-                  background: 'rgba(185,145,94,0.08)',
+                  padding: '6px 16px',
                   borderRadius: 0,
                 }}
               >
                 <span
                   style={{
-                    width: 5,
-                    height: 5,
+                    width: 6,
+                    height: 6,
                     borderRadius: '50%',
                     background: 'var(--success)',
                     animation: 'pulse-dot 2.4s ease-in-out infinite',
                     flexShrink: 0,
                   }}
                 />
-                Available for internships
-              </span>
+                Final Year CSE · Open to Full-Time &amp; Pre-Placement Internships
+              </LiquidGlassLens>
             </div>
 
             <h1
               className="reveal heading-xl"
-              style={{ maxWidth: '820px', marginBottom: '28px', lineHeight: 1.02 }}
+              style={{ maxWidth: '840px', marginBottom: '28px', lineHeight: 1.04 }}
             >
               Map your thoughts. <span style={{ color: 'var(--muted)' }}>Synthesize data.</span>{' '}
               <span style={{ color: 'var(--accent)', WebkitTextStroke: '0px' }}>
@@ -186,30 +188,31 @@ export default function Home() {
               className="reveal"
               style={{
                 fontSize: '15px',
-                lineHeight: 1.8,
-                maxWidth: '500px',
+                lineHeight: 1.85,
+                maxWidth: '540px',
                 marginBottom: '36px',
                 fontFamily: 'var(--font-mono)',
-                color: 'var(--muted)',
+                color: 'var(--ink-2)',
               }}
             >
-              B.Tech CSE student at Techno India University, Kolkata - building across the full
-              stack from ML model to production UI.
+              Final-year B.Tech CSE student at Techno India University, Kolkata. Architecting
+              production-grade autonomous AI agents, local-first ML operating systems, and
+              high-throughput full-stack platforms.
             </p>
 
             <div
               className="reveal"
-              style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '52px' }}
+              style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '52px' }}
             >
-              <Link to="/projects" className="btn btn-primary btn-lg">
-                View projects
-              </Link>
-              <Link to="/contact" className="btn btn-lg">
-                Get in touch
-              </Link>
-              <a href="/cv/AkashKundu_CV.pdf" download className="btn btn-lg">
-                Resume ↓
-              </a>
+              <ShinyButton to="/projects" size="lg" variant="primary">
+                Explore Projects →
+              </ShinyButton>
+              <Tactile3DButton to="/contact" size="lg" variant="secondary">
+                Get in Touch
+              </Tactile3DButton>
+              <GlassButton href="/cv/AkashKundu_CV.pdf" download size="lg">
+                Download Resume ↓
+              </GlassButton>
             </div>
 
             <div
@@ -258,10 +261,11 @@ export default function Home() {
               id="domain-grid"
             >
               {domains.map((d, i) => (
-                <div
+                <LiquidGlassLens
                   key={d.label}
+                  intensity="subtle"
                   className="card card-hover reveal"
-                  style={{ padding: '28px 24px', '--i': i }}
+                  style={{ padding: '28px 24px', '--i': i } as any}
                 >
                   <div
                     style={{
@@ -276,9 +280,9 @@ export default function Home() {
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '30px',
-                        height: '30px',
-                        fontSize: '14px',
+                        width: '32px',
+                        height: '32px',
+                        fontSize: '15px',
                         color: d.color,
                         border: `1px solid ${d.color}28`,
                         background: `${d.color}0c`,
@@ -299,7 +303,7 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                </div>
+                </LiquidGlassLens>
               ))}
             </div>
           </div>
@@ -320,15 +324,15 @@ export default function Home() {
             >
               <div>
                 <div className="label">selected work</div>
-                <h2>Recent projects</h2>
+                <h2>Flagship engineering projects</h2>
               </div>
               <Link to="/projects" className="btn btn-sm">
-                All projects →
+                All projects ({projects.length}) →
               </Link>
             </div>
             <div
               className="stagger"
-              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
             >
               {featured.map((p, i) => (
                 <div
@@ -338,18 +342,18 @@ export default function Home() {
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
-                  style={{ '--i': i }}
+                  style={{ '--i': i, padding: '20px 24px' } as any}
                 >
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'flex-start',
                       justifyContent: 'space-between',
-                      gap: '16px',
+                      gap: '18px',
                       flexWrap: 'wrap',
                     }}
                   >
-                    <div style={{ flex: 1, minWidth: 240 }}>
+                    <div style={{ flex: 1, minWidth: 260 }}>
                       <div
                         style={{
                           display: 'flex',
@@ -369,45 +373,69 @@ export default function Home() {
                           {p.year}
                         </span>
                         {p.status && <span className="tag">{p.status}</span>}
+                        {p.screenshots && p.screenshots.length > 0 && (
+                          <span
+                            className="tag"
+                            style={{
+                              borderColor: 'var(--accent)',
+                              color: 'var(--accent)',
+                              background: 'var(--accent-soft)',
+                            }}
+                          >
+                            Architecture Snapshot ✓
+                          </span>
+                        )}
                       </div>
-                      <h3 style={{ marginBottom: '6px', fontSize: '0.95rem', color: 'var(--ink)' }}>
+                      <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
                         {p.title}
                       </h3>
-                      <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '54ch' }}>
+                      <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '56ch', color: 'var(--ink-2)' }}>
                         {p.shortDesc}
                       </p>
                     </div>
                     <div
                       style={{
                         display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: '4px',
-                        maxWidth: '220px',
-                        justifyContent: 'flex-end',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                        gap: '10px',
+                        minWidth: '200px',
                       }}
                     >
-                      {p.github && (
-                        <a
-                          href={p.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="btn btn-sm"
-                          style={{
-                            padding: '2px 8px',
-                            fontSize: '11px',
-                            height: 'auto',
-                            minHeight: 0,
-                          }}
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '4px',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        {p.technologies.slice(0, 4).map((t) => (
+                          <span key={t} className="tag">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        {p.github && (
+                          <a
+                            href={p.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="btn btn-sm"
+                            style={{ padding: '3px 10px', fontSize: '10px' }}
+                          >
+                            Code ↗
+                          </a>
+                        )}
+                        <span
+                          className="btn btn-sm btn-primary"
+                          style={{ padding: '3px 10px', fontSize: '10px' }}
                         >
-                          Source ↗
-                        </a>
-                      )}
-                      {p.technologies.slice(0, 4).map((t) => (
-                        <span key={t} className="tag">
-                          {t}
+                          Details →
                         </span>
-                      ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -421,39 +449,42 @@ export default function Home() {
           style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)' }}
         >
           <div className="container">
-            <div
+            <LiquidGlassLens
+              intensity="medium"
               className="reveal"
               style={{
+                padding: '36px 32px',
+                borderLeft: '4px solid var(--accent)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 flexWrap: 'wrap',
                 gap: '24px',
-                borderLeft: '2px solid var(--accent)',
-                paddingLeft: '24px',
               }}
             >
               <div>
-                <div className="label">status</div>
-                <h2 style={{ fontSize: 'clamp(1.4rem,3vw,2.1rem)' }}>Open to internships.</h2>
-                <p style={{ fontSize: '13px', marginTop: '6px' }}>
-                  Data analytics · AI/ML · full-stack - Kolkata, India
+                <div className="label">hiring status · final year</div>
+                <h2 style={{ fontSize: 'clamp(1.4rem,3vw,2.2rem)' }}>
+                  Graduating 2027 · Open to Roles.
+                </h2>
+                <p style={{ fontSize: '14px', marginTop: '6px', color: 'var(--ink-2)' }}>
+                  Actively interviewing for AI Engineering, MLOps, &amp; Full-Stack Software Engineer roles.
+                  Based in Kolkata, open to Relocation &amp; Remote.
                 </p>
               </div>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                <Link to="/contact" className="btn btn-primary">
-                  Get in touch
-                </Link>
-                <a
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <ShinyButton to="/contact" size="md">
+                  Get In Touch →
+                </ShinyButton>
+                <Tactile3DButton
                   href="https://www.linkedin.com/in/akashkundu114/"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn"
+                  size="md"
                 >
-                  LinkedIn ↗
-                </a>
+                  LinkedIn Profile ↗
+                </Tactile3DButton>
               </div>
-            </div>
+            </LiquidGlassLens>
           </div>
         </section>
       </div>

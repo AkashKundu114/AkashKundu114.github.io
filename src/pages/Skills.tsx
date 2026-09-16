@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { skills } from '../data/skills';
+import { ShinyButton, Tactile3DButton } from '../components/EvilButtons';
 
 const groupDefs = [
-  { name: 'Languages', icon: '', color: '#AFD2FA' },
+  { name: 'Languages', icon: 'λ', color: '#AFD2FA' },
   { name: 'AI & ML', icon: '◈', color: '#B9915E' },
   { name: 'Backend & DB', icon: '◉', color: '#FEFAEF' },
-  { name: 'DevOps & Tools', icon: '◎', color: '#AFD2FA' },
+  { name: 'Full-Stack UI', icon: '◎', color: '#6debaa' },
+  { name: 'Cloud & DevOps', icon: '◬', color: '#AFD2FA' },
 ];
 
 const marqueeSkills = skills.map((s) => s.name);
@@ -37,14 +39,14 @@ export default function Skills() {
             className="reveal"
             style={{
               fontSize: '13px',
-              maxWidth: '52ch',
+              maxWidth: '56ch',
               lineHeight: 1.8,
               marginBottom: '48px',
               fontFamily: 'var(--font-mono)',
             }}
           >
-            Most days split between AI/data work and the backend or frontend wrapped around it.
-            Grouped by layer - not a ranking.
+            Engineered across the full lifecycle: model fine-tuning, vector pipelines, low-latency FastAPI
+            gateways, and responsive reactive interfaces.
           </p>
 
           <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -120,16 +122,28 @@ export default function Skills() {
                 whiteSpace: 'nowrap',
               }}
             >
-              NOTE
+              PROVEN
             </span>
             <p style={{ fontSize: '12px', lineHeight: 1.75, fontFamily: 'var(--font-mono)' }}>
-              Python and React are daily drivers. Java and Spring Boot are coursework-level.
-              Everything in the AI & Data row comes from real project work - training, evaluating,
-              and deploying models - not tutorial completion.
+              Every skill listed above has been validated in production or offline benchmarked pipelines
+              (AI-SATHI, COPPER, OphthalmoAI, Portfolio CMS) — backed by passing Pytest suites, Alembic
+              migrations, and real latency profiles.
             </p>
           </div>
 
-          <div className="reveal marquee-wrap" style={{ marginTop: '36px' }}>
+          <div
+            className="reveal"
+            style={{ marginTop: '32px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}
+          >
+            <ShinyButton to="/projects" size="sm">
+              See Projects in Action →
+            </ShinyButton>
+            <Tactile3DButton to="/contact" size="sm">
+              Discuss Tech Requirements
+            </Tactile3DButton>
+          </div>
+
+          <div className="reveal marquee-wrap" style={{ marginTop: '48px' }}>
             <div className="marquee-track">
               {[...marqueeSkills, ...marqueeSkills].map((s, i) => (
                 <span
