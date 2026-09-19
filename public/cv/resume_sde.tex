@@ -1,0 +1,164 @@
+%-------------------------
+% Resume in Latex - Software Development Engineer (SDE) Track
+% Author : Akash Kundu
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.55in}
+\addtolength{\evensidemargin}{-0.55in}
+\addtolength{\textwidth}{1.1in}
+\addtolength{\topmargin}{-.6in}
+\addtolength{\textheight}{1.25in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-5pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-3pt}]
+
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-6pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-6pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Akash Kundu} \\ \vspace{2pt}
+    \small +91 9064349004 $|$ \href{mailto:akashkundu1152@gmail.com}{akashkundu1152@gmail.com} $|$ Kolkata, West Bengal, India \\ \vspace{1pt}
+    \href{https://akashkundu114.github.io}{Portfolio} $|$ \href{https://github.com/AkashKundu114}{GitHub} $|$ \href{https://www.linkedin.com/in/akashkundu114/}{LinkedIn}
+\end{center}
+
+%-----------PROFESSIONAL SUMMARY-----------
+\section{Summary}
+\vspace{-2pt}
+\small{Software Development Engineer with strong foundations in \textbf{Data Structures \& Algorithms (DSA)}, \textbf{Object-Oriented Programming (OOP)}, and \textbf{Distributed System Design}. Experienced in architecting low-latency microservices (\textbf{\textasciitilde 9,856 QPS} dispatch, $<0.10$~ms latency), accelerating model serving runtimes by \textbf{2.15x} via ONNX graph compilation, and engineering secure, multi-tenant databases with PostgreSQL Row-Level Security, asynchronous workers, and automated CI/CD pipelines.}
+\vspace{-2pt}
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Python, Java, C++, JavaScript, TypeScript, SQL (PostgreSQL, SQLite), HTML/CSS} \\
+     \textbf{Core CS Concepts}{: Data Structures \& Algorithms (DSA), Object-Oriented Programming (OOP), System Design, REST APIs, Microservices, Concurrency, Asynchronous Programming} \\
+     \textbf{Backend \& Frameworks}{: FastAPI, React 19, Node.js/Electron, WebSockets, Asyncio, Celery, Redis (Caching \& Rate Limiting), PyTorch, OpenCV} \\
+     \textbf{Databases \& Storage}{: PostgreSQL (Row-Level Security, pgvector), SQLite (WAL Mode), ChromaDB, MongoDB} \\
+     \textbf{Tools, Cloud \& DevOps}{: Git, Docker, Kubernetes, Linux/Unix CLI, Microsoft Azure, CI/CD (GitHub Actions), Postman, Pytest (TDD), Vitest, Playwright}
+    }}
+ \end{itemize}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Purposive AI}{July 2026 -- Present}
+      {Software Engineering Intern (Backend \& Systems)}{Kolkata, India (Hybrid)}
+      \resumeItemListStart
+        \resumeItem{Architected an asynchronous ledger processing pipeline using FastAPI, React, and Celery, converting conversational Bengali audio into verified, bank-submittable PDF records and cutting manual bookkeeping effort by \textbf{80\%}.}
+        \resumeItem{Engineered an automated Sarvam AI to local Ollama fallback cascade circuit breaker, eliminating single points of failure, preventing vendor lock-in, and slashing cloud inference costs by \textbf{87\%}.}
+        \resumeItem{Designed asynchronous task worker queues with PostgreSQL pgvector state tracking, maintaining \textbf{sub-500ms} API turnaround and sustaining \textbf{99.9\% uptime} against cloud production SLAs.}
+        \resumeItem{Enforced Test-Driven Development (TDD) by authoring a \textbf{156-test} Pytest test suite, achieving a \textbf{100\% pass rate} and eliminating regression defects across financial calculation and citation grounding logic.}
+        \resumeItem{Implemented token-bucket API rate limiting, structured transactional logging, and strict input sanitization to guarantee complete auditability across concurrent user transactions.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{C.O.P.P.E.R. -- Local AI Operating System \& Microservices Engine} $|$ \emph{Electron, React 19, FastAPI, Python, Redis, SQLite, Docker}}{\href{https://github.com/AkashKundu114/COPPER}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Designed a 30-agent orchestration hierarchy with a Topological Failure-Predicting (TFP) cascade router executing dispatches at \textbf{\textasciitilde 9,856 QPS} ($<0.10$~ms cache dispatch, \textasciitilde 2,050 QPS full combinatorial) across 1,390 benchmark tests.}
+            \resumeItem{Built Forge Sandbox and DFM-Guard with a 4-tier friction protocol, achieving \textbf{100\% threat catch sensitivity across 350 adversarial triggers}, AST security checks, and 3-stage self-healing retry loops.}
+            \resumeItem{Constructed long-term Bayesian epistemic memory backed by SQLite Write-Ahead Logging (WAL) and ChromaDB, coupled with an in-line Zero-Trust data firewall scrubbing PII and API credentials.}
+            \resumeItem{Developed an Electron desktop application ($<1.0$~GB RAM footprint) in React 19 featuring IPC bridge communication, real-time hardware telemetry monitoring, and \textbf{538 passing automated tests} (500 Pytest + 38 Vitest).}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{OphthalmoAI -- Telemedicine Screening Backend \& ML Platform} $|$ \emph{FastAPI, Python, PyTorch, ONNX, PostgreSQL, React 19, Docker}}{\href{https://github.com/AkashKundu114/OphthalmoAI}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Architected a calibrated tri-backbone vision ensemble (DenseNet-201 + ConvNeXt + EfficientNet) with Platt temperature scaling (\textbf{0.0644 ECE}), achieving \textbf{85.18\% test accuracy and 0.9805 Macro AUROC} across 938 held-out clinical fundus images.}
+            \resumeItem{Engineered pre-inference optical domain guardrails (OAC-DG) evaluating aperture geometry and chromophores to deterministically intercept non-fundus imagery with HTTP 422 before GPU allocation.}
+            \resumeItem{Optimized serving latency to \textbf{84.2 ms p50 (2.15x speedup)} at 17.3 QPS via ONNX Runtime FP16 graph compilation, alongside a sub-50 ms in-browser edge screening pipeline.}
+            \resumeItem{Architected database Row-Level Security (RLS) in PostgreSQL with cryptographic tenant scoping (JWT claims) and role-based access control (RBAC), verified across \textbf{190 passing automated tests}.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Techno India University}{Sep 2023 -- Sep 2027}
+      {Bachelor of Technology (B.Tech) in Computer Science and Engineering; \textbf{CGPA: 7.5 / 10.0}}{Kolkata, West Bengal, India}
+    \resumeSubheading
+      {Arambagh Vivekananda Academy}{April 2021 -- May 2023}
+      {Higher Secondary Certificate (CBSE - Class XII Science); \textbf{Percentage: 71.6\%}}{Arambagh, West Bengal, India}
+  \resumeSubHeadingListEnd
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+\vspace{-2pt}
+\begin{itemize}[leftmargin=0.15in, label={}, noitemsep, topsep=-3pt]
+    \small{\item{
+     $\bullet$ \textbf{Azure AI Developer Associate (AI-103)} $|$ Microsoft \hfill $\bullet$ \textbf{Machine Learning Operations Engineer (AI-300)} $|$ Microsoft \\
+     $\bullet$ \textbf{Oracle AI Database Foundations (1Z0-1195)} $|$ Oracle \hfill $\bullet$ \textbf{Oracle Agentic AI Foundations (1Z0-1157)} $|$ Oracle
+    }}
+\end{itemize}
+\vspace{-6pt}
+
+%-------------------------------------------
+\end{document}
