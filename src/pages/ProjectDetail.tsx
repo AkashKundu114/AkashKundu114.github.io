@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 import LiquidGlassLens from '../components/LiquidGlassLens';
+import { ProjectScreenshot } from '../data/projects';
 
-interface SectionBlockProps {
+interface ArchitecturalSectionProps {
   label: string;
   heading: string;
   body: string;
@@ -14,15 +15,13 @@ interface SectionBlockProps {
   stack?: string[];
 }
 
-function SectionBlock({ label, heading, body, points, stack }: SectionBlockProps) {
+function ArchitecturalSection({ label, heading, body, points, stack }: ArchitecturalSectionProps) {
   return (
-    <div className="card" style={{ padding: '24px', marginBottom: '12px' }}>
+    <div className="card" style={{ padding: '24px', marginBottom: '14px' }}>
       <div className="label" style={{ marginBottom: '8px' }}>
         {label}
       </div>
-      <h3
-        style={{ fontSize: '1rem', lineHeight: 1.4, color: 'var(--ink)', marginBottom: '14px' }}
-      >
+      <h3 style={{ fontSize: '1rem', lineHeight: 1.4, color: 'var(--ink)', marginBottom: '14px' }}>
         {heading}
       </h3>
       <p
@@ -36,36 +35,38 @@ function SectionBlock({ label, heading, body, points, stack }: SectionBlockProps
       >
         {body}
       </p>
-      <ul
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          marginBottom: stack ? '16px' : 0,
-        }}
-      >
-        {points.map((pt, i) => (
-          <li
-            key={i}
-            style={{
-              fontSize: '13px',
-              lineHeight: 1.65,
-              paddingLeft: '18px',
-              position: 'relative',
-              fontFamily: 'var(--font-body)',
-              color: 'var(--ink-2)',
-            }}
-          >
-            <span
-              style={{ position: 'absolute', left: 0, color: 'var(--accent)', fontWeight: 700 }}
+      {points && points.length > 0 && (
+        <ul
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            marginBottom: stack && stack.length > 0 ? '16px' : 0,
+          }}
+        >
+          {points.map((pointText, index) => (
+            <li
+              key={`${index}-${pointText.slice(0, 16)}`}
+              style={{
+                fontSize: '13px',
+                lineHeight: 1.65,
+                paddingLeft: '18px',
+                position: 'relative',
+                fontFamily: 'var(--font-body)',
+                color: 'var(--ink-2)',
+              }}
             >
-              ◈
-            </span>
-            {pt}
-          </li>
-        ))}
-      </ul>
-      {stack && (
+              <span
+                style={{ position: 'absolute', left: 0, color: 'var(--accent)', fontWeight: 700 }}
+              >
+                ◈
+              </span>
+              {pointText}
+            </li>
+          ))}
+        </ul>
+      )}
+      {stack && stack.length > 0 && (
         <div
           style={{
             display: 'flex',
@@ -76,9 +77,9 @@ function SectionBlock({ label, heading, body, points, stack }: SectionBlockProps
             marginTop: '12px',
           }}
         >
-          {stack.map((s) => (
-            <span key={s} className="tag">
-              {s}
+          {stack.map((technologyName) => (
+            <span key={technologyName} className="tag">
+              {technologyName}
             </span>
           ))}
         </div>
@@ -88,53 +89,118 @@ function SectionBlock({ label, heading, body, points, stack }: SectionBlockProps
 }
 
 export default function ProjectDetail() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const containerRef = useRevealChildren();
+  const { projects = [] } = useData();
+
+  const sanitizedId = typeof id === 'string' ? id.trim() : '';
+  const currentProject = useMemo(
+    () => (sanitizedId ? projects.find((project) => project.id === sanitizedId) : undefined),
+    [projects, sanitizedId]
+  );
+
+  const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
+
+  const screenshots: ProjectScreenshot[] = useMemo(
+    () => (currentProject?.screenshots && Array.isArray(currentProject.screenshots) ? currentProject.screenshots : []),
+    [currentProject]
+  );
+
+  const hasScreenshots = screenshots.length > 0;
+
+  const closeLightbox = useCallback(() => {
+    setActiveLightboxIndex(null);
+  }, []);
+
+  const navigateLightbox = useCallback(
+    (direction: 'next' | 'prev') => {
+      if (screenshots.length <= 1) return;
+      setActiveLightboxIndex((currentIndex) => {
+        const index = currentIndex ?? 0;
+        if (direction === 'next') {
+          return (index + 1) % screenshots.length;
+        }
+        return (index - 1 + screenshots.length) % screenshots.length;
+      });
+    },
+    [screenshots.length]
+  );
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const ref = useRevealChildren();
-  const { projects } = useData();
-  const [lightbox, setLightbox] = useState<number | null>(null);
-  const project = projects.find((p) => p.id === id);
+  }, [sanitizedId]);
 
-  if (!project)
+  useEffect(() => {
+    if (activeLightboxIndex === null) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      } else if (event.key === 'ArrowRight') {
+        navigateLightbox('next');
+      } else if (event.key === 'ArrowLeft') {
+        navigateLightbox('prev');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeLightboxIndex, closeLightbox, navigateLightbox]);
+
+  if (!currentProject) {
     return (
-      <section style={{ paddingTop: '88px' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ marginBottom: '20px', fontFamily: 'var(--font-mono)' }}>Project not found.</p>
-          <Tactile3DButton to="/projects">
-            ← Back to projects
-          </Tactile3DButton>
-        </div>
-      </section>
+      <PageTransition>
+        <section style={{ paddingTop: '100px', minHeight: '60vh' }}>
+          <div className="container" style={{ textAlign: 'center', maxWidth: '520px' }}>
+            <div className="label" style={{ marginBottom: '12px', color: 'var(--danger)' }}>
+              404 // NOT FOUND
+            </div>
+            <h2 style={{ fontSize: '1.75rem', marginBottom: '12px' }}>
+              Project Not Found
+            </h2>
+            <p style={{ marginBottom: '24px', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--muted-2)' }}>
+              The engineering system blueprint you requested does not exist or has been archived.
+            </p>
+            <Tactile3DButton to="/projects">
+              ← Return to Projects
+            </Tactile3DButton>
+          </div>
+        </section>
+      </PageTransition>
     );
+  }
 
-  const hasScreenshots = project.screenshots && project.screenshots.length > 0;
+  const activeScreenshot =
+    activeLightboxIndex !== null && screenshots[activeLightboxIndex]
+      ? screenshots[activeLightboxIndex]
+      : null;
 
   return (
     <PageTransition>
-      {lightbox !== null && hasScreenshots && (
+      {/* Lightbox Dialog Overlay */}
+      {activeScreenshot && (
         <div
           className="lightbox-overlay"
-          onClick={() => setLightbox(null)}
+          onClick={closeLightbox}
           role="dialog"
           aria-modal="true"
+          aria-label={`${activeScreenshot.caption} - Architectural snapshot`}
         >
           <div
             style={{ position: 'relative', maxWidth: '92vw', maxHeight: '90vh' }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
             <img
-              src={project.screenshots[lightbox].src}
-              alt={project.screenshots[lightbox].caption}
+              src={activeScreenshot.src}
+              alt={activeScreenshot.caption}
               style={{
                 maxWidth: '100%',
                 maxHeight: '80vh',
                 objectFit: 'contain',
                 borderRadius: '4px',
                 border: '1px solid var(--border-3)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)',
               }}
             />
             <div
@@ -144,7 +210,7 @@ export default function ProjectDetail() {
                 alignItems: 'center',
                 marginTop: '14px',
                 gap: '12px',
-                background: 'rgba(0,0,0,0.7)',
+                background: 'rgba(0, 0, 0, 0.75)',
                 padding: '8px 16px',
                 borderRadius: '4px',
               }}
@@ -156,35 +222,31 @@ export default function ProjectDetail() {
                   color: 'var(--ink)',
                 }}
               >
-                {project.screenshots[lightbox].caption}
+                {activeScreenshot.caption}
               </span>
               <div style={{ display: 'flex', gap: '8px' }}>
-                {project.screenshots.length > 1 && (
+                {screenshots.length > 1 && (
                   <>
                     <button
-                      onClick={() =>
-                        setLightbox(
-                          (i) =>
-                            ((i ?? 0) - 1 + project.screenshots.length) % project.screenshots.length
-                        )
-                      }
+                      onClick={() => navigateLightbox('prev')}
                       className="btn btn-sm"
+                      aria-label="Previous snapshot"
                     >
                       ← Prev
                     </button>
                     <button
-                      onClick={() =>
-                        setLightbox((i) => ((i ?? 0) + 1) % project.screenshots.length)
-                      }
+                      onClick={() => navigateLightbox('next')}
                       className="btn btn-sm"
+                      aria-label="Next snapshot"
                     >
                       Next →
                     </button>
                   </>
                 )}
                 <button
-                  onClick={() => setLightbox(null)}
+                  onClick={closeLightbox}
                   className="btn btn-sm btn-danger"
+                  aria-label="Close snapshot dialog"
                 >
                   Close ✕
                 </button>
@@ -194,7 +256,7 @@ export default function ProjectDetail() {
         </div>
       )}
 
-      <section style={{ paddingTop: '88px', paddingBottom: '72px' }} ref={ref}>
+      <section style={{ paddingTop: '88px', paddingBottom: '72px' }} ref={containerRef}>
         <div className="container">
           <div style={{ marginBottom: '28px' }}>
             <Tactile3DButton
@@ -206,16 +268,17 @@ export default function ProjectDetail() {
             </Tactile3DButton>
           </div>
 
+          {/* Hero Overview Block */}
           <LiquidGlassLens
             intensity="subtle"
             className="reveal"
             style={{ padding: '32px', marginBottom: '32px' }}
           >
             <div
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}
             >
-              <span className="tag">{project.year}</span>
-              {project.status && <span className="tag tag-active">{project.status}</span>}
+              <span className="tag">{currentProject.year}</span>
+              {currentProject.status && <span className="tag tag-active">{currentProject.status}</span>}
               {hasScreenshots && (
                 <span
                   className="tag"
@@ -229,16 +292,18 @@ export default function ProjectDetail() {
                 </span>
               )}
             </div>
+
             <h1
               style={{
-                fontSize: 'clamp(1.8rem,4vw,2.6rem)',
+                fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
                 marginBottom: '16px',
                 lineHeight: 1.1,
                 color: 'var(--ink)',
               }}
             >
-              {project.title}
+              {currentProject.title}
             </h1>
+
             <p
               style={{
                 fontSize: '15px',
@@ -248,19 +313,21 @@ export default function ProjectDetail() {
                 marginBottom: '20px',
               }}
             >
-              {project.shortDesc}
+              {currentProject.shortDesc}
             </p>
+
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '24px' }}>
-              {(project.technologies ?? []).map((t) => (
-                <span key={t} className="tag">
-                  {t}
+              {(currentProject.technologies ?? []).map((techName) => (
+                <span key={techName} className="tag">
+                  {techName}
                 </span>
               ))}
             </div>
+
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-              {project.github && (
+              {currentProject.github && (
                 <Tactile3DButton
-                  href={project.github}
+                  href={currentProject.github}
                   target="_blank"
                   size="md"
                   variant="secondary"
@@ -268,9 +335,9 @@ export default function ProjectDetail() {
                   GitHub Repository ↗
                 </Tactile3DButton>
               )}
-              {project.liveLink && (
+              {currentProject.liveLink && (
                 <ShinyButton
-                  href={project.liveLink}
+                  href={currentProject.liveLink}
                   target="_blank"
                   size="md"
                   variant="primary"
@@ -288,15 +355,17 @@ export default function ProjectDetail() {
             </div>
           </LiquidGlassLens>
 
+          {/* Main 2-Column Content Grid */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'minmax(0,1.55fr) minmax(0,1fr)',
+              gridTemplateColumns: 'minmax(0, 1.55fr) minmax(0, 1fr)',
               gap: '24px',
               alignItems: 'start',
             }}
             id="detail-grid"
           >
+            {/* Left Column: Description, Snapshots, Architecture */}
             <div>
               <div className="reveal card" style={{ padding: '28px', marginBottom: '14px' }}>
                 <div className="label" style={{ marginBottom: '10px' }}>
@@ -311,10 +380,10 @@ export default function ProjectDetail() {
                     color: 'var(--ink-2)',
                   }}
                 >
-                  {project.description}
+                  {currentProject.description}
                 </p>
 
-                {project.problem && (
+                {currentProject.problem && (
                   <div
                     style={{
                       marginTop: '20px',
@@ -327,12 +396,12 @@ export default function ProjectDetail() {
                       problem statement
                     </div>
                     <p style={{ fontSize: '12px', lineHeight: 1.7, color: 'var(--ink)' }}>
-                      {project.problem}
+                      {currentProject.problem}
                     </p>
                   </div>
                 )}
 
-                {project.id === 'eye-disease-predictor' && (
+                {currentProject.id === 'eye-disease-predictor' && (
                   <div
                     style={{
                       marginTop: '16px',
@@ -374,23 +443,32 @@ export default function ProjectDetail() {
                 )}
               </div>
 
-              {/* Visual Architecture and Snapshot Showcase */}
+              {/* Visual Snapshots Section */}
               <div className="reveal" style={{ marginBottom: '14px' }}>
                 <div className="label" style={{ marginBottom: '12px' }}>
                   technical architecture &amp; visual snapshots
                 </div>
                 {hasScreenshots ? (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                    {project.screenshots.map((shot, i) => (
+                    {screenshots.map((shot, shotIndex) => (
                       <div
-                        key={i}
+                        key={`${shotIndex}-${shot.src}`}
                         className="card card-hover"
                         style={{
                           overflow: 'hidden',
                           border: '1px solid var(--border-3)',
                           cursor: 'pointer',
                         }}
-                        onClick={() => setLightbox(i)}
+                        onClick={() => setActiveLightboxIndex(shotIndex)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setActiveLightboxIndex(shotIndex);
+                          }
+                        }}
+                        aria-label={`Enlarge architectural diagram: ${shot.caption}`}
                       >
                         <div style={{ position: 'relative' }}>
                           <img
@@ -409,7 +487,7 @@ export default function ProjectDetail() {
                               position: 'absolute',
                               top: '12px',
                               right: '12px',
-                              background: 'rgba(0,0,0,0.7)',
+                              background: 'rgba(0, 0, 0, 0.7)',
                               border: '1px solid var(--border-2)',
                               padding: '4px 8px',
                               fontFamily: 'var(--font-mono)',
@@ -454,31 +532,32 @@ export default function ProjectDetail() {
                 )}
               </div>
 
-              {project.aiArchitecture && (
+              {currentProject.aiArchitecture && (
                 <div className="reveal">
-                  <SectionBlock
+                  <ArchitecturalSection
                     label="data &amp; model architecture"
-                    heading={project.aiArchitecture.heading}
-                    body={project.aiArchitecture.body}
-                    points={project.aiArchitecture.points}
-                    stack={project.aiArchitecture.stack}
+                    heading={currentProject.aiArchitecture.heading}
+                    body={currentProject.aiArchitecture.body}
+                    points={currentProject.aiArchitecture.points}
+                    stack={currentProject.aiArchitecture.stack}
                   />
                 </div>
               )}
 
-              {project.uiDeployment && (
+              {currentProject.uiDeployment && (
                 <div className="reveal">
-                  <SectionBlock
+                  <ArchitecturalSection
                     label="interface &amp; deployment infrastructure"
-                    heading={project.uiDeployment.heading}
-                    body={project.uiDeployment.body}
-                    points={project.uiDeployment.points}
-                    stack={project.uiDeployment.stack}
+                    heading={currentProject.uiDeployment.heading}
+                    body={currentProject.uiDeployment.body}
+                    points={currentProject.uiDeployment.points}
+                    stack={currentProject.uiDeployment.stack}
                   />
                 </div>
               )}
             </div>
 
+            {/* Right Column: Key Deliverables & Quick Actions */}
             <div>
               <div
                 className="reveal card"
@@ -495,9 +574,9 @@ export default function ProjectDetail() {
                     marginBottom: '24px',
                   }}
                 >
-                  {(project.features ?? []).map((f, i) => (
+                  {(currentProject.features ?? []).map((featureText, featureIndex) => (
                     <li
-                      key={i}
+                      key={`${featureIndex}-${featureText.slice(0, 16)}`}
                       style={{
                         fontSize: '13px',
                         lineHeight: 1.65,
@@ -517,15 +596,15 @@ export default function ProjectDetail() {
                       >
                         ✓
                       </span>
-                      {f}
+                      {featureText}
                     </li>
                   ))}
                 </ul>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {project.liveLink && (
+                  {currentProject.liveLink && (
                     <ShinyButton
-                      href={project.liveLink}
+                      href={currentProject.liveLink}
                       target="_blank"
                       size="md"
                       variant="primary"
@@ -534,9 +613,9 @@ export default function ProjectDetail() {
                       Launch Live Demo ↗
                     </ShinyButton>
                   )}
-                  {project.github && (
+                  {currentProject.github && (
                     <Tactile3DButton
-                      href={project.github}
+                      href={currentProject.github}
                       target="_blank"
                       size="md"
                       className="w-full text-center"

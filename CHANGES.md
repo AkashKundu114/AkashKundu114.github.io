@@ -1,89 +1,79 @@
-# Navy Palette + Animation Update
+# Codebase Modernization & Full-Stack Refactoring Log
 
-Drop these files into your existing `portfolio-react` project at the same paths
-(they overwrite the originals) — that's it, no new dependencies needed.
+## Version 2.1.0 — Architecture Hardening & 3D WebGL Integration
 
-## Colour palette
-New CSS variables in `src/index.css` drive the whole site, so the swap cascades
-through every page automatically:
+A comprehensive, ground-up refactoring of the portfolio codebase emphasizing modular architecture, descriptive naming, boundary condition checks, type safety, test-driven validation, and 3D WebGL integration.
 
-| Role | Dark theme (default) | Light theme |
-|---|---|---|
-| Background | Deep Blue `#182350` | Floral White `#FEFAEF` |
-| Ink (text) | Floral White `#FEFAEF` | Deep Blue `#182350` |
-| Muted text | Powder Blue `#AFD2FA` | darker blue tint |
-| Primary accent (CTA) | Pale Brown `#B9915E` | Pale Brown `#B9915E` |
-| Secondary accent (links/active states) | Powder Blue `#AFD2FA` | mid blue tint |
+---
 
-`--danger` was previously referenced by `tailwind.config.js` and `Contact.jsx`
-but never defined — that's fixed now too, using a terracotta tone that fits
-the brown/navy family instead of a random red.
+### 1. Academic & Profile Updates
+- **CGPA**: Updated cumulative grade point average to **7.59 / 10.0** till 6th semester in `src/data/education.ts` and `src/pages/Education.tsx`.
+- **Status**: Updated academic status to reflect completion of 6 semesters with active 4th-year coursework.
 
-Category badge colours (`Certificates`, `CertificateDetail`, `Admin`, and
-`Skills`) were consolidated into one shared, palette-derived map in
-`src/data/certificates.js` instead of three separate inconsistent objects.
+---
 
-## Animations added
-- **Card hover accent line** — every `.card-hover` (project cards, skill rows,
-  principle tiles, admin cards) now gets a powder→brown gradient bar that
-  sweeps in from the left on hover, plus a lift + shadow.
-- **Row-card hover** — left accent bar + lift, used on Projects/Certificates/
-  Home's featured list.
-- **Nav underline** — the active/hovered nav link gets an animated underline
-  instead of a flat background swap.
-- **Marquee ticker** — a true infinite-scroll tech strip (pauses on hover),
-  used on the Home hero ("pipeline" row) and the bottom of Skills.
-- **Stat blocks** — Home now shows live counts (projects/certs/tech) in a
-  big-number stat row; Education gets a 3-card stat strip (current semester /
-  CGPA / secondary score), both borrowed from the reference HTML's design.
-- **Scroll-reveal everywhere** — Home previously had no `.reveal`/stagger
-  wiring at all; it now fades/slides in section by section like the other
-  pages, with staggered delays on grids and lists.
-- **Ambient glow blob** — a soft mouse-following radial-gradient blob (powder/
-  brown) was added to the global ambient background, echoing the reference
-  file's cursor-tracked blob without hijacking the cursor itself.
-- **Focus ring** — added a visible `:focus-visible` outline in the accent
-  colour for keyboard navigation accessibility.
+### 2. Procedural 3D WebGL Integration (ThreeUI-Inspired)
+- Added [`AdvertisingCloud3D.tsx`](src/components/AdvertisingCloud3D.tsx) utilizing Three.js and hardware-accelerated WebGL.
+- **Architectural Design**:
+  - Procedural geodesic wireframe icosahedron with an emissive inner core and spherical particle starfield.
+  - 5 interactive orbital satellite nodes modeling multi-channel AdTech & AI streams (AI Agent Swarm, Search & RTB Engine, Social Attribution Mesh, Multi-Tenant Data Store, ELK Telemetry).
+  - Smooth inertial mouse-tilt tracking with canvas dimension boundary guards.
+  - Interactive mode toggles (*Advertising Cloud*, *AI Agent Swarm*, *Multi-Tenant Mesh*) and clickable telemetry cards.
+  - Memory-safe lifecycle: Full GPU asset disposal (`disposeSceneBundle`) and `IntersectionObserver` pause mechanics to maintain 60 FPS without leaking VRAM.
 
-## Custom animated cursor (latest addition)
-A two-part custom cursor — a small lead dot plus a softly-lagging ring —
-replaces the native pointer site-wide:
-- The ring eases toward the pointer each frame (lerp), giving it a trailing
-  feel; the dot tracks instantly.
-- Hovering any interactive element (links, buttons, cards, tags, nav links,
-  inputs) grows the ring ~1.9× and recolours both dot and ring to the Pale
-  Brown accent; the rest of the time it sits in Powder Blue.
-- Clicking pulses the ring down to 0.75× for tactile feedback.
-- Automatically disabled on touch/coarse-pointer devices (`pointer: coarse`),
-  so phones and tablets keep their normal touch behaviour untouched.
-- Respects `prefers-reduced-motion`: the trailing lag is removed (the ring
-  follows instantly) instead of turning off the cursor outright.
-- Sits above the lightbox/admin modal overlays (z-index 10000) so it never
-  disappears behind them.
+---
 
-New file: `src/components/CustomCursor.jsx`, mounted once in `src/App.jsx`
-alongside `AmbientBackground`. Styles live in `src/index.css` under
-"Custom cursor".
+### 3. Component Architecture (`src/components/`)
+- **Polymorphic Action Container**: Unified navigation routing across `ShinyButton`, `Tactile3DButton`, `GlitchButton`, and `GlassButton` in `EvilButtons.tsx`, eliminating repeated branching and casting.
+- **Defensive Boundary Handling**:
+  - `CustomCursor.tsx`: Added window/document undefined checks, sanitized dimensions with `Math.max(1, innerWidth)`, and extracted modular canvas drawing functions.
+  - `LiquidGlassLens.tsx`: Added resilient CSS variable/hex color blending resolving box shadows safely.
+  - `Navbar.tsx`: Extracted modular subcomponents (`BrandIdentity`, `DesktopNavLinks`, `MobileDrawer`), added `Escape` key dismissal, and fixed DOM nesting violations.
+  - `Footer.tsx`: Modularized legal and social link iterators with immutable configurations and dynamic year fallback.
+  - `PageTransition.tsx` & `AmbientBackground.tsx`: Added strict prop typing, `React.memo` wrapping, and null child guards.
 
+---
 
-## Files changed
-- `src/index.css` — palette + all new animation/utility classes + cursor styles
-- `index.html`, `vite.config.js` — PWA/theme-color meta updated to Deep Blue
-- `src/App.jsx` — mounts the new `CustomCursor` component
-- `src/components/CustomCursor.jsx` — new animated dot + ring custom cursor
-- `src/components/AmbientBackground.jsx` — recoloured + mouse-follow blob
-- `src/components/PageTransition.jsx` — slightly richer enter/exit motion
-- `src/data/certificates.js` — shared category colour map
-- `src/pages/Home.jsx` — stats row, marquee, full reveal wiring, recolour
-- `src/pages/About.jsx` — card-hover + stagger on principles/timeline
-- `src/pages/Skills.jsx` — recoloured groups + marquee ticker
-- `src/pages/Certificates.jsx`, `CertificateDetail.jsx` — shared colour map
-- `src/pages/Education.jsx` — added stat-card row
-- `src/pages/Projects.jsx`, `ProjectDetail.jsx` — stagger + card-hover on screenshots
-- `src/pages/Contact.jsx` — card-hover, danger/accent colour fixes
-- `src/pages/Admin.jsx` — danger colour fixes, shared category colours
+### 4. Data, Context & Hooks (`src/data/`, `src/context/`, `src/hooks/`)
+- **Eliminated Redundant Legacy Files**: Removed obsolete `src/hooks/useScrollReveal.js`.
+- **Hardened Scroll Reveal Hook** (`src/hooks/useScrollReveal.ts`):
+  - Generic typing (`RefObject<T | null>`).
+  - Added boundary checks for `window` availability, element connectivity (`isConnected`), and `IntersectionObserver` existence.
+  - Added resilient fallback timeout timers (1200ms) with unmount cleanup to guarantee visibility even if observers are stalled.
+- **Resilient State Management** (`src/context/`):
+  - `DataContext.tsx`: Try/catch wrapping on storage reads and writes (`safeReadStore`, `safeWriteStore`) guarding against privacy sandbox `SecurityError` and quota limits. Added defensive CRUD operation fallbacks.
+  - `ThemeContext.tsx`: Defensive theme validation, DOM attribute synchronization, and safe storage persistence.
+- **Data Lookup & Search Helpers** (`src/data/`):
+  - Added boundary-checked search and filter functions to `projects.ts`, `skills.ts`, `education.ts`, and `certificates.ts`.
+  - Rewrote skills into discrete, proper technologies across distinct categories without merged compound titles.
 
-Everything else (Navbar, Footer, DataContext, ThemeContext, hooks,
-data/projects.js, data/skills.js, data/education.js, backend, deploy config)
-was left untouched because it already pulls all its colour from the CSS
-variables above and needed no animation changes.
+---
+
+### 5. Page Components Hardening (`src/pages/`)
+- **Route Parameter Boundaries**: Sanitized ID route parameters in `ProjectDetail.tsx` and `CertificateDetail.tsx` with dedicated 404 fallback cards.
+- **Search & Filter Boundaries**: Clamped search queries in `Projects.tsx` to 80 characters, sanitized non-printable control characters, and added clear filter reset actions.
+- **Form Validation & Accessibility**: Formulated strict RFC-compliant regex validation and character count boundaries in `Contact.tsx`.
+- **Keyboard Navigation**: Implemented keyboard event triggers (`Enter`, `Space`, `Escape`, `ArrowLeft`, `ArrowRight`) across card lists and image lightboxes.
+- **Clean Semantic Markup**: Structured headers, navigation, and content sections cleanly with zero implicit type coercions.
+
+---
+
+### 6. Backend Microservice (`backend/contact_api.py`)
+- **Input Validation**: Strict min/max boundaries on `name` (2–100 chars), `email` (max 254 chars, RFC regex, disposable domain blocklist), and `message` (10–3000 chars).
+- **SMTP Injection Protection**: Prohibited carriage returns (`\r`) and line breaks (`\n`) in the name and subject fields to block header injection attacks.
+- **Network Resilience**: Configured explicit socket timeouts (`DEFAULT_SMTP_TIMEOUT_SECONDS = 10`) on SMTP connections to prevent thread starvation.
+- **Security & Error Handling**: Mapped specific HTTP status codes (400, 429, 500, 503, 504) with HTML body escaping.
+
+---
+
+### 7. Comprehensive Test Suite Expansion (`src/__tests__/`)
+Expanded the test suite from 1 smoke test to **107 comprehensive automated unit tests** across 9 test files (100% pass rate):
+- `data.test.ts` (32 tests): Validates schemas, uniqueness invariants, and search/lookup helpers.
+- `useScrollReveal.test.tsx` (13 tests): Validates immediate viewport triggers, observer registration, and timeout fallbacks.
+- `DataContext.test.tsx` (16 tests): Validates initial state hydration, CRUD operations, and storage quota resilience.
+- `ThemeContext.test.tsx` (6 tests): Validates theme switching, DOM attribute binding, and fallback context handling.
+- `EvilButtons.test.tsx` (16 tests): Validates button variants, router links, download anchors, and size mappings.
+- `Navbar.test.tsx` (6 tests): Validates desktop routes, mobile drawer toggle, and scroll threshold styling.
+- `Footer.test.tsx` (4 tests): Validates legal/social links, dynamic copyright year, and hover states.
+- `LiquidGlassLens.test.tsx` (13 tests): Validates intensity presets, hex and CSS variable shadow blending.
+- `App.test.tsx` (1 test): Validates root application rendering.

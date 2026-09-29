@@ -10,6 +10,8 @@ export interface Education {
   description?: string;
 }
 
+export type EducationItem = Education;
+
 export const education: Education[] = [
   {
     id: 1,
@@ -18,10 +20,10 @@ export const education: Education[] = [
     location: 'Kolkata, West Bengal',
     startYear: '2023',
     endYear: '2027',
-    grade: 'CGPA 7.5 / 10',
+    grade: 'CGPA 7.59 / 10',
     current: true,
     description:
-      'Advanced in computer science fundamentals as measured by a 7.5 CGPA, by completing rigorous coursework in algorithms, data structures, and system design.',
+      'Advanced in computer science fundamentals as measured by a 7.59 CGPA across 6 completed semesters, with rigorous coursework in algorithms, data structures, and system design.',
   },
   {
     id: 2,
@@ -48,3 +50,30 @@ export const education: Education[] = [
       'Demonstrated academic excellence as measured by a 95.4% final grade, by consistently ranking in the top percentile across all foundational subjects.',
   },
 ];
+
+/**
+ * Finds an education entry by numeric ID.
+ * Returns undefined for invalid or non-matching IDs.
+ */
+export function getEducationById(id: number): Education | undefined {
+  if (typeof id !== 'number' || isNaN(id) || id <= 0) return undefined;
+  return education.find((item) => item.id === id);
+}
+
+/**
+ * Returns the currently active education program, if any.
+ */
+export function getCurrentEducation(): Education | undefined {
+  return education.find((item) => item.current === true);
+}
+
+/**
+ * Returns education entries sorted chronologically.
+ */
+export function getSortedEducation(direction: 'asc' | 'desc' = 'desc'): Education[] {
+  return [...education].sort((a, b) => {
+    const yearA = parseInt(a.startYear, 10) || 0;
+    const yearB = parseInt(b.startYear, 10) || 0;
+    return direction === 'asc' ? yearA - yearB : yearB - yearA;
+  });
+}

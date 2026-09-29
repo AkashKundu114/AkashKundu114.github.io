@@ -42,9 +42,10 @@ public/
 ```
 
 ### Step 3 — Update data files with real info
-- `src/data/certificates.js` → Add real certificate details + image paths
-- `src/data/projects.js`     → Add real screenshot paths
-- `src/pages/Contact.jsx`    → Replace `YOUR_FORM_ID` with your Formspree ID
+- `src/data/certificates.ts` → Real certificate details + image paths
+- `src/data/projects.ts`     → Real project details & screenshot paths
+- `src/data/skills.ts`       → Technical skills & categorizations
+- `src/pages/Contact.tsx`    → Contact form integration / API endpoint
 
 ### Step 4 — Test locally
 ```bash

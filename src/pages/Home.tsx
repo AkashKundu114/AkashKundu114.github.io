@@ -1,116 +1,195 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { skills } from '../data/skills';
+import { Project } from '../data/projects';
+import { Certificate } from '../data/certificates';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 import LiquidGlassLens from '../components/LiquidGlassLens';
+import AdvertisingCloud3D from '../components/AdvertisingCloud3D';
 
-const domains = [
+interface EngineeringDomain {
+  label: string;
+  icon: string;
+  description: string;
+  technologies: string[];
+  color: string;
+}
+
+interface StatMetric {
+  value: string | number;
+  label: string;
+}
+
+const ENGINEERING_DOMAINS: readonly EngineeringDomain[] = [
   {
     label: 'AI & Data Engineering',
     icon: '◈',
-    desc: 'Training models, agentic state-machines, and high-throughput vector pipelines from raw data to production.',
-    tags: ['PyTorch', 'LangGraph', 'Ollama', 'Sarvam AI', 'pgvector', 'OpenCV', 'SQL'],
+    description:
+      'Training models, agentic state-machines, and high-throughput vector pipelines from raw data to production.',
+    technologies: ['PyTorch', 'LangGraph', 'Agentic AI', 'MCP', 'Ollama', 'Sarvam AI', 'pgvector', 'SQL'],
     color: '#AFD2FA',
   },
   {
-    label: 'Backend & Systems',
+    label: 'Backend & Multi-Tenant Systems',
     icon: '◉',
-    desc: 'Low-latency async microservices, schema-migrated databases, and offline runtime engines.',
-    tags: ['FastAPI', 'Node.js', 'PostgreSQL', 'Docker', 'Redis', 'WebSockets', 'Alembic'],
+    description:
+      'Low-latency async microservices, tenant-isolated relational databases, and centralized observability.',
+    technologies: ['C#', 'ASP.NET', 'FastAPI', 'Node.js', 'MS SQL Server', 'PostgreSQL', 'Redis', 'Docker'],
     color: '#B9915E',
   },
   {
-    label: 'Modern Frontend & UI',
+    label: 'Modern Frontend & 3D Web UI',
     icon: '◎',
-    desc: 'Performant, tactile, and reactive interfaces — cross-platform desktop and installable PWAs.',
-    tags: ['React 18', 'TypeScript', 'Tailwind', 'Electron', 'Framer Motion', 'PWA'],
+    description:
+      'Performant, tactile, and reactive interfaces — procedural Three.js WebGL, Vue.js, and desktop apps.',
+    technologies: ['Three.js', 'WebGL', 'React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     color: '#FEFAEF',
   },
 ];
 
-const marqueeSkills = skills.map((s) => s.name);
+/**
+ * Calculates high-level portfolio metrics with boundary checks.
+ */
+function calculatePortfolioMetrics(
+  projectList: readonly Project[],
+  certificateList: readonly Certificate[]
+): StatMetric[] {
+  const safeProjects = projectList ?? [];
+  const safeCertificates = certificateList ?? [];
 
-function NetCanvas() {
-  const ref = useRef<HTMLCanvasElement | null>(null);
+  const uniqueTechnologies = new Set<string>();
+  for (const project of safeProjects) {
+    if (Array.isArray(project.technologies)) {
+      for (const tech of project.technologies) {
+        if (tech && tech.trim()) {
+          uniqueTechnologies.add(tech.trim());
+        }
+      }
+    }
+  }
+
+  const techCount = uniqueTechnologies.size;
+
+  return [
+    { value: safeProjects.length, label: 'projects shipped' },
+    { value: safeCertificates.length, label: 'industry certs' },
+    { value: techCount > 0 ? `${techCount}+` : '0', label: 'technologies' },
+    { value: '2027', label: 'final year (grad)' },
+  ];
+}
+
+interface NodeParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  phase: number;
+  radius: number;
+}
+
+function ParticleNetworkCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
   useEffect(() => {
-    const canvas = ref.current;
+    const canvas = canvasRef.current;
     if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    let raf: number,
-      t = 0;
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+
+    let animationFrameId: number;
+    let time = 0;
+    let isIntersecting = true;
+
+    const resizeCanvas = () => {
+      if (!canvas) return;
+      canvas.width = canvas.offsetWidth || 300;
+      canvas.height = canvas.offsetHeight || 300;
     };
-    resize();
-    window.addEventListener('resize', resize);
-    const nodes = Array.from({ length: 26 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particleCount = 26;
+    const particles: NodeParticle[] = Array.from({ length: particleCount }, () => ({
+      x: Math.random() * (canvas.width || 300),
+      y: Math.random() * (canvas.height || 300),
       vx: (Math.random() - 0.5) * 0.28,
       vy: (Math.random() - 0.5) * 0.28,
-      ph: Math.random() * Math.PI * 2,
-      r: Math.random() * 1.8 + 0.6,
+      phase: Math.random() * Math.PI * 2,
+      radius: Math.random() * 1.8 + 0.6,
     }));
-    let isVisible = true;
+
     const observer = new IntersectionObserver(([entry]) => {
-      isVisible = entry.isIntersecting;
-      if (isVisible) {
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(draw);
+      isIntersecting = entry.isIntersecting;
+      if (isIntersecting) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(renderLoop);
       }
     });
+
     observer.observe(canvas);
 
-    const draw = () => {
-      if (!isVisible) return;
-      t += 0.01;
+    const renderLoop = () => {
+      if (!isIntersecting) return;
+
+      time += 0.01;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      nodes.forEach((n) => {
-        n.x += n.vx + Math.sin(t + n.ph) * 0.12;
-        n.y += n.vy + Math.cos(t + n.ph) * 0.12;
-        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
-        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-      });
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 150) {
-            const a = (1 - d / 150) * 0.09;
+
+      for (const particle of particles) {
+        particle.x += particle.vx + Math.sin(time + particle.phase) * 0.12;
+        particle.y += particle.vy + Math.cos(time + particle.phase) * 0.12;
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+      }
+
+      // Draw interconnection edges between proximal nodes
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            const alpha = (1 - distance / 150) * 0.09;
             ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(175,210,250,${a})`;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(175, 210, 250, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
-      nodes.forEach((n) => {
-        const a = 0.2 + Math.sin(t + n.ph) * 0.08;
+
+      // Draw particle points
+      for (const particle of particles) {
+        const alpha = 0.2 + Math.sin(time + particle.phase) * 0.08;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(175,210,250,${a})`;
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(175, 210, 250, ${alpha})`;
         ctx.fill();
-      });
-      raf = requestAnimationFrame(draw);
+      }
+
+      animationFrameId = requestAnimationFrame(renderLoop);
     };
-    draw();
+
+    renderLoop();
+
     return () => {
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(animationFrameId);
       observer.disconnect();
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', resizeCanvas);
     };
   }, []);
+
   return (
     <canvas
-      ref={ref}
+      ref={canvasRef}
       style={{
         position: 'absolute',
         inset: 0,
@@ -123,25 +202,38 @@ function NetCanvas() {
 }
 
 export default function Home() {
+  const { projects = [], certificates = [] } = useData();
+  const navigate = useNavigate();
+  const containerRef = useRevealChildren();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const { projects, certificates } = useData();
-  const navigate = useNavigate();
-  const ref = useRevealChildren();
-  const featured = projects.slice(0, 3);
-  const techCount = new Set(projects.flatMap((p) => p.technologies ?? [])).size;
 
-  const stats = [
-    { n: projects.length, l: 'projects shipped' },
-    { n: certificates.length, l: 'industry certs' },
-    { n: `${techCount}+`, l: 'technologies' },
-    { n: '2027', l: 'final year (grad)' },
-  ];
+  const featuredProjects = useMemo(() => projects.slice(0, 3), [projects]);
+
+  const summaryStats = useMemo(
+    () => calculatePortfolioMetrics(projects, certificates),
+    [projects, certificates]
+  );
+
+  const marqueeSkillsList = useMemo(
+    () => (skills && skills.length > 0 ? skills.map((s) => s.name) : []),
+    []
+  );
+
+  const handleProjectClick = useCallback(
+    (projectId: string) => {
+      if (!projectId) return;
+      navigate(`/projects/${projectId}`);
+    },
+    [navigate]
+  );
 
   return (
     <PageTransition>
-      <div ref={ref}>
+      <div ref={containerRef}>
+        {/* Hero Section */}
         <section
           style={{
             paddingTop: '96px',
@@ -153,7 +245,8 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <NetCanvas />
+          <ParticleNetworkCanvas />
+
           <div className="container" style={{ position: 'relative', zIndex: 1, width: '100%' }}>
             <div className="reveal" style={{ marginBottom: '28px' }}>
               <LiquidGlassLens
@@ -227,40 +320,45 @@ export default function Home() {
               </GlassButton>
             </div>
 
+            {/* Quick Metrics Bar */}
             <div
               className="reveal"
               style={{ display: 'flex', flexWrap: 'wrap', gap: '44px', marginBottom: '44px' }}
               id="stats-row"
             >
-              {stats.map((s) => (
-                <div key={s.l} className="stat-block">
+              {summaryStats.map((metric) => (
+                <div key={metric.label} className="stat-block">
                   <div className="stat-number">
-                    <span>{s.n}</span>
+                    <span>{metric.value}</span>
                   </div>
-                  <div className="stat-label">{s.l}</div>
+                  <div className="stat-label">{metric.label}</div>
                 </div>
               ))}
             </div>
 
-            <div className="reveal marquee-wrap" style={{ margin: '0 -2rem' }}>
-              <div className="marquee-track">
-                {[...marqueeSkills, ...marqueeSkills].map((s, i) => (
-                  <span
-                    key={s + i}
-                    className="marquee-item"
-                    style={{
-                      color: i % 2 === 0 ? 'var(--link)' : 'var(--accent)',
-                    }}
-                  >
-                    <span className="marquee-diamond">◆</span>
-                    {s}
-                  </span>
-                ))}
+            {/* Technical Marquee */}
+            {marqueeSkillsList.length > 0 && (
+              <div className="reveal marquee-wrap" style={{ margin: '0 -2rem' }}>
+                <div className="marquee-track">
+                  {[...marqueeSkillsList, ...marqueeSkillsList].map((skillName, index) => (
+                    <span
+                      key={`${skillName}-${index}`}
+                      className="marquee-item"
+                      style={{
+                        color: index % 2 === 0 ? 'var(--link)' : 'var(--accent)',
+                      }}
+                    >
+                      <span className="marquee-diamond">◆</span>
+                      {skillName}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
 
+        {/* Engineering Focus Domains */}
         <section className="section">
           <div className="container">
             <div className="label reveal">what I work on</div>
@@ -269,15 +367,15 @@ export default function Home() {
             </h2>
             <div
               className="bento-grid stagger"
-              style={{ gridTemplateColumns: 'repeat(3,1fr)' }}
+              style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
               id="domain-grid"
             >
-              {domains.map((d, i) => (
+              {ENGINEERING_DOMAINS.map((domain, index) => (
                 <LiquidGlassLens
-                  key={d.label}
+                  key={domain.label}
                   intensity="subtle"
                   className="card card-hover reveal"
-                  style={{ padding: '28px 24px', '--i': i } as any}
+                  style={{ padding: '28px 24px', '--i': index } as React.CSSProperties}
                 >
                   <div
                     style={{
@@ -295,23 +393,23 @@ export default function Home() {
                         width: '32px',
                         height: '32px',
                         fontSize: '15px',
-                        color: d.color,
-                        border: `1px solid ${d.color}28`,
-                        background: `${d.color}0c`,
+                        color: domain.color,
+                        border: `1px solid ${domain.color}28`,
+                        background: `${domain.color}0c`,
                         borderRadius: 0,
                       }}
                     >
-                      {d.icon}
+                      {domain.icon}
                     </span>
-                    <h3 style={{ color: 'var(--ink)' }}>{d.label}</h3>
+                    <h3 style={{ color: 'var(--ink)' }}>{domain.label}</h3>
                   </div>
-                  <p style={{ fontSize: '13px', lineHeight: 1.75, marginBottom: '20px' }}>
-                    {d.desc}
+                  <p style={{ fontSize: '13px', lineHeight: 1.75, marginBottom: '20px', color: 'var(--ink-2)' }}>
+                    {domain.description}
                   </p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-                    {d.tags.map((t) => (
-                      <span key={t} className="tag">
-                        {t}
+                    {domain.technologies.map((tech) => (
+                      <span key={tech} className="tag">
+                        {tech}
                       </span>
                     ))}
                   </div>
@@ -321,6 +419,49 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Interactive 3D WebGL Architectural Model */}
+        <section className="section" style={{ paddingTop: '10px' }}>
+          <div className="container">
+            <div className="label reveal">interactive 3D architecture · WebGL</div>
+            <div
+              className="reveal"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                marginBottom: '24px',
+                flexWrap: 'wrap',
+                gap: '12px',
+              }}
+            >
+              <div>
+                <h2 style={{ marginBottom: '8px' }}>Advertising Cloud &amp; AI Agent Engine</h2>
+                <p style={{ fontSize: '14px', color: 'var(--ink-2)', maxWidth: '62ch', lineHeight: 1.7 }}>
+                  Interactive 3D procedural simulation inspired by ThreeUI &amp; Three.js — modeling
+                  cross-channel marketing optimization, multi-tenant databases, and agentic LLM swarms.
+                </p>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '11px',
+                  color: 'var(--accent)',
+                  padding: '6px 14px',
+                  border: '1px solid rgba(175, 210, 250, 0.25)',
+                  background: 'rgba(175, 210, 250, 0.05)',
+                }}
+              >
+                60 FPS · Three.js GPU Accelerated
+              </div>
+            </div>
+
+            <div className="reveal">
+              <AdvertisingCloud3D />
+            </div>
+          </div>
+        </section>
+
+        {/* Selected Flagship Projects */}
         <section className="section">
           <div className="container">
             <div
@@ -342,120 +483,137 @@ export default function Home() {
                 All projects ({projects.length}) →
               </Link>
             </div>
-            <div
-              className="stagger"
-              style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
-            >
-              {featured.map((p, i) => (
-                <div
-                  key={p.id}
-                  className="row-card reveal"
-                  onClick={() => navigate(`/projects/${p.id}`)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
-                  style={{ '--i': i, padding: '20px 24px' } as any}
-                >
+
+            {featuredProjects.length > 0 ? (
+              <div
+                className="stagger"
+                style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+              >
+                {featuredProjects.map((project, index) => (
                   <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      justifyContent: 'space-between',
-                      gap: '18px',
-                      flexWrap: 'wrap',
+                    key={project.id}
+                    className="row-card reveal"
+                    onClick={() => handleProjectClick(project.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleProjectClick(project.id);
+                      }
                     }}
+                    style={{ '--i': index, padding: '20px 24px' } as React.CSSProperties}
                   >
-                    <div style={{ flex: 1, minWidth: 260 }}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          marginBottom: '8px',
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '10px',
-                            color: 'var(--muted-2)',
-                            letterSpacing: '0.08em',
-                          }}
-                        >
-                          {p.year}
-                        </span>
-                        {p.status && <span className="tag">{p.status}</span>}
-                        {p.screenshots && p.screenshots.length > 0 && (
-                          <span
-                            className="tag"
-                            style={{
-                              borderColor: 'var(--accent)',
-                              color: 'var(--accent)',
-                              background: 'var(--accent-soft)',
-                            }}
-                          >
-                            Architecture Snapshot ✓
-                          </span>
-                        )}
-                      </div>
-                      <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
-                        {p.title}
-                      </h3>
-                      <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '56ch', color: 'var(--ink-2)' }}>
-                        {p.shortDesc}
-                      </p>
-                    </div>
                     <div
                       style={{
                         display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-end',
-                        gap: '10px',
-                        minWidth: '200px',
+                        alignItems: 'flex-start',
+                        justifyContent: 'space-between',
+                        gap: '18px',
+                        flexWrap: 'wrap',
                       }}
                     >
+                      <div style={{ flex: 1, minWidth: 260 }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            marginBottom: '8px',
+                            flexWrap: 'wrap',
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '10px',
+                              color: 'var(--muted-2)',
+                              letterSpacing: '0.08em',
+                            }}
+                          >
+                            {project.year}
+                          </span>
+                          {project.status && <span className="tag">{project.status}</span>}
+                          {project.screenshots && project.screenshots.length > 0 && (
+                            <span
+                              className="tag"
+                              style={{
+                                borderColor: 'var(--accent)',
+                                color: 'var(--accent)',
+                                background: 'var(--accent-soft)',
+                              }}
+                            >
+                              Architecture Snapshot ✓
+                            </span>
+                          )}
+                        </div>
+                        <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
+                          {project.title}
+                        </h3>
+                        <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '56ch', color: 'var(--ink-2)' }}>
+                          {project.shortDesc}
+                        </p>
+                      </div>
+
                       <div
                         style={{
                           display: 'flex',
-                          flexWrap: 'wrap',
-                          gap: '4px',
-                          justifyContent: 'flex-end',
+                          flexDirection: 'column',
+                          alignItems: 'flex-end',
+                          gap: '10px',
+                          minWidth: '200px',
                         }}
                       >
-                        {p.technologies.slice(0, 4).map((t) => (
-                          <span key={t} className="tag">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                      <div style={{ display: 'flex', gap: '6px' }}>
-                        {p.github && (
-                          <a
-                            href={p.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="btn btn-sm"
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '4px',
+                            justifyContent: 'flex-end',
+                          }}
+                        >
+                          {(project.technologies ?? []).slice(0, 4).map((tech) => (
+                            <span key={tech} className="tag">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(event) => event.stopPropagation()}
+                              className="btn btn-sm"
+                              style={{ padding: '3px 10px', fontSize: '10px' }}
+                            >
+                              Code ↗
+                            </a>
+                          )}
+                          <span
+                            className="btn btn-sm btn-primary"
                             style={{ padding: '3px 10px', fontSize: '10px' }}
                           >
-                            Code ↗
-                          </a>
-                        )}
-                        <span
-                          className="btn btn-sm btn-primary"
-                          style={{ padding: '3px 10px', fontSize: '10px' }}
-                        >
-                          Details →
-                        </span>
+                            Details →
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="card" style={{ padding: '40px', textAlign: 'center' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
+                  No featured projects available.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
+        {/* Closing Hiring Banner */}
         <section
           className="section"
           style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)' }}
@@ -476,7 +634,7 @@ export default function Home() {
             >
               <div>
                 <div className="label">hiring status · final year</div>
-                <h2 style={{ fontSize: 'clamp(1.4rem,3vw,2.2rem)' }}>
+                <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}>
                   Graduating 2027 · Open to Roles.
                 </h2>
                 <p style={{ fontSize: '14px', marginTop: '6px', color: 'var(--ink-2)' }}>

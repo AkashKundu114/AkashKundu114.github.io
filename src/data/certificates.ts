@@ -216,3 +216,50 @@ export const categoryColors: Record<string, string> = {
   'Web Dev': '#34d399',
   General: '#94a3b8',
 };
+
+/**
+ * Retrieves a certificate by its unique ID.
+ */
+export function getCertificateById(id: string): Certificate | undefined {
+  if (!id || typeof id !== 'string' || !id.trim()) return undefined;
+  return certificates.find((cert) => cert.id === id.trim());
+}
+
+/**
+ * Filters certificates by category (case-insensitive).
+ */
+export function getCertificatesByCategory(category: string): Certificate[] {
+  if (!category || typeof category !== 'string' || !category.trim()) return [];
+  const normalizedCategory = category.trim().toLowerCase();
+  return certificates.filter((cert) => cert.category.toLowerCase() === normalizedCategory);
+}
+
+/**
+ * Filters certificates matching a specific skill name.
+ */
+export function getCertificatesBySkill(skillName: string): Certificate[] {
+  if (!skillName || typeof skillName !== 'string' || !skillName.trim()) return [];
+  const targetSkill = skillName.trim().toLowerCase();
+  return certificates.filter(
+    (cert) =>
+      Array.isArray(cert.skills) &&
+      cert.skills.some((skill) => skill.toLowerCase() === targetSkill)
+  );
+}
+
+/**
+ * Searches certificates across title, issuer, description, and skills.
+ */
+export function searchCertificates(query: string): Certificate[] {
+  if (!query || typeof query !== 'string' || !query.trim()) return [];
+  const normalizedQuery = query.trim().toLowerCase();
+  return certificates.filter(
+    (cert) =>
+      cert.title.toLowerCase().includes(normalizedQuery) ||
+      cert.issuer.toLowerCase().includes(normalizedQuery) ||
+      cert.description.toLowerCase().includes(normalizedQuery) ||
+      cert.category.toLowerCase().includes(normalizedQuery) ||
+      (Array.isArray(cert.skills) &&
+        cert.skills.some((skill) => skill.toLowerCase().includes(normalizedQuery)))
+  );
+}

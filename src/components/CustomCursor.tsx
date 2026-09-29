@@ -1,138 +1,204 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 
-const HOVER_SEL =
+const INTERACTIVE_ELEMENTS_SELECTOR =
   'a, button, input, textarea, select, [role="button"], .card-hover, .row-card, .tag, .nav-link, .theme-toggle, .btn, .evil-shiny-btn, .evil-tactile-btn, .evil-glass-btn, .evil-glitch-btn';
 
-const C_DOT_DEF = '#FEFAEF';
-const C_DOT_HOV = '#B9915E';
-const C_RING_DEF = [175, 210, 250];
-const C_RING_HOV = [185, 145, 94];
+const DEFAULT_PRECISION_DOT_COLOR = '#FEFAEF';
+const HOVER_PRECISION_DOT_COLOR = '#B9915E';
 
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
+type RgbColor = readonly [number, number, number];
+const DEFAULT_RING_RGB: RgbColor = [175, 210, 250];
+const HOVER_RING_RGB: RgbColor = [185, 145, 94];
+
+const LERP_SMOOTHING_FACTOR = 0.35;
+const OFFSCREEN_COORDINATE = -100;
+
+interface Point2D {
+  x: number;
+  y: number;
 }
 
-export default function CustomCursor() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+/**
+ * Linearly interpolates between current and target numeric values.
+ */
+function linearInterpolate(currentValue: number, targetValue: number, factor: number): number {
+  return currentValue + (targetValue - currentValue) * factor;
+}
+
+/**
+ * Renders the smoothly trailing aura ring around the cursor.
+ */
+function drawFollowerRing(
+  context: CanvasRenderingContext2D,
+  center: Point2D,
+  radius: number,
+  rgb: RgbColor,
+  isHovering: boolean
+): void {
+  const [red, green, blue] = rgb;
+  const strokeOpacity = isHovering ? 0.75 : 0.45;
+
+  context.save();
+  context.beginPath();
+  context.arc(center.x, center.y, radius, 0, Math.PI * 2);
+
+  if (isHovering) {
+    context.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.12)`;
+    context.fill();
+  }
+
+  context.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${strokeOpacity})`;
+  context.lineWidth = isHovering ? 1.5 : 1;
+  context.stroke();
+  context.restore();
+}
+
+/**
+ * Renders an instant-response diamond reticle dot directly at the mouse coordinates.
+ */
+function drawPrecisionReticle(
+  context: CanvasRenderingContext2D,
+  position: Point2D,
+  fillColor: string
+): void {
+  context.save();
+  context.translate(position.x, position.y);
+  context.rotate(Math.PI / 4);
+  context.fillStyle = fillColor;
+  context.fillRect(-2.5, -2.5, 5, 5);
+  context.restore();
+}
+
+function CustomCursorComponent() {
+  const canvasReference = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // Only run on non-touch devices
-    if (!window.matchMedia('(pointer:fine)').matches) return;
+    // Only execute on environments with precise pointer (mouse) inputs
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
+    const finePointerQuery = window.matchMedia?.('(pointer:fine)');
+    if (!finePointerQuery?.matches) {
+      return;
+    }
 
-    let W = window.innerWidth;
-    let H = window.innerHeight;
-    canvas.width = W;
-    canvas.height = H;
+    const canvas = canvasReference.current;
+    if (!canvas) {
+      return;
+    }
 
-    let mx = -100,
-      my = -100;
-    let fx = -100,
-      fy = -100;
-    let hovering = false;
-    let clicking = false;
-    let revealed = false;
+    const renderingContext = canvas.getContext('2d', { alpha: true });
+    if (!renderingContext) {
+      return;
+    }
 
-    // Use a responsive, responsive lerp (0.35 = snappy and fluid)
-    const LERP_SPEED = 0.35;
+    let viewportWidth = Math.max(1, window.innerWidth);
+    let viewportHeight = Math.max(1, window.innerHeight);
+    canvas.width = viewportWidth;
+    canvas.height = viewportHeight;
 
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX;
-      my = e.clientY;
-      if (!revealed) {
-        fx = mx;
-        fy = my;
-        revealed = true;
+    let targetMouseX = OFFSCREEN_COORDINATE;
+    let targetMouseY = OFFSCREEN_COORDINATE;
+    let followerX = OFFSCREEN_COORDINATE;
+    let followerY = OFFSCREEN_COORDINATE;
+
+    let isHoveringInteractive = false;
+    let isMousePressed = false;
+    let isCursorRevealed = false;
+    let animationFrameId: number = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      targetMouseX = event.clientX;
+      targetMouseY = event.clientY;
+
+      if (!isCursorRevealed) {
+        followerX = targetMouseX;
+        followerY = targetMouseY;
+        isCursorRevealed = true;
       }
     };
 
-    const onOver = (e: MouseEvent) => {
-      hovering = !!(e.target as HTMLElement)?.closest?.(HOVER_SEL);
+    const handleMouseOver = (event: MouseEvent) => {
+      const targetElement = event.target as HTMLElement | null;
+      isHoveringInteractive = Boolean(targetElement?.closest?.(INTERACTIVE_ELEMENTS_SELECTOR));
     };
 
-    const onDown = () => {
-      clicking = true;
+    const handleMouseDown = () => {
+      isMousePressed = true;
     };
 
-    const onUp = () => {
-      clicking = false;
+    const handleMouseUp = () => {
+      isMousePressed = false;
     };
 
-    const onLeave = () => {
-      revealed = false;
+    const handleMouseLeaveWindow = () => {
+      isCursorRevealed = false;
     };
 
-    const onResize = () => {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = W;
-      canvas.height = H;
+    const handleWindowResize = () => {
+      viewportWidth = Math.max(1, window.innerWidth);
+      viewportHeight = Math.max(1, window.innerHeight);
+      canvas.width = viewportWidth;
+      canvas.height = viewportHeight;
     };
 
-    window.addEventListener('mousemove', onMove, { passive: true });
-    window.addEventListener('mouseover', onOver, { passive: true });
-    window.addEventListener('mousedown', onDown);
-    window.addEventListener('mouseup', onUp);
-    document.addEventListener('mouseleave', onLeave);
-    window.addEventListener('resize', onResize);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
+    window.addEventListener('mousedown', handleMouseDown, { passive: true });
+    window.addEventListener('mouseup', handleMouseUp, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeaveWindow);
+    window.addEventListener('resize', handleWindowResize, { passive: true });
 
-    let raf: number;
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H);
+    const renderLoop = () => {
+      renderingContext.clearRect(0, 0, viewportWidth, viewportHeight);
 
-      if (revealed && mx >= 0 && my >= 0) {
-        // Smooth follower ring
-        fx = lerp(fx, mx, LERP_SPEED);
-        fy = lerp(fy, my, LERP_SPEED);
+      if (isCursorRevealed && targetMouseX >= 0 && targetMouseY >= 0) {
+        followerX = linearInterpolate(followerX, targetMouseX, LERP_SMOOTHING_FACTOR);
+        followerY = linearInterpolate(followerY, targetMouseY, LERP_SMOOTHING_FACTOR);
 
-        const targetRadius = hovering ? 22 : clicking ? 12 : 16;
-        const [r, g, b] = hovering ? C_RING_HOV : C_RING_DEF;
+        const targetRadius = isHoveringInteractive ? 22 : isMousePressed ? 12 : 16;
+        const activeRingColor = isHoveringInteractive ? HOVER_RING_RGB : DEFAULT_RING_RGB;
+        const activeDotColor = isHoveringInteractive
+          ? HOVER_PRECISION_DOT_COLOR
+          : DEFAULT_PRECISION_DOT_COLOR;
 
-        // 1. Follower Ring (smooth lerp)
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(fx, fy, targetRadius, 0, Math.PI * 2);
-        if (hovering) {
-          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.12)`;
-          ctx.fill();
-        }
-        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${hovering ? 0.75 : 0.45})`;
-        ctx.lineWidth = hovering ? 1.5 : 1;
-        ctx.stroke();
-        ctx.restore();
+        drawFollowerRing(
+          renderingContext,
+          { x: followerX, y: followerY },
+          targetRadius,
+          activeRingColor,
+          isHoveringInteractive
+        );
 
-        // 2. Center Precision Dot (INSTANT 1:1 with real mouse position — ZERO lag)
-        ctx.save();
-        ctx.translate(mx, my);
-        ctx.rotate(Math.PI / 4);
-        ctx.fillStyle = hovering ? C_DOT_HOV : C_DOT_DEF;
-        ctx.fillRect(-2.5, -2.5, 5, 5);
-        ctx.restore();
+        drawPrecisionReticle(
+          renderingContext,
+          { x: targetMouseX, y: targetMouseY },
+          activeDotColor
+        );
       }
 
-      raf = requestAnimationFrame(draw);
+      animationFrameId = requestAnimationFrame(renderLoop);
     };
 
-    draw();
+    animationFrameId = requestAnimationFrame(renderLoop);
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseover', onOver);
-      window.removeEventListener('mousedown', onDown);
-      window.removeEventListener('mouseup', onUp);
-      document.removeEventListener('mouseleave', onLeave);
-      window.removeEventListener('resize', onResize);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mouseleave', handleMouseLeaveWindow);
+      window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
 
   return (
     <canvas
-      ref={canvasRef}
+      ref={canvasReference}
       className="cursor-canvas"
       aria-hidden="true"
       style={{
@@ -147,3 +213,5 @@ export default function CustomCursor() {
     />
   );
 }
+
+export default memo(CustomCursorComponent);

@@ -1,30 +1,67 @@
-import { useEffect } from 'react';
-import { education } from '../data/education';
+import { useEffect, useMemo } from 'react';
+import { education, EducationItem } from '../data/education';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 
-const cur = education.find((e) => e.current);
-const aisse = education.find((e) => e.id === 3);
-const cgpaM = cur?.grade.match(/[\d.]+/);
-const statCards = [
-  { label: 'Current Semester', value: '5th', sub: 'of 8 total', accent: 'var(--link)' },
-  { label: 'CGPA', value: cgpaM ? cgpaM[0] : '-', sub: 'out of 10.0', accent: 'var(--accent)' },
-  {
-    label: 'Secondary Score',
-    value: aisse?.grade ?? '-',
-    sub: `AISSE ${aisse?.endYear ?? ''}`,
-    accent: 'var(--muted)',
-  },
-];
+interface EducationStatCard {
+  label: string;
+  value: string;
+  sub: string;
+  accent: string;
+}
+
+/**
+ * Derives summary metrics from education records with safe fallbacks.
+ */
+function extractEducationStats(items: readonly EducationItem[]): EducationStatCard[] {
+  if (!items || items.length === 0) {
+    return [
+      { label: 'Completed Semesters', value: '-', sub: 'No records', accent: 'var(--link)' },
+      { label: 'Cumulative GPA', value: '-', sub: 'No records', accent: 'var(--accent)' },
+      { label: 'Secondary Score', value: '-', sub: 'No records', accent: 'var(--muted)' },
+    ];
+  }
+
+  const currentProgram = items.find((item) => Boolean(item.current));
+  const secondaryRecord = items.find((item) => item.id === 3);
+
+  const parsedCgpaMatch = currentProgram?.grade ? currentProgram.grade.match(/[\d.]+/) : null;
+  const cumulativeGpa = parsedCgpaMatch ? parsedCgpaMatch[0] : (currentProgram?.grade ?? '7.59');
+
+  return [
+    {
+      label: 'Completed Semesters',
+      value: '6th',
+      sub: 'of 8 total',
+      accent: 'var(--link)',
+    },
+    {
+      label: 'Cumulative GPA',
+      value: cumulativeGpa,
+      sub: 'out of 10.0 (till 6th sem)',
+      accent: 'var(--accent)',
+    },
+    {
+      label: 'Secondary Score',
+      value: secondaryRecord?.grade ?? '-',
+      sub: secondaryRecord ? `AISSE ${secondaryRecord.endYear}` : 'Secondary School',
+      accent: 'var(--muted)',
+    },
+  ];
+}
 
 export default function Education() {
+  const containerRef = useRevealChildren();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const ref = useRevealChildren();
+
+  const statCards = useMemo(() => extractEducationStats(education), []);
+
   return (
     <PageTransition>
-      <section className="section" ref={ref}>
+      <section className="section" ref={containerRef}>
         <div className="container">
           <div className="label reveal">education</div>
           <h2 className="reveal" style={{ marginBottom: '0.85rem', maxWidth: '32ch' }}>
@@ -38,11 +75,11 @@ export default function Education() {
           </p>
 
           <div className="timeline stagger">
-            {education.map((edu, i) => (
+            {education.map((item, index) => (
               <div
-                key={edu.id}
-                className={`timeline-item reveal${edu.current ? ' is-current' : ''}`}
-                style={{ '--i': i }}
+                key={item.id}
+                className={`timeline-item reveal${item.current ? ' is-current' : ''}`}
+                style={{ '--i': index } as React.CSSProperties}
               >
                 <div
                   style={{
@@ -57,20 +94,20 @@ export default function Education() {
                       fontFamily: 'var(--font-mono)',
                       fontSize: '10px',
                       fontWeight: 700,
-                      color: edu.current ? 'var(--accent)' : 'var(--muted-2)',
+                      color: item.current ? 'var(--accent)' : 'var(--muted-2)',
                       letterSpacing: '0.08em',
                     }}
                   >
-                    {edu.startYear} - {edu.endYear}
+                    {item.startYear} - {item.endYear}
                   </span>
-                  {edu.current && <span className="tag tag-active">Current</span>}
+                  {item.current && <span className="tag tag-active">Current</span>}
                 </div>
-                <h3 style={{ marginBottom: '0.25rem', color: 'var(--ink)' }}>{edu.degree}</h3>
-                <p style={{ fontSize: '0.88rem', marginBottom: '0.15rem' }}>{edu.institution}</p>
+                <h3 style={{ marginBottom: '0.25rem', color: 'var(--ink)' }}>{item.degree}</h3>
+                <p style={{ fontSize: '0.88rem', marginBottom: '0.15rem' }}>{item.institution}</p>
                 <p style={{ fontSize: '0.78rem', marginBottom: '0.6rem', color: 'var(--muted-2)' }}>
-                  {edu.location}
+                  {item.location}
                 </p>
-                {edu.grade && <span className="tag">{edu.grade}</span>}
+                {item.grade && <span className="tag">{item.grade}</span>}
               </div>
             ))}
           </div>
@@ -79,17 +116,21 @@ export default function Education() {
             className="reveal stagger"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
+              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '8px',
               marginTop: '3rem',
             }}
             id="edu-stats"
           >
-            {statCards.map((s, i) => (
+            {statCards.map((stat, index) => (
               <div
-                key={s.label}
+                key={stat.label}
                 className="card card-hover reveal"
-                style={{ padding: '24px', borderTop: `2px solid ${s.accent}`, '--i': i }}
+                style={{
+                  padding: '24px',
+                  borderTop: `2px solid ${stat.accent}`,
+                  '--i': index,
+                } as React.CSSProperties}
               >
                 <div
                   style={{
@@ -101,7 +142,7 @@ export default function Education() {
                     marginBottom: '8px',
                   }}
                 >
-                  {s.label}
+                  {stat.label}
                 </div>
                 <div
                   style={{
@@ -113,7 +154,7 @@ export default function Education() {
                     lineHeight: 1,
                   }}
                 >
-                  {s.value}
+                  {stat.value}
                 </div>
                 <div
                   style={{
@@ -123,7 +164,7 @@ export default function Education() {
                     marginTop: '5px',
                   }}
                 >
-                  {s.sub}
+                  {stat.sub}
                 </div>
               </div>
             ))}

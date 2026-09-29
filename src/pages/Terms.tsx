@@ -5,27 +5,63 @@ import PageTransition from '../components/PageTransition';
 import LiquidGlassLens from '../components/LiquidGlassLens';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 
+interface TermsCardProps {
+  label: string;
+  title: string;
+  children: React.ReactNode;
+  useLiquidLens?: boolean;
+}
+
+function TermsSectionCard({ label, title, children, useLiquidLens = false }: TermsCardProps) {
+  const content = (
+    <div style={{ padding: '28px' }}>
+      <div className="label" style={{ marginBottom: '12px' }}>
+        {label}
+      </div>
+      <h2
+        style={{
+          fontSize: '20px',
+          fontWeight: 700,
+          marginBottom: '12px',
+          color: 'var(--ink)',
+        }}
+      >
+        {title}
+      </h2>
+      {children}
+    </div>
+  );
+
+  if (useLiquidLens) {
+    return <LiquidGlassLens preset="subtle">{content}</LiquidGlassLens>;
+  }
+
+  return <div className="card">{content}</div>;
+}
+
 export default function Terms() {
   const location = useLocation();
-  const ref = useRevealChildren();
+  const containerRef = useRevealChildren();
 
   useEffect(() => {
-    if (location.hash === '#medical-disclaimer' || location.hash === '#clinical') {
-      const el = document.getElementById('medical-disclaimer');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+    const rawHash = (location.hash || '').toLowerCase();
+    if (rawHash === '#medical-disclaimer' || rawHash === '#clinical') {
+      const disclaimerElement = document.getElementById('medical-disclaimer');
+      if (disclaimerElement) {
+        disclaimerElement.scrollIntoView({ behavior: 'smooth' });
         return;
       }
     }
     window.scrollTo(0, 0);
-  }, [location]);
+  }, [location.hash]);
 
   return (
     <PageTransition>
-      <div className="container" style={{ padding: '80px 2rem 100px' }} ref={ref}>
+      <div className="container" style={{ padding: '80px 2rem 100px' }} ref={containerRef}>
         {/* Header Breadcrumb & Title */}
-        <div className="reveal" style={{ maxWidth: '820px', marginBottom: '36px' }}>
-          <div
+        <header className="reveal" style={{ maxWidth: '820px', marginBottom: '36px' }}>
+          <nav
+            aria-label="Breadcrumb"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -43,7 +79,7 @@ export default function Terms() {
             </Link>
             <span>/</span>
             <span style={{ color: 'var(--accent)' }}>Terms &amp; Conditions</span>
-          </div>
+          </nav>
 
           <div className="label" style={{ marginBottom: '8px' }}>
             // TERMS OF SERVICE &amp; STATUTORY DISCLAIMERS
@@ -95,61 +131,40 @@ export default function Terms() {
               Read Privacy Policy →
             </Link>
           </div>
-        </div>
+        </header>
 
-        {/* CONTENT SECTIONS */}
-        <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Section 1 */}
-          <LiquidGlassLens preset="subtle">
-            <div style={{ padding: '28px' }}>
-              <div className="label" style={{ marginBottom: '12px' }}>
-                SECTION 1.0 // ACCEPTANCE &amp; PERMITTED USE
-              </div>
-              <h2
-                style={{
-                  fontSize: '20px',
-                  fontWeight: 700,
-                  marginBottom: '12px',
-                  color: 'var(--ink)',
-                }}
-              >
-                1. Scope of Service &amp; Permitted Access
-              </h2>
-              <p
-                style={{
-                  fontSize: '14px',
-                  lineHeight: 1.8,
-                  color: 'var(--ink-2)',
-                  marginBottom: '14px',
-                }}
-              >
-                By accessing <code>akashkundu.me</code>, exploring engineering blueprints, reviewing source repositories,
-                or evaluating interactive demonstrations, you acknowledge and agree to comply with these Terms and Conditions.
-                This platform is the engineering portfolio and academic research showcase of Akash Kundu (Full-Stack Engineer &amp; AI Researcher).
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
-                All software benchmarks, architecture schematics, and live demos are published strictly for technical evaluation,
-                hiring review, and educational inquiry. Commercial redistribution or mass automated scraping without explicit
-                written consent is prohibited.
-              </p>
-            </div>
-          </LiquidGlassLens>
-
-          {/* Section 2 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 2.0 // INTELLECTUAL PROPERTY &amp; OPEN SOURCE
-            </div>
-            <h2
+        {/* Content Terms Sections */}
+        <main className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          {/* Section 1: Scope & Permitted Use */}
+          <TermsSectionCard
+            label="SECTION 1.0 // ACCEPTANCE &amp; PERMITTED USE"
+            title="1. Scope of Service &amp; Permitted Access"
+            useLiquidLens
+          >
+            <p
               style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
+                fontSize: '14px',
+                lineHeight: 1.8,
+                color: 'var(--ink-2)',
+                marginBottom: '14px',
               }}
             >
-              2. Open-Source Licensing &amp; Attribution
-            </h2>
+              By accessing <code>akashkundu.me</code>, exploring engineering blueprints, reviewing source repositories,
+              or evaluating interactive demonstrations, you acknowledge and agree to comply with these Terms and Conditions.
+              This platform is the engineering portfolio and academic research showcase of Akash Kundu (Full-Stack Engineer &amp; AI Researcher).
+            </p>
+            <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
+              All software benchmarks, architecture schematics, and live demos are published strictly for technical evaluation,
+              hiring review, and educational inquiry. Commercial redistribution or mass automated scraping without explicit
+              written consent is prohibited.
+            </p>
+          </TermsSectionCard>
+
+          {/* Section 2: Intellectual Property & Open Source */}
+          <TermsSectionCard
+            label="SECTION 2.0 // INTELLECTUAL PROPERTY &amp; OPEN SOURCE"
+            title="2. Open-Source Licensing &amp; Attribution"
+          >
             <p
               style={{
                 fontSize: '14px',
@@ -166,12 +181,16 @@ export default function Terms() {
               </a>.
             </p>
             <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
-              <li><strong>Author Attribution:</strong> Permissive licenses require that original author notices and copyright disclaimers remain intact when adapting or forking codebases.</li>
-              <li><strong>No Commercial Warranty:</strong> All open-source repositories, Jupyter notebooks, and Docker images are provided &ldquo;AS IS&rdquo; without warranty of merchantability or fitness for a particular purpose.</li>
+              <li>
+                <strong>Author Attribution:</strong> Permissive licenses require that original author notices and copyright disclaimers remain intact when adapting or forking codebases.
+              </li>
+              <li>
+                <strong>No Commercial Warranty:</strong> All open-source repositories, Jupyter notebooks, and Docker images are provided &ldquo;AS IS&rdquo; without warranty of merchantability or fitness for a particular purpose.
+              </li>
             </ul>
-          </div>
+          </TermsSectionCard>
 
-          {/* Section 3: CRITICAL MEDICAL DISCLAIMER (OPHTHALMOAI) */}
+          {/* Section 3: Statutory Clinical & Medical AI Disclaimer */}
           <div
             id="medical-disclaimer"
             className="card"
@@ -218,7 +237,7 @@ export default function Terms() {
             </p>
             <div
               style={{
-                background: 'rgba(0,0,0,0.3)',
+                background: 'rgba(0, 0, 0, 0.3)',
                 padding: '16px 20px',
                 borderLeft: '4px solid #E57373',
                 marginBottom: '16px',
@@ -253,21 +272,11 @@ export default function Terms() {
             </Tactile3DButton>
           </div>
 
-          {/* Section 4 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 4.0 // ASSISTIVE AI &amp; SYSTEM AUTOMATION
-            </div>
-            <h2
-              style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
-              }}
-            >
-              4. Generative AI &amp; Desktop Automation Limitations
-            </h2>
+          {/* Section 4: Assistive AI & Desktop Automation */}
+          <TermsSectionCard
+            label="SECTION 4.0 // ASSISTIVE AI &amp; SYSTEM AUTOMATION"
+            title="4. Generative AI &amp; Desktop Automation Limitations"
+          >
             <div
               style={{
                 display: 'grid',
@@ -298,33 +307,23 @@ export default function Terms() {
                 </p>
               </div>
             </div>
-          </div>
+          </TermsSectionCard>
 
-          {/* Section 5 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 5.0 // LIMITATION OF LIABILITY
-            </div>
-            <h2
-              style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
-              }}
-            >
-              5. Limitation of Liability &amp; Disclaimers
-            </h2>
+          {/* Section 5: Limitation of Liability */}
+          <TermsSectionCard
+            label="SECTION 5.0 // LIMITATION OF LIABILITY"
+            title="5. Limitation of Liability &amp; Disclaimers"
+          >
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
               In no event shall Akash Kundu be liable for any direct, indirect, special, incidental, or consequential damages
               arising from the use, interpretation, execution, or inability to use the software, research demonstrations, or
               architectural documentation published across this website.
             </p>
-          </div>
-        </div>
+          </TermsSectionCard>
+        </main>
 
-        {/* Bottom CTA Bar */}
-        <div
+        {/* Bottom Clarification CTA */}
+        <footer
           className="reveal"
           style={{
             marginTop: '48px',
@@ -354,7 +353,7 @@ export default function Terms() {
               View Privacy Policy →
             </GlassButton>
           </div>
-        </div>
+        </footer>
       </div>
     </PageTransition>
   );

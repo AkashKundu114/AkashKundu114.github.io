@@ -5,8 +5,42 @@ import PageTransition from '../components/PageTransition';
 import LiquidGlassLens from '../components/LiquidGlassLens';
 import { ShinyButton, GlassButton } from '../components/EvilButtons';
 
+interface PolicyCardProps {
+  label: string;
+  title: string;
+  children: React.ReactNode;
+  useLiquidLens?: boolean;
+}
+
+function PolicySectionCard({ label, title, children, useLiquidLens = false }: PolicyCardProps) {
+  const content = (
+    <div style={{ padding: '28px' }}>
+      <div className="label" style={{ marginBottom: '12px' }}>
+        {label}
+      </div>
+      <h2
+        style={{
+          fontSize: '20px',
+          fontWeight: 700,
+          marginBottom: '12px',
+          color: 'var(--ink)',
+        }}
+      >
+        {title}
+      </h2>
+      {children}
+    </div>
+  );
+
+  if (useLiquidLens) {
+    return <LiquidGlassLens preset="subtle">{content}</LiquidGlassLens>;
+  }
+
+  return <div className="card">{content}</div>;
+}
+
 export default function Privacy() {
-  const ref = useRevealChildren();
+  const containerRef = useRevealChildren();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -14,10 +48,11 @@ export default function Privacy() {
 
   return (
     <PageTransition>
-      <div className="container" style={{ padding: '80px 2rem 100px' }} ref={ref}>
+      <div className="container" style={{ padding: '80px 2rem 100px' }} ref={containerRef}>
         {/* Header Breadcrumb & Title */}
-        <div className="reveal" style={{ maxWidth: '820px', marginBottom: '36px' }}>
-          <div
+        <header className="reveal" style={{ maxWidth: '820px', marginBottom: '36px' }}>
+          <nav
+            aria-label="Breadcrumb"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -35,7 +70,7 @@ export default function Privacy() {
             </Link>
             <span>/</span>
             <span style={{ color: 'var(--accent)' }}>Privacy Policy</span>
-          </div>
+          </nav>
 
           <div className="label" style={{ marginBottom: '8px' }}>
             // DATA GOVERNANCE &amp; PRIVACY COMMITMENT
@@ -87,59 +122,44 @@ export default function Privacy() {
               Read Terms &amp; Conditions →
             </Link>
           </div>
-        </div>
+        </header>
 
-        {/* CONTENT SECTIONS */}
-        <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Section 1 */}
-          <LiquidGlassLens preset="subtle">
-            <div style={{ padding: '28px' }}>
-              <div className="label" style={{ marginBottom: '12px' }}>
-                SECTION 1.0 // PORTFOLIO DATA PRACTICES
-              </div>
-              <h2
-                style={{
-                  fontSize: '20px',
-                  fontWeight: 700,
-                  marginBottom: '12px',
-                  color: 'var(--ink)',
-                }}
-              >
-                1. Zero-Tracking &amp; Telemetry-Free Architecture
-              </h2>
-              <p
-                style={{
-                  fontSize: '14px',
-                  lineHeight: 1.8,
-                  color: 'var(--ink-2)',
-                  marginBottom: '14px',
-                }}
-              >
-                This portfolio (<code>akashkundu.me</code>) is built with strict privacy-by-design standards:
-              </p>
-              <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
-                <li><strong>No Invasive Web Trackers:</strong> We do not deploy Google Analytics, Meta Pixel, Hotjar, or third-party marketing tags.</li>
-                <li><strong>No Commercial Monetization:</strong> We do not collect, trade, or monetize your browser data or browsing session history.</li>
-                <li><strong>No User Fingerprinting:</strong> IP addresses and canvas fingerprinting vectors are never captured or retained.</li>
-              </ul>
-            </div>
-          </LiquidGlassLens>
-
-          {/* Section 2 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 2.0 // LOCAL-FIRST ARCHITECTURE (COPPER)
-            </div>
-            <h2
+        {/* Content Policy Sections */}
+        <main className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          {/* Section 1: Portfolio Practices */}
+          <PolicySectionCard
+            label="SECTION 1.0 // PORTFOLIO DATA PRACTICES"
+            title="1. Zero-Tracking &amp; Telemetry-Free Architecture"
+            useLiquidLens
+          >
+            <p
               style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
+                fontSize: '14px',
+                lineHeight: 1.8,
+                color: 'var(--ink-2)',
+                marginBottom: '14px',
               }}
             >
-              2. COPPER AI OS: 100% Offline &amp; Epistemic Privacy
-            </h2>
+              This portfolio (<code>akashkundu.me</code>) is built with strict privacy-by-design standards:
+            </p>
+            <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
+              <li>
+                <strong>No Invasive Web Trackers:</strong> We do not deploy Google Analytics, Meta Pixel, Hotjar, or third-party marketing tags.
+              </li>
+              <li>
+                <strong>No Commercial Monetization:</strong> We do not collect, trade, or monetize your browser data or browsing session history.
+              </li>
+              <li>
+                <strong>No User Fingerprinting:</strong> IP addresses and canvas fingerprinting vectors are never captured or retained.
+              </li>
+            </ul>
+          </PolicySectionCard>
+
+          {/* Section 2: COPPER Local-First Architecture */}
+          <PolicySectionCard
+            label="SECTION 2.0 // LOCAL-FIRST ARCHITECTURE (COPPER)"
+            title="2. COPPER AI OS: 100% Offline &amp; Epistemic Privacy"
+          >
             <p
               style={{
                 fontSize: '14px',
@@ -178,23 +198,13 @@ export default function Privacy() {
                 </div>
               </div>
             </div>
-          </div>
+          </PolicySectionCard>
 
-          {/* Section 3 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 3.0 // HEALTHCARE &amp; CLINICAL DATA STANDARDS
-            </div>
-            <h2
-              style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
-              }}
-            >
-              3. OphthalmoAI Patient Data &amp; De-Identification
-            </h2>
+          {/* Section 3: Healthcare Clinical Standards */}
+          <PolicySectionCard
+            label="SECTION 3.0 // HEALTHCARE &amp; CLINICAL DATA STANDARDS"
+            title="3. OphthalmoAI Patient Data &amp; De-Identification"
+          >
             <p
               style={{
                 fontSize: '14px',
@@ -219,45 +229,25 @@ export default function Privacy() {
                 or demographic metadata are ever accepted or stored.
               </li>
             </ul>
-          </div>
+          </PolicySectionCard>
 
-          {/* Section 4 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 4.0 // PILOT VOICE NOTE HANDLING
-            </div>
-            <h2
-              style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
-              }}
-            >
-              4. AI-SATHI Spoken Audio Ephemeral Protocol
-            </h2>
+          {/* Section 4: AI-SATHI Voice Note Ephemeral Protocol */}
+          <PolicySectionCard
+            label="SECTION 4.0 // PILOT VOICE NOTE HANDLING"
+            title="4. AI-SATHI Spoken Audio Ephemeral Protocol"
+          >
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
               During the 100-user, 2,000 msg/day field pilot supporting rural Self-Help Group (SHG) micro-entrepreneurs in West Bengal,
               spoken Bengali audio notes delivered via WhatsApp were processed via ephemeral streaming. Speech-to-text conversion
               isolated the ledger numbers, after which the raw voice streams were immediately destroyed to ensure zero biometric voiceprint retention.
             </p>
-          </div>
+          </PolicySectionCard>
 
-          {/* Section 5 */}
-          <div className="card" style={{ padding: '28px' }}>
-            <div className="label" style={{ marginBottom: '12px' }}>
-              SECTION 5.0 // CACHING &amp; STORAGE
-            </div>
-            <h2
-              style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                marginBottom: '12px',
-                color: 'var(--ink)',
-              }}
-            >
-              5. Progressive Web App (PWA) Caching &amp; LocalStorage
-            </h2>
+          {/* Section 5: PWA & Storage */}
+          <PolicySectionCard
+            label="SECTION 5.0 // CACHING &amp; STORAGE"
+            title="5. Progressive Web App (PWA) Caching &amp; LocalStorage"
+          >
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
               This website operates as an installable Progressive Web App (PWA). Workbox service workers cache application assets for
               fast offline loading. LocalStorage is used exclusively for:
@@ -269,11 +259,11 @@ export default function Privacy() {
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)', marginTop: '8px' }}>
               No marketing cookies, session trackers, or third-party storage vectors are utilized.
             </p>
-          </div>
-        </div>
+          </PolicySectionCard>
+        </main>
 
-        {/* Bottom CTA Bar */}
-        <div
+        {/* Bottom Contact CTA */}
+        <footer
           className="reveal"
           style={{
             marginTop: '48px',
@@ -303,7 +293,7 @@ export default function Privacy() {
               View Terms &amp; Conditions →
             </GlassButton>
           </div>
-        </div>
+        </footer>
       </div>
     </PageTransition>
   );

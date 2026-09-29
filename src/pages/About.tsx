@@ -1,84 +1,113 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 
-const meta = [
-  { key: 'Location', val: 'Kolkata, West Bengal (Open to Relocate / Remote)' },
-  { key: 'Email', val: 'akashkundu7487@gmail.com', link: 'mailto:akashkundu7487@gmail.com' },
-  { key: 'Phone', val: '+91 9064349004', link: 'tel:+919064349004' },
-  { key: 'Status', val: 'Open to Full-Time & Pre-Placement Roles (2027)' },
-  { key: 'Languages', val: 'Bengali · English · Hindi' },
-  { key: 'Education', val: 'B.Tech CSE - Techno India University, 2027' },
+interface ProfileMetadataItem {
+  label: string;
+  value: string;
+  href?: string;
+}
+
+interface EngineeringPrinciple {
+  id: string;
+  title: string;
+  description: string;
+}
+
+interface CareerMilestone {
+  year: string;
+  event: string;
+  isCurrent?: boolean;
+}
+
+const PROFILE_METADATA: readonly ProfileMetadataItem[] = [
+  { label: 'Location', value: 'Kolkata, West Bengal (Open to Relocate / Remote)' },
+  { label: 'Email', value: 'akashkundu7487@gmail.com', href: 'mailto:akashkundu7487@gmail.com' },
+  { label: 'Phone', value: '+91 9064349004', href: 'tel:+919064349004' },
+  { label: 'Status', value: 'Open to Full-Time & Pre-Placement Roles (2027)' },
+  { label: 'Languages', value: 'Bengali · English · Hindi' },
+  { label: 'Education', value: 'B.Tech CSE - Techno India University, 2027' },
 ];
 
-const principles = [
+const ENGINEERING_PRINCIPLES: readonly EngineeringPrinciple[] = [
   {
     id: '01',
     title: 'A model is half the work',
-    desc: 'An accurate model nobody can use is not a finished project. I ship the interface alongside the model, not as an afterthought.',
+    description:
+      'An accurate model nobody can use is not a finished project. I ship the interface alongside the model, not as an afterthought.',
   },
   {
     id: '02',
     title: 'End to end, on purpose',
-    desc: 'Understanding a system from data in to pixels out makes the trade-offs at each layer easier to reason about.',
+    description:
+      'Understanding a system from data in to pixels out makes the trade-offs at each layer easier to reason about.',
   },
   {
     id: '03',
     title: 'Depth over breadth',
-    desc: 'Each project is picked to learn something specific in depth, then documented properly so the learning actually sticks.',
+    description:
+      'Each project is picked to learn something specific in depth, then documented properly so the learning actually sticks.',
   },
 ];
 
-const timeline = [
+const CAREER_TIMELINE: readonly CareerMilestone[] = [
   {
     year: '2023',
     event:
       'Began B.Tech CSE at Techno India University. Built an E2EE Multi-User Chat Application and established foundational web development skills.',
-    current: false,
+    isCurrent: false,
   },
   {
     year: '2024',
     event:
       'Developed early computer vision models and machine learning benchmarking tools. Completed foundational certifications.',
-    current: false,
+    isCurrent: false,
   },
   {
     year: '2025',
     event:
       'Architected a full-stack headless CMS (FastAPI + React PWA) powering this portfolio. Engineered OphthalmoAI, a clinical-grade ocular disease prediction ensemble.',
-    current: false,
+    isCurrent: false,
   },
   {
     year: '2026',
     event:
       'AI Research Intern at Purposive AI, building AI-SATHI: a voice-first LangGraph operating system deployed on Azure. Launched COPPER, a local-first Electron AI OS orchestrating 30 specialized agents.',
-    current: true,
+    isCurrent: true,
   },
   {
     year: '2027',
     event:
       'Expected graduation. Actively seeking AI Engineer / Software Engineer (SWE) roles to build scalable ML systems and agentic workflows.',
-    current: false,
+    isCurrent: false,
   },
 ];
 
+const BIO_PARAGRAPHS = [
+  'I build agentic AI systems, RAG pipelines, and computer vision models. I got into this because a model that works well in a Jupyter notebook is still a long way from something a person can actually use. Closing that gap — between a trained model and a usable interface — is what my projects are about.',
+  'In practice, that means spending time on data prep and model fine-tuning, then just as much time engineering the FastAPI backend, LangGraph state-machines, and Electron/React frontends that sit in front of it.',
+  'Currently, I am an AI Research & Social Innovation Intern at Purposive AI, building voice-first Bengali AI tools (AI-SATHI) for rural micro-entrepreneurs, while scaling COPPER, my local-first 30-agent personal AI OS.',
+];
+
 export default function About() {
+  const containerRef = useRevealChildren();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const ref = useRevealChildren();
+
   return (
     <PageTransition>
-      <section className="section" ref={ref}>
+      <section className="section" ref={containerRef}>
         <div className="container">
           <div className="label reveal">about</div>
           <h2 className="reveal" style={{ marginBottom: '48px', maxWidth: '28ch' }}>
-            B.Tech CSE student & aspiring AI Engineer / SWE building scalable ML systems and agentic
+            B.Tech CSE student &amp; aspiring AI Engineer / SWE building scalable ML systems and agentic
             workflows.
           </h2>
 
+          {/* Profile Overview & Metadata Grid */}
           <div
             className="reveal"
             style={{
@@ -90,10 +119,11 @@ export default function About() {
             }}
             id="about-grid"
           >
+            {/* Metadata Card */}
             <div className="card card-hover" style={{ padding: 0, overflow: 'hidden' }}>
-              {meta.map(({ key, val, link }) => (
+              {PROFILE_METADATA.map(({ label, value, href }) => (
                 <div
-                  key={key}
+                  key={label}
                   style={{ padding: '13px 20px', borderBottom: '1px solid var(--border)' }}
                 >
                   <div
@@ -107,11 +137,11 @@ export default function About() {
                       textTransform: 'uppercase',
                     }}
                   >
-                    {key}
+                    {label}
                   </div>
-                  {link ? (
+                  {href ? (
                     <a
-                      href={link}
+                      href={href}
                       style={{
                         fontSize: '12px',
                         fontFamily: 'var(--font-mono)',
@@ -119,7 +149,7 @@ export default function About() {
                         fontWeight: 500,
                       }}
                     >
-                      {val}
+                      {value}
                     </a>
                   ) : (
                     <span
@@ -130,7 +160,7 @@ export default function About() {
                         fontWeight: 500,
                       }}
                     >
-                      {val}
+                      {value}
                     </span>
                   )}
                 </div>
@@ -148,14 +178,11 @@ export default function About() {
               </div>
             </div>
 
+            {/* Narrative Bio */}
             <div>
-              {[
-                'I build agentic AI systems, RAG pipelines, and computer vision models. I got into this because a model that works well in a Jupyter notebook is still a long way from something a person can actually use. Closing that gap - between a trained model and a usable interface - is what my projects are about.',
-                'In practice, that means spending time on data prep and model fine-tuning, then just as much time engineering the FastAPI backend, LangGraph state-machines, and Electron/React frontends that sit in front of it.',
-                'Currently, I am an AI Research & Social Innovation Intern at Purposive AI, building voice-first Bengali AI tools (AI-SATHI) for rural micro-entrepreneurs, while scaling COPPER, my local-first 30-agent personal AI OS.',
-              ].map((para, i) => (
+              {BIO_PARAGRAPHS.map((paragraph, index) => (
                 <p
-                  key={i}
+                  key={index}
                   style={{
                     fontSize: '14px',
                     lineHeight: 1.85,
@@ -164,24 +191,25 @@ export default function About() {
                     color: 'var(--muted)',
                   }}
                 >
-                  {para}
+                  {paragraph}
                 </p>
               ))}
             </div>
           </div>
 
+          {/* Core Engineering Principles */}
           <div className="reveal" style={{ marginBottom: '64px' }}>
             <div className="label">how I work</div>
             <div
               className="stagger"
-              style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '8px' }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}
               id="principles-grid"
             >
-              {principles.map(({ id, title, desc }, i) => (
+              {ENGINEERING_PRINCIPLES.map(({ id, title, description }, index) => (
                 <div
                   key={id}
                   className="card card-hover reveal"
-                  style={{ padding: '26px 24px', '--i': i }}
+                  style={{ padding: '26px 24px', '--i': index } as React.CSSProperties}
                 >
                   <div
                     style={{
@@ -196,33 +224,34 @@ export default function About() {
                     {id}
                   </div>
                   <h3 style={{ marginBottom: '10px', fontSize: '0.9rem' }}>{title}</h3>
-                  <p style={{ fontSize: '13px', lineHeight: 1.75 }}>{desc}</p>
+                  <p style={{ fontSize: '13px', lineHeight: 1.75 }}>{description}</p>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Career Milestones Timeline */}
           <div className="reveal">
             <div className="label">timeline</div>
             <div className="timeline stagger">
-              {timeline.map(({ year, event, current }, i) => (
+              {CAREER_TIMELINE.map(({ year, event, isCurrent }, index) => (
                 <div
-                  key={year + event}
-                  className={`timeline-item reveal${current ? ' is-current' : ''}`}
-                  style={{ '--i': i }}
+                  key={`${year}-${index}`}
+                  className={`timeline-item reveal${isCurrent ? ' is-current' : ''}`}
+                  style={{ '--i': index } as React.CSSProperties}
                 >
                   <div
                     style={{
                       fontFamily: 'var(--font-mono)',
                       fontSize: '10px',
                       fontWeight: 700,
-                      color: current ? 'var(--accent)' : 'var(--muted-2)',
+                      color: isCurrent ? 'var(--accent)' : 'var(--muted-2)',
                       marginBottom: '6px',
                       letterSpacing: '0.08em',
                     }}
                   >
                     {year}
-                    {current && (
+                    {isCurrent && (
                       <span
                         className="tag tag-active"
                         style={{ marginLeft: '8px', fontSize: '9px' }}

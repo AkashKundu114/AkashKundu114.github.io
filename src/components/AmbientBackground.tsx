@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export default function AmbientBackground() {
+export interface AmbientBackgroundProps {
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * GPU-accelerated luminous gradient background mesh providing refraction
+ * sources for liquid glass surfaces.
+ */
+function AmbientBackgroundComponent({ className = '', style }: AmbientBackgroundProps) {
+  const containerClassName = className
+    ? `ambient-mesh-container ${className}`
+    : 'ambient-mesh-container';
+
   return (
-    <div className="ambient-mesh-container" aria-hidden="true">
-      {/* 3 GPU-accelerated luminous gradient orbs that provide vibrant colors for the glass to refract */}
+    <div className={containerClassName} style={style} aria-hidden="true">
       <div className="glass-ambient-orb orb-accent" />
       <div className="glass-ambient-orb orb-link" />
       <div className="glass-ambient-orb orb-secondary" />
     </div>
   );
 }
+
+export default memo(AmbientBackgroundComponent);

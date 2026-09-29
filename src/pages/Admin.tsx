@@ -1,34 +1,52 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useId } from 'react';
 import { useData } from '../context/DataContext';
-import { categoryColors } from '../data/certificates';
+import { categoryColors, Certificate } from '../data/certificates';
+import { Project } from '../data/projects';
 import PageTransition from '../components/PageTransition';
 
-const ADMIN_PW = import.meta.env.VITE_ADMIN_PASSWORD || 'admin2024';
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin2024';
 
-const emptyProject = {
+const EMPTY_PROJECT: Omit<Project, 'id'> = {
   title: '',
+  status: 'In Development',
   shortDesc: '',
   description: '',
-  technologies: '',
+  problem: '',
+  aiArchitecture: {
+    heading: '',
+    body: '',
+    points: [],
+    stack: [],
+  },
+  uiDeployment: {
+    heading: '',
+    body: '',
+    points: [],
+    deployed: '',
+    stack: [],
+  },
+  technologies: [],
   year: new Date().getFullYear().toString(),
   github: '',
   liveLink: '',
-  features: '',
+  features: [],
   screenshots: [],
 };
-const emptyCert = {
+
+const EMPTY_CERTIFICATE: Omit<Certificate, 'id'> = {
   title: '',
   issuer: '',
   date: '',
   credentialId: '',
   category: 'General',
-  skills: '',
+  skills: [],
   image: '',
   file: '',
   verifyUrl: '',
   description: '',
 };
-const CATEGORIES = [
+
+const CERTIFICATE_CATEGORIES = [
   'Data Science',
   'Programming',
   'Cloud',
@@ -36,7 +54,7 @@ const CATEGORIES = [
   'Security',
   'Web Dev',
   'General',
-];
+] as const;
 
 function LockIcon() {
   return (
@@ -49,6 +67,7 @@ function LockIcon() {
       strokeWidth="1.75"
       strokeLinecap="square"
       strokeLinejoin="miter"
+      aria-hidden="true"
     >
       <rect x="4" y="11" width="16" height="9" rx="0" />
       <path d="M8 11V7a4 4 0 0 1 8 0v4" />
@@ -56,18 +75,23 @@ function LockIcon() {
   );
 }
 
-function LoginScreen({ onSuccess }) {
-  const [pw, setPw] = useState('');
-  const [err, setErr] = useState(false);
-  const [shake, setShake] = useState(false);
+interface LoginScreenProps {
+  onSuccess: () => void;
+}
 
-  const attempt = () => {
-    if (pw === ADMIN_PW) {
+function LoginScreen({ onSuccess }: LoginScreenProps) {
+  const [passwordInput, setPasswordInput] = useState('');
+  const [hasError, setHasError] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
+  const inputId = useId();
+
+  const handleAttempt = () => {
+    if (passwordInput === ADMIN_PASSWORD) {
       onSuccess();
     } else {
-      setErr(true);
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
+      setHasError(true);
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 500);
     }
   };
 
@@ -87,7 +111,7 @@ function LoginScreen({ onSuccess }) {
           width: '100%',
           maxWidth: 360,
           padding: '2.5rem',
-          animation: shake ? 'shake 0.4s ease' : 'fadeSlideUp 0.4s var(--ease)',
+          animation: isShaking ? 'shake 0.4s ease' : 'fadeSlideUp 0.4s var(--ease)',
         }}
       >
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -107,29 +131,38 @@ function LoginScreen({ onSuccess }) {
           >
             <LockIcon />
           </div>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: '0.3rem' }}>Admin access</h2>
-          <p style={{ fontSize: '0.78rem' }}>Enter your admin password to continue</p>
+          <h2 style={{ fontSize: '1.25rem', marginBottom: '0.3rem' }}>Admin Access</h2>
+          <p style={{ fontSize: '0.78rem', color: 'var(--muted-2)' }}>
+            Enter your administrative password to proceed
+          </p>
         </div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <label htmlFor={inputId} className="sr-only">
+            Admin Password
+          </label>
           <input
+            id={inputId}
             type="password"
-            value={pw}
+            value={passwordInput}
             onChange={(e) => {
-              setPw(e.target.value);
-              setErr(false);
+              setPasswordInput(e.target.value);
+              setHasError(false);
             }}
-            onKeyDown={(e) => e.key === 'Enter' && attempt()}
+            onKeyDown={(e) => e.key === 'Enter' && handleAttempt()}
             placeholder="Password"
             className="form-input"
             style={{
-              borderColor: err ? 'var(--danger)' : undefined,
+              borderColor: hasError ? 'var(--danger)' : undefined,
               textAlign: 'center',
               letterSpacing: '0.2em',
             }}
             autoFocus
           />
-          {err && (
+
+          {hasError && (
             <p
+              role="alert"
               style={{
                 fontSize: '0.7rem',
                 color: 'var(--danger)',
@@ -140,14 +173,16 @@ function LoginScreen({ onSuccess }) {
               Incorrect password.
             </p>
           )}
+
           <button
-            onClick={attempt}
+            onClick={handleAttempt}
             className="btn btn-primary"
             style={{ justifyContent: 'center', marginTop: '0.25rem' }}
           >
-            Unlock dashboard →
+            Unlock Dashboard →
           </button>
         </div>
+
         <p
           style={{
             marginTop: '1.4rem',
@@ -158,7 +193,7 @@ function LoginScreen({ onSuccess }) {
             color: 'var(--muted-2)',
           }}
         >
-          Set VITE_ADMIN_PASSWORD in .env
+          Configured via VITE_ADMIN_PASSWORD in .env
         </p>
       </div>
       <style>{`@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}`}</style>
@@ -166,21 +201,30 @@ function LoginScreen({ onSuccess }) {
   );
 }
 
-function Modal({ title, onClose, children }) {
+interface ModalProps {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+function Modal({ title, onClose, children }: ModalProps) {
   useEffect(() => {
-    const esc = (e) => {
-      if (e.key === 'Escape') onClose();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
     };
-    document.addEventListener('keydown', esc);
-    return () => document.removeEventListener('keydown', esc);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
   return (
     <div
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(7,11,28,0.72)',
+        background: 'rgba(7, 11, 28, 0.72)',
         zIndex: 9000,
         display: 'flex',
         alignItems: 'center',
@@ -212,11 +256,11 @@ function Modal({ title, onClose, children }) {
           <h3 style={{ fontSize: '1.05rem', color: 'var(--ink)' }}>{title}</h3>
           <button
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Close dialog"
             style={{
               background: 'none',
               border: 'none',
-              cursor: 'none',
+              cursor: 'pointer',
               color: 'var(--muted-2)',
               fontSize: '1.2rem',
               lineHeight: 1,
@@ -231,7 +275,13 @@ function Modal({ title, onClose, children }) {
   );
 }
 
-function Field({ label, hint, children }) {
+interface FormFieldProps {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+}
+
+function FormField({ label, hint, children }: FormFieldProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
       <label
@@ -258,94 +308,163 @@ function Field({ label, hint, children }) {
   );
 }
 
-function ProjectForm({ initial, onSave, onClose }) {
-  const [form, setForm] = useState(initial ?? emptyProject);
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+interface ProjectFormProps {
+  initial?: Partial<Project>;
+  onSave: (data: Partial<Project>) => void;
+  onClose: () => void;
+}
+
+function ProjectForm({ initial, onSave, onClose }: ProjectFormProps) {
+  const [formState, setFormState] = useState({
+    title: initial?.title ?? EMPTY_PROJECT.title,
+    year: initial?.year ?? EMPTY_PROJECT.year,
+    shortDesc: initial?.shortDesc ?? EMPTY_PROJECT.shortDesc,
+    description: initial?.description ?? EMPTY_PROJECT.description,
+    technologies: Array.isArray(initial?.technologies)
+      ? initial.technologies.join(', ')
+      : '',
+    features: Array.isArray(initial?.features) ? initial.features.join('\n') : '',
+    github: initial?.github ?? '',
+    liveLink: initial?.liveLink ?? '',
+  });
+
+  const [validationError, setValidationError] = useState('');
+
+  const updateField = (fieldKey: keyof typeof formState) => (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormState((prev) => ({ ...prev, [fieldKey]: event.target.value }));
+    setValidationError('');
+  };
+
   const handleSave = () => {
-    if (!form.title.trim()) return alert('Title is required');
-    const techs = form.technologies
+    const trimmedTitle = formState.title.trim();
+    if (!trimmedTitle) {
+      setValidationError('Project title is required.');
+      return;
+    }
+
+    const parsedTechnologies = formState.technologies
       .split(',')
-      .map((t) => t.trim())
-      .filter(Boolean);
-    const features =
-      typeof form.features === 'string'
-        ? form.features
-            .split('\n')
-            .map((f) => f.trim())
-            .filter(Boolean)
-        : form.features;
-    onSave({ ...form, technologies: techs, features });
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+
+    const parsedFeatures = formState.features
+      .split('\n')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+
+    onSave({
+      ...initial,
+      title: trimmedTitle,
+      year: formState.year.trim() || new Date().getFullYear().toString(),
+      shortDesc: formState.shortDesc.trim(),
+      description: formState.description.trim(),
+      technologies: parsedTechnologies,
+      features: parsedFeatures,
+      github: formState.github.trim() || null,
+      liveLink: formState.liveLink.trim() || null,
+    });
+
     onClose();
   };
-  const techVal = Array.isArray(form.technologies)
-    ? form.technologies.join(', ')
-    : form.technologies;
-  const featVal = Array.isArray(form.features) ? form.features.join('\n') : form.features;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {validationError && (
+        <div
+          role="alert"
+          style={{
+            padding: '8px 12px',
+            background: 'var(--danger-soft)',
+            border: '1px solid var(--danger)',
+            color: 'var(--danger)',
+            fontSize: '11px',
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          {validationError}
+        </div>
+      )}
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Title *">
+        <FormField label="Title *">
           <input
             className="form-input"
-            value={form.title}
-            onChange={set('title')}
+            value={formState.title}
+            onChange={updateField('title')}
             placeholder="Copper - AI Assistant"
+            maxLength={120}
           />
-        </Field>
-        <Field label="Year">
+        </FormField>
+        <FormField label="Year">
           <input
             className="form-input"
-            value={form.year}
-            onChange={set('year')}
-            placeholder="2025"
+            value={formState.year}
+            onChange={updateField('year')}
+            placeholder="2026"
+            maxLength={10}
           />
-        </Field>
+        </FormField>
       </div>
-      <Field label="Short description">
+
+      <FormField label="Short description">
         <input
           className="form-input"
-          value={form.shortDesc}
-          onChange={set('shortDesc')}
-          placeholder="One sentence for the project card"
+          value={formState.shortDesc}
+          onChange={updateField('shortDesc')}
+          placeholder="Brief one-line summary for project cards"
+          maxLength={240}
         />
-      </Field>
-      <Field label="Full description">
+      </FormField>
+
+      <FormField label="Full description">
         <textarea
           className="form-textarea"
-          value={form.description}
-          onChange={set('description')}
+          value={formState.description}
+          onChange={updateField('description')}
           rows={3}
+          maxLength={3000}
         />
-      </Field>
-      <Field label="Technologies" hint="Comma-separated">
+      </FormField>
+
+      <FormField label="Technologies" hint="Comma-separated list (e.g. PyTorch, FastAPI, React)">
         <input
           className="form-input"
-          value={techVal}
-          onChange={set('technologies')}
+          value={formState.technologies}
+          onChange={updateField('technologies')}
           placeholder="Python, React, FastAPI"
         />
-      </Field>
-      <Field label="Key features" hint="One per line">
-        <textarea className="form-textarea" value={featVal} onChange={set('features')} rows={4} />
-      </Field>
+      </FormField>
+
+      <FormField label="Key features" hint="One deliverable per line">
+        <textarea
+          className="form-textarea"
+          value={formState.features}
+          onChange={updateField('features')}
+          rows={4}
+        />
+      </FormField>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="GitHub URL">
+        <FormField label="GitHub URL">
           <input
             className="form-input"
-            value={form.github || ''}
-            onChange={set('github')}
+            value={formState.github}
+            onChange={updateField('github')}
             placeholder="https://github.com/..."
           />
-        </Field>
-        <Field label="Live URL">
+        </FormField>
+        <FormField label="Live Demo URL">
           <input
             className="form-input"
-            value={form.liveLink || ''}
-            onChange={set('liveLink')}
+            value={formState.liveLink}
+            onChange={updateField('liveLink')}
             placeholder="https://..."
           />
-        </Field>
+        </FormField>
       </div>
+
       <div
         style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '0.5rem' }}
       >
@@ -353,107 +472,185 @@ function ProjectForm({ initial, onSave, onClose }) {
           Cancel
         </button>
         <button className="btn btn-primary" onClick={handleSave}>
-          Save project →
+          Save Project →
         </button>
       </div>
     </div>
   );
 }
 
-function CertForm({ initial, onSave, onClose }) {
-  const [form, setForm] = useState(initial ?? emptyCert);
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+interface CertFormProps {
+  initial?: Partial<Certificate>;
+  onSave: (data: Partial<Certificate>) => void;
+  onClose: () => void;
+}
+
+function CertForm({ initial, onSave, onClose }: CertFormProps) {
+  const [formState, setFormState] = useState({
+    title: initial?.title ?? EMPTY_CERTIFICATE.title,
+    date: initial?.date ?? EMPTY_CERTIFICATE.date,
+    issuer: initial?.issuer ?? EMPTY_CERTIFICATE.issuer,
+    category: initial?.category ?? EMPTY_CERTIFICATE.category,
+    credentialId: initial?.credentialId ?? EMPTY_CERTIFICATE.credentialId,
+    skills: Array.isArray(initial?.skills) ? initial.skills.join(', ') : '',
+    description: initial?.description ?? EMPTY_CERTIFICATE.description,
+    image: initial?.image ?? EMPTY_CERTIFICATE.image,
+    file: initial?.file ?? EMPTY_CERTIFICATE.file,
+    verifyUrl: initial?.verifyUrl ?? '',
+  });
+
+  const [validationError, setValidationError] = useState('');
+
+  const updateField = (fieldKey: keyof typeof formState) => (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormState((prev) => ({ ...prev, [fieldKey]: event.target.value }));
+    setValidationError('');
+  };
+
   const handleSave = () => {
-    if (!form.title.trim()) return alert('Title is required');
-    const skills =
-      typeof form.skills === 'string'
-        ? form.skills
-            .split(',')
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : form.skills;
-    onSave({ ...form, skills });
+    const trimmedTitle = formState.title.trim();
+    if (!trimmedTitle) {
+      setValidationError('Certificate title is required.');
+      return;
+    }
+
+    const parsedSkills = formState.skills
+      .split(',')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+
+    onSave({
+      ...initial,
+      title: trimmedTitle,
+      date: formState.date.trim(),
+      issuer: formState.issuer.trim(),
+      category: formState.category.trim() || 'General',
+      credentialId: formState.credentialId.trim(),
+      skills: parsedSkills,
+      description: formState.description.trim(),
+      image: formState.image.trim(),
+      file: formState.file.trim(),
+      verifyUrl: formState.verifyUrl.trim() || null,
+    });
+
     onClose();
   };
-  const skillsVal = Array.isArray(form.skills) ? form.skills.join(', ') : form.skills;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {validationError && (
+        <div
+          role="alert"
+          style={{
+            padding: '8px 12px',
+            background: 'var(--danger-soft)',
+            border: '1px solid var(--danger)',
+            color: 'var(--danger)',
+            fontSize: '11px',
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          {validationError}
+        </div>
+      )}
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Title *">
+        <FormField label="Title *">
           <input
             className="form-input"
-            value={form.title}
-            onChange={set('title')}
-            placeholder="Machine Learning Specialization"
+            value={formState.title}
+            onChange={updateField('title')}
+            placeholder="Agentic AI Certified Associate"
+            maxLength={120}
           />
-        </Field>
-        <Field label="Date">
+        </FormField>
+        <FormField label="Date">
           <input
             className="form-input"
-            value={form.date}
-            onChange={set('date')}
-            placeholder="March 2024"
+            value={formState.date}
+            onChange={updateField('date')}
+            placeholder="June 2026"
+            maxLength={30}
           />
-        </Field>
+        </FormField>
       </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Issuer">
+        <FormField label="Issuer">
           <input
             className="form-input"
-            value={form.issuer}
-            onChange={set('issuer')}
-            placeholder="Coursera - DeepLearning.AI"
+            value={formState.issuer}
+            onChange={updateField('issuer')}
+            placeholder="Microsoft / DeepLearning.AI"
+            maxLength={80}
           />
-        </Field>
-        <Field label="Category">
-          <select className="form-input" value={form.category} onChange={set('category')}>
-            {CATEGORIES.map((c) => (
-              <option key={c} value={c}>
-                {c}
+        </FormField>
+        <FormField label="Category">
+          <select className="form-input" value={formState.category} onChange={updateField('category')}>
+            {CERTIFICATE_CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {category}
               </option>
             ))}
           </select>
-        </Field>
+        </FormField>
       </div>
-      <Field label="Credential ID">
+
+      <FormField label="Credential ID">
         <input
           className="form-input"
-          value={form.credentialId || ''}
-          onChange={set('credentialId')}
+          value={formState.credentialId}
+          onChange={updateField('credentialId')}
+          maxLength={100}
         />
-      </Field>
-      <Field label="Skills" hint="Comma-separated">
+      </FormField>
+
+      <FormField label="Skills" hint="Comma-separated">
         <input
           className="form-input"
-          value={skillsVal}
-          onChange={set('skills')}
+          value={formState.skills}
+          onChange={updateField('skills')}
           placeholder="Python, Deep Learning, TensorFlow"
         />
-      </Field>
-      <Field label="Description">
+      </FormField>
+
+      <FormField label="Description">
         <textarea
           className="form-textarea"
-          value={form.description}
-          onChange={set('description')}
+          value={formState.description}
+          onChange={updateField('description')}
           rows={3}
+          maxLength={2000}
         />
-      </Field>
+      </FormField>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Image path" hint="/certificates/ml.jpg">
-          <input className="form-input" value={form.image || ''} onChange={set('image')} />
-        </Field>
-        <Field label="PDF path" hint="/certificates/ml.pdf">
-          <input className="form-input" value={form.file || ''} onChange={set('file')} />
-        </Field>
+        <FormField label="Image path" hint="/certificates/ml.png">
+          <input
+            className="form-input"
+            value={formState.image}
+            onChange={updateField('image')}
+          />
+        </FormField>
+        <FormField label="PDF path" hint="/certificates/ml.pdf">
+          <input
+            className="form-input"
+            value={formState.file}
+            onChange={updateField('file')}
+          />
+        </FormField>
       </div>
-      <Field label="Verify URL">
+
+      <FormField label="Verification URL">
         <input
           className="form-input"
-          value={form.verifyUrl || ''}
-          onChange={set('verifyUrl')}
+          value={formState.verifyUrl}
+          onChange={updateField('verifyUrl')}
           placeholder="https://..."
         />
-      </Field>
+      </FormField>
+
       <div
         style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '0.5rem' }}
       >
@@ -461,14 +658,21 @@ function CertForm({ initial, onSave, onClose }) {
           Cancel
         </button>
         <button className="btn btn-primary" onClick={handleSave}>
-          Save certificate →
+          Save Certificate →
         </button>
       </div>
     </div>
   );
 }
 
-function StatCard({ icon, label, value, accent }) {
+interface StatCardProps {
+  icon: string;
+  label: string;
+  value: string | number;
+  accent?: boolean;
+}
+
+function StatCard({ icon, label, value, accent = false }: StatCardProps) {
   return (
     <div
       className="card card-hover"
@@ -514,10 +718,27 @@ function StatCard({ icon, label, value, accent }) {
   );
 }
 
-function Dashboard({ onLogout }) {
+interface DashboardProps {
+  onLogout: () => void;
+}
+
+type DashboardTab = 'overview' | 'projects' | 'certificates' | 'settings';
+
+interface ModalState {
+  type: 'project' | 'cert';
+  item?: Project | Certificate | null;
+}
+
+interface DeleteState {
+  type: 'project' | 'cert';
+  id: string;
+  title: string;
+}
+
+function Dashboard({ onLogout }: DashboardProps) {
   const {
-    projects,
-    certificates,
+    projects = [],
+    certificates = [],
     addProject,
     updateProject,
     deleteProject,
@@ -526,51 +747,63 @@ function Dashboard({ onLogout }) {
     deleteCertificate,
     resetToDefaults,
   } = useData();
-  const [tab, setTab] = useState('overview');
-  const [modal, setModal] = useState(null);
-  const [deleteConf, setDeleteConf] = useState(null);
 
-  const openAdd = (type) => setModal({ type, item: null });
-  const openEdit = (type, item) => setModal({ type, item });
-  const closeModal = () => setModal(null);
-  const handleSaveProject = (d) => {
-    if (modal.item) {
-      updateProject(modal.item.id, d);
+  const [currentTab, setCurrentTab] = useState<DashboardTab>('overview');
+  const [activeModal, setActiveModal] = useState<ModalState | null>(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<DeleteState | null>(null);
+
+  const openAddModal = (type: 'project' | 'cert') => setActiveModal({ type, item: null });
+  const openEditModal = (type: 'project' | 'cert', item: Project | Certificate) =>
+    setActiveModal({ type, item });
+  const closeModal = () => setActiveModal(null);
+
+  const handleSaveProject = (projectData: Partial<Project>) => {
+    const title = projectData.title ?? 'Untitled Project';
+    if (activeModal?.item?.id) {
+      updateProject(activeModal.item.id, projectData);
     } else {
-      addProject(d);
+      addProject({ ...projectData, title });
     }
-  };
-  const handleSaveCert = (d) => {
-    if (modal.item) {
-      updateCertificate(modal.item.id, d);
-    } else {
-      addCertificate(d);
-    }
-  };
-  const confirmDelete = (type, id, title) => setDeleteConf({ type, id, title });
-  const execDelete = () => {
-    if (!deleteConf) return;
-    if (deleteConf.type === 'project') {
-      deleteProject(deleteConf.id);
-    } else {
-      deleteCertificate(deleteConf.id);
-    }
-    setDeleteConf(null);
   };
 
-  const tabs = [
-    { id: 'overview', label: 'Overview', icon: '◈' },
-    { id: 'projects', label: 'Projects', icon: '◎' },
-    { id: 'certificates', label: 'Certificates', icon: '◐' },
-    { id: 'settings', label: 'Settings', icon: '◉' },
+  const handleSaveCertificate = (certData: Partial<Certificate>) => {
+    const title = certData.title ?? 'Untitled Certificate';
+    if (activeModal?.item?.id) {
+      updateCertificate(activeModal.item.id, certData);
+    } else {
+      addCertificate({ ...certData, title });
+    }
+  };
+
+  const confirmDelete = (type: 'project' | 'cert', id: string, title: string) => {
+    setDeleteConfirmation({ type, id, title });
+  };
+
+  const executeDelete = () => {
+    if (!deleteConfirmation) return;
+    if (deleteConfirmation.type === 'project') {
+      deleteProject(deleteConfirmation.id);
+    } else {
+      deleteCertificate(deleteConfirmation.id);
+    }
+    setDeleteConfirmation(null);
+  };
+
+  const navigationTabs = [
+    { id: 'overview' as const, label: 'Overview', icon: '◈' },
+    { id: 'projects' as const, label: 'Projects', icon: '◎' },
+    { id: 'certificates' as const, label: 'Certificates', icon: '◐' },
+    { id: 'settings' as const, label: 'Settings', icon: '◉' },
   ];
-  const SW = 220;
+
+  const SIDEBAR_WIDTH = 220;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', paddingTop: '88px' }}>
+      {/* Sidebar Navigation */}
       <aside
         style={{
-          width: SW,
+          width: SIDEBAR_WIDTH,
           flexShrink: 0,
           background: 'var(--surface)',
           borderRight: '1px solid var(--border)',
@@ -612,52 +845,57 @@ function Dashboard({ onLogout }) {
             Portfolio CMS
           </div>
         </div>
+
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '0 0.75rem' }}>
-          {tabs.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              className={`nav-link${tab === t.id ? ' active' : ''}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '10px 12px',
-                border: 'none',
-                cursor: 'none',
-                background: tab === t.id ? 'var(--surface-2)' : 'transparent',
-                textAlign: 'left',
-                width: '100%',
-              }}
-            >
-              <span
+          {navigationTabs.map((tab) => {
+            const isActive = currentTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setCurrentTab(tab.id)}
+                className={`nav-link${isActive ? ' active' : ''}`}
                 style={{
-                  fontSize: '13px',
-                  color: tab === t.id ? 'var(--accent)' : 'var(--muted-2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '10px 12px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: isActive ? 'var(--surface-2)' : 'transparent',
+                  textAlign: 'left',
+                  width: '100%',
                 }}
               >
-                {t.icon}
-              </span>
-              {t.label}
-              {t.id === 'projects' && (
                 <span
-                  className="tag"
-                  style={{ marginLeft: 'auto', fontSize: '9px', padding: '1px 7px' }}
+                  style={{
+                    fontSize: '13px',
+                    color: isActive ? 'var(--accent)' : 'var(--muted-2)',
+                  }}
                 >
-                  {projects.length}
+                  {tab.icon}
                 </span>
-              )}
-              {t.id === 'certificates' && (
-                <span
-                  className="tag"
-                  style={{ marginLeft: 'auto', fontSize: '9px', padding: '1px 7px' }}
-                >
-                  {certificates.length}
-                </span>
-              )}
-            </button>
-          ))}
+                {tab.label}
+                {tab.id === 'projects' && (
+                  <span
+                    className="tag"
+                    style={{ marginLeft: 'auto', fontSize: '9px', padding: '1px 7px' }}
+                  >
+                    {projects.length}
+                  </span>
+                )}
+                {tab.id === 'certificates' && (
+                  <span
+                    className="tag"
+                    style={{ marginLeft: 'auto', fontSize: '9px', padding: '1px 7px' }}
+                  >
+                    {certificates.length}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </nav>
+
         <div
           style={{
             padding: '0 0.75rem',
@@ -672,27 +910,29 @@ function Dashboard({ onLogout }) {
             className="btn"
             style={{ width: '100%', justifyContent: 'center', fontSize: '10px' }}
           >
-            Sign out
+            Sign Out
           </button>
         </div>
       </aside>
 
-      <main style={{ flex: 1, marginLeft: SW, padding: '2.5rem', minHeight: '100vh' }}>
-        {tab === 'overview' && (
+      {/* Main Dashboard Panel */}
+      <main style={{ flex: 1, marginLeft: SIDEBAR_WIDTH, padding: '2.5rem', minHeight: '100vh' }}>
+        {currentTab === 'overview' && (
           <div>
             <div style={{ marginBottom: '2rem' }}>
               <div className="label" style={{ marginBottom: '0.5rem' }}>
                 Dashboard
               </div>
-              <h2 style={{ fontSize: '2rem' }}>Welcome back.</h2>
-              <p style={{ marginTop: '0.4rem' }}>
-                Manage your portfolio content. Changes save instantly to the browser.
+              <h2 style={{ fontSize: '2rem' }}>Welcome Back.</h2>
+              <p style={{ marginTop: '0.4rem', color: 'var(--ink-2)' }}>
+                Manage your portfolio systems and credentials. Changes persist locally in your browser.
               </p>
             </div>
+
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
                 gap: '8px',
                 marginBottom: '2rem',
               }}
@@ -702,32 +942,34 @@ function Dashboard({ onLogout }) {
               <StatCard icon="◈" label="Skills" value="16+" />
               <StatCard icon="◉" label="Storage" value="Local" />
             </div>
+
             <div className="card card-hover" style={{ padding: '1.4rem', marginBottom: '1rem' }}>
-              <h3 style={{ marginBottom: '1rem', color: 'var(--ink)' }}>Quick actions</h3>
+              <h3 style={{ marginBottom: '1rem', color: 'var(--ink)' }}>Quick Actions</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <button
                   className="btn btn-primary btn-sm"
                   onClick={() => {
-                    setTab('projects');
-                    openAdd('project');
+                    setCurrentTab('projects');
+                    openAddModal('project');
                   }}
                 >
-                  + Add project
+                  + Add Project
                 </button>
                 <button
                   className="btn btn-sm"
                   onClick={() => {
-                    setTab('certificates');
-                    openAdd('cert');
+                    setCurrentTab('certificates');
+                    openAddModal('cert');
                   }}
                 >
-                  + Add certificate
+                  + Add Certificate
                 </button>
                 <a href="/" className="btn btn-sm">
-                  View site ↗
+                  View Site ↗
                 </a>
               </div>
             </div>
+
             <div
               className="card"
               style={{
@@ -748,25 +990,18 @@ function Dashboard({ onLogout }) {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  NOTE
+                  LOCAL-FIRST
                 </span>
-                <p style={{ fontSize: '0.78rem', lineHeight: 1.8, fontFamily: 'var(--font-mono)' }}>
-                  Data lives in{' '}
-                  <code style={{ background: 'var(--surface-3)', padding: '1px 5px' }}>
-                    localStorage
-                  </code>
-                  . Connect a FastAPI backend and update{' '}
-                  <code style={{ background: 'var(--surface-3)', padding: '1px 5px' }}>
-                    DataContext.jsx
-                  </code>{' '}
-                  to persist across devices.
+                <p style={{ fontSize: '0.78rem', lineHeight: 1.8, fontFamily: 'var(--font-mono)', color: 'var(--ink-2)' }}>
+                  Data is managed client-side within browser storage. Export JSON snapshots in the Settings tab
+                  to backup or integrate with remote database backends.
                 </p>
               </div>
             </div>
           </div>
         )}
 
-        {tab === 'projects' && (
+        {currentTab === 'projects' && (
           <div>
             <div
               style={{
@@ -784,14 +1019,15 @@ function Dashboard({ onLogout }) {
                 </div>
                 <h2 style={{ fontSize: '1.8rem' }}>Projects</h2>
               </div>
-              <button className="btn btn-primary btn-sm" onClick={() => openAdd('project')}>
-                + Add project
+              <button className="btn btn-primary btn-sm" onClick={() => openAddModal('project')}>
+                + Add Project
               </button>
             </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-              {projects.map((p) => (
+              {projects.map((project) => (
                 <div
-                  key={p.id}
+                  key={project.id}
                   className="card card-hover"
                   style={{
                     padding: '1.1rem 1.4rem',
@@ -812,7 +1048,7 @@ function Dashboard({ onLogout }) {
                         textOverflow: 'ellipsis',
                       }}
                     >
-                      {p.title}
+                      {project.title}
                     </div>
                     <div
                       style={{
@@ -823,9 +1059,10 @@ function Dashboard({ onLogout }) {
                         textOverflow: 'ellipsis',
                       }}
                     >
-                      {p.shortDesc}
+                      {project.shortDesc}
                     </div>
                   </div>
+
                   <div
                     style={{
                       display: 'flex',
@@ -835,12 +1072,13 @@ function Dashboard({ onLogout }) {
                       maxWidth: 200,
                     }}
                   >
-                    {(Array.isArray(p.technologies) ? p.technologies : []).slice(0, 3).map((t) => (
-                      <span key={t} className="tag">
-                        {t}
+                    {(Array.isArray(project.technologies) ? project.technologies : []).slice(0, 3).map((tech) => (
+                      <span key={tech} className="tag">
+                        {tech}
                       </span>
                     ))}
                   </div>
+
                   <span
                     style={{
                       fontFamily: 'var(--font-mono)',
@@ -849,21 +1087,23 @@ function Dashboard({ onLogout }) {
                       flexShrink: 0,
                     }}
                   >
-                    {p.year}
+                    {project.year}
                   </span>
+
                   <div style={{ display: 'flex', gap: '5px', flexShrink: 0 }}>
-                    <button className="btn btn-sm" onClick={() => openEdit('project', p)}>
+                    <button className="btn btn-sm" onClick={() => openEditModal('project', project)}>
                       Edit
                     </button>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => confirmDelete('project', p.id, p.title)}
+                      onClick={() => confirmDelete('project', project.id, project.title)}
                     >
                       Del
                     </button>
                   </div>
                 </div>
               ))}
+
               {projects.length === 0 && (
                 <div
                   className="card"
@@ -876,14 +1116,14 @@ function Dashboard({ onLogout }) {
                     fontSize: '0.75rem',
                   }}
                 >
-                  No projects yet. Click "+ Add project" to get started.
+                  No projects configured yet. Click &quot;+ Add Project&quot; to begin.
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {tab === 'certificates' && (
+        {currentTab === 'certificates' && (
           <div>
             <div
               style={{
@@ -901,16 +1141,17 @@ function Dashboard({ onLogout }) {
                 </div>
                 <h2 style={{ fontSize: '1.8rem' }}>Certificates</h2>
               </div>
-              <button className="btn btn-primary btn-sm" onClick={() => openAdd('cert')}>
-                + Add certificate
+              <button className="btn btn-primary btn-sm" onClick={() => openAddModal('cert')}>
+                + Add Certificate
               </button>
             </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-              {certificates.map((c) => {
-                const color = categoryColors[c.category] || '#5C6A99';
+              {certificates.map((cert) => {
+                const color = categoryColors[cert.category] || '#5C6A99';
                 return (
                   <div
-                    key={c.id}
+                    key={cert.id}
                     className="card card-hover"
                     style={{
                       padding: '1.1rem 1.4rem',
@@ -933,7 +1174,7 @@ function Dashboard({ onLogout }) {
                         borderRadius: 0,
                       }}
                     >
-                      {c.category}
+                      {cert.category}
                     </span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div
@@ -947,10 +1188,11 @@ function Dashboard({ onLogout }) {
                           textOverflow: 'ellipsis',
                         }}
                       >
-                        {c.title}
+                        {cert.title}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{c.issuer}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{cert.issuer}</div>
                     </div>
+
                     <span
                       style={{
                         fontFamily: 'var(--font-mono)',
@@ -959,15 +1201,16 @@ function Dashboard({ onLogout }) {
                         flexShrink: 0,
                       }}
                     >
-                      {c.date}
+                      {cert.date}
                     </span>
+
                     <div style={{ display: 'flex', gap: '5px', flexShrink: 0 }}>
-                      <button className="btn btn-sm" onClick={() => openEdit('cert', c)}>
+                      <button className="btn btn-sm" onClick={() => openEditModal('cert', cert)}>
                         Edit
                       </button>
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => confirmDelete('cert', c.id, c.title)}
+                        onClick={() => confirmDelete('cert', cert.id, cert.title)}
                       >
                         Del
                       </button>
@@ -975,6 +1218,7 @@ function Dashboard({ onLogout }) {
                   </div>
                 );
               })}
+
               {certificates.length === 0 && (
                 <div
                   className="card"
@@ -987,14 +1231,14 @@ function Dashboard({ onLogout }) {
                     fontSize: '0.75rem',
                   }}
                 >
-                  No certificates yet. Click "+ Add certificate" to get started.
+                  No certificates configured yet. Click &quot;+ Add Certificate&quot; to begin.
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {tab === 'settings' && (
+        {currentTab === 'settings' && (
           <div style={{ maxWidth: 540 }}>
             <div style={{ marginBottom: '2rem' }}>
               <div className="label" style={{ marginBottom: '0.5rem' }}>
@@ -1002,38 +1246,31 @@ function Dashboard({ onLogout }) {
               </div>
               <h2 style={{ fontSize: '1.8rem' }}>Settings</h2>
             </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div className="card card-hover" style={{ padding: '1.4rem' }}>
-                <h3 style={{ marginBottom: '0.5rem', color: 'var(--ink)' }}>Reset to defaults</h3>
-                <p style={{ fontSize: '0.82rem', marginBottom: '1.1rem' }}>
-                  Discard all custom edits and restore the original bundled data.
+                <h3 style={{ marginBottom: '0.5rem', color: 'var(--ink)' }}>Reset to Defaults</h3>
+                <p style={{ fontSize: '0.82rem', marginBottom: '1.1rem', color: 'var(--ink-2)' }}>
+                  Discard local custom modifications and restore original packaged dataset.
                 </p>
                 <button
                   className="btn btn-danger btn-sm"
                   onClick={() => {
-                    if (confirm('Reset ALL data to defaults?')) resetToDefaults();
+                    if (window.confirm('Reset ALL data to bundled defaults? This cannot be undone.')) {
+                      resetToDefaults();
+                    }
                   }}
                 >
-                  Reset to defaults
+                  Reset to Defaults
                 </button>
               </div>
+
               <div className="card card-hover" style={{ padding: '1.4rem' }}>
                 <h3 style={{ marginBottom: '0.5rem', color: 'var(--ink)' }}>
-                  Environment variables
+                  Environment Variables
                 </h3>
-                <p style={{ fontSize: '0.82rem', marginBottom: '1rem' }}>
-                  Add these to your{' '}
-                  <code
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.74rem',
-                      background: 'var(--surface-2)',
-                      padding: '0.1rem 0.4rem',
-                    }}
-                  >
-                    .env
-                  </code>{' '}
-                  file:
+                <p style={{ fontSize: '0.82rem', marginBottom: '1rem', color: 'var(--ink-2)' }}>
+                  Configure secrets and endpoints within <code>.env</code>:
                 </p>
                 <pre
                   style={{
@@ -1047,25 +1284,26 @@ function Dashboard({ onLogout }) {
                     lineHeight: 1.8,
                   }}
                 >
-                  {`VITE_ADMIN_PASSWORD=your_secret_here
-VITE_CONTACT_API=http://localhost:8000/api/contact`}
+                  {`VITE_ADMIN_PASSWORD=your_secret_here\nVITE_CONTACT_API=http://localhost:8000/api/contact`}
                 </pre>
               </div>
+
               <div className="card card-hover" style={{ padding: '1.4rem' }}>
-                <h3 style={{ marginBottom: '0.5rem', color: 'var(--ink)' }}>Export data</h3>
-                <p style={{ fontSize: '0.82rem', marginBottom: '1.1rem' }}>
-                  Download current data as JSON for backup or backend seeding.
+                <h3 style={{ marginBottom: '0.5rem', color: 'var(--ink)' }}>Export Snapshot</h3>
+                <p style={{ fontSize: '0.82rem', marginBottom: '1.1rem', color: 'var(--ink-2)' }}>
+                  Export all active projects and credentials as a JSON file.
                 </p>
                 <button
                   className="btn btn-sm"
                   onClick={() => {
-                    const blob = new Blob([JSON.stringify({ projects, certificates }, null, 2)], {
-                      type: 'application/json',
-                    });
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = 'portfolio-data.json';
-                    a.click();
+                    const serializedData = JSON.stringify({ projects, certificates }, null, 2);
+                    const blob = new Blob([serializedData], { type: 'application/json' });
+                    const downloadUrl = URL.createObjectURL(blob);
+                    const anchorElement = document.createElement('a');
+                    anchorElement.href = downloadUrl;
+                    anchorElement.download = `portfolio-backup-${new Date().toISOString().slice(0, 10)}.json`;
+                    anchorElement.click();
+                    setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
                   }}
                 >
                   ↓ Export portfolio-data.json
@@ -1076,55 +1314,48 @@ VITE_CONTACT_API=http://localhost:8000/api/contact`}
         )}
       </main>
 
-      {modal?.type === 'project' && (
-        <Modal title={modal.item ? 'Edit project' : 'New project'} onClose={closeModal}>
+      {/* Edit/Add Project Modal */}
+      {activeModal?.type === 'project' && (
+        <Modal title={activeModal.item ? 'Edit Project' : 'New Project'} onClose={closeModal}>
           <ProjectForm
-            initial={
-              modal.item
-                ? {
-                    ...modal.item,
-                    technologies: (modal.item.technologies || []).join(', '),
-                    features: (modal.item.features || []).join('\n'),
-                  }
-                : undefined
-            }
+            initial={activeModal.item ?? undefined}
             onSave={handleSaveProject}
             onClose={closeModal}
           />
         </Modal>
       )}
-      {modal?.type === 'cert' && (
-        <Modal title={modal.item ? 'Edit certificate' : 'New certificate'} onClose={closeModal}>
+
+      {/* Edit/Add Certificate Modal */}
+      {activeModal?.type === 'cert' && (
+        <Modal title={activeModal.item ? 'Edit Certificate' : 'New Certificate'} onClose={closeModal}>
           <CertForm
-            initial={
-              modal.item
-                ? { ...modal.item, skills: (modal.item.skills || []).join(', ') }
-                : undefined
-            }
-            onSave={handleSaveCert}
+            initial={activeModal.item ?? undefined}
+            onSave={handleSaveCertificate}
             onClose={closeModal}
           />
         </Modal>
       )}
-      {deleteConf && (
-        <Modal title="Confirm delete" onClose={() => setDeleteConf(null)}>
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmation && (
+        <Modal title="Confirm Permanent Deletion" onClose={() => setDeleteConfirmation(null)}>
           <p
             style={{
               fontSize: '0.9rem',
               lineHeight: 1.7,
               marginBottom: '1.5rem',
               fontFamily: 'var(--font-mono)',
+              color: 'var(--ink-2)',
             }}
           >
-            Delete <strong style={{ color: 'var(--ink)' }}>"{deleteConf.title}"</strong>? This
-            cannot be undone.
+            Are you sure you want to delete <strong style={{ color: 'var(--ink)' }}>&quot;{deleteConfirmation.title}&quot;</strong>? This action cannot be reverted.
           </p>
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
-            <button className="btn" onClick={() => setDeleteConf(null)}>
+            <button className="btn" onClick={() => setDeleteConfirmation(null)}>
               Cancel
             </button>
-            <button className="btn btn-danger" onClick={execDelete}>
-              Delete permanently
+            <button className="btn btn-danger" onClick={executeDelete}>
+              Delete Permanently
             </button>
           </div>
         </Modal>
@@ -1134,18 +1365,39 @@ VITE_CONTACT_API=http://localhost:8000/api/contact`}
 }
 
 export default function Admin() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem('_adminAuthed') === '1');
-  const handleLogin = () => {
-    sessionStorage.setItem('_adminAuthed', '1');
-    setAuthed(true);
-  };
-  const handleLogout = () => {
-    sessionStorage.removeItem('_adminAuthed');
-    setAuthed(false);
-  };
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('_adminAuthed') === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  const handleLoginSuccess = useCallback(() => {
+    try {
+      sessionStorage.setItem('_adminAuthed', '1');
+    } catch {
+      // Storage unavailable fallback
+    }
+    setIsAuthenticated(true);
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    try {
+      sessionStorage.removeItem('_adminAuthed');
+    } catch {
+      // Storage unavailable fallback
+    }
+    setIsAuthenticated(false);
+  }, []);
+
   return (
     <PageTransition>
-      {authed ? <Dashboard onLogout={handleLogout} /> : <LoginScreen onSuccess={handleLogin} />}
+      {isAuthenticated ? (
+        <Dashboard onLogout={handleLogout} />
+      ) : (
+        <LoginScreen onSuccess={handleLoginSuccess} />
+      )}
     </PageTransition>
   );
 }

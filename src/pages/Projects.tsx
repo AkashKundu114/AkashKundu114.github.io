@@ -1,13 +1,15 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Fuse from 'fuse.js';
+import Fuse, { IFuseOptions } from 'fuse.js';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import LiquidGlassLens from '../components/LiquidGlassLens';
-import { ShinyButton, Tactile3DButton } from '../components/EvilButtons';
+import { Project } from '../data/projects';
 
-const FUSE_OPTIONS = {
+const MAX_SEARCH_LENGTH = 80;
+
+const FUSE_OPTIONS: IFuseOptions<Project> = {
   keys: [
     { name: 'title', weight: 2 },
     { name: 'shortDesc', weight: 1 },
@@ -19,39 +21,119 @@ const FUSE_OPTIONS = {
   includeScore: true,
 };
 
+/**
+ * Sanitizes search input to prevent anomalous inputs or runaway regexes.
+ */
+function sanitizeSearchQuery(input: string): string {
+  if (typeof input !== 'string') return '';
+  return Array.from(input.slice(0, MAX_SEARCH_LENGTH))
+    .filter((char) => {
+      const code = char.charCodeAt(0);
+      return (code >= 32 && code <= 126) || code > 159;
+    })
+    .join('');
+}
+
+/**
+ * Collects sorted unique technologies from projects.
+ */
+function extractAllTechnologies(projectList: readonly Project[]): string[] {
+  if (!projectList || projectList.length === 0) return [];
+  const techSet = new Set<string>();
+  for (const project of projectList) {
+    if (Array.isArray(project.technologies)) {
+      for (const tech of project.technologies) {
+        if (tech && tech.trim()) {
+          techSet.add(tech.trim());
+        }
+      }
+    }
+  }
+  return Array.from(techSet).sort();
+}
+
+/**
+ * Filters projects through Fuse fuzzy query and exact tag intersection.
+ */
+function filterProjects(
+  projectList: readonly Project[],
+  query: string,
+  selectedTags: readonly string[],
+  fuseInstance: Fuse<Project>
+): Project[] {
+  if (!projectList || projectList.length === 0) return [];
+
+  const trimmedQuery = query.trim();
+  let searchResults: Project[] = trimmedQuery
+    ? fuseInstance.search(trimmedQuery).map((match) => match.item)
+    : [...projectList];
+
+  if (selectedTags.length > 0) {
+    searchResults = searchResults.filter((project) => {
+      const technologies = project.technologies ?? [];
+      return selectedTags.every((requiredTag) => technologies.includes(requiredTag));
+    });
+  }
+
+  return searchResults;
+}
+
 export default function Projects() {
+  const { projects = [] } = useData();
+  const navigate = useNavigate();
+  const containerRef = useRevealChildren();
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const { projects } = useData();
-  const navigate = useNavigate();
-  const ref = useRevealChildren();
-  const [query, setQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const allTechs = useMemo(
-    () => [...new Set(projects.flatMap((p) => p.technologies ?? []))].sort(),
+  const allTechnologies = useMemo(
+    () => extractAllTechnologies(projects),
     [projects]
   );
-  const fuse = useMemo(() => new Fuse(projects, FUSE_OPTIONS), [projects]);
-  const filtered = useMemo(() => {
-    let r = query.trim() ? fuse.search(query.trim()).map((x) => x.item) : [...projects];
-    if (selectedTags.length)
-      r = r.filter((p) => selectedTags.every((t) => (p.technologies ?? []).includes(t)));
-    return r;
-  }, [query, selectedTags, fuse, projects]);
 
-  const toggleTag = (t: string) =>
-    setSelectedTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
-  const clearAll = () => {
-    setQuery('');
+  const fuseInstance = useMemo(
+    () => new Fuse(projects, FUSE_OPTIONS),
+    [projects]
+  );
+
+  const filteredProjects = useMemo(
+    () => filterProjects(projects, searchQuery, selectedTags, fuseInstance),
+    [projects, searchQuery, selectedTags, fuseInstance]
+  );
+
+  const handleQueryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const cleanValue = sanitizeSearchQuery(event.target.value);
+    setSearchQuery(cleanValue);
+  }, []);
+
+  const toggleTag = useCallback((tag: string) => {
+    setSelectedTags((prevTags) =>
+      prevTags.includes(tag) ? prevTags.filter((t) => t !== tag) : [...prevTags, tag]
+    );
+  }, []);
+
+  const clearAllFilters = useCallback(() => {
+    setSearchQuery('');
     setSelectedTags([]);
-  };
-  const hasFilters = query.trim() !== '' || selectedTags.length > 0;
+  }, []);
+
+  const handleProjectNavigate = useCallback(
+    (projectId: string) => {
+      if (!projectId) return;
+      navigate(`/projects/${projectId}`);
+    },
+    [navigate]
+  );
+
+  const hasActiveFilters = searchQuery.trim().length > 0 || selectedTags.length > 0;
 
   return (
     <PageTransition>
-      <section className="section" style={{ paddingTop: '96px' }} ref={ref}>
+      <section className="section" style={{ paddingTop: '96px' }} ref={containerRef}>
         <div className="container">
           <div className="label reveal">portfolio &amp; systems</div>
           <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
@@ -72,6 +154,7 @@ export default function Projects() {
             production desktop/web interfaces.
           </p>
 
+          {/* Search & Tag Filter Bar */}
           <LiquidGlassLens
             intensity="subtle"
             className="reveal card"
@@ -89,6 +172,7 @@ export default function Projects() {
                 strokeWidth="2"
                 strokeLinecap="square"
                 style={{ color: 'var(--accent)', flexShrink: 0 }}
+                aria-hidden="true"
               >
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
@@ -96,8 +180,10 @@ export default function Projects() {
               <input
                 type="text"
                 placeholder="Search projects by tech, architecture, or title..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={searchQuery}
+                maxLength={MAX_SEARCH_LENGTH}
+                onChange={handleQueryChange}
+                aria-label="Search projects"
                 style={{
                   flex: 1,
                   background: 'transparent',
@@ -108,9 +194,9 @@ export default function Projects() {
                   color: 'var(--ink)',
                 }}
               />
-              {hasFilters && (
+              {hasActiveFilters && (
                 <button
-                  onClick={clearAll}
+                  onClick={clearAllFilters}
                   className="tag tag-active"
                   style={{ cursor: 'pointer' }}
                 >
@@ -118,24 +204,33 @@ export default function Projects() {
                 </button>
               )}
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-              {allTechs.map((tag) => (
-                <button
-                  key={tag}
-                  onClick={() => toggleTag(tag)}
-                  className={`tag${selectedTags.includes(tag) ? ' tag-active' : ''}`}
-                  style={{
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
+
+            {/* Tag Selection Chips */}
+            {allTechnologies.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                {allTechnologies.map((tag) => {
+                  const isSelected = selectedTags.includes(tag);
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className={`tag${isSelected ? ' tag-active' : ''}`}
+                      style={{
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                      aria-pressed={isSelected}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </LiquidGlassLens>
 
-          {hasFilters && (
+          {/* Filter Status Badge */}
+          {hasActiveFilters && (
             <div
               className="reveal"
               style={{
@@ -157,24 +252,30 @@ export default function Projects() {
                   borderRadius: '50%',
                 }}
               />
-              {filtered.length} project{filtered.length !== 1 ? 's' : ''} matched
+              {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} matched
             </div>
           )}
 
-          {filtered.length > 0 ? (
+          {/* Filtered Project Cards List */}
+          {filteredProjects.length > 0 ? (
             <div
               className="stagger"
               style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
             >
-              {filtered.map((p, i) => (
+              {filteredProjects.map((project, index) => (
                 <div
-                  key={p.id}
+                  key={project.id}
                   className="row-card reveal"
-                  onClick={() => navigate(`/projects/${p.id}`)}
+                  onClick={() => handleProjectNavigate(project.id)}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && navigate(`/projects/${p.id}`)}
-                  style={{ '--i': i, padding: '20px 24px' } as any}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleProjectNavigate(project.id);
+                    }
+                  }}
+                  style={{ '--i': index, padding: '20px 24px' } as React.CSSProperties}
                 >
                   <div
                     style={{
@@ -192,6 +293,7 @@ export default function Projects() {
                           alignItems: 'center',
                           gap: '8px',
                           marginBottom: '8px',
+                          flexWrap: 'wrap',
                         }}
                       >
                         <span
@@ -202,10 +304,10 @@ export default function Projects() {
                             letterSpacing: '0.06em',
                           }}
                         >
-                          {p.year}
+                          {project.year}
                         </span>
-                        {p.status && <span className="tag">{p.status}</span>}
-                        {p.screenshots && p.screenshots.length > 0 && (
+                        {project.status && <span className="tag">{project.status}</span>}
+                        {project.screenshots && project.screenshots.length > 0 && (
                           <span
                             className="tag"
                             style={{
@@ -217,13 +319,13 @@ export default function Projects() {
                             Snapshot Available ✓
                           </span>
                         )}
-                        {p.liveLink && (
+                        {project.liveLink && (
                           <span
                             className="tag"
                             style={{
                               borderColor: 'var(--success)',
                               color: 'var(--success)',
-                              background: 'rgba(109,235,170,0.1)',
+                              background: 'rgba(109, 235, 170, 0.1)',
                             }}
                           >
                             Live ↗
@@ -231,7 +333,7 @@ export default function Projects() {
                         )}
                       </div>
                       <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
-                        {p.title}
+                        {project.title}
                       </h3>
                       <p
                         style={{
@@ -242,9 +344,10 @@ export default function Projects() {
                           color: 'var(--ink-2)',
                         }}
                       >
-                        {p.shortDesc}
+                        {project.shortDesc}
                       </p>
                     </div>
+
                     <div
                       style={{
                         display: 'flex',
@@ -262,22 +365,22 @@ export default function Projects() {
                           justifyContent: 'flex-end',
                         }}
                       >
-                        {(p.technologies ?? []).map((t) => (
+                        {(project.technologies ?? []).map((tech) => (
                           <span
-                            key={t}
-                            className={`tag${selectedTags.includes(t) ? ' tag-active' : ''}`}
+                            key={tech}
+                            className={`tag${selectedTags.includes(tech) ? ' tag-active' : ''}`}
                           >
-                            {t}
+                            {tech}
                           </span>
                         ))}
                       </div>
                       <div style={{ display: 'flex', gap: '6px' }}>
-                        {p.github && (
+                        {project.github && (
                           <a
-                            href={p.github}
+                            href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(event) => event.stopPropagation()}
                             className="btn btn-sm"
                             style={{ padding: '3px 10px', fontSize: '10px' }}
                           >
@@ -298,23 +401,17 @@ export default function Projects() {
             </div>
           ) : (
             <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
-                No projects match current filters.{' '}
-                <button
-                  onClick={clearAll}
-                  style={{
-                    color: 'var(--accent)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                    fontSize: 'inherit',
-                    textDecoration: 'underline',
-                  }}
-                >
-                  Clear filters
-                </button>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', marginBottom: '12px' }}>
+                No projects matched your criteria.
               </p>
+              {hasActiveFilters && (
+                <button
+                  onClick={clearAllFilters}
+                  className="btn btn-sm"
+                >
+                  Clear search &amp; filter criteria
+                </button>
+              )}
             </div>
           )}
         </div>

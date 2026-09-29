@@ -1,79 +1,168 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
-export function useScrollReveal(options = {}) {
-  const ref = useRef<any>(null);
+/**
+ * Options for configuring the IntersectionObserver behavior in scroll reveal hooks.
+ */
+export interface ScrollRevealOptions extends IntersectionObserverInit {
+  fallbackDelayMs?: number;
+}
+
+/**
+ * Hook to reveal a single DOM element once it enters the browser viewport.
+ * Includes graceful fallbacks for environments without IntersectionObserver,
+ * elements already in the initial viewport, and disconnected nodes.
+ */
+export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
+  options: ScrollRevealOptions = {}
+): RefObject<T | null> {
+  const elementRef = useRef<T | null>(null);
+
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const targetElement = elementRef.current;
+    if (!targetElement) return;
 
-    // Check if already in viewport
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      el.classList.add('visible');
+    // Boundary check: element must be mounted in DOM
+    if (typeof targetElement.isConnected === 'boolean' && !targetElement.isConnected) {
       return;
     }
 
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          obs.unobserve(e.target);
+    // SSR or headless environment safety check
+    if (typeof window === 'undefined') return;
+
+    // Check if element is already inside the viewport upon mount
+    const elementRect = targetElement.getBoundingClientRect();
+    const isInitiallyInViewport =
+      elementRect.top < window.innerHeight && elementRect.bottom > 0;
+
+    if (isInitiallyInViewport) {
+      targetElement.classList.add('visible');
+      return;
+    }
+
+    // Fallback if IntersectionObserver is unsupported in the client browser
+    if (!('IntersectionObserver' in window)) {
+      targetElement.classList.add('visible');
+      return;
+    }
+
+    const { fallbackDelayMs = 1200, ...observerInit } = options;
+
+    let localObserver: IntersectionObserver;
+    localObserver = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[], observerInstance: IntersectionObserver) => {
+        const activeObserver = observerInstance || localObserver;
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.target) {
+            entry.target.classList.add('visible');
+            if (typeof activeObserver?.unobserve === 'function') {
+              activeObserver.unobserve(entry.target);
+            }
+          }
         }
       },
-      { threshold: 0.02, rootMargin: '0px 0px 60px 0px', ...options }
+      {
+        threshold: 0.02,
+        rootMargin: '0px 0px 60px 0px',
+        ...observerInit,
+      }
     );
-    obs.observe(el);
 
-    // Resilient fallback: ensure visibility
-    const timer = setTimeout(() => {
-      if (el) el.classList.add('visible');
-    }, 1200);
+    localObserver.observe(targetElement);
+
+    // Resilient fallback: ensure element becomes visible even if observer events are missed
+    const fallbackTimerId = window.setTimeout(() => {
+      if (targetElement && targetElement.isConnected) {
+        targetElement.classList.add('visible');
+      }
+    }, fallbackDelayMs);
 
     return () => {
-      obs.disconnect();
-      clearTimeout(timer);
+      localObserver.disconnect();
+      window.clearTimeout(fallbackTimerId);
     };
-  }, []);
-  return ref;
+  }, [options]);
+
+  return elementRef;
 }
 
-export function useRevealChildren() {
-  const ref = useRef<any>(null);
+/**
+ * Hook to automatically reveal child elements matching `.reveal` inside a container.
+ * Features immediate detection for children already within viewport,
+ * IntersectionObserver batch observing, and a resilient timeout fallback.
+ */
+export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
+  fallbackDelayMs = 1200
+): RefObject<T | null> {
+  const containerRef = useRef<T | null>(null);
+
   useEffect(() => {
-    const container = ref.current;
-    if (!container) return;
-    const els = container.querySelectorAll('.reveal');
+    const containerElement = containerRef.current;
+    if (!containerElement) return;
 
-    // Immediately reveal elements already inside or above viewport
-    els.forEach((el: Element) => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight + 100) {
-        el.classList.add('visible');
+    // Boundary check: element must be connected to the DOM
+    if (typeof containerElement.isConnected === 'boolean' && !containerElement.isConnected) {
+      return;
+    }
+
+    if (typeof window === 'undefined') return;
+
+    const revealChildren = Array.from(
+      containerElement.querySelectorAll<HTMLElement>('.reveal')
+    );
+
+    if (revealChildren.length === 0) return;
+
+    // Immediately reveal child elements already inside or immediately near viewport
+    const viewportThreshold = window.innerHeight + 100;
+    for (const child of revealChildren) {
+      const childRect = child.getBoundingClientRect();
+      if (childRect.top < viewportThreshold) {
+        child.classList.add('visible');
       }
-    });
+    }
 
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
+    // Fallback if IntersectionObserver is not available
+    if (!('IntersectionObserver' in window)) {
+      revealChildren.forEach((child) => child.classList.add('visible'));
+      return;
+    }
+
+    let localObserver: IntersectionObserver;
+    localObserver = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[], observerInstance: IntersectionObserver) => {
+        const activeObserver = observerInstance || localObserver;
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.target) {
+            entry.target.classList.add('visible');
+            if (typeof activeObserver?.unobserve === 'function') {
+              activeObserver.unobserve(entry.target);
+            }
           }
-        });
+        }
       },
       { threshold: 0.02, rootMargin: '0px 0px 80px 0px' }
     );
-    els.forEach((el: Element) => obs.observe(el));
 
-    // Resilient fallback: ensure everything is visible after 1.2s max
-    const timer = setTimeout(() => {
-      els.forEach((el: Element) => el.classList.add('visible'));
-    }, 1200);
+    revealChildren.forEach((child) => {
+      if (child.isConnected) {
+        localObserver.observe(child);
+      }
+    });
+
+    // Resilient fallback: ensure everything is visible after fallbackDelayMs max
+    const fallbackTimerId = window.setTimeout(() => {
+      revealChildren.forEach((child) => {
+        if (child.isConnected) {
+          child.classList.add('visible');
+        }
+      });
+    }, fallbackDelayMs);
 
     return () => {
-      obs.disconnect();
-      clearTimeout(timer);
+      localObserver.disconnect();
+      window.clearTimeout(fallbackTimerId);
     };
-  }, []);
-  return ref;
+  }, [fallbackDelayMs]);
+
+  return containerRef;
 }

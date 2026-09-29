@@ -3,6 +3,21 @@ export interface ProjectScreenshot {
   caption: string;
 }
 
+export interface ProjectArchitecture {
+  heading: string;
+  body: string;
+  points: string[];
+  stack: string[];
+}
+
+export interface ProjectDeployment {
+  heading: string;
+  body: string;
+  points: string[];
+  deployed: string;
+  stack: string[];
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -10,19 +25,8 @@ export interface Project {
   shortDesc: string;
   description: string;
   problem: string;
-  aiArchitecture: {
-    heading: string;
-    body: string;
-    points: string[];
-    stack: string[];
-  };
-  uiDeployment: {
-    heading: string;
-    body: string;
-    points: string[];
-    deployed: string;
-    stack: string[];
-  };
+  aiArchitecture: ProjectArchitecture;
+  uiDeployment: ProjectDeployment;
   technologies: string[];
   year: string;
   github: string | null;
@@ -356,3 +360,58 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+/**
+ * Finds a project by its unique ID.
+ */
+export function getProjectById(id: string): Project | undefined {
+  if (!id || typeof id !== 'string' || !id.trim()) return undefined;
+  return projects.find((proj) => proj.id === id.trim());
+}
+
+/**
+ * Filters projects matching a specific technology (case-insensitive).
+ */
+export function getProjectsByTechnology(tech: string): Project[] {
+  if (!tech || typeof tech !== 'string' || !tech.trim()) return [];
+  const target = tech.trim().toLowerCase();
+  return projects.filter(
+    (proj) =>
+      Array.isArray(proj.technologies) &&
+      proj.technologies.some((t) => t.toLowerCase() === target)
+  );
+}
+
+/**
+ * Searches projects across title, shortDesc, description, problem, and technologies.
+ */
+export function searchProjects(query: string): Project[] {
+  if (!query || typeof query !== 'string' || !query.trim()) return [];
+  const q = query.trim().toLowerCase();
+  return projects.filter(
+    (proj) =>
+      proj.title.toLowerCase().includes(q) ||
+      proj.shortDesc.toLowerCase().includes(q) ||
+      proj.description.toLowerCase().includes(q) ||
+      proj.problem.toLowerCase().includes(q) ||
+      (Array.isArray(proj.technologies) &&
+        proj.technologies.some((t) => t.toLowerCase().includes(q)))
+  );
+}
+
+/**
+ * Returns a deduplicated and sorted list of all technologies used across projects.
+ */
+export function getAllTechnologies(): string[] {
+  const techSet = new Set<string>();
+  projects.forEach((proj) => {
+    if (Array.isArray(proj.technologies)) {
+      proj.technologies.forEach((tech) => {
+        if (tech && typeof tech === 'string' && tech.trim()) {
+          techSet.add(tech.trim());
+        }
+      });
+    }
+  });
+  return Array.from(techSet).sort();
+}

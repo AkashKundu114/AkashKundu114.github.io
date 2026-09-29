@@ -1,0 +1,110 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { renderHook, act } from '@testing-library/react';
+import React from 'react';
+import { ThemeProvider, useTheme } from '../context/ThemeContext';
+
+describe('ThemeContext and useTheme Hook', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    document.documentElement.removeAttribute('data-theme');
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('returns default context values when used outside of ThemeProvider', () => {
+    const { result } = renderHook(() => useTheme());
+
+    expect(result.current.theme).toBe('theme-1');
+    expect(typeof result.current.changeTheme).toBe('function');
+
+    // Calling default changeTheme should not throw
+    expect(() => result.current.changeTheme('theme-2')).not.toThrow();
+  });
+
+  it('restores saved theme from localStorage on mount if present', () => {
+    localStorage.setItem('portfolio_theme', 'theme-5');
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    expect(result.current.theme).toBe('theme-5');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('theme-5');
+  });
+
+  it('initializes with a random theme between theme-1 and theme-5 when no saved theme exists', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.4); // index 2 -> theme-3
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    expect(result.current.theme).toBe('theme-3');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('theme-3');
+    expect(localStorage.getItem('portfolio_theme')).toBe('theme-3');
+  });
+
+  it('changes theme dynamically, trims whitespace, and persists to localStorage and DOM', () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    act(() => {
+      result.current.changeTheme('  theme-2  ');
+    });
+
+    expect(result.current.theme).toBe('theme-2');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('theme-2');
+    expect(localStorage.getItem('portfolio_theme')).toBe('theme-2');
+  });
+
+  it('ignores invalid or empty theme inputs to preserve current theme', () => {
+    localStorage.setItem('portfolio_theme', 'theme-1');
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    expect(result.current.theme).toBe('theme-1');
+
+    // Attempting invalid updates
+    act(() => {
+      result.current.changeTheme('');
+      // @ts-expect-error testing invalid input
+      result.current.changeTheme(null);
+      // @ts-expect-error testing invalid input
+      result.current.changeTheme(undefined);
+    });
+
+    expect(result.current.theme).toBe('theme-1');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('theme-1');
+  });
+
+  it('handles localStorage errors gracefully during theme persistence', () => {
+    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('Storage disabled');
+    });
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    expect(() => {
+      const { result } = renderHook(() => useTheme(), { wrapper });
+      act(() => {
+        result.current.changeTheme('theme-4');
+      });
+    }).not.toThrow();
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      '[ThemeContext] Unable to persist theme to localStorage:',
+      expect.any(Error)
+    );
+  });
+});
