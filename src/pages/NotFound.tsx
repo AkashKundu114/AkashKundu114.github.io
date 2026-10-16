@@ -20,7 +20,7 @@ export default function NotFound() {
       >
         <div className="container" style={{ textAlign: 'center', maxWidth: '640px' }}>
           <div className="label" style={{ justifyContent: 'center' }}>
-            ERROR 404 // ROUTE NOT FOUND
+            {'ERROR 404 // ROUTE NOT FOUND'}
           </div>
           <h1
             style={{
@@ -43,7 +43,8 @@ export default function NotFound() {
               marginBottom: '36px',
             }}
           >
-            The requested trajectory does not exist or has been shifted in the local coordinate space.
+            The requested trajectory does not exist or has been shifted in the local coordinate
+            space.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
             <ShinyButton to="/" size="md">

@@ -24,7 +24,6 @@ const API_ENDPOINT =
 
 const CONTACT_CHANNELS = [
   { label: 'Email', value: 'akashkundu7487@gmail.com', href: 'mailto:akashkundu7487@gmail.com' },
-  { label: 'Phone', value: '+91 9064349004', href: 'tel:+919064349004' },
   { label: 'Location', value: 'Kolkata, West Bengal, India' },
   { label: 'Open to', value: 'Internships · Data Analytics · ML projects' },
 ];
@@ -35,19 +34,16 @@ const LIMITS = {
   message: { min: 10, max: 3000 },
 } as const;
 
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 const NAME_REGEX = /^[\p{L}\p{M}\s.'-]+$/u;
 
-/**
- * Validates form boundary conditions: lengths, regex patterns, and prohibited characters.
- */
 function validateContactForm(values: ContactFormData): FormErrors {
   const errors: FormErrors = {};
   const trimmedName = values.name.trim();
   const trimmedEmail = values.email.trim();
   const trimmedMessage = values.message.trim();
 
-  // Name validation
   if (!trimmedName) {
     errors.name = 'Please provide your full name.';
   } else if (trimmedName.length < LIMITS.name.min) {
@@ -58,7 +54,6 @@ function validateContactForm(values: ContactFormData): FormErrors {
     errors.name = 'Name contains unsupported characters.';
   }
 
-  // Email validation
   if (!trimmedEmail) {
     errors.email = 'Please provide your email address.';
   } else if (trimmedEmail.length > LIMITS.email.max) {
@@ -67,7 +62,6 @@ function validateContactForm(values: ContactFormData): FormErrors {
     errors.email = 'Please provide a valid email address.';
   }
 
-  // Message validation
   if (!trimmedMessage) {
     errors.message = 'Please provide a brief message.';
   } else if (trimmedMessage.length < LIMITS.message.min) {
@@ -232,7 +226,6 @@ export default function Contact() {
             }}
             id="contact-grid"
           >
-            {/* Contact Channels Column */}
             <div className="reveal">
               <div className="status-line" style={{ marginBottom: '1.75rem' }}>
                 <span className="status-dot" />
@@ -274,7 +267,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Interactive Contact Form Column */}
             <div className="reveal">
               {submissionStatus === 'success' && (
                 <FormNotice
@@ -311,7 +303,6 @@ export default function Contact() {
                 noValidate
                 style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
               >
-                {/* Full Name Field */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                   <label
                     htmlFor={nameId}
@@ -354,7 +345,6 @@ export default function Contact() {
                   )}
                 </div>
 
-                {/* Email Address Field */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                   <label
                     htmlFor={emailId}
@@ -399,9 +389,14 @@ export default function Contact() {
                   )}
                 </div>
 
-                {/* Message Textarea Field */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
                     <label
                       htmlFor={messageId}
                       style={{
@@ -462,7 +457,10 @@ export default function Contact() {
                   type="submit"
                   className="btn btn-primary"
                   disabled={submissionStatus === 'sending'}
-                  style={{ alignSelf: 'flex-start', opacity: submissionStatus === 'sending' ? 0.7 : 1 }}
+                  style={{
+                    alignSelf: 'flex-start',
+                    opacity: submissionStatus === 'sending' ? 0.7 : 1,
+                  }}
                 >
                   {submissionStatus === 'sending' ? 'Sending…' : 'Send message →'}
                 </button>

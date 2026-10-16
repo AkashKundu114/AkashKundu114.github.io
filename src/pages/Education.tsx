@@ -11,9 +11,6 @@ interface EducationStatCard {
   accent: string;
 }
 
-/**
- * Derives summary metrics from education records with safe fallbacks.
- */
 function extractEducationStats(items: readonly EducationItem[]): EducationStatCard[] {
   if (!items || items.length === 0) {
     return [
@@ -132,11 +129,13 @@ export default function Education() {
               <div
                 key={stat.label}
                 className="card card-hover reveal"
-                style={{
-                  padding: '24px',
-                  borderTop: `2px solid ${stat.accent}`,
-                  '--i': index,
-                } as React.CSSProperties}
+                style={
+                  {
+                    padding: '24px',
+                    borderTop: `2px solid ${stat.accent}`,
+                    '--i': index,
+                  } as React.CSSProperties
+                }
               >
                 <div
                   style={{

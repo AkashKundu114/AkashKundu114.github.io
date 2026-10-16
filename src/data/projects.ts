@@ -37,58 +37,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'ai-sathi',
-    title: 'AI-SATHI: Voice-first AI operating system',
-    status: 'Completed',
-    shortDesc:
-      'Voice-first AI operating system and intelligent financial ledger for rural micro-entrepreneurs & Self-Help Groups (SHGs), powered by Sarvam AI and deployed on Azure.',
-    description:
-      'Developed AI-SATHI, a voice-first AI operating system and intelligent financial ledger designed to support rural Self-Help Group (SHG) women in West Bengal through spoken Bengali interactions under Purposive AI. Scaled for a 100-user, 2,000 msg/day pilot via a single Azure Container App.',
-    problem:
-      'Rural micro-entrepreneurs face persistent challenges in manual bookkeeping and limited market knowledge. There is a strong need for trustworthy, voice-first AI assistants tailored to local languages and realities.',
-    aiArchitecture: {
-      heading: 'Voice-Ledger pipeline with RAG PDF chatbot and multi-agent orchestration',
-      body: 'Engineered a full Voice-Ledger Python FastAPI pipeline to auto-extract Bengali voice notes into bank-submittable PDFs. Integrated a robust RAG PDF chatbot with 2-stage per-chunk grounding checks to minimize scheme-matching hallucinations to 0%, while slashing AI vendor lock-in by routing through a Sarvam AI to Ollama fallback cascade.',
-      points: [
-        'Voice-Ledger Python FastAPI pipeline auto-extracting Bengali voice notes into PDFs',
-        'RAG PDF chatbot with 2-stage per-chunk grounding checks ensuring 0% hallucinations',
-        'Sarvam AI to Ollama fallback cascade, eliminating OpenAI dependencies and costs',
-        '389-test PyTorch offline suite preventing regressions in validation and logic',
-      ],
-      stack: ['Python', 'FastAPI', 'LangGraph', 'Ollama', 'Sarvam AI'],
-    },
-    uiDeployment: {
-      heading: 'Multi-Agent Orchestration via LangGraph & PostgreSQL',
-      body: 'Orchestrated agents using LangGraph state-machines and PostgreSQL. Migrated from a 4-service Celery stack to in-process BackgroundTasks to meet strict WhatsApp delivery deadlines with minimal latency on Azure.',
-      points: [
-        'LangGraph state-machines for agentic orchestration',
-        'PostgreSQL 16 + pgvector for persistent dedup and connection pooling',
-        '100% pass rate maintained across 389 unit/integration tests',
-        'Deployed via a single Azure Container App + Blob Storage',
-      ],
-      deployed: 'Azure Container App',
-      stack: ['LangGraph', 'PostgreSQL', 'BackgroundTasks', 'Azure Blob'],
-    },
-    technologies: ['Python', 'FastAPI', 'LangGraph', 'PostgreSQL', 'Sarvam AI', 'Ollama', 'Azure'],
-    year: '2026',
-    github: 'https://github.com/AkashKundu114/AI-SATHI',
-    liveLink: 'https://purposiveai.com',
-    features: [
-      'Developed a Bengali voice assistant delivering real-time WhatsApp responses by orchestrating Sarvam AI and Ollama fallback cascades.',
-      'Automated product catalog extraction, generating bank-submittable financial PDFs, by building a unified Python FastAPI voice-ledger pipeline.',
-      'Eliminated mathematical hallucinations to 0%, ensuring strict vendor compliance, by integrating a 2-stage per-chunk grounding RAG chatbot.',
-      'Prevented agent state data loss, achieving 100% test pass rates, by orchestrating LangGraph state-machines backed by PostgreSQL pgvector.',
-      'Reduced latency to meet strict deadlines, managing 2,000 daily messages, by migrating to in-process FastAPI BackgroundTasks.',
-    ],
-    screenshots: [
-      {
-        src: '/projects/ai-sathi-architecture.svg',
-        caption: 'Voice-Ledger Pipeline: Sarvam AI + Ollama cascade, LangGraph state-machine, PostgreSQL pgvector RAG, and Azure Container deployment',
-      },
-    ],
-  },
-
-  {
     id: 'copper-ai-assistant',
     title: 'C.O.P.P.E.R. - Local-First Personal AI OS',
     status: 'Completed',
@@ -147,10 +95,12 @@ export const projects: Project[] = [
     screenshots: [
       {
         src: '/projects/copper-ai-os.svg',
-        caption: 'C.O.P.P.E.R. Architecture: Molten neural visualizer, DFM-Guard safety engine (100% catch rate), 12-agent sovereign fleet, and epistemic memory',
+        caption:
+          'C.O.P.P.E.R. Architecture: Molten neural visualizer, DFM-Guard safety engine (100% catch rate), 12-agent sovereign fleet, and epistemic memory',
       },
     ],
   },
+
   {
     id: 'eye-disease-predictor',
     title: 'OphthalmoAI - Retinal Disease Screening Platform',
@@ -184,7 +134,17 @@ export const projects: Project[] = [
       deployed: 'Production REST API via FastAPI & Docker | Live on Vercel & Hugging Face',
       stack: ['FastAPI', 'React 19', 'PostgreSQL', 'Docker', 'ONNX Runtime Web', 'Vercel'],
     },
-    technologies: ['Python', 'FastAPI', 'PyTorch', 'ONNX Runtime', 'React', 'PostgreSQL', 'Docker', 'OpenCV', 'Pytest'],
+    technologies: [
+      'Python',
+      'FastAPI',
+      'PyTorch',
+      'ONNX Runtime',
+      'React',
+      'PostgreSQL',
+      'Docker',
+      'OpenCV',
+      'Pytest',
+    ],
     year: '2026',
     github: 'https://github.com/AkashKundu114/OphthalmoAI',
     liveLink: 'https://ophthalmo-ai-mu.vercel.app/',
@@ -198,10 +158,12 @@ export const projects: Project[] = [
     screenshots: [
       {
         src: '/projects/ophthalmoai-pipeline.svg',
-        caption: 'OphthalmoAI Architecture: Calibrated tri-backbone ensemble, OAC-DG domain guardrail, Grad-CAM saliency, and ONNX serving',
+        caption:
+          'OphthalmoAI Architecture: Calibrated tri-backbone ensemble, OAC-DG domain guardrail, Grad-CAM saliency, and ONNX serving',
       },
     ],
   },
+
   {
     id: 'icc-clustering',
     title: 'Inductive Consensus Clustering (ICC-v2)',
@@ -209,12 +171,12 @@ export const projects: Project[] = [
     shortDesc:
       'Geometry-calibrated high-dimensional consensus clustering introducing VSSG feature gating, O(NL) bipartite anchor consensus, and closed-form inductive projection. Evaluated across 13 datasets with 113 passing pytest tests and -74.2% peak RAM reduction.',
     description:
-      'Engineered Inductive Consensus Clustering (ICC-v2), a geometry-calibrated consensus clustering framework designed to overcome high-dimensional distractor noise (D >> N) and quadratic memory scaling. Couples linear unsupervised feature screening via Sarle\'s Bimodality Coefficient (VSSG) with an O(NL) bipartite co-association matrix and closed-form stability-weighted centroid assignment for out-of-sample projection. Evaluated across 13 datasets and 1,430 model executions, achieving Rank #1 on cancer genomics assays, backed by 113 passing pytest tests, -74.2% peak RAM reduction, and submitted IEEE TKDE and ICDE 2027 publication manuscripts.',
+      "Engineered Inductive Consensus Clustering (ICC-v2), a geometry-calibrated consensus clustering framework designed to overcome high-dimensional distractor noise (D >> N) and quadratic memory scaling. Couples linear unsupervised feature screening via Sarle's Bimodality Coefficient (VSSG) with an O(NL) bipartite co-association matrix and closed-form stability-weighted centroid assignment for out-of-sample projection. Evaluated across 13 datasets and 1,430 model executions, achieving Rank #1 on cancer genomics assays, backed by 113 passing pytest tests, -74.2% peak RAM reduction, and submitted IEEE TKDE and ICDE 2027 publication manuscripts.",
     problem:
       'Classical consensus clustering co-association matrices scale quadratically as O(N^2) in memory and runtime, rendering full spectral consensus intractable on large datasets with no closed-form inductive projection mechanism. Furthermore, high-dimensional ambient noise (D >> N) causes distance concentration that degrades base partitions into false stability traps.',
     aiArchitecture: {
       heading: 'VSSG Subspace Gating & Determinacy-Based Bipartite Anchor Consensus',
-      body: 'Introduced Variable Subspace Screening Gating (VSSG), a linear O(N·D) unsupervised filter based on Sarle\'s Bimodality Coefficient that isolates informative multi-modal dimensions from unimodal background noise before base clustering. Formulated a rectangular bipartite co-association graph that reduces auxiliary memory from O(N^2) to O(NL) while preserving exact spectral cluster extraction, paired with an Anchor-Space Perturbation Profiler (ASPP) for interpretable multi-family stability diagnostics.',
+      body: "Introduced Variable Subspace Screening Gating (VSSG), a linear O(N·D) unsupervised filter based on Sarle's Bimodality Coefficient that isolates informative multi-modal dimensions from unimodal background noise before base clustering. Formulated a rectangular bipartite co-association graph that reduces auxiliary memory from O(N^2) to O(NL) while preserving exact spectral cluster extraction, paired with an Anchor-Space Perturbation Profiler (ASPP) for interpretable multi-family stability diagnostics.",
       points: [
         'Linear O(N·D) unsupervised feature screening (VSSG) filtering unimodal distractor noise with 0.94-0.96 precision@50',
         'Rectangular O(NL) bipartite co-association graph reducing auxiliary memory by 39.1% at N=8,000, with column-chunked VSSG slashing high-D peak RAM by 74.2%',
@@ -235,7 +197,15 @@ export const projects: Project[] = [
       deployed: 'Open-Source Python Package & Benchmark CLI | IEEE TKDE / ICDE Manuscript',
       stack: ['Python 3.11', 'Scikit-learn', 'SciPy', 'Pytest', 'Sphinx', 'IEEE LaTeX'],
     },
-    technologies: ['Python', 'Scikit-learn', 'PyTorch', 'NumPy', 'SciPy', 'Machine Learning', 'Pytest'],
+    technologies: [
+      'Python',
+      'Scikit-learn',
+      'PyTorch',
+      'NumPy',
+      'SciPy',
+      'Machine Learning',
+      'Pytest',
+    ],
     year: '2026',
     github: 'https://github.com/AkashKundu114/icc-clustering',
     liveLink: null,
@@ -249,10 +219,65 @@ export const projects: Project[] = [
     screenshots: [
       {
         src: '/projects/icc-clustering-architecture.svg',
-        caption: 'ICC-v2 Architecture: VSSG bimodality subspace gating, O(NL) bipartite anchor consensus graph, ASPP stability profiler, and inductive out-of-sample projection',
+        caption:
+          'ICC-v2 Architecture: VSSG bimodality subspace gating, O(NL) bipartite anchor consensus graph, ASPP stability profiler, and inductive out-of-sample projection',
       },
     ],
   },
+
+  {
+    id: 'ai-sathi',
+    title: 'AI-SATHI: Voice-first AI operating system',
+    status: 'Completed',
+    shortDesc:
+      'Voice-first AI operating system and intelligent financial ledger for rural micro-entrepreneurs & Self-Help Groups (SHGs), powered by Sarvam AI and deployed on Azure.',
+    description:
+      'Developed AI-SATHI, a voice-first AI operating system and intelligent financial ledger designed to support rural Self-Help Group (SHG) women in West Bengal through spoken Bengali interactions under Purposive AI. Scaled for a 100-user, 2,000 msg/day pilot via a single Azure Container App.',
+    problem:
+      'Rural micro-entrepreneurs face persistent challenges in manual bookkeeping and limited market knowledge. There is a strong need for trustworthy, voice-first AI assistants tailored to local languages and realities.',
+    aiArchitecture: {
+      heading: 'Voice-Ledger pipeline with RAG PDF chatbot and multi-agent orchestration',
+      body: 'Engineered a full Voice-Ledger Python FastAPI pipeline to auto-extract Bengali voice notes into bank-submittable PDFs. Integrated a robust RAG PDF chatbot with 2-stage per-chunk grounding checks to minimize scheme-matching hallucinations to 0%, while slashing AI vendor lock-in by routing through a Sarvam AI to Ollama fallback cascade.',
+      points: [
+        'Voice-Ledger Python FastAPI pipeline auto-extracting Bengali voice notes into PDFs',
+        'RAG PDF chatbot with 2-stage per-chunk grounding checks ensuring 0% hallucinations',
+        'Sarvam AI to Ollama fallback cascade, eliminating OpenAI dependencies and costs',
+        '389-test PyTorch offline suite preventing regressions in validation and logic',
+      ],
+      stack: ['Python', 'FastAPI', 'LangGraph', 'Ollama', 'Sarvam AI'],
+    },
+    uiDeployment: {
+      heading: 'Multi-Agent Orchestration via LangGraph & PostgreSQL',
+      body: 'Orchestrated agents using LangGraph state-machines and PostgreSQL. Migrated from a 4-service Celery stack to in-process BackgroundTasks to meet strict WhatsApp delivery deadlines with minimal latency on Azure.',
+      points: [
+        'LangGraph state-machines for agentic orchestration',
+        'PostgreSQL 16 + pgvector for persistent dedup and connection pooling',
+        '100% pass rate maintained across 389 unit/integration tests',
+        'Deployed via a single Azure Container App + Blob Storage',
+      ],
+      deployed: 'Azure Container App',
+      stack: ['LangGraph', 'PostgreSQL', 'BackgroundTasks', 'Azure Blob'],
+    },
+    technologies: ['Python', 'FastAPI', 'LangGraph', 'PostgreSQL', 'Sarvam AI', 'Ollama', 'Azure'],
+    year: '2026',
+    github: 'https://github.com/AkashKundu114/AI-SATHI',
+    liveLink: 'https://purposiveai.com',
+    features: [
+      'Developed a Bengali voice assistant delivering real-time WhatsApp responses by orchestrating Sarvam AI and Ollama fallback cascades.',
+      'Automated product catalog extraction, generating bank-submittable financial PDFs, by building a unified Python FastAPI voice-ledger pipeline.',
+      'Eliminated mathematical hallucinations to 0%, ensuring strict vendor compliance, by integrating a 2-stage per-chunk grounding RAG chatbot.',
+      'Prevented agent state data loss, achieving 100% test pass rates, by orchestrating LangGraph state-machines backed by PostgreSQL pgvector.',
+      'Reduced latency to meet strict deadlines, managing 2,000 daily messages, by migrating to in-process FastAPI BackgroundTasks.',
+    ],
+    screenshots: [
+      {
+        src: '/projects/ai-sathi-architecture.svg',
+        caption:
+          'Voice-Ledger Pipeline: Sarvam AI + Ollama cascade, LangGraph state-machine, PostgreSQL pgvector RAG, and Azure Container deployment',
+      },
+    ],
+  },
+
   {
     id: 'ai-hardware-benchmark',
     title: 'AI Hardware Benchmark Engine',
@@ -301,6 +326,7 @@ export const projects: Project[] = [
     ],
     screenshots: [],
   },
+
   {
     id: 'e2ee-chat',
     title: 'E2EE Multi-User Chat Application',
@@ -349,6 +375,7 @@ export const projects: Project[] = [
     ],
     screenshots: [],
   },
+
   {
     id: 'portfolio-cms',
     title: 'AkashKundu114.github.io (Portfolio)',
@@ -406,36 +433,27 @@ export const projects: Project[] = [
     screenshots: [
       {
         src: '/projects/portfolio-cms.svg',
-        caption: 'Portfolio Architecture: Headless DataContext, Workbox PWA offline caching, Fuse.js fuzzy index, and GitHub Actions automated deployment',
+        caption:
+          'Portfolio Architecture: Headless DataContext, Workbox PWA offline caching, Fuse.js fuzzy index, and GitHub Actions automated deployment',
       },
     ],
   },
 ];
 
-/**
- * Finds a project by its unique ID.
- */
 export function getProjectById(id: string): Project | undefined {
   if (!id || typeof id !== 'string' || !id.trim()) return undefined;
   return projects.find((proj) => proj.id === id.trim());
 }
 
-/**
- * Filters projects matching a specific technology (case-insensitive).
- */
 export function getProjectsByTechnology(tech: string): Project[] {
   if (!tech || typeof tech !== 'string' || !tech.trim()) return [];
   const target = tech.trim().toLowerCase();
   return projects.filter(
     (proj) =>
-      Array.isArray(proj.technologies) &&
-      proj.technologies.some((t) => t.toLowerCase() === target)
+      Array.isArray(proj.technologies) && proj.technologies.some((t) => t.toLowerCase() === target)
   );
 }
 
-/**
- * Searches projects across title, shortDesc, description, problem, and technologies.
- */
 export function searchProjects(query: string): Project[] {
   if (!query || typeof query !== 'string' || !query.trim()) return [];
   const q = query.trim().toLowerCase();
@@ -450,9 +468,6 @@ export function searchProjects(query: string): Project[] {
   );
 }
 
-/**
- * Returns a deduplicated and sorted list of all technologies used across projects.
- */
 export function getAllTechnologies(): string[] {
   const techSet = new Set<string>();
   projects.forEach((proj) => {

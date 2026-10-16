@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeUrl, isSafeUrl, sanitizeRedirectPath, hashPasswordSha256 } from '../utils/security';
+import {
+  sanitizeUrl,
+  isSafeUrl,
+  sanitizeRedirectPath,
+  hashPasswordSha256,
+} from '../utils/security';
 
 describe('Security Utilities Suite', () => {
   describe('sanitizeUrl & isSafeUrl', () => {
@@ -9,7 +14,7 @@ describe('Security Utilities Suite', () => {
         'https://akashkundu.me/projects',
         'http://localhost:4173',
         'mailto:akashkundu7487@gmail.com',
-        'tel:+919064349004',
+        'tel:+15551234567',
         '/projects/copper',
         '/certificates',
       ];
@@ -72,8 +77,7 @@ describe('Security Utilities Suite', () => {
       expect(sanitizeUrl(undefined)).toBeUndefined();
       expect(sanitizeUrl('')).toBeUndefined();
       expect(sanitizeUrl('   ')).toBeUndefined();
-      // @ts-expect-error test invalid types
-      expect(sanitizeUrl(12345)).toBeUndefined();
+      expect(sanitizeUrl(12345 as unknown as string)).toBeUndefined();
     });
   });
 

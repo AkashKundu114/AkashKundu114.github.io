@@ -1,0 +1,76 @@
+--- STRICT AST COMMENT VERIFICATION ---
+SUCCESS: Verified 50 source files. Exactly 0 comment nodes found across src/**/*.{ts,tsx,css} and index.html.
+
+> akash-kundu-portfolio@2.0.0 lint
+> eslint .
+
+
+> akash-kundu-portfolio@2.0.0 test
+> vitest run --run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.12 [39m[90mD:/akashkundu[39m
+
+ [32m✓[39m src/__tests__/useScrollReveal.test.tsx [2m([22m[2m13 tests[22m[2m)[22m[32m 72[2mms[22m[39m
+ [32m✓[39m src/__tests__/data.test.ts [2m([22m[2m32 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m src/__tests__/security.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m src/__tests__/ErrorBoundary.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 171[2mms[22m[39m
+ [32m✓[39m src/__tests__/LiquidGlassLens.test.tsx [2m([22m[2m13 tests[22m[2m)[22m[32m 260[2mms[22m[39m
+ [32m✓[39m src/__tests__/DataContext.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32m✓[39m src/__tests__/Footer.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 112[2mms[22m[39m
+ [32m✓[39m src/__tests__/ThemeContext.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m src/__tests__/NotFound.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 185[2mms[22m[39m
+ [32m✓[39m src/__tests__/App.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 115[2mms[22m[39m
+ [32m✓[39m src/__tests__/Navbar.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 303[2mms[22m[39m
+ [32m✓[39m src/__tests__/EvilButtons.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[32m 268[2mms[22m[39m
+ [32m✓[39m src/__tests__/Projects.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 513[2mms[22m[39m
+     [33m[2m✓[22m[39m renders H1 landmark heading and all projects [33m 309[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+[2m      Tests [22m [1m[32m129 passed[39m[22m[90m (129)[39m
+[2m   Start at [22m 01:12:36
+[2m   Duration [22m 3.93s[2m (transform 573ms, setup 5.94s, import 3.87s, tests 2.16s, environment 24.37s)[22m
+
+
+> akash-kundu-portfolio@2.0.0 build
+> vite build
+
+[36mvite v8.2.1 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...✓ 410 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/registerSW.js                            0.13 kB
+dist/manifest.webmanifest                     0.53 kB
+dist/index.html                               6.23 kB │ gzip:   1.89 kB
+dist/assets/index-URGAAW5z.css               25.73 kB │ gzip:   6.43 kB
+dist/assets/PageTransition-BF6ikerS.js        0.55 kB │ gzip:   0.36 kB
+dist/assets/useDocumentTitle-BeVBQJW5.js      0.66 kB │ gzip:   0.30 kB
+dist/assets/useScrollReveal-D63CG3HK.js       0.93 kB │ gzip:   0.51 kB
+dist/assets/NotFound-WrHXYYgU.js              1.33 kB │ gzip:   0.69 kB
+dist/assets/skills-h4ZnjjRR.js                1.95 kB │ gzip:   0.53 kB
+dist/assets/LiquidGlassLens-B2mGGfeP.js       2.00 kB │ gzip:   0.80 kB
+dist/assets/Skills-D0BVQO9f.js                4.16 kB │ gzip:   1.73 kB
+dist/assets/Education-CdWQT3WF.js             4.51 kB │ gzip:   1.77 kB
+dist/assets/CertificateDetail-CCLAGxSz.js     6.25 kB │ gzip:   2.31 kB
+dist/assets/About-Derkxo0e.js                 6.52 kB │ gzip:   2.65 kB
+dist/assets/Contact-CMfmuiO_.js               7.85 kB │ gzip:   2.79 kB
+dist/assets/jsx-runtime-CF72uaaz.js           7.95 kB │ gzip:   3.07 kB
+dist/assets/Certificates-Cew3zXmc.js          8.91 kB │ gzip:   2.57 kB
+dist/assets/Privacy-B8zhOsyU.js               9.66 kB │ gzip:   3.43 kB
+dist/assets/Terms-C0pQni2s.js                10.59 kB │ gzip:   3.95 kB
+dist/assets/ProjectDetail-AGnuq8Ih.js        11.89 kB │ gzip:   3.65 kB
+dist/assets/Home-DsRblkWS.js                 13.10 kB │ gzip:   4.53 kB
+dist/assets/AdvertisingCloud3D-DS0O_VeB.js   13.26 kB │ gzip:   5.08 kB
+dist/assets/Admin-BVtBQVsl.js                24.19 kB │ gzip:   5.96 kB
+dist/assets/Projects--2hHv6GI.js             30.39 kB │ gzip:  10.83 kB
+dist/assets/index-CFWqc_DW.js               332.25 kB │ gzip: 108.47 kB
+dist/assets/three-DmZXPHwl.js               536.43 kB │ gzip: 133.08 kB
+
+[32m✓ built in 819ms[39m
+
+PWA v1.3.0
+mode      generateSW
+precache  37 entries (1097.97 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-e5cff4b9.js

@@ -16,9 +16,7 @@ describe('DataContext and useData Hook', () => {
   );
 
   it('throws an error when useData is used outside of DataProvider', () => {
-    expect(() => renderHook(() => useData())).toThrow(
-      'useData must be used inside <DataProvider>'
-    );
+    expect(() => renderHook(() => useData())).toThrow('useData must be used inside <DataProvider>');
   });
 
   it('provides initial projects and certificates from static data when localStorage is empty', () => {
@@ -100,7 +98,6 @@ describe('DataContext and useData Hook', () => {
       expect(updatedProj?.title).toBe(updatedTitle);
       expect(updatedProj?.title).not.toBe(originalTitle);
 
-      // Other projects should remain untouched
       expect(result.current.projects[1].title).toBe(staticProjects[1].title);
 
       const stored = JSON.parse(localStorage.getItem('portfolio_projects') || '[]');
@@ -233,7 +230,6 @@ describe('DataContext and useData Hook', () => {
     it('resets state and storage back to default static data', () => {
       const { result } = renderHook(() => useData(), { wrapper });
 
-      // Mutate state
       act(() => {
         result.current.deleteProject(result.current.projects[0].id);
         result.current.deleteCertificate(result.current.certificates[0].id);
@@ -242,7 +238,6 @@ describe('DataContext and useData Hook', () => {
       expect(result.current.projects.length).toBe(staticProjects.length - 1);
       expect(result.current.certificates.length).toBe(staticCertificates.length - 1);
 
-      // Trigger reset
       act(() => {
         result.current.resetToDefaults();
       });

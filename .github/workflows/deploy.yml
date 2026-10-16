@@ -1,32 +1,62 @@
 name: Deploy to GitHub Pages
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: 'npm' }
-      - run: npm ci
-      - run: npm run build
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run code quality linter
+        run: npm run lint
+
+      - name: Verify TypeScript types
+        run: npx tsc --noEmit
+
+      - name: Execute automated test suite
+        run: npm test -- --run
+
+      - name: Build production bundle
+        run: npm run build
         env:
           VITE_ADMIN_PASSWORD_HASH: ${{ secrets.VITE_ADMIN_PASSWORD_HASH || '45cbd2273491a7d411b202c15a0ca20bbc270d3fc838cfd7f363d30e8d5a83be' }}
           VITE_CONTACT_API: ${{ secrets.VITE_CONTACT_API }}
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
-      - id: deployment
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload production artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4

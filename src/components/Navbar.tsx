@@ -105,11 +105,7 @@ function DesktopNavLinks({ currentPath }: DesktopNavLinksProps) {
       {NAVIGATION_ITEMS.map(({ to, label }) => {
         const isActive = currentPath === to;
         return (
-          <Link
-            key={to}
-            to={to}
-            className={`nav-link${isActive ? ' active' : ''}`}
-          >
+          <Link key={to} to={to} className={`nav-link${isActive ? ' active' : ''}`}>
             {label}
           </Link>
         );
@@ -298,12 +294,10 @@ function NavbarComponent() {
     changeTheme(nextTheme);
   }, [theme, changeTheme]);
 
-  // Close mobile drawer on route transition
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Monitor scroll position with passive listener
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
@@ -321,7 +315,6 @@ function NavbarComponent() {
     };
   }, []);
 
-  // Close mobile drawer when user presses the Escape key
   useEffect(() => {
     if (!isMobileMenuOpen || typeof window === 'undefined') {
       return;
@@ -399,7 +392,10 @@ function NavbarComponent() {
                   flexShrink: 0,
                 }}
               />
-              <span className="hidden sm:inline" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span
+                className="hidden sm:inline"
+                style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
+              >
                 Eco {isEcoMode ? 'ON' : 'OFF'}
               </span>
             </button>
@@ -433,17 +429,15 @@ function NavbarComponent() {
                   flexShrink: 0,
                 }}
               />
-              <span className="hidden sm:inline" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span
+                className="hidden sm:inline"
+                style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
+              >
                 {THEME_METADATA[theme]?.label || theme}
               </span>
             </button>
 
-            <GlassButton
-              href={RESUME_CV_URL}
-              download
-              size="sm"
-              className="hidden lg:inline-flex"
-            >
+            <GlassButton href={RESUME_CV_URL} download size="sm" className="hidden lg:inline-flex">
               CV ↓
             </GlassButton>
 

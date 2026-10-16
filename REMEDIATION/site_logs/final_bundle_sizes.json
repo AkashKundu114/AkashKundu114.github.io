@@ -1,0 +1,122 @@
+{
+  "timestamp": "2026-10-16T19:47:12.141Z",
+  "totalBundles": 23,
+  "totalSizeKB": "1036.30",
+  "bundles": [
+    {
+      "file": "three-DmZXPHwl.js",
+      "sizeBytes": 536437,
+      "sizeKB": "523.86"
+    },
+    {
+      "file": "index-CUYdiAVb.js",
+      "sizeBytes": 332258,
+      "sizeKB": "324.47"
+    },
+    {
+      "file": "Projects-_T0A0OJ2.js",
+      "sizeBytes": 30391,
+      "sizeKB": "29.68"
+    },
+    {
+      "file": "index-URGAAW5z.css",
+      "sizeBytes": 25737,
+      "sizeKB": "25.13"
+    },
+    {
+      "file": "Admin-B_LhHv1a.js",
+      "sizeBytes": 24201,
+      "sizeKB": "23.63"
+    },
+    {
+      "file": "AdvertisingCloud3D-7i2j3w1M.js",
+      "sizeBytes": 13263,
+      "sizeKB": "12.95"
+    },
+    {
+      "file": "Home-BjUBO87b.js",
+      "sizeBytes": 13100,
+      "sizeKB": "12.79"
+    },
+    {
+      "file": "ProjectDetail-BKpIpUTS.js",
+      "sizeBytes": 11894,
+      "sizeKB": "11.62"
+    },
+    {
+      "file": "Terms-CnT6pohm.js",
+      "sizeBytes": 10597,
+      "sizeKB": "10.35"
+    },
+    {
+      "file": "Privacy-5A6roKLo.js",
+      "sizeBytes": 9665,
+      "sizeKB": "9.44"
+    },
+    {
+      "file": "Certificates-CKRZMDPq.js",
+      "sizeBytes": 8919,
+      "sizeKB": "8.71"
+    },
+    {
+      "file": "jsx-runtime-CF72uaaz.js",
+      "sizeBytes": 7958,
+      "sizeKB": "7.77"
+    },
+    {
+      "file": "Contact-D52DjWSf.js",
+      "sizeBytes": 7858,
+      "sizeKB": "7.67"
+    },
+    {
+      "file": "About-DnDA8G0G.js",
+      "sizeBytes": 6524,
+      "sizeKB": "6.37"
+    },
+    {
+      "file": "CertificateDetail-BQf-_8ER.js",
+      "sizeBytes": 6258,
+      "sizeKB": "6.11"
+    },
+    {
+      "file": "Education-BlPNL8HS.js",
+      "sizeBytes": 4511,
+      "sizeKB": "4.41"
+    },
+    {
+      "file": "Skills-CUwmF5xC.js",
+      "sizeBytes": 4163,
+      "sizeKB": "4.07"
+    },
+    {
+      "file": "LiquidGlassLens-B2mGGfeP.js",
+      "sizeBytes": 2000,
+      "sizeKB": "1.95"
+    },
+    {
+      "file": "skills-h4ZnjjRR.js",
+      "sizeBytes": 1956,
+      "sizeKB": "1.91"
+    },
+    {
+      "file": "NotFound-BDRUkUcw.js",
+      "sizeBytes": 1333,
+      "sizeKB": "1.30"
+    },
+    {
+      "file": "useScrollReveal-D63CG3HK.js",
+      "sizeBytes": 938,
+      "sizeKB": "0.92"
+    },
+    {
+      "file": "useDocumentTitle-BeVBQJW5.js",
+      "sizeBytes": 664,
+      "sizeKB": "0.65"
+    },
+    {
+      "file": "PageTransition-BjQBhEfM.js",
+      "sizeBytes": 555,
+      "sizeKB": "0.54"
+    }
+  ]
+}

@@ -5,10 +5,6 @@ export interface AmbientBackgroundProps {
   style?: React.CSSProperties;
 }
 
-/**
- * GPU-accelerated luminous gradient background mesh providing refraction
- * sources for liquid glass surfaces.
- */
 function AmbientBackgroundComponent({ className = '', style }: AmbientBackgroundProps) {
   const containerClassName = className
     ? `ambient-mesh-container ${className}`

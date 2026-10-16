@@ -53,9 +53,6 @@ const INTENSITY_PRESETS: Record<GlassIntensity, IntensityConfig> = {
   },
 };
 
-/**
- * Builds safe cross-browser box-shadow styles supporting hex, rgb, and CSS variables.
- */
 function resolveBoxShadow(glowColor: string | undefined, preset: IntensityConfig): string {
   if (!glowColor || typeof glowColor !== 'string') {
     return `${preset.defaultShadow}, ${preset.insetShadow}`;
@@ -63,12 +60,10 @@ function resolveBoxShadow(glowColor: string | undefined, preset: IntensityConfig
 
   const trimmedColor = glowColor.trim();
 
-  // Standard 6-digit hex: #RRGGBB -> #RRGGBBAA
   if (/^#[0-9a-fA-F]{6}$/.test(trimmedColor)) {
     return `0 12px 40px ${trimmedColor}${preset.glowAlphaHex}, ${preset.insetShadow}`;
   }
 
-  // 3-digit shorthand hex: #RGB -> #RRGGBBAA
   if (/^#[0-9a-fA-F]{3}$/.test(trimmedColor)) {
     const expanded = trimmedColor
       .slice(1)
@@ -78,7 +73,6 @@ function resolveBoxShadow(glowColor: string | undefined, preset: IntensityConfig
     return `0 12px 40px #${expanded}${preset.glowAlphaHex}, ${preset.insetShadow}`;
   }
 
-  // CSS variables or color functions: use color-mix for safe alpha compositing
   return `0 12px 40px color-mix(in srgb, ${trimmedColor} ${preset.glowAlphaPercent}%, transparent), ${preset.insetShadow}`;
 }
 
@@ -104,9 +98,7 @@ function LiquidGlassLensComponent({
     };
   }, [preset, glowColor, style]);
 
-  const containerClassName = className
-    ? `liquid-glass-lens ${className}`
-    : 'liquid-glass-lens';
+  const containerClassName = className ? `liquid-glass-lens ${className}` : 'liquid-glass-lens';
 
   return (
     <div className={containerClassName} style={combinedStyles} {...restAttributes}>

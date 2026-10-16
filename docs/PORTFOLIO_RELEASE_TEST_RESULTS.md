@@ -9,29 +9,31 @@
 
 ## 1. Test Suite Summary Table
 
-| Test Suite / File | Category | Tests Executed | Passed | Failed | Duration | Coverage Scope |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`src/__tests__/security.test.ts`** | Security / Red Team | 12 | 12 | 0 | 14 ms | `sanitizeUrl` XSS vectors, `sanitizeRedirectPath`, `hashPasswordSha256`, `isSafeUrl` |
-| **`src/__tests__/data.test.ts`** | Unit / Schema | 32 | 32 | 0 | 20 ms | Project schema integrity, tech arrays, certificate IDs, skill categories |
-| **`src/__tests__/EvilButtons.test.tsx`** | Component / Sec | 16 | 16 | 0 | 162 ms | Button variants, secure `rel`, disabled states, click handlers, future flag compliant |
-| **`src/__tests__/DataContext.test.tsx`** | State / Context | 16 | 16 | 0 | 74 ms | DataProvider mounting, useData hook, error boundaries on outside access |
-| **`src/__tests__/LiquidGlassLens.test.tsx`**| Component / Visual | 13 | 13 | 0 | 222 ms | Intensity presets, refraction styles, child rendering, custom classes |
-| **`src/__tests__/useScrollReveal.test.tsx`** | Hooks / Animation | 13 | 13 | 0 | 69 ms | IntersectionObserver integration, stagger delay calculation, visibility toggling |
-| **`src/__tests__/ThemeContext.test.tsx`** | Context / Theme | 8 | 8 | 0 | 45 ms | Theme switching (theme-1 to theme-5), localStorage persistence, Eco Mode toggling, data-eco attribute synchronization |
-| **`src/__tests__/Navbar.test.tsx`** | Navigation / UI | 8 | 8 | 0 | 165 ms | Brand logo, nav links, active state indicator, mobile toggle, theme switcher, Eco Mode button |
-| **`src/__tests__/Footer.test.tsx`** | Navigation / Legal | 4 | 4 | 0 | 109 ms | Copyright notice, dynamic year, social links, resume download link, future flag compliant |
-| **`src/__tests__/Projects.test.tsx`** | Page / Integration | 3 | 3 | 0 | 299 ms | H1 landmark, rendering of COPPER/OphthalmoAI/ICC Clustering, deferred search & tag filter |
-| **`src/__tests__/ErrorBoundary.test.tsx`** | Resilience | 2 | 2 | 0 | 161 ms | Component crash interception, fallback UI render, reload interface action |
-| **`src/__tests__/NotFound.test.tsx`** | Page / Routing | 1 | 1 | 0 | 116 ms | 404 route status, H1 heading, Return Home navigation link |
-| **`src/__tests__/App.test.tsx`** | Root Integration | 1 | 1 | 0 | 82 ms | Full app mount with HashRouter, ThemeProvider, and DataProvider |
-| **TOTAL** | — | **129** | **129** | **0** | **~3.35 s** | **100% Pass Rate** |
+| Test Suite / File                            | Category            | Tests Executed | Passed  | Failed | Duration    | Coverage Scope                                                                                                        |
+| :------------------------------------------- | :------------------ | :------------- | :------ | :----- | :---------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **`src/__tests__/security.test.ts`**         | Security / Red Team | 12             | 12      | 0      | 14 ms       | `sanitizeUrl` XSS vectors, `sanitizeRedirectPath`, `hashPasswordSha256`, `isSafeUrl`                                  |
+| **`src/__tests__/data.test.ts`**             | Unit / Schema       | 32             | 32      | 0      | 20 ms       | Project schema integrity, tech arrays, certificate IDs, skill categories                                              |
+| **`src/__tests__/EvilButtons.test.tsx`**     | Component / Sec     | 16             | 16      | 0      | 162 ms      | Button variants, secure `rel`, disabled states, click handlers, future flag compliant                                 |
+| **`src/__tests__/DataContext.test.tsx`**     | State / Context     | 16             | 16      | 0      | 74 ms       | DataProvider mounting, useData hook, error boundaries on outside access                                               |
+| **`src/__tests__/LiquidGlassLens.test.tsx`** | Component / Visual  | 13             | 13      | 0      | 222 ms      | Intensity presets, refraction styles, child rendering, custom classes                                                 |
+| **`src/__tests__/useScrollReveal.test.tsx`** | Hooks / Animation   | 13             | 13      | 0      | 69 ms       | IntersectionObserver integration, stagger delay calculation, visibility toggling                                      |
+| **`src/__tests__/ThemeContext.test.tsx`**    | Context / Theme     | 8              | 8       | 0      | 45 ms       | Theme switching (theme-1 to theme-5), localStorage persistence, Eco Mode toggling, data-eco attribute synchronization |
+| **`src/__tests__/Navbar.test.tsx`**          | Navigation / UI     | 8              | 8       | 0      | 165 ms      | Brand logo, nav links, active state indicator, mobile toggle, theme switcher, Eco Mode button                         |
+| **`src/__tests__/Footer.test.tsx`**          | Navigation / Legal  | 4              | 4       | 0      | 109 ms      | Copyright notice, dynamic year, social links, resume download link, future flag compliant                             |
+| **`src/__tests__/Projects.test.tsx`**        | Page / Integration  | 3              | 3       | 0      | 299 ms      | H1 landmark, rendering of COPPER/OphthalmoAI/ICC Clustering, deferred search & tag filter                             |
+| **`src/__tests__/ErrorBoundary.test.tsx`**   | Resilience          | 2              | 2       | 0      | 161 ms      | Component crash interception, fallback UI render, reload interface action                                             |
+| **`src/__tests__/NotFound.test.tsx`**        | Page / Routing      | 1              | 1       | 0      | 116 ms      | 404 route status, H1 heading, Return Home navigation link                                                             |
+| **`src/__tests__/App.test.tsx`**             | Root Integration    | 1              | 1       | 0      | 82 ms       | Full app mount with HashRouter, ThemeProvider, and DataProvider                                                       |
+| **TOTAL**                                    | —                   | **129**        | **129** | **0**  | **~3.35 s** | **100% Pass Rate**                                                                                                    |
 
 ---
 
 ## 2. Command Execution Evidence
 
 ### 2.1 Vitest Execution Output
+
 **Command:** `npm run test -- --run`
+
 ```text
  RUN  v4.1.12 D:/akashkundu
 
@@ -56,7 +58,9 @@
 ```
 
 ### 2.2 TypeScript Static Type Checking
+
 **Command:** `npx tsc --noEmit`
+
 ```text
 Exit code: 0
 Stdout: (Clean - zero diagnostic messages)
@@ -64,7 +68,9 @@ Stderr: (Clean - zero diagnostic messages)
 ```
 
 ### 2.3 ESLint Cleanliness
+
 **Command:** `npm run lint`
+
 ```text
 > akash-kundu-portfolio@2.0.0 lint
 > eslint .
@@ -74,7 +80,9 @@ Exit code: 0
 ```
 
 ### 2.4 Production Build Verification
+
 **Command:** `npm run build`
+
 ```text
 > akash-kundu-portfolio@2.0.0 build
 > vite build

@@ -35,9 +35,7 @@ describe('LiquidGlassLens Component', () => {
     });
 
     it('applies subtle preset styles when intensity="subtle"', () => {
-      const { getByTestId } = render(
-        <LiquidGlassLens intensity="subtle" data-testid="lens" />
-      );
+      const { getByTestId } = render(<LiquidGlassLens intensity="subtle" data-testid="lens" />);
       const lens = getByTestId('lens');
 
       expect(lens.style.backdropFilter).toContain('blur(16px)');
@@ -45,9 +43,7 @@ describe('LiquidGlassLens Component', () => {
     });
 
     it('applies deep preset styles when intensity="deep"', () => {
-      const { getByTestId } = render(
-        <LiquidGlassLens intensity="deep" data-testid="lens" />
-      );
+      const { getByTestId } = render(<LiquidGlassLens intensity="deep" data-testid="lens" />);
       const lens = getByTestId('lens');
 
       expect(lens.style.backdropFilter).toContain('blur(28px)');
@@ -56,8 +52,10 @@ describe('LiquidGlassLens Component', () => {
 
     it('falls back to medium preset styles for invalid intensity input', () => {
       const { getByTestId } = render(
-        // @ts-expect-error testing invalid intensity fallback
-        <LiquidGlassLens intensity="invalid-intensity" data-testid="lens" />
+        <LiquidGlassLens
+          intensity={'invalid-intensity' as unknown as 'medium'}
+          data-testid="lens"
+        />
       );
       const lens = getByTestId('lens');
 
@@ -67,9 +65,7 @@ describe('LiquidGlassLens Component', () => {
 
   describe('Glow color box-shadow resolution', () => {
     it('uses default preset shadow when glowColor is undefined or not provided', () => {
-      const { getByTestId } = render(
-        <LiquidGlassLens intensity="subtle" data-testid="lens" />
-      );
+      const { getByTestId } = render(<LiquidGlassLens intensity="subtle" data-testid="lens" />);
       const lens = getByTestId('lens');
 
       expect(lens.style.boxShadow).toContain('0 8px 32px rgba(0, 0, 0, 0.35)');
@@ -82,7 +78,6 @@ describe('LiquidGlassLens Component', () => {
       );
       const lens = getByTestId('lens');
 
-      // medium has glowAlphaHex '24'
       expect(lens.style.boxShadow).toContain('#38bdf824');
     });
 
@@ -92,7 +87,6 @@ describe('LiquidGlassLens Component', () => {
       );
       const lens = getByTestId('lens');
 
-      // #abc -> #aabbcc + '30' for deep
       expect(lens.style.boxShadow).toContain('#aabbcc30');
     });
 
@@ -102,10 +96,7 @@ describe('LiquidGlassLens Component', () => {
       );
       const lens = getByTestId('lens');
 
-      // medium has glowAlphaPercent 15
-      expect(lens.style.boxShadow).toContain(
-        'color-mix(in srgb, var(--accent) 15%, transparent)'
-      );
+      expect(lens.style.boxShadow).toContain('color-mix(in srgb, var(--accent) 15%, transparent)');
     });
 
     it('trims leading/trailing whitespace around glowColor', () => {
@@ -114,7 +105,6 @@ describe('LiquidGlassLens Component', () => {
       );
       const lens = getByTestId('lens');
 
-      // subtle has glowAlphaHex '18'
       expect(lens.style.boxShadow).toContain('#12345618');
     });
   });
@@ -138,11 +128,7 @@ describe('LiquidGlassLens Component', () => {
     it('forwards native HTML event listeners and ARIA attributes', () => {
       const handleClick = vi.fn();
       const { getByRole } = render(
-        <LiquidGlassLens
-          role="region"
-          aria-label="Interactive Panel"
-          onClick={handleClick}
-        >
+        <LiquidGlassLens role="region" aria-label="Interactive Panel" onClick={handleClick}>
           Inner
         </LiquidGlassLens>
       );

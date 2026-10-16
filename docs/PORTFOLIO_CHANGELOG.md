@@ -7,10 +7,11 @@ All notable changes made to the `AkashKundu114.github.io` codebase during the Ma
 ## [2.3.0] - Upstream Project Synchronization & Test Expansion (October 2026)
 
 ### Changed
+
 - **Synchronized Upstream Source Projects:**
-  - **C.O.P.P.E.R. (`D:\C.O.P.P.E.R`):** Updated verified automated test count from 614 to **685 passing tests** (644 backend Pytest [608 root suite + 36 microservices suite] + 41 frontend Vitest). Aligned agent counts across `src/data/projects.ts` and `src/pages/About.tsx` to 12 specialized agents (+5 roadmap). Updated git commit tracking to `5ed4f36`.
-  - **OphthalmoAI (`D:\OphthalmoAI`):** Updated verified automated test count from 285 to **335 passing tests** (312 backend Pytest across 37 modules + 23 frontend Vitest). Confirmed 0.9818 Macro AUROC, 0.0381 ECE, MobileNetV3-Small INT8 ONNX edge screener, and zero-egress HIPAA dataflow. Updated git commit tracking to `2b86dd5`.
-  - **ICC Clustering (`D:\Final Year Project` / `D:\icc-clustering`):** Updated verified automated test count from 76 to **113 passing pytest tests** across 12 modules (including 33 adversarial input and numerical robustness tests). Documented **-74.2% peak RAM reduction** on $D=5,000$ via column-chunked VSSG, **-50.0% benchmark RAM** on $(N=1000, D=2000)$, and dual IEEE TKDE and ICDE 2027 publication dossiers. Updated git commit tracking to `1db855a` (upstream `879fd96`).
+  - **C.O.P.P.E.R. (`./copper`):** Updated verified automated test count from 614 to **685 passing tests** (644 backend Pytest [608 root suite + 36 microservices suite] + 41 frontend Vitest). Aligned agent counts across `src/data/projects.ts` and `src/pages/About.tsx` to 12 specialized agents (+5 roadmap). Updated git commit tracking to `5ed4f36`.
+  - **OphthalmoAI (`./ophthalmoai`):** Updated verified automated test count from 285 to **335 passing tests** (312 backend Pytest across 37 modules + 23 frontend Vitest). Confirmed 0.9818 Macro AUROC, 0.0381 ECE, MobileNetV3-Small INT8 ONNX edge screener, and zero-egress HIPAA dataflow. Updated git commit tracking to `2b86dd5`.
+  - **ICC Clustering (`Final Year Project` / `./icc-clustering`):** Updated verified automated test count from 76 to **113 passing pytest tests** across 12 modules (including 33 adversarial input and numerical robustness tests). Documented **-74.2% peak RAM reduction** on $D=5,000$ via column-chunked VSSG, **-50.0% benchmark RAM** on $(N=1000, D=2000)$, and dual IEEE TKDE and ICDE 2027 publication dossiers. Updated git commit tracking to `1db855a` (upstream `879fd96`).
 - **Homepage Flagship Systems Display:**
   - Expanded `featuredProjects` slice from 3 to 4 (`projects.slice(0, 4)`) in `src/pages/Home.tsx`, ensuring all flagship projects (AI Sathi, COPPER, OphthalmoAI, ICC Clustering) are immediately accessible on the home page.
 - **Documentation & Matrix Synchronization:**
@@ -20,6 +21,7 @@ All notable changes made to the `AkashKundu114.github.io` codebase during the Ma
 ## [2.2.0] - Resource Efficiency & Low-Power Performance Profile (October 2026)
 
 ### Added
+
 - **Configurable Eco Mode:**
   - Added global Eco Mode (`isEcoMode`, `toggleEcoMode`) in `src/context/ThemeContext.tsx`, persisted in `localStorage` and synchronized with `<html data-eco="true">`.
   - Added tactile Eco Mode toggle pill in `src/components/Navbar.tsx` (desktop navigation and mobile drawer).
@@ -39,6 +41,7 @@ All notable changes made to the `AkashKundu114.github.io` codebase during the Ma
 ## [2.1.0] - Security, Privacy & Web Red Team Hardening (October 2026)
 
 ### Added
+
 - **Web Crypto SHA-256 Authentication:**
   - Implemented client-side cryptographic hashing via `crypto.subtle.digest('SHA-256')` in `src/utils/security.ts`.
   - Converted admin authentication in `src/pages/Admin.tsx` to compare SHA-256 hashes instead of inlining cleartext credentials.
@@ -54,6 +57,7 @@ All notable changes made to the `AkashKundu114.github.io` codebase during the Ma
 ## [2.0.0] - Audit Engineering & Project Synchronization (October 2026)
 
 ### Added
+
 - **Flagship Project Addition:**
   - Added `icc-clustering` (Inductive Consensus Clustering ICC-v2) to `src/data/projects.ts` with complete mathematical specifications, VSSG feature gating, $\mathcal{O}(NL)$ bipartite co-association memory benchmarks (-39.1% RAM), 76/76 passing pytest tests, and submitted IEEE TKDE / ICDE manuscripts.
   - Created high-resolution dark-aesthetic vector architecture snapshot: `public/projects/icc-clustering-architecture.svg`.
@@ -81,6 +85,7 @@ All notable changes made to the `AkashKundu114.github.io` codebase during the Ma
   - `docs/PORTFOLIO_CHANGELOG.md`: Detailed changelog of all modifications.
 
 ### Changed
+
 - **Frontend Architecture, UI & Code-Splitting:**
   - `src/components/Navbar.tsx`: Added interactive Theme Cycler / Switcher button with tactile feedback, accessible `aria-label`, and dynamic active theme name/swatch badge in both desktop navigation and mobile drawer menu; allows instant live toggling across all 5 themes (`Cyber Neon`, `Emerald Matrix`, `Solar Gold`, `Amethyst Void`, `Crimson Flare`); exported `THEME_METADATA` from `src/context/ThemeContext.tsx`.
   - `src/App.tsx`: Wrapped routes with `<ErrorBoundary>`, added wildcard route `<Route path="*" element={<NotFound />} />`, integrated `<a href="#main-content">Skip to main content</a>`, assigned `id="main-content"` and `tabIndex={-1}` to `<main>`, and passed `future={{ v7_startTransition: true, v7_relativeSplatPath: true }}` to `HashRouter`.
@@ -110,6 +115,7 @@ All notable changes made to the `AkashKundu114.github.io` codebase during the Ma
   - `package.json`: Moved `@types/three` from `dependencies` to `devDependencies`.
 
 ### Removed
+
 - **Dead Code & Legacy Files:**
   - Safely deleted `original_index.css` (87 kB unreferenced legacy stylesheet).
   - Safely deleted `original_tailwind.config.js` (unreferenced legacy Tailwind configuration).

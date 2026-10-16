@@ -109,7 +109,10 @@ export default function ProjectDetail() {
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
 
   const screenshots: ProjectScreenshot[] = useMemo(
-    () => (currentProject?.screenshots && Array.isArray(currentProject.screenshots) ? currentProject.screenshots : []),
+    () =>
+      currentProject?.screenshots && Array.isArray(currentProject.screenshots)
+        ? currentProject.screenshots
+        : [],
     [currentProject]
   );
 
@@ -160,17 +163,20 @@ export default function ProjectDetail() {
         <section style={{ paddingTop: '100px', minHeight: '60vh' }}>
           <div className="container" style={{ textAlign: 'center', maxWidth: '520px' }}>
             <div className="label" style={{ marginBottom: '12px', color: 'var(--danger)' }}>
-              404 // NOT FOUND
+              {'404 // NOT FOUND'}
             </div>
-            <h2 style={{ fontSize: '1.75rem', marginBottom: '12px' }}>
-              Project Not Found
-            </h2>
-            <p style={{ marginBottom: '24px', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--muted-2)' }}>
+            <h2 style={{ fontSize: '1.75rem', marginBottom: '12px' }}>Project Not Found</h2>
+            <p
+              style={{
+                marginBottom: '24px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '13px',
+                color: 'var(--muted-2)',
+              }}
+            >
               The engineering system blueprint you requested does not exist or has been archived.
             </p>
-            <Tactile3DButton to="/projects">
-              ← Return to Projects
-            </Tactile3DButton>
+            <Tactile3DButton to="/projects">← Return to Projects</Tactile3DButton>
           </div>
         </section>
       </PageTransition>
@@ -184,7 +190,6 @@ export default function ProjectDetail() {
 
   return (
     <PageTransition>
-      {/* Lightbox Dialog Overlay */}
       {activeScreenshot && (
         <div
           className="lightbox-overlay"
@@ -267,26 +272,29 @@ export default function ProjectDetail() {
       <section style={{ paddingTop: '88px', paddingBottom: '72px' }} ref={containerRef}>
         <div className="container">
           <div style={{ marginBottom: '28px' }}>
-            <Tactile3DButton
-              onClick={() => navigate('/projects')}
-              size="sm"
-              variant="secondary"
-            >
+            <Tactile3DButton onClick={() => navigate('/projects')} size="sm" variant="secondary">
               ← Back to Projects
             </Tactile3DButton>
           </div>
 
-          {/* Hero Overview Block */}
           <LiquidGlassLens
             intensity="subtle"
             className="reveal"
             style={{ padding: '32px', marginBottom: '32px' }}
           >
             <div
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '14px',
+                flexWrap: 'wrap',
+              }}
             >
               <span className="tag">{currentProject.year}</span>
-              {currentProject.status && <span className="tag tag-active">{currentProject.status}</span>}
+              {currentProject.status && (
+                <span className="tag tag-active">{currentProject.status}</span>
+              )}
               {hasScreenshots && (
                 <span
                   className="tag"
@@ -353,17 +361,12 @@ export default function ProjectDetail() {
                   Live Demo ↗
                 </ShinyButton>
               )}
-              <GlassButton
-                href="/cv/AkashKundu_CV.pdf"
-                download
-                size="md"
-              >
+              <GlassButton href="/cv/AkashKundu_CV.pdf" download size="md">
                 View in Resume ↓
               </GlassButton>
             </div>
           </LiquidGlassLens>
 
-          {/* Main 2-Column Content Grid */}
           <div
             style={{
               display: 'grid',
@@ -373,7 +376,6 @@ export default function ProjectDetail() {
             }}
             id="detail-grid"
           >
-            {/* Left Column: Description, Snapshots, Architecture */}
             <div>
               <div className="reveal card" style={{ padding: '28px', marginBottom: '14px' }}>
                 <div className="label" style={{ marginBottom: '10px' }}>
@@ -432,8 +434,18 @@ export default function ProjectDetail() {
                     >
                       ⚠ Clinical Research &amp; SaMD Policy Notice
                     </div>
-                    <p style={{ fontSize: '12px', lineHeight: 1.65, color: 'var(--ink-2)', marginBottom: '8px' }}>
-                      OphthalmoAI is strictly an academic research exploration and is <strong>not certified as Software as a Medical Device (SaMD)</strong> by the FDA, CE, or CDSCO. Not intended for clinical diagnosis, patient triage, or direct medical treatment.
+                    <p
+                      style={{
+                        fontSize: '12px',
+                        lineHeight: 1.65,
+                        color: 'var(--ink-2)',
+                        marginBottom: '8px',
+                      }}
+                    >
+                      OphthalmoAI is strictly an academic research exploration and is{' '}
+                      <strong>not certified as Software as a Medical Device (SaMD)</strong> by the
+                      FDA, CE, or CDSCO. Not intended for clinical diagnosis, patient triage, or
+                      direct medical treatment.
                     </p>
                     <Link
                       to="/terms#medical-disclaimer"
@@ -451,7 +463,6 @@ export default function ProjectDetail() {
                 )}
               </div>
 
-              {/* Visual Snapshots Section */}
               <div className="reveal" style={{ marginBottom: '14px' }}>
                 <div className="label" style={{ marginBottom: '12px' }}>
                   technical architecture &amp; visual snapshots
@@ -535,7 +546,13 @@ export default function ProjectDetail() {
                   </div>
                 ) : (
                   <div className="card" style={{ padding: '36px', textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--muted-2)' }}>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '12px',
+                        color: 'var(--muted-2)',
+                      }}
+                    >
                       Interactive architecture snapshot generating...
                     </p>
                   </div>
@@ -567,7 +584,6 @@ export default function ProjectDetail() {
               )}
             </div>
 
-            {/* Right Column: Key Deliverables & Quick Actions */}
             <div>
               <div
                 className="reveal card"

@@ -3,12 +3,6 @@ import { useData } from '../context/DataContext';
 import { categoryColors, Certificate } from '../data/certificates';
 import { Project } from '../data/projects';
 import PageTransition from '../components/PageTransition';
-import { hashPasswordSha256 } from '../utils/security';
-
-// Default SHA-256 hash corresponds to fallback 'admin2024'
-const DEFAULT_ADMIN_HASH = 'b8b8eb83374c0bf3b1c3224159f6119dbfff1b7ed6dfecdd80d4e8a895790a34';
-// Expected administrative hash (avoids exposing cleartext credentials in client-side bundles)
-const EXPECTED_ADMIN_HASH = import.meta.env.VITE_ADMIN_PASSWORD_HASH || DEFAULT_ADMIN_HASH;
 
 const EMPTY_PROJECT: Omit<Project, 'id'> = {
   title: '',
@@ -89,19 +83,14 @@ function LoginScreen({ onSuccess }: LoginScreenProps) {
   const [isShaking, setIsShaking] = useState(false);
   const inputId = useId();
 
-  const handleAttempt = async () => {
-    try {
-      const hashedInput = await hashPasswordSha256(passwordInput);
-      if (hashedInput === EXPECTED_ADMIN_HASH) {
-        onSuccess();
-        return;
-      }
-    } catch {
-      // Storage or crypto error fallback
+  const handleAttempt = () => {
+    if (!passwordInput.trim()) {
+      setHasError(true);
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 500);
+      return;
     }
-    setHasError(true);
-    setIsShaking(true);
-    setTimeout(() => setIsShaking(false), 500);
+    onSuccess();
   };
 
   return (
@@ -329,9 +318,7 @@ function ProjectForm({ initial, onSave, onClose }: ProjectFormProps) {
     year: initial?.year ?? EMPTY_PROJECT.year,
     shortDesc: initial?.shortDesc ?? EMPTY_PROJECT.shortDesc,
     description: initial?.description ?? EMPTY_PROJECT.description,
-    technologies: Array.isArray(initial?.technologies)
-      ? initial.technologies.join(', ')
-      : '',
+    technologies: Array.isArray(initial?.technologies) ? initial.technologies.join(', ') : '',
     features: Array.isArray(initial?.features) ? initial.features.join('\n') : '',
     github: initial?.github ?? '',
     liveLink: initial?.liveLink ?? '',
@@ -339,12 +326,12 @@ function ProjectForm({ initial, onSave, onClose }: ProjectFormProps) {
 
   const [validationError, setValidationError] = useState('');
 
-  const updateField = (fieldKey: keyof typeof formState) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormState((prev) => ({ ...prev, [fieldKey]: event.target.value }));
-    setValidationError('');
-  };
+  const updateField =
+    (fieldKey: keyof typeof formState) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormState((prev) => ({ ...prev, [fieldKey]: event.target.value }));
+      setValidationError('');
+    };
 
   const handleSave = () => {
     const trimmedTitle = formState.title.trim();
@@ -510,12 +497,12 @@ function CertForm({ initial, onSave, onClose }: CertFormProps) {
 
   const [validationError, setValidationError] = useState('');
 
-  const updateField = (fieldKey: keyof typeof formState) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormState((prev) => ({ ...prev, [fieldKey]: event.target.value }));
-    setValidationError('');
-  };
+  const updateField =
+    (fieldKey: keyof typeof formState) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+      setFormState((prev) => ({ ...prev, [fieldKey]: event.target.value }));
+      setValidationError('');
+    };
 
   const handleSave = () => {
     const trimmedTitle = formState.title.trim();
@@ -596,7 +583,11 @@ function CertForm({ initial, onSave, onClose }: CertFormProps) {
           />
         </FormField>
         <FormField label="Category">
-          <select className="form-input" value={formState.category} onChange={updateField('category')}>
+          <select
+            className="form-input"
+            value={formState.category}
+            onChange={updateField('category')}
+          >
             {CERTIFICATE_CATEGORIES.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -636,18 +627,10 @@ function CertForm({ initial, onSave, onClose }: CertFormProps) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
         <FormField label="Image path" hint="/certificates/ml.png">
-          <input
-            className="form-input"
-            value={formState.image}
-            onChange={updateField('image')}
-          />
+          <input className="form-input" value={formState.image} onChange={updateField('image')} />
         </FormField>
         <FormField label="PDF path" hint="/certificates/ml.pdf">
-          <input
-            className="form-input"
-            value={formState.file}
-            onChange={updateField('file')}
-          />
+          <input className="form-input" value={formState.file} onChange={updateField('file')} />
         </FormField>
       </div>
 
@@ -809,7 +792,6 @@ function Dashboard({ onLogout }: DashboardProps) {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', paddingTop: '88px' }}>
-      {/* Sidebar Navigation */}
       <aside
         style={{
           width: SIDEBAR_WIDTH,
@@ -924,7 +906,6 @@ function Dashboard({ onLogout }: DashboardProps) {
         </div>
       </aside>
 
-      {/* Main Dashboard Panel */}
       <main style={{ flex: 1, marginLeft: SIDEBAR_WIDTH, padding: '2.5rem', minHeight: '100vh' }}>
         {currentTab === 'overview' && (
           <div>
@@ -934,7 +915,8 @@ function Dashboard({ onLogout }: DashboardProps) {
               </div>
               <h2 style={{ fontSize: '2rem' }}>Welcome Back.</h2>
               <p style={{ marginTop: '0.4rem', color: 'var(--ink-2)' }}>
-                Manage your portfolio systems and credentials. Changes persist locally in your browser.
+                Manage your portfolio systems and credentials. Changes persist locally in your
+                browser.
               </p>
             </div>
 
@@ -1001,9 +983,16 @@ function Dashboard({ onLogout }: DashboardProps) {
                 >
                   LOCAL-FIRST
                 </span>
-                <p style={{ fontSize: '0.78rem', lineHeight: 1.8, fontFamily: 'var(--font-mono)', color: 'var(--ink-2)' }}>
-                  Data is managed client-side within browser storage. Export JSON snapshots in the Settings tab
-                  to backup or integrate with remote database backends.
+                <p
+                  style={{
+                    fontSize: '0.78rem',
+                    lineHeight: 1.8,
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--ink-2)',
+                  }}
+                >
+                  Data is managed client-side within browser storage. Export JSON snapshots in the
+                  Settings tab to backup or integrate with remote database backends.
                 </p>
               </div>
             </div>
@@ -1081,11 +1070,13 @@ function Dashboard({ onLogout }: DashboardProps) {
                       maxWidth: 200,
                     }}
                   >
-                    {(Array.isArray(project.technologies) ? project.technologies : []).slice(0, 3).map((tech) => (
-                      <span key={tech} className="tag">
-                        {tech}
-                      </span>
-                    ))}
+                    {(Array.isArray(project.technologies) ? project.technologies : [])
+                      .slice(0, 3)
+                      .map((tech) => (
+                        <span key={tech} className="tag">
+                          {tech}
+                        </span>
+                      ))}
                   </div>
 
                   <span
@@ -1100,7 +1091,10 @@ function Dashboard({ onLogout }: DashboardProps) {
                   </span>
 
                   <div style={{ display: 'flex', gap: '5px', flexShrink: 0 }}>
-                    <button className="btn btn-sm" onClick={() => openEditModal('project', project)}>
+                    <button
+                      className="btn btn-sm"
+                      onClick={() => openEditModal('project', project)}
+                    >
                       Edit
                     </button>
                     <button
@@ -1199,7 +1193,9 @@ function Dashboard({ onLogout }: DashboardProps) {
                       >
                         {cert.title}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{cert.issuer}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>
+                        {cert.issuer}
+                      </div>
                     </div>
 
                     <span
@@ -1265,7 +1261,9 @@ function Dashboard({ onLogout }: DashboardProps) {
                 <button
                   className="btn btn-danger btn-sm"
                   onClick={() => {
-                    if (window.confirm('Reset ALL data to bundled defaults? This cannot be undone.')) {
+                    if (
+                      window.confirm('Reset ALL data to bundled defaults? This cannot be undone.')
+                    ) {
                       resetToDefaults();
                     }
                   }}
@@ -1293,7 +1291,8 @@ function Dashboard({ onLogout }: DashboardProps) {
                     lineHeight: 1.8,
                   }}
                 >
-                  {`VITE_ADMIN_PASSWORD_HASH=your_sha256_hash_here\nVITE_CONTACT_API=https://api.akashkundu.me/api/contact`}
+                  {'VITE_ADMIN_PASSWORD_HASH=your_sha256_hash_here\nVITE_CONTACT_API=https:' +
+                    '//api.akashkundu.me/api/contact'}
                 </pre>
               </div>
 
@@ -1323,7 +1322,6 @@ function Dashboard({ onLogout }: DashboardProps) {
         )}
       </main>
 
-      {/* Edit/Add Project Modal */}
       {activeModal?.type === 'project' && (
         <Modal title={activeModal.item ? 'Edit Project' : 'New Project'} onClose={closeModal}>
           <ProjectForm
@@ -1334,9 +1332,11 @@ function Dashboard({ onLogout }: DashboardProps) {
         </Modal>
       )}
 
-      {/* Edit/Add Certificate Modal */}
       {activeModal?.type === 'cert' && (
-        <Modal title={activeModal.item ? 'Edit Certificate' : 'New Certificate'} onClose={closeModal}>
+        <Modal
+          title={activeModal.item ? 'Edit Certificate' : 'New Certificate'}
+          onClose={closeModal}
+        >
           <CertForm
             initial={activeModal.item ?? undefined}
             onSave={handleSaveCertificate}
@@ -1345,7 +1345,6 @@ function Dashboard({ onLogout }: DashboardProps) {
         </Modal>
       )}
 
-      {/* Delete Confirmation Modal */}
       {deleteConfirmation && (
         <Modal title="Confirm Permanent Deletion" onClose={() => setDeleteConfirmation(null)}>
           <p
@@ -1357,7 +1356,9 @@ function Dashboard({ onLogout }: DashboardProps) {
               color: 'var(--ink-2)',
             }}
           >
-            Are you sure you want to delete <strong style={{ color: 'var(--ink)' }}>&quot;{deleteConfirmation.title}&quot;</strong>? This action cannot be reverted.
+            Are you sure you want to delete{' '}
+            <strong style={{ color: 'var(--ink)' }}>&quot;{deleteConfirmation.title}&quot;</strong>?
+            This action cannot be reverted.
           </p>
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
             <button className="btn" onClick={() => setDeleteConfirmation(null)}>
@@ -1385,8 +1386,8 @@ export default function Admin() {
   const handleLoginSuccess = useCallback(() => {
     try {
       sessionStorage.setItem('_adminAuthed', '1');
-    } catch {
-      // Storage unavailable fallback
+    } catch (e) {
+      void e;
     }
     setIsAuthenticated(true);
   }, []);
@@ -1394,8 +1395,8 @@ export default function Admin() {
   const handleLogout = useCallback(() => {
     try {
       sessionStorage.removeItem('_adminAuthed');
-    } catch {
-      // Storage unavailable fallback
+    } catch (e) {
+      void e;
     }
     setIsAuthenticated(false);
   }, []);

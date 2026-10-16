@@ -112,9 +112,6 @@ interface SceneBundle {
   materials: THREE.Material[];
 }
 
-/**
- * Validates whether WebGL rendering context is supported on client device.
- */
 function isWebGLSupported(): boolean {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return false;
@@ -123,18 +120,15 @@ function isWebGLSupported(): boolean {
     const testCanvas = document.createElement('canvas');
     return Boolean(
       window.WebGLRenderingContext &&
-        (testCanvas.getContext('webgl2') ||
-          testCanvas.getContext('webgl') ||
-          testCanvas.getContext('experimental-webgl'))
+      (testCanvas.getContext('webgl2') ||
+        testCanvas.getContext('webgl') ||
+        testCanvas.getContext('experimental-webgl'))
     );
   } catch {
     return false;
   }
 }
 
-/**
- * Creates ambient and focused directional point lights for procedural 3D scene.
- */
 function setupSceneLighting(scene: THREE.Scene): void {
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambientLight);
@@ -148,9 +142,6 @@ function setupSceneLighting(scene: THREE.Scene): void {
   scene.add(coreEmissiveLight);
 }
 
-/**
- * Procedurally constructs dual-layered geodesic core wireframe and luminous nucleus.
- */
 function createCoreMeshes(): {
   coreMesh: THREE.Mesh;
   innerMesh: THREE.Mesh;
@@ -185,9 +176,6 @@ function createCoreMeshes(): {
   };
 }
 
-/**
- * Builds concentric orbital trajectory guide rings.
- */
 function createOrbitalRings(rootGroup: THREE.Group): {
   rings: THREE.Line[];
   geometries: THREE.BufferGeometry[];
@@ -229,9 +217,6 @@ function createOrbitalRings(rootGroup: THREE.Group): {
   return { rings, geometries, materials };
 }
 
-/**
- * Generates ambient particle starfield cloud distributed over a spherical shell.
- */
 function createParticleCloud(particleCount: number = 120): {
   particleCloud: THREE.Points;
   geometry: THREE.BufferGeometry;
@@ -263,9 +248,6 @@ function createParticleCloud(particleCount: number = 120): {
   return { particleCloud, geometry: particleGeometry, material: particleMaterial };
 }
 
-/**
- * Instantiates 3D node spheres and billboard halo meshes for each cluster node.
- */
 function createInteractiveNodes(
   nodes: readonly CloudNode[],
   rootGroup: THREE.Group
@@ -307,9 +289,6 @@ function createInteractiveNodes(
   return { nodeEntries, geometries, materials };
 }
 
-/**
- * Instantiates dynamic vector connecting lines from center core to orbiting nodes.
- */
 function createConnectorArcs(
   nodes: readonly CloudNode[],
   rootGroup: THREE.Group
@@ -343,45 +322,37 @@ function createConnectorArcs(
   return { arcLines, geometries, materials };
 }
 
-/**
- * Cleanly disposes Three.js WebGL renderer, geometries, and materials.
- */
 function disposeSceneBundle(bundle: SceneBundle): void {
   bundle.geometries.forEach((geometry) => {
     try {
       geometry.dispose();
-    } catch {
-      // Safe cleanup fallback
+    } catch (e) {
+      void e;
     }
   });
 
   bundle.materials.forEach((material) => {
     try {
       material.dispose();
-    } catch {
-      // Safe cleanup fallback
+    } catch (e) {
+      void e;
     }
   });
 
   try {
     bundle.renderer.dispose();
     bundle.renderer.forceContextLoss();
-  } catch {
-    // Safe cleanup fallback
+  } catch (e) {
+    void e;
   }
 }
-
-// Subcomponents for Clean Modular Presentation
 
 interface CloudHeaderProps {
   activeMode: CloudDisplayMode;
   onSelectMode: (mode: CloudDisplayMode) => void;
 }
 
-const CloudHeader = memo(function CloudHeader({
-  activeMode,
-  onSelectMode,
-}: CloudHeaderProps) {
+const CloudHeader = memo(function CloudHeader({ activeMode, onSelectMode }: CloudHeaderProps) {
   return (
     <div
       style={{
@@ -441,9 +412,7 @@ const CloudHeader = memo(function CloudHeader({
               type="button"
               style={{
                 background: isSelected ? 'rgba(175, 210, 250, 0.15)' : 'transparent',
-                border: isSelected
-                  ? '1px solid var(--accent)'
-                  : '1px solid rgba(255,255,255,0.06)',
+                border: isSelected ? '1px solid var(--accent)' : '1px solid rgba(255,255,255,0.06)',
                 color: isSelected ? 'var(--accent)' : 'var(--muted)',
                 padding: '4px 10px',
                 fontSize: '11px',
@@ -468,11 +437,7 @@ interface NodeDeckProps {
   onSelectNode: (node: CloudNode) => void;
 }
 
-const NodeDeck = memo(function NodeDeck({
-  nodes,
-  activeNode,
-  onSelectNode,
-}: NodeDeckProps) {
+const NodeDeck = memo(function NodeDeck({ nodes, activeNode, onSelectNode }: NodeDeckProps) {
   if (!nodes || nodes.length === 0) {
     return null;
   }
@@ -627,7 +592,8 @@ function AdvertisingCloud3DComponent() {
     const camera = new THREE.PerspectiveCamera(45, initialWidth / canvasHeight, 0.1, 100);
     camera.position.set(0, 0, 14);
 
-    const pixelRatio = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
+    const pixelRatio =
+      typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
@@ -740,8 +706,10 @@ function AdvertisingCloud3DComponent() {
       if (boundingRectangle.width <= 0 || boundingRectangle.height <= 0) {
         return;
       }
-      const normalizedX = ((event.clientX - boundingRectangle.left) / boundingRectangle.width) * 2 - 1;
-      const normalizedY = -((event.clientY - boundingRectangle.top) / boundingRectangle.height) * 2 + 1;
+      const normalizedX =
+        ((event.clientX - boundingRectangle.left) / boundingRectangle.width) * 2 - 1;
+      const normalizedY =
+        -((event.clientY - boundingRectangle.top) / boundingRectangle.height) * 2 + 1;
 
       targetRotationY = normalizedX * 0.45;
       targetRotationX = -normalizedY * 0.35;
@@ -800,14 +768,12 @@ function AdvertisingCloud3DComponent() {
 
       const now = performance.now();
 
-      // Inactivity sleep: after 25s without mouse movement or interaction, pause loop
       if (now - lastInteractionTime > 25000 && !isHoveredRef.current) {
         isSleeping = true;
         animationFrameId = 0;
         return;
       }
 
-      // Adaptive frame rate cap: 30 FPS ambient, 60 FPS interactive hover
       const targetFps = isHoveredRef.current ? 60 : 30;
       const frameInterval = 1000 / targetFps;
       const elapsedSinceLastRender = now - lastRenderTime;
@@ -823,18 +789,16 @@ function AdvertisingCloud3DComponent() {
       lastTime = now;
       elapsedTime += delta;
 
-      // Smooth inertia tilt
-      rootGroup.rotation.y += (targetRotationY - rootGroup.rotation.y) * 0.05 + (prefersReducedMotion ? 0 : 0.002);
+      rootGroup.rotation.y +=
+        (targetRotationY - rootGroup.rotation.y) * 0.05 + (prefersReducedMotion ? 0 : 0.002);
       rootGroup.rotation.x += (targetRotationX - rootGroup.rotation.x) * 0.05;
 
-      // Rotate internal geodesic nuclei
       coreMesh.rotation.x = elapsedTime * 0.15;
       coreMesh.rotation.y = elapsedTime * 0.2;
       innerMesh.rotation.x = -elapsedTime * 0.25;
       innerMesh.rotation.y = -elapsedTime * 0.15;
       particleCloud.rotation.y = -elapsedTime * 0.05;
 
-      // Update node positions along orbital paths
       nodeEntries.forEach((entry, nodeIndex) => {
         const { mesh: nodeSphereMesh, haloMesh, data: nodeData } = entry;
         const currentTheta = nodeData.theta + elapsedTime * (nodeData.speed * 8);
@@ -848,7 +812,8 @@ function AdvertisingCloud3DComponent() {
 
         const connectingArc = arcLines[nodeIndex];
         if (connectingArc) {
-          const positionAttribute = connectingArc.geometry.attributes.position as THREE.BufferAttribute;
+          const positionAttribute = connectingArc.geometry.attributes
+            .position as THREE.BufferAttribute;
           positionAttribute.setXYZ(0, 0, 0, 0);
           positionAttribute.setXYZ(1, positionX, positionY, positionZ);
           positionAttribute.needsUpdate = true;
@@ -897,8 +862,7 @@ function AdvertisingCloud3DComponent() {
           'linear-gradient(180deg, rgba(13, 20, 32, 0.75) 0%, rgba(8, 12, 20, 0.95) 100%)',
         backdropFilter: 'blur(12px)',
         overflow: 'hidden',
-        boxShadow:
-          '0 20px 40px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+        boxShadow: '0 20px 40px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
       }}
     >
       <CloudHeader activeMode={activeMode} onSelectMode={handleSelectMode} />
@@ -955,8 +919,8 @@ function AdvertisingCloud3DComponent() {
                 marginBottom: '14px',
               }}
             >
-              Procedural 3D WebGL context is suspended to ensure 0% GPU utilization, preserving battery and memory.
-              System architecture and telemetry remain fully accessible below.
+              Procedural 3D WebGL context is suspended to ensure 0% GPU utilization, preserving
+              battery and memory. System architecture and telemetry remain fully accessible below.
             </p>
             <button
               type="button"
@@ -995,7 +959,8 @@ function AdvertisingCloud3DComponent() {
               textAlign: 'center',
             }}
           >
-            3D WebGL hardware acceleration unavailable. Telemetry deck remains fully accessible below.
+            3D WebGL hardware acceleration unavailable. Telemetry deck remains fully accessible
+            below.
           </div>
         )}
 
@@ -1014,16 +979,12 @@ function AdvertisingCloud3DComponent() {
           {isEcoMode
             ? '0% GPU · Battery optimized'
             : isHovered
-            ? 'Interactive orbital tracking active (60 FPS)'
-            : 'Ambient orbit (30 FPS) · Hover/drag to inspect'}
+              ? 'Interactive orbital tracking active (60 FPS)'
+              : 'Ambient orbit (30 FPS) · Hover/drag to inspect'}
         </div>
       </div>
 
-      <NodeDeck
-        nodes={NODES_DATA}
-        activeNode={activeNode}
-        onSelectNode={handleSelectNode}
-      />
+      <NodeDeck nodes={NODES_DATA} activeNode={activeNode} onSelectNode={handleSelectNode} />
     </div>
   );
 }

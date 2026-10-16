@@ -21,7 +21,6 @@ describe('useScrollReveal Hook', () => {
     unobserveMock = vi.fn();
     disconnectMock = vi.fn();
 
-    // Custom controllable IntersectionObserver
     class ControllableMockIntersectionObserver implements IntersectionObserver {
       readonly root: Element | Document | null = null;
       readonly rootMargin: string = '';
@@ -30,8 +29,10 @@ describe('useScrollReveal Hook', () => {
       constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
         observerCallback = callback;
         observerOptions = options;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        observerInstance = this;
+        const registerInstance = (inst: IntersectionObserver) => {
+          observerInstance = inst;
+        };
+        registerInstance(this);
       }
 
       observe = observeMock as unknown as (target: Element) => void;
@@ -70,7 +71,7 @@ describe('useScrollReveal Hook', () => {
                 right: 100,
                 width: 100,
                 height: 200,
-              } as DOMRect);
+              }) as DOMRect;
           }
           (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
         }}
@@ -82,19 +83,14 @@ describe('useScrollReveal Hook', () => {
   }
 
   it('marks element visible immediately if already within viewport', () => {
-    // In viewport: top (200) < window.innerHeight (800) and bottom (400) > 0
-    const { getByTestId } = render(
-      <SingleElementTestComponent rect={{ top: 200, bottom: 400 }} />
-    );
+    const { getByTestId } = render(<SingleElementTestComponent rect={{ top: 200, bottom: 400 }} />);
 
     const el = getByTestId('reveal-target');
     expect(el.classList.contains('visible')).toBe(true);
-    // Should return early and not register observer
     expect(observeMock).not.toHaveBeenCalled();
   });
 
   it('observes element if out of viewport and adds visible when intersecting', () => {
-    // Out of viewport: top (1200) > innerHeight (800)
     const { getByTestId } = render(
       <SingleElementTestComponent rect={{ top: 1200, bottom: 1500 }} />
     );
@@ -103,7 +99,6 @@ describe('useScrollReveal Hook', () => {
     expect(el.classList.contains('visible')).toBe(false);
     expect(observeMock).toHaveBeenCalledWith(el);
 
-    // Simulate intersection
     act(() => {
       observerCallback(
         [{ isIntersecting: true, target: el } as unknown as IntersectionObserverEntry],
@@ -140,13 +135,11 @@ describe('useScrollReveal Hook', () => {
     const el = getByTestId('reveal-target');
     expect(el.classList.contains('visible')).toBe(false);
 
-    // Advance timers by 599ms -> still not visible
     act(() => {
       vi.advanceTimersByTime(599);
     });
     expect(el.classList.contains('visible')).toBe(false);
 
-    // Advance by remaining 1ms -> timer fires, element marked visible
     act(() => {
       vi.advanceTimersByTime(1);
     });
@@ -154,9 +147,7 @@ describe('useScrollReveal Hook', () => {
   });
 
   it('immediately reveals element if IntersectionObserver is not supported', () => {
-    // Temporarily remove IntersectionObserver
-    // @ts-expect-error simulating legacy browser
-    delete window.IntersectionObserver;
+    delete (window as { IntersectionObserver?: typeof IntersectionObserver }).IntersectionObserver;
 
     const { getByTestId } = render(
       <SingleElementTestComponent rect={{ top: 1200, bottom: 1400 }} />
@@ -167,9 +158,7 @@ describe('useScrollReveal Hook', () => {
   });
 
   it('disconnects observer and clears fallback timer on unmount', () => {
-    const { unmount } = render(
-      <SingleElementTestComponent rect={{ top: 1200, bottom: 1400 }} />
-    );
+    const { unmount } = render(<SingleElementTestComponent rect={{ top: 1200, bottom: 1400 }} />);
 
     expect(disconnectMock).not.toHaveBeenCalled();
     unmount();
@@ -210,8 +199,10 @@ describe('useRevealChildren Hook', () => {
 
       constructor(callback: IntersectionObserverCallback) {
         observerCallback = callback;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        observerInstance = this;
+        const setInstance = (instance: IntersectionObserver) => {
+          observerInstance = instance;
+        };
+        setInstance(this);
       }
 
       observe = observeMock as unknown as (target: Element) => void;
@@ -255,7 +246,7 @@ describe('useRevealChildren Hook', () => {
                     right: 100,
                     width: 100,
                     height: 200,
-                  } as DOMRect);
+                  }) as DOMRect;
               }
             }}
           >
@@ -270,8 +261,8 @@ describe('useRevealChildren Hook', () => {
     const { getByTestId } = render(
       <ContainerTestComponent
         childRects={[
-          { top: 500, bottom: 600 }, // < 900 -> immediate visible
-          { top: 1200, bottom: 1300 }, // > 900 -> not immediately visible
+          { top: 500, bottom: 600 },
+          { top: 1200, bottom: 1300 },
         ]}
       />
     );
@@ -282,7 +273,6 @@ describe('useRevealChildren Hook', () => {
     expect(child0.classList.contains('visible')).toBe(true);
     expect(child1.classList.contains('visible')).toBe(false);
 
-    // Both children are still observed by IntersectionObserver
     expect(observeMock).toHaveBeenCalledTimes(2);
   });
 
@@ -331,8 +321,7 @@ describe('useRevealChildren Hook', () => {
   });
 
   it('immediately reveals all children when IntersectionObserver is not supported', () => {
-    // @ts-expect-error simulating legacy browser
-    delete window.IntersectionObserver;
+    delete (window as { IntersectionObserver?: typeof IntersectionObserver }).IntersectionObserver;
 
     const { getByTestId } = render(
       <ContainerTestComponent
@@ -353,7 +342,11 @@ describe('useRevealChildren Hook', () => {
   it('handles empty container with no .reveal children without errors', () => {
     function EmptyContainerComponent() {
       const ref = useRevealChildren();
-      return <div ref={ref} data-testid="empty-container">No children</div>;
+      return (
+        <div ref={ref} data-testid="empty-container">
+          No children
+        </div>
+      );
     }
 
     expect(() => render(<EmptyContainerComponent />)).not.toThrow();

@@ -21,7 +21,6 @@ describe('Projects Page Component', () => {
     const h1Heading = screen.getByRole('heading', { level: 1 });
     expect(h1Heading).toHaveTextContent(/Production & Research Systems/i);
 
-    // Verify all 3 flagship projects appear
     expect(screen.getByText(/C.O.P.P.E.R./i)).toBeInTheDocument();
     expect(screen.getByText(/OphthalmoAI/i)).toBeInTheDocument();
     expect(screen.getByText(/Inductive Consensus Clustering \(ICC-v2\)/i)).toBeInTheDocument();

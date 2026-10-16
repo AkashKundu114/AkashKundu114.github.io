@@ -1,0 +1,47 @@
+name: Continuous Integration & Verification
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, Typecheck, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Verify Zero Comments in Source Code (Rule 4)
+        run: node scripts/verify_no_comments.cjs
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: TypeScript Typecheck
+        run: npm run typecheck
+
+      - name: Run Vitest Suite
+        run: npm test -- --run
+
+      - name: Build Production Assets
+        run: npm run build
+
+      - name: Security & Privacy Audit
+        run: node scripts/security_audit.cjs

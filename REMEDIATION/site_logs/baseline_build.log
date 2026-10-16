@@ -1,0 +1,48 @@
+
+> akash-kundu-portfolio@2.0.0 build
+> vite build
+
+[36mvite v8.2.1 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...✓ 410 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/registerSW.js                            0.13 kB
+dist/manifest.webmanifest                     0.53 kB
+dist/index.html                               6.17 kB │ gzip:   1.89 kB
+dist/assets/index-URGAAW5z.css               25.73 kB │ gzip:   6.43 kB
+dist/assets/PageTransition-YgOplIu_.js        0.55 kB │ gzip:   0.36 kB
+dist/assets/useDocumentTitle-BeVBQJW5.js      0.66 kB │ gzip:   0.30 kB
+dist/assets/useScrollReveal-D63CG3HK.js       0.93 kB │ gzip:   0.51 kB
+dist/assets/NotFound-CYIEtYbT.js              1.33 kB │ gzip:   0.70 kB
+dist/assets/skills-h4ZnjjRR.js                1.95 kB │ gzip:   0.53 kB
+dist/assets/LiquidGlassLens-B2mGGfeP.js       2.00 kB │ gzip:   0.80 kB
+dist/assets/Skills-CBbyn6xW.js                4.16 kB │ gzip:   1.73 kB
+dist/assets/Education-SmYBNmct.js             4.51 kB │ gzip:   1.77 kB
+dist/assets/CertificateDetail-B0fkYnzd.js     6.27 kB │ gzip:   2.33 kB
+dist/assets/About-BOfXc63v.js                 6.52 kB │ gzip:   2.65 kB
+dist/assets/Contact-Dh7EjT3F.js               7.85 kB │ gzip:   2.79 kB
+dist/assets/jsx-runtime-CF72uaaz.js           7.95 kB │ gzip:   3.07 kB
+dist/assets/Certificates-sL0Fcanp.js          8.91 kB │ gzip:   2.57 kB
+dist/assets/Privacy-D3FWelJU.js               9.66 kB │ gzip:   3.44 kB
+dist/assets/Terms-DzRmS7XR.js                10.65 kB │ gzip:   3.97 kB
+dist/assets/ProjectDetail-C--E-v96.js        11.89 kB │ gzip:   3.65 kB
+dist/assets/Home-C6rlTWdh.js                 13.11 kB │ gzip:   4.53 kB
+dist/assets/AdvertisingCloud3D-C7O9GL1S.js   13.26 kB │ gzip:   5.08 kB
+dist/assets/Admin-BxPT0a9Y.js                24.29 kB │ gzip:   6.04 kB
+dist/assets/Projects-CRJIP5zm.js             30.39 kB │ gzip:  10.83 kB
+dist/assets/index-BUyFMmhR.js               332.51 kB │ gzip: 108.60 kB
+dist/assets/three-DmZXPHwl.js               536.43 kB │ gzip: 133.08 kB
+
+[32m✓ built in 990ms[39m
+[33m[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+PWA v1.3.0
+mode      generateSW
+precache  36 entries (1097.78 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-e5cff4b9.js

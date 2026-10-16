@@ -51,25 +51,15 @@ export const education: Education[] = [
   },
 ];
 
-/**
- * Finds an education entry by numeric ID.
- * Returns undefined for invalid or non-matching IDs.
- */
 export function getEducationById(id: number): Education | undefined {
   if (typeof id !== 'number' || isNaN(id) || id <= 0) return undefined;
   return education.find((item) => item.id === id);
 }
 
-/**
- * Returns the currently active education program, if any.
- */
 export function getCurrentEducation(): Education | undefined {
   return education.find((item) => item.current === true);
 }
 
-/**
- * Returns education entries sorted chronologically.
- */
 export function getSortedEducation(direction: 'asc' | 'desc' = 'desc'): Education[] {
   return [...education].sort((a, b) => {
     const yearA = parseInt(a.startYear, 10) || 0;

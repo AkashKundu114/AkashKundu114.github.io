@@ -1,0 +1,305 @@
+{
+  "viewports": [
+    {
+      "viewport": {
+        "name": "mobile_narrow_320x568",
+        "width": 320,
+        "height": 568,
+        "mobile": true
+      },
+      "overflow": {
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "hasOverflow": false,
+        "bodyScrollWidth": 320,
+        "bodyClientWidth": 320
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\mobile_narrow_320x568.png"
+    },
+    {
+      "viewport": {
+        "name": "mobile_android_360x800",
+        "width": 360,
+        "height": 800,
+        "mobile": true
+      },
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "hasOverflow": false,
+        "bodyScrollWidth": 360,
+        "bodyClientWidth": 360
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\mobile_android_360x800.png"
+    },
+    {
+      "viewport": {
+        "name": "mobile_modern_390x844",
+        "width": 390,
+        "height": 844,
+        "mobile": true
+      },
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasOverflow": false,
+        "bodyScrollWidth": 390,
+        "bodyClientWidth": 390
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\mobile_modern_390x844.png"
+    },
+    {
+      "viewport": {
+        "name": "mobile_large_430x932",
+        "width": 430,
+        "height": 932,
+        "mobile": true
+      },
+      "overflow": {
+        "scrollWidth": 430,
+        "clientWidth": 430,
+        "hasOverflow": false,
+        "bodyScrollWidth": 430,
+        "bodyClientWidth": 430
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\mobile_large_430x932.png"
+    },
+    {
+      "viewport": {
+        "name": "tablet_portrait_768x1024",
+        "width": 768,
+        "height": 1024,
+        "mobile": false
+      },
+      "overflow": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "hasOverflow": false,
+        "bodyScrollWidth": 768,
+        "bodyClientWidth": 768
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\tablet_portrait_768x1024.png"
+    },
+    {
+      "viewport": {
+        "name": "tablet_landscape_1024x768",
+        "width": 1024,
+        "height": 768,
+        "mobile": false
+      },
+      "overflow": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "hasOverflow": false,
+        "bodyScrollWidth": 1024,
+        "bodyClientWidth": 1024
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\tablet_landscape_1024x768.png"
+    },
+    {
+      "viewport": {
+        "name": "laptop_standard_1280x800",
+        "width": 1280,
+        "height": 800,
+        "mobile": false
+      },
+      "overflow": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "hasOverflow": false,
+        "bodyScrollWidth": 1280,
+        "bodyClientWidth": 1280
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\laptop_standard_1280x800.png"
+    },
+    {
+      "viewport": {
+        "name": "desktop_1440x900",
+        "width": 1440,
+        "height": 900,
+        "mobile": false
+      },
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasOverflow": false,
+        "bodyScrollWidth": 1440,
+        "bodyClientWidth": 1440
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\desktop_1440x900.png"
+    },
+    {
+      "viewport": {
+        "name": "desktop_large_1920x1080",
+        "width": 1920,
+        "height": 1080,
+        "mobile": false
+      },
+      "overflow": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "hasOverflow": false,
+        "bodyScrollWidth": 1920,
+        "bodyClientWidth": 1920
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\desktop_large_1920x1080.png"
+    }
+  ],
+  "routes": [
+    {
+      "route": {
+        "path": "#/",
+        "name": "home"
+      },
+      "analysis": {
+        "title": "Akash Kundu — AI Systems & Research Engineer",
+        "headingCount": 11,
+        "h1Text": "Map your thoughts. Synthesize data. Generate reality.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_home.png"
+    },
+    {
+      "route": {
+        "path": "#/projects",
+        "name": "projects"
+      },
+      "analysis": {
+        "title": "Projects — Akash Kundu",
+        "headingCount": 8,
+        "h1Text": "Production & Research Systems.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_projects.png"
+    },
+    {
+      "route": {
+        "path": "#/projects/copper-ai-assistant",
+        "name": "project_copper"
+      },
+      "analysis": {
+        "title": "C.O.P.P.E.R. - Local-First Personal AI OS — Akash Kundu",
+        "headingCount": 3,
+        "h1Text": "C.O.P.P.E.R. - Local-First Personal AI OS",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_project_copper.png"
+    },
+    {
+      "route": {
+        "path": "#/projects/eye-disease-predictor",
+        "name": "project_ophthalmo"
+      },
+      "analysis": {
+        "title": "OphthalmoAI - Retinal Disease Screening Platform — Akash Kundu",
+        "headingCount": 3,
+        "h1Text": "OphthalmoAI - Retinal Disease Screening Platform",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_project_ophthalmo.png"
+    },
+    {
+      "route": {
+        "path": "#/skills",
+        "name": "skills"
+      },
+      "analysis": {
+        "title": "Skills — Akash Kundu",
+        "headingCount": 6,
+        "h1Text": "What I work with day to day.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_skills.png"
+    },
+    {
+      "route": {
+        "path": "#/about",
+        "name": "about"
+      },
+      "analysis": {
+        "title": "About — Akash Kundu",
+        "headingCount": 4,
+        "h1Text": "B.Tech CSE student & aspiring AI Engineer / SWE building scalable ML systems and agentic workflows.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_about.png"
+    },
+    {
+      "route": {
+        "path": "#/education",
+        "name": "education"
+      },
+      "analysis": {
+        "title": "Education — Akash Kundu",
+        "headingCount": 4,
+        "h1Text": "Academic background.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_education.png"
+    },
+    {
+      "route": {
+        "path": "#/certificates",
+        "name": "certificates"
+      },
+      "analysis": {
+        "title": "Certificates — Akash Kundu",
+        "headingCount": 14,
+        "h1Text": "Certificates &Credentials.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_certificates.png"
+    },
+    {
+      "route": {
+        "path": "#/contact",
+        "name": "contact"
+      },
+      "analysis": {
+        "title": "Contact — Akash Kundu",
+        "headingCount": 1,
+        "h1Text": "Let's work together.",
+        "mainPresent": true,
+        "emptyState": false,
+        "missingAltCount": 0,
+        "missingButtonNameCount": 0,
+        "brokenLinks": 0
+      },
+      "screenshot": "D:\\akashkundu\\audit_screenshots\\route_contact.png"
+    }
+  ],
+  "consoleLogs": [],
+  "exceptions": []
+}

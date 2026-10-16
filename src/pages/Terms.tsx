@@ -58,7 +58,6 @@ export default function Terms() {
   return (
     <PageTransition>
       <div className="container" style={{ padding: '80px 2rem 100px' }} ref={containerRef}>
-        {/* Header Breadcrumb & Title */}
         <header className="reveal" style={{ maxWidth: '820px', marginBottom: '36px' }}>
           <nav
             aria-label="Breadcrumb"
@@ -82,7 +81,7 @@ export default function Terms() {
           </nav>
 
           <div className="label" style={{ marginBottom: '8px' }}>
-            // TERMS OF SERVICE &amp; STATUTORY DISCLAIMERS
+            {'TERMS OF SERVICE & STATUTORY DISCLAIMERS'}
           </div>
 
           <h1
@@ -110,8 +109,9 @@ export default function Terms() {
             }}
           >
             Permitted usage, open-source licensing, and statutory clinical/assistive AI disclaimers
-            governing this portfolio, the local-first automation of <strong>COPPER</strong>, the assistive pipelines
-            of <strong>AI-SATHI</strong>, and the academic computer vision research of <strong>OphthalmoAI</strong>.
+            governing this portfolio, the local-first automation of <strong>COPPER</strong>, the
+            assistive pipelines of <strong>AI-SATHI</strong>, and the academic computer vision
+            research of <strong>OphthalmoAI</strong>.
           </p>
 
           <div
@@ -127,15 +127,16 @@ export default function Terms() {
             }}
           >
             <span style={{ color: 'var(--muted-2)' }}>Looking for data governance?</span>
-            <Link to="/privacy" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>
+            <Link
+              to="/privacy"
+              style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}
+            >
               Read Privacy Policy →
             </Link>
           </div>
         </header>
 
-        {/* Content Terms Sections */}
         <main className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Section 1: Scope & Permitted Use */}
           <TermsSectionCard
             label="SECTION 1.0 // ACCEPTANCE &amp; PERMITTED USE"
             title="1. Scope of Service &amp; Permitted Access"
@@ -149,18 +150,20 @@ export default function Terms() {
                 marginBottom: '14px',
               }}
             >
-              By accessing <code>akashkundu.me</code>, exploring engineering blueprints, reviewing source repositories,
-              or evaluating interactive demonstrations, you acknowledge and agree to comply with these Terms and Conditions.
-              This platform is the engineering portfolio and academic research showcase of Akash Kundu (Full-Stack Engineer &amp; AI Researcher).
+              By accessing <code>akashkundu.me</code>, exploring engineering blueprints, reviewing
+              source repositories, or evaluating interactive demonstrations, you acknowledge and
+              agree to comply with these Terms and Conditions. This platform is the engineering
+              portfolio and academic research showcase of Akash Kundu (Full-Stack Engineer &amp; AI
+              Researcher).
             </p>
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
-              All software benchmarks, architecture schematics, and live demos are published strictly for technical evaluation,
-              hiring review, and educational inquiry. Commercial redistribution or mass automated scraping without explicit
-              written consent is prohibited.
+              All software benchmarks, architecture schematics, and live demos are published
+              strictly for technical evaluation, hiring review, and educational inquiry. Commercial
+              redistribution or mass automated scraping without explicit written consent is
+              prohibited.
             </p>
           </TermsSectionCard>
 
-          {/* Section 2: Intellectual Property & Open Source */}
           <TermsSectionCard
             label="SECTION 2.0 // INTELLECTUAL PROPERTY &amp; OPEN SOURCE"
             title="2. Open-Source Licensing &amp; Attribution"
@@ -173,24 +176,41 @@ export default function Terms() {
                 marginBottom: '14px',
               }}
             >
-              Unless explicitly identified as proprietary partner or client intellectual property (e.g. Purposive AI enterprise components),
-              the software projects featured across this portfolio are authored by Akash Kundu and distributed under permissive
-              open-source licenses (MIT or Apache 2.0) via{' '}
-              <a href="https://github.com/AkashKundu114" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
+              Unless explicitly identified as proprietary partner or client intellectual property
+              (e.g. Purposive AI enterprise components), the software projects featured across this
+              portfolio are authored by Akash Kundu and distributed under permissive open-source
+              licenses (MIT or Apache 2.0) via{' '}
+              <a
+                href="https://github.com/AkashKundu114"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--accent)' }}
+              >
                 GitHub
-              </a>.
+              </a>
+              .
             </p>
-            <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
+            <ul
+              style={{
+                paddingLeft: '20px',
+                fontSize: '14px',
+                lineHeight: 1.8,
+                color: 'var(--ink-2)',
+              }}
+            >
               <li>
-                <strong>Author Attribution:</strong> Permissive licenses require that original author notices and copyright disclaimers remain intact when adapting or forking codebases.
+                <strong>Author Attribution:</strong> Permissive licenses require that original
+                author notices and copyright disclaimers remain intact when adapting or forking
+                codebases.
               </li>
               <li>
-                <strong>No Commercial Warranty:</strong> All open-source repositories, Jupyter notebooks, and Docker images are provided &ldquo;AS IS&rdquo; without warranty of merchantability or fitness for a particular purpose.
+                <strong>No Commercial Warranty:</strong> All open-source repositories, Jupyter
+                notebooks, and Docker images are provided &ldquo;AS IS&rdquo; without warranty of
+                merchantability or fitness for a particular purpose.
               </li>
             </ul>
           </TermsSectionCard>
 
-          {/* Section 3: Statutory Clinical & Medical AI Disclaimer */}
           <div
             id="medical-disclaimer"
             className="card"
@@ -212,7 +232,7 @@ export default function Terms() {
                 fontWeight: 700,
               }}
             >
-              SECTION 3.0 // STATUTORY MEDICAL &amp; CLINICAL AI DISCLAIMER
+              SECTION 3.0
             </div>
             <h2
               style={{
@@ -232,8 +252,9 @@ export default function Terms() {
                 marginBottom: '16px',
               }}
             >
-              <strong>OphthalmoAI</strong> is an academic computer science research system engineered to evaluate deep learning
-              vision backbones (ConvNeXt-Small, DenseNet-201, and EfficientNet-V2-M) and explainable visual attention (Grad-CAM).
+              <strong>OphthalmoAI</strong> is an academic computer science research system
+              engineered to evaluate deep learning vision backbones (ConvNeXt-Small, DenseNet-201,
+              and EfficientNet-V2-M) and explainable visual attention (Grad-CAM).
             </p>
             <div
               style={{
@@ -247,9 +268,11 @@ export default function Terms() {
                 fontFamily: 'var(--font-mono)',
               }}
             >
-              CRITICAL NOTICE: OphthalmoAI is NOT certified as Software as a Medical Device (SaMD) by the United States Food
-              and Drug Administration (FDA), European Medicines Agency (CE Mark), or the Indian Central Drugs Standard Control
-              Organization (CDSCO). It must NEVER be used for clinical diagnosis, patient triage, surgical planning, or prescribing treatment.
+              CRITICAL NOTICE: OphthalmoAI is NOT certified as Software as a Medical Device (SaMD)
+              by the United States Food and Drug Administration (FDA), European Medicines Agency (CE
+              Mark), or the Indian Central Drugs Standard Control Organization (CDSCO). It must
+              NEVER be used for clinical diagnosis, patient triage, surgical planning, or
+              prescribing treatment.
             </div>
             <p
               style={{
@@ -259,20 +282,29 @@ export default function Terms() {
                 marginBottom: '14px',
               }}
             >
-              <strong>Grad-CAM Saliency Maps:</strong> The Grad-CAM attention heatmaps generated by the pipeline highlight convolutional
-              activation gradient intensity for academic interpretability. They do not represent histological examinations, optical coherence
+              <strong>Grad-CAM Saliency Maps:</strong> The Grad-CAM attention heatmaps generated by
+              the pipeline highlight convolutional activation gradient intensity for academic
+              interpretability. They do not represent histological examinations, optical coherence
               tomography (OCT), or certified slit-lamp biomicroscopy.
             </p>
-            <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)', marginBottom: '16px' }}>
-              <strong>Emergency Care Directive:</strong> If you or someone you know is experiencing ocular pain, visual changes, sudden onset
-              of floaters, or physical injury, seek immediate clinical evaluation from a licensed ophthalmologist or emergency medical facility.
+            <p
+              style={{
+                fontSize: '14px',
+                lineHeight: 1.8,
+                color: 'var(--ink-2)',
+                marginBottom: '16px',
+              }}
+            >
+              <strong>Emergency Care Directive:</strong> If you or someone you know is experiencing
+              ocular pain, visual changes, sudden onset of floaters, or physical injury, seek
+              immediate clinical evaluation from a licensed ophthalmologist or emergency medical
+              facility.
             </p>
             <Tactile3DButton to="/projects/eye-disease-predictor" size="sm" variant="secondary">
               View OphthalmoAI Engineering Specs ↗
             </Tactile3DButton>
           </div>
 
-          {/* Section 4: Assistive AI & Desktop Automation */}
           <TermsSectionCard
             label="SECTION 4.0 // ASSISTIVE AI &amp; SYSTEM AUTOMATION"
             title="4. Generative AI &amp; Desktop Automation Limitations"
@@ -285,44 +317,71 @@ export default function Terms() {
                 marginTop: '12px',
               }}
             >
-              <div style={{ background: 'var(--surface-2)', padding: '18px', border: '1px solid var(--border)' }}>
-                <div style={{ fontWeight: 700, fontSize: '13px', color: 'var(--accent)', marginBottom: '8px' }}>
+              <div
+                style={{
+                  background: 'var(--surface-2)',
+                  padding: '18px',
+                  border: '1px solid var(--border)',
+                }}
+              >
+                <div
+                  style={{
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    color: 'var(--accent)',
+                    marginBottom: '8px',
+                  }}
+                >
                   AI-SATHI (Voice-Ledger Assistant)
                 </div>
                 <p style={{ fontSize: '13px', lineHeight: 1.65, color: 'var(--ink-2)' }}>
-                  Spoken Bengali voice-to-text transcripts and PDF ledger reports generated via Sarvam AI and Ollama
-                  are strictly assistive. Self-Help Group coordinators and entrepreneurs must verify ledger line items
-                  before submitting reports to microfinance or banking institutions.
+                  Spoken Bengali voice-to-text transcripts and PDF ledger reports generated via
+                  Sarvam AI and Ollama are strictly assistive. Self-Help Group coordinators and
+                  entrepreneurs must verify ledger line items before submitting reports to
+                  microfinance or banking institutions.
                 </p>
               </div>
 
-              <div style={{ background: 'var(--surface-2)', padding: '18px', border: '1px solid var(--border)' }}>
-                <div style={{ fontWeight: 700, fontSize: '13px', color: 'var(--accent)', marginBottom: '8px' }}>
+              <div
+                style={{
+                  background: 'var(--surface-2)',
+                  padding: '18px',
+                  border: '1px solid var(--border)',
+                }}
+              >
+                <div
+                  style={{
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    color: 'var(--accent)',
+                    marginBottom: '8px',
+                  }}
+                >
                   COPPER (Local-First AI OS)
                 </div>
                 <p style={{ fontSize: '13px', lineHeight: 1.65, color: 'var(--ink-2)' }}>
-                  COPPER integrates the Guardian Alignment Engine to intercept destructive terminal commands with 0.002ms latency.
-                  However, local system actions, file modifications, and CLI executions on the user host machine remain subject to
-                  user review and developer discretion.
+                  COPPER integrates the Guardian Alignment Engine to intercept destructive terminal
+                  commands with 0.002ms latency. However, local system actions, file modifications,
+                  and CLI executions on the user host machine remain subject to user review and
+                  developer discretion.
                 </p>
               </div>
             </div>
           </TermsSectionCard>
 
-          {/* Section 5: Limitation of Liability */}
           <TermsSectionCard
             label="SECTION 5.0 // LIMITATION OF LIABILITY"
             title="5. Limitation of Liability &amp; Disclaimers"
           >
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)' }}>
-              In no event shall Akash Kundu be liable for any direct, indirect, special, incidental, or consequential damages
-              arising from the use, interpretation, execution, or inability to use the software, research demonstrations, or
-              architectural documentation published across this website.
+              In no event shall Akash Kundu be liable for any direct, indirect, special, incidental,
+              or consequential damages arising from the use, interpretation, execution, or inability
+              to use the software, research demonstrations, or architectural documentation published
+              across this website.
             </p>
           </TermsSectionCard>
         </main>
 
-        {/* Bottom Clarification CTA */}
         <footer
           className="reveal"
           style={{
@@ -338,11 +397,19 @@ export default function Terms() {
           }}
         >
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--accent)', marginBottom: '4px' }}>
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                color: 'var(--accent)',
+                marginBottom: '4px',
+              }}
+            >
               NEED LEGAL OR ETHICS CLARIFICATION?
             </div>
             <div style={{ fontSize: '13px', color: 'var(--muted)' }}>
-              Inquiries regarding academic licensing, code reuse, or clinical research collaborations.
+              Inquiries regarding academic licensing, code reuse, or clinical research
+              collaborations.
             </div>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>

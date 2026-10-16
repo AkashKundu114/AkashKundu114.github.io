@@ -17,7 +17,10 @@ describe('Navbar Component', () => {
   const renderNavbar = (initialEntries = ['/']) => {
     return render(
       <ThemeProvider>
-        <MemoryRouter initialEntries={initialEntries} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <MemoryRouter
+          initialEntries={initialEntries}
+          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+        >
           <Navbar />
         </MemoryRouter>
       </ThemeProvider>
@@ -76,15 +79,12 @@ describe('Navbar Component', () => {
     expect(toggleButton).toBeInTheDocument();
     expect(toggleButton.getAttribute('aria-expanded')).toBe('false');
 
-    // Drawer is closed initially
     expect(queryByText('Download CV ↓')).not.toBeInTheDocument();
 
-    // Open mobile menu
     fireEvent.click(toggleButton);
     expect(toggleButton.getAttribute('aria-expanded')).toBe('true');
     expect(getByText('Download CV ↓')).toBeInTheDocument();
 
-    // Close mobile menu
     fireEvent.click(toggleButton);
     expect(toggleButton.getAttribute('aria-expanded')).toBe('false');
     expect(queryByText('Download CV ↓')).not.toBeInTheDocument();
@@ -97,7 +97,6 @@ describe('Navbar Component', () => {
     fireEvent.click(toggleButton);
     expect(getByText('Download CV ↓')).toBeInTheDocument();
 
-    // Press Escape
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(queryByText('Download CV ↓')).not.toBeInTheDocument();
     expect(toggleButton.getAttribute('aria-expanded')).toBe('false');
@@ -108,7 +107,6 @@ describe('Navbar Component', () => {
     const nav = container.querySelector('nav');
     expect(nav?.classList.contains('liquid-glass-panel')).toBe(false);
 
-    // Scroll down
     act(() => {
       window.scrollY = 50;
       window.dispatchEvent(new Event('scroll'));
@@ -116,7 +114,6 @@ describe('Navbar Component', () => {
     expect(nav?.classList.contains('liquid-glass-panel')).toBe(true);
     expect(nav?.classList.contains('shadow-lg')).toBe(true);
 
-    // Scroll back to top
     act(() => {
       window.scrollY = 10;
       window.dispatchEvent(new Event('scroll'));

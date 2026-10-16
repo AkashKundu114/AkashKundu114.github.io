@@ -7,6 +7,7 @@ All security hardening, input validation, privacy disclosures, and performance o
 ## [Unreleased] - Branch: `sec-privacy-perf-hardening` (October 2026)
 
 ### Added
+
 - **Centralized Security Sanitizer (`src/utils/security.ts`):**
   - `sanitizeUrl()`: Strict URL protocol validation permitting only `https:`, `http:`, `mailto:`, `tel:`, or safe internal relative routes; strips ASCII control characters and rejects `javascript:`, `data:`, `vbscript:`, `file:`, `blob:`, protocol-relative `//`, and backslash tricks.
   - `isSafeUrl()`: Boolean helper for conditional anchor tag rendering.
@@ -32,6 +33,7 @@ All security hardening, input validation, privacy disclosures, and performance o
   - `docs/PORTFOLIO_RESOURCE_EFFICIENCY_REPORT.md`
 
 ### Changed
+
 - **Eliminated Cleartext Password Exposure:**
   - `src/pages/Admin.tsx`: Replaced plaintext password check with async SHA-256 hash comparison; replaced `VITE_ADMIN_PASSWORD` with `VITE_ADMIN_PASSWORD_HASH`.
   - `.env`: Updated to store `VITE_ADMIN_PASSWORD_HASH` instead of raw plaintext password.
@@ -57,5 +59,6 @@ All security hardening, input validation, privacy disclosures, and performance o
   - Upgraded 22 packages via `npm audit fix`, reducing vulnerability count from 16 to 9 and patching critical advisories in `undici`, `browserslist`, `brace-expansion`, `fast-uri`, and `@vitest/mocker`.
 
 ### Removed
+
 - **Removed Plaintext Credentials from Bundle:**
   - Verified 0 occurrences of cleartext administrative passwords in `dist/assets/Admin-*.js`.

@@ -109,7 +109,11 @@ export default function App() {
             <AmbientBackground />
             <CustomCursor />
             <Navbar />
-            <main id="main-content" tabIndex={-1} style={{ position: 'relative', zIndex: 2, outline: 'none' }}>
+            <main
+              id="main-content"
+              tabIndex={-1}
+              style={{ position: 'relative', zIndex: 2, outline: 'none' }}
+            >
               <ErrorBoundary>
                 <Suspense fallback={<PageLoader />}>
                   <AnimatedRoutes />

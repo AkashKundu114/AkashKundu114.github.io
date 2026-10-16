@@ -7,18 +7,29 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/favicon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/og-image.png'],
+      includeAssets: [
+        'icons/favicon.svg',
+        'icons/icon-192.png',
+        'icons/icon-512.png',
+        'icons/og-image.png',
+      ],
       manifest: {
         name: 'Akash Kundu — AI Engineer & Full-Stack Developer',
         short_name: 'Akash.dev',
-        description: 'Portfolio of Akash Kundu - AI Engineer and Full-Stack Developer building production AI architectures, local multi-agent systems, and robust web apps.',
+        description:
+          'Portfolio of Akash Kundu - AI Engineer and Full-Stack Developer building production AI architectures, local multi-agent systems, and robust web apps.',
         theme_color: '#0B1228',
         background_color: '#0B1228',
         display: 'standalone',
         start_url: '/',
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+          {
+            src: '/icons/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
         ],
       },
       workbox: {
@@ -37,12 +48,18 @@ export default defineConfig({
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: 'CacheFirst',
-            options: { cacheName: 'google-fonts-cache', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
           },
           {
             urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
             handler: 'CacheFirst',
-            options: { cacheName: 'gstatic-fonts-cache', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+            options: {
+              cacheName: 'gstatic-fonts-cache',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
           },
         ],
       },

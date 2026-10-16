@@ -23,9 +23,6 @@ const FUSE_OPTIONS: IFuseOptions<Project> = {
   includeScore: true,
 };
 
-/**
- * Sanitizes search input to prevent anomalous inputs or runaway regexes.
- */
 function sanitizeSearchQuery(input: string): string {
   if (typeof input !== 'string') return '';
   return Array.from(input.slice(0, MAX_SEARCH_LENGTH))
@@ -36,9 +33,6 @@ function sanitizeSearchQuery(input: string): string {
     .join('');
 }
 
-/**
- * Collects sorted unique technologies from projects.
- */
 function extractAllTechnologies(projectList: readonly Project[]): string[] {
   if (!projectList || projectList.length === 0) return [];
   const techSet = new Set<string>();
@@ -54,9 +48,6 @@ function extractAllTechnologies(projectList: readonly Project[]): string[] {
   return Array.from(techSet).sort();
 }
 
-/**
- * Filters projects through Fuse fuzzy query and exact tag intersection.
- */
 function filterProjects(
   projectList: readonly Project[],
   query: string,
@@ -108,15 +99,9 @@ export default function Projects() {
     window.scrollTo(0, 0);
   }, []);
 
-  const allTechnologies = useMemo(
-    () => extractAllTechnologies(projects),
-    [projects]
-  );
+  const allTechnologies = useMemo(() => extractAllTechnologies(projects), [projects]);
 
-  const fuseInstance = useMemo(
-    () => new Fuse(projects, FUSE_OPTIONS),
-    [projects]
-  );
+  const fuseInstance = useMemo(() => new Fuse(projects, FUSE_OPTIONS), [projects]);
 
   const filteredProjects = useMemo(
     () => filterProjects(projects, deferredSearchQuery, selectedTags, fuseInstance),
@@ -160,11 +145,10 @@ export default function Projects() {
               color: 'var(--ink-2)',
             }}
           >
-            End-to-end builds — PyTorch vision backbones, LangGraph agent swarms, FastAPI pipelines, and
-            production desktop/web interfaces.
+            End-to-end builds — PyTorch vision backbones, LangGraph agent swarms, FastAPI pipelines,
+            and production desktop/web interfaces.
           </p>
 
-          {/* Search & Tag Filter Bar */}
           <LiquidGlassLens
             intensity="subtle"
             className="reveal card"
@@ -215,7 +199,6 @@ export default function Projects() {
               )}
             </div>
 
-            {/* Tag Selection Chips */}
             {allTechnologies.length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
                 {allTechnologies.map((tag) => {
@@ -239,7 +222,6 @@ export default function Projects() {
             )}
           </LiquidGlassLens>
 
-          {/* Filter Status Badge */}
           {hasActiveFilters && (
             <div
               className="reveal"
@@ -266,7 +248,6 @@ export default function Projects() {
             </div>
           )}
 
-          {/* Filtered Project Cards List */}
           {filteredProjects.length > 0 ? (
             <div
               className="stagger"
@@ -414,10 +395,7 @@ export default function Projects() {
                 No projects matched your criteria.
               </p>
               {hasActiveFilters && (
-                <button
-                  onClick={clearAllFilters}
-                  className="btn btn-sm"
-                >
+                <button onClick={clearAllFilters} className="btn btn-sm">
                   Clear search &amp; filter criteria
                 </button>
               )}

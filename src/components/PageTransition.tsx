@@ -24,11 +24,7 @@ const BASE_CONTAINER_STYLE: React.CSSProperties = {
   minHeight: '100vh',
 };
 
-function PageTransitionComponent({
-  children,
-  className,
-  style,
-}: PageTransitionProps) {
+function PageTransitionComponent({ children, className, style }: PageTransitionProps) {
   if (!children) {
     return null;
   }

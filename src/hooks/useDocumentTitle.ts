@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
 
-/**
- * Hook to dynamically update document title and meta description across routes.
- */
 export function useDocumentTitle(title: string, description?: string): void {
   useEffect(() => {
     const fullTitle = title.includes('Akash Kundu') ? title : `${title} | Akash Kundu`;

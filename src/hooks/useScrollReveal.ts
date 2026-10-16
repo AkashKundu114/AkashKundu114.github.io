@@ -1,17 +1,9 @@
 import { useEffect, useRef, type RefObject } from 'react';
 
-/**
- * Options for configuring the IntersectionObserver behavior in scroll reveal hooks.
- */
 export interface ScrollRevealOptions extends IntersectionObserverInit {
   fallbackDelayMs?: number;
 }
 
-/**
- * Hook to reveal a single DOM element once it enters the browser viewport.
- * Includes graceful fallbacks for environments without IntersectionObserver,
- * elements already in the initial viewport, and disconnected nodes.
- */
 export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
   options: ScrollRevealOptions = {}
 ): RefObject<T | null> {
@@ -21,25 +13,20 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
     const targetElement = elementRef.current;
     if (!targetElement) return;
 
-    // Boundary check: element must be mounted in DOM
     if (typeof targetElement.isConnected === 'boolean' && !targetElement.isConnected) {
       return;
     }
 
-    // SSR or headless environment safety check
     if (typeof window === 'undefined') return;
 
-    // Check if element is already inside the viewport upon mount
     const elementRect = targetElement.getBoundingClientRect();
-    const isInitiallyInViewport =
-      elementRect.top < window.innerHeight && elementRect.bottom > 0;
+    const isInitiallyInViewport = elementRect.top < window.innerHeight && elementRect.bottom > 0;
 
     if (isInitiallyInViewport) {
       targetElement.classList.add('visible');
       return;
     }
 
-    // Fallback if IntersectionObserver is unsupported in the client browser
     if (!('IntersectionObserver' in window)) {
       targetElement.classList.add('visible');
       return;
@@ -68,7 +55,6 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
 
     localObserver.observe(targetElement);
 
-    // Resilient fallback: ensure element becomes visible even if observer events are missed
     const fallbackTimerId = window.setTimeout(() => {
       if (targetElement && targetElement.isConnected) {
         targetElement.classList.add('visible');
@@ -84,11 +70,6 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
   return elementRef;
 }
 
-/**
- * Hook to automatically reveal child elements matching `.reveal` inside a container.
- * Features immediate detection for children already within viewport,
- * IntersectionObserver batch observing, and a resilient timeout fallback.
- */
 export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
   fallbackDelayMs = 1200
 ): RefObject<T | null> {
@@ -98,20 +79,16 @@ export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
     const containerElement = containerRef.current;
     if (!containerElement) return;
 
-    // Boundary check: element must be connected to the DOM
     if (typeof containerElement.isConnected === 'boolean' && !containerElement.isConnected) {
       return;
     }
 
     if (typeof window === 'undefined') return;
 
-    const revealChildren = Array.from(
-      containerElement.querySelectorAll<HTMLElement>('.reveal')
-    );
+    const revealChildren = Array.from(containerElement.querySelectorAll<HTMLElement>('.reveal'));
 
     if (revealChildren.length === 0) return;
 
-    // Immediately reveal child elements already inside or immediately near viewport
     const viewportThreshold = window.innerHeight + 100;
     for (const child of revealChildren) {
       const childRect = child.getBoundingClientRect();
@@ -120,7 +97,6 @@ export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
       }
     }
 
-    // Fallback if IntersectionObserver is not available
     if (!('IntersectionObserver' in window)) {
       revealChildren.forEach((child) => child.classList.add('visible'));
       return;
@@ -147,7 +123,6 @@ export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
       }
     });
 
-    // Resilient fallback: ensure everything is visible after fallbackDelayMs max
     const fallbackTimerId = window.setTimeout(() => {
       revealChildren.forEach((child) => {
         if (child.isConnected) {

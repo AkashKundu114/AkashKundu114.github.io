@@ -32,7 +32,16 @@ const ENGINEERING_DOMAINS: readonly EngineeringDomain[] = [
     icon: '◈',
     description:
       'Training models, agentic state-machines, and high-throughput vector pipelines from raw data to production.',
-    technologies: ['PyTorch', 'LangGraph', 'Agentic AI', 'MCP', 'Ollama', 'Sarvam AI', 'pgvector', 'SQL'],
+    technologies: [
+      'PyTorch',
+      'LangGraph',
+      'Agentic AI',
+      'MCP',
+      'Ollama',
+      'Sarvam AI',
+      'pgvector',
+      'SQL',
+    ],
     color: '#AFD2FA',
   },
   {
@@ -40,7 +49,16 @@ const ENGINEERING_DOMAINS: readonly EngineeringDomain[] = [
     icon: '◉',
     description:
       'Low-latency async microservices, tenant-isolated relational databases, and centralized observability.',
-    technologies: ['C#', 'ASP.NET', 'FastAPI', 'Node.js', 'MS SQL Server', 'PostgreSQL', 'Redis', 'Docker'],
+    technologies: [
+      'C#',
+      'ASP.NET',
+      'FastAPI',
+      'Node.js',
+      'MS SQL Server',
+      'PostgreSQL',
+      'Redis',
+      'Docker',
+    ],
     color: '#B9915E',
   },
   {
@@ -48,14 +66,19 @@ const ENGINEERING_DOMAINS: readonly EngineeringDomain[] = [
     icon: '◎',
     description:
       'Performant, tactile, and reactive interfaces — procedural Three.js WebGL, Vue.js, and desktop apps.',
-    technologies: ['Three.js', 'WebGL', 'React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    technologies: [
+      'Three.js',
+      'WebGL',
+      'React',
+      'Vue.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Framer Motion',
+    ],
     color: '#FEFAEF',
   },
 ];
 
-/**
- * Calculates high-level portfolio metrics with boundary checks.
- */
 function calculatePortfolioMetrics(
   projectList: readonly Project[],
   certificateList: readonly Certificate[]
@@ -150,7 +173,6 @@ function ParticleNetworkCanvas() {
         if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
       }
 
-      // Draw interconnection edges between proximal nodes
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -169,7 +191,6 @@ function ParticleNetworkCanvas() {
         }
       }
 
-      // Draw particle points
       for (const particle of particles) {
         const alpha = 0.2 + Math.sin(time + particle.phase) * 0.08;
         ctx.beginPath();
@@ -232,7 +253,6 @@ export default function Home() {
   return (
     <PageTransition>
       <div ref={containerRef}>
-        {/* Hero Section */}
         <section
           style={{
             paddingTop: '96px',
@@ -319,7 +339,6 @@ export default function Home() {
               </GlassButton>
             </div>
 
-            {/* Quick Metrics Bar */}
             <div
               className="reveal"
               style={{ display: 'flex', flexWrap: 'wrap', gap: '44px', marginBottom: '44px' }}
@@ -335,7 +354,6 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Technical Marquee */}
             {marqueeSkillsList.length > 0 && (
               <div className="reveal marquee-wrap" style={{ margin: '0 -2rem' }}>
                 <div className="marquee-track">
@@ -357,7 +375,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Engineering Focus Domains */}
         <section className="section">
           <div className="container">
             <div className="label reveal">what I work on</div>
@@ -402,7 +419,14 @@ export default function Home() {
                     </span>
                     <h3 style={{ color: 'var(--ink)' }}>{domain.label}</h3>
                   </div>
-                  <p style={{ fontSize: '13px', lineHeight: 1.75, marginBottom: '20px', color: 'var(--ink-2)' }}>
+                  <p
+                    style={{
+                      fontSize: '13px',
+                      lineHeight: 1.75,
+                      marginBottom: '20px',
+                      color: 'var(--ink-2)',
+                    }}
+                  >
                     {domain.description}
                   </p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
@@ -418,7 +442,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Interactive 3D WebGL Architectural Model */}
         <section className="section" style={{ paddingTop: '10px' }}>
           <div className="container">
             <div className="label reveal">interactive 3D architecture · WebGL</div>
@@ -435,9 +458,17 @@ export default function Home() {
             >
               <div>
                 <h2 style={{ marginBottom: '8px' }}>Advertising Cloud &amp; AI Agent Engine</h2>
-                <p style={{ fontSize: '14px', color: 'var(--ink-2)', maxWidth: '62ch', lineHeight: 1.7 }}>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: 'var(--ink-2)',
+                    maxWidth: '62ch',
+                    lineHeight: 1.7,
+                  }}
+                >
                   Interactive 3D procedural simulation inspired by ThreeUI &amp; Three.js — modeling
-                  cross-channel marketing optimization, multi-tenant databases, and agentic LLM swarms.
+                  cross-channel marketing optimization, multi-tenant databases, and agentic LLM
+                  swarms.
                 </p>
               </div>
               <div
@@ -480,7 +511,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Selected Flagship Projects */}
         <section className="section">
           <div className="container">
             <div
@@ -568,7 +598,14 @@ export default function Home() {
                             {project.title}
                           </Link>
                         </h3>
-                        <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '56ch', color: 'var(--ink-2)' }}>
+                        <p
+                          style={{
+                            fontSize: '13px',
+                            lineHeight: 1.65,
+                            maxWidth: '56ch',
+                            color: 'var(--ink-2)',
+                          }}
+                        >
                           {project.shortDesc}
                         </p>
                       </div>
@@ -631,7 +668,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Closing Hiring Banner */}
         <section
           className="section"
           style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)' }}
@@ -656,8 +692,8 @@ export default function Home() {
                   Graduating 2027 · Open to Roles.
                 </h2>
                 <p style={{ fontSize: '14px', marginTop: '6px', color: 'var(--ink-2)' }}>
-                  Actively interviewing for AI Engineering, MLOps, &amp; Full-Stack Software Engineer roles.
-                  Based in Kolkata, open to Relocation &amp; Remote.
+                  Actively interviewing for AI Engineering, MLOps, &amp; Full-Stack Software
+                  Engineer roles. Based in Kolkata, open to Relocation &amp; Remote.
                 </p>
               </div>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>

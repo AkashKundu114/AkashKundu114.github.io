@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+coverage/
+public/cv/
+public/certificates/
+public/icons/
+public/projects/
+audit_screenshots/
+REMEDIATION/
+package-lock.json
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.ico

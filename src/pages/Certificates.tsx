@@ -9,26 +9,17 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle';
 const DEFAULT_CATEGORY = 'All';
 const CURRENT_BENCHMARK_YEAR = '2026';
 
-/**
- * Checks if a certificate was earned in the current benchmark year.
- */
 function isRecentlyEarned(cert: Certificate, benchmarkYear = CURRENT_BENCHMARK_YEAR): boolean {
   if (!cert || typeof cert.date !== 'string') return false;
   return cert.date.includes(benchmarkYear);
 }
 
-/**
- * Extracts unique categories across all certificates, ensuring 'All' is the first choice.
- */
 function extractCategories(certs: readonly Certificate[]): string[] {
   if (!certs || certs.length === 0) return [DEFAULT_CATEGORY];
   const uniqueCategories = Array.from(new Set(certs.map((c) => c.category).filter(Boolean)));
   return [DEFAULT_CATEGORY, ...uniqueCategories.sort()];
 }
 
-/**
- * Filters certificate records by category name.
- */
 function filterCertificatesByCategory(
   certs: readonly Certificate[],
   activeCategory: string
@@ -54,10 +45,7 @@ export default function Certificates() {
     window.scrollTo(0, 0);
   }, []);
 
-  const availableCategories = useMemo(
-    () => extractCategories(certificates),
-    [certificates]
-  );
+  const availableCategories = useMemo(() => extractCategories(certificates), [certificates]);
 
   const filteredCertificates = useMemo(
     () => filterCertificatesByCategory(certificates, activeCategory),
@@ -100,7 +88,6 @@ export default function Certificates() {
             engineering.
           </p>
 
-          {/* Featured Recently Earned Credentials */}
           {recentCertificates.length > 0 && (
             <div className="reveal" style={{ marginBottom: '3.5rem' }}>
               <div className="flex items-center gap-3" style={{ marginBottom: '1rem' }}>
@@ -301,7 +288,6 @@ export default function Certificates() {
             </div>
           )}
 
-          {/* Filter Buttons Bar */}
           <div
             className="reveal"
             style={{
@@ -346,7 +332,6 @@ export default function Certificates() {
             </span>
           </div>
 
-          {/* Certificates Grid */}
           {filteredCertificates.length > 0 ? (
             <div
               style={{
@@ -514,11 +499,10 @@ export default function Certificates() {
                 fontFamily: 'JetBrains Mono, monospace',
               }}
             >
-              <p style={{ marginBottom: '1rem' }}>No certificates in category &quot;{activeCategory}&quot;.</p>
-              <button
-                onClick={() => setActiveCategory(DEFAULT_CATEGORY)}
-                className="btn btn-sm"
-              >
+              <p style={{ marginBottom: '1rem' }}>
+                No certificates in category &quot;{activeCategory}&quot;.
+              </p>
+              <button onClick={() => setActiveCategory(DEFAULT_CATEGORY)} className="btn btn-sm">
                 Reset to All Categories
               </button>
             </div>

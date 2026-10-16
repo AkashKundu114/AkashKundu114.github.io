@@ -5,7 +5,6 @@ export interface Skill {
 }
 
 export const skills: Skill[] = [
-  // Languages
   { id: 1, name: 'Python', category: 'Languages' },
   { id: 2, name: 'TypeScript', category: 'Languages' },
   { id: 3, name: 'JavaScript', category: 'Languages' },
@@ -13,7 +12,6 @@ export const skills: Skill[] = [
   { id: 5, name: 'C++', category: 'Languages' },
   { id: 6, name: 'SQL', category: 'Languages' },
 
-  // AI & Machine Learning
   { id: 7, name: 'PyTorch', category: 'AI & ML' },
   { id: 8, name: 'LangGraph', category: 'AI & ML' },
   { id: 9, name: 'LangChain', category: 'AI & ML' },
@@ -24,7 +22,6 @@ export const skills: Skill[] = [
   { id: 14, name: 'OpenCV', category: 'AI & ML' },
   { id: 15, name: 'Hugging Face', category: 'AI & ML' },
 
-  // Backend & Databases
   { id: 16, name: 'FastAPI', category: 'Backend & DB' },
   { id: 17, name: 'Node.js', category: 'Backend & DB' },
   { id: 18, name: 'Express', category: 'Backend & DB' },
@@ -36,7 +33,6 @@ export const skills: Skill[] = [
   { id: 24, name: 'Elasticsearch', category: 'Backend & DB' },
   { id: 25, name: 'REST APIs', category: 'Backend & DB' },
 
-  // Frontend & 3D Web UI
   { id: 26, name: 'React', category: 'Full-Stack UI' },
   { id: 27, name: 'Vue.js', category: 'Full-Stack UI' },
   { id: 28, name: 'Three.js', category: 'Full-Stack UI' },
@@ -46,7 +42,6 @@ export const skills: Skill[] = [
   { id: 32, name: 'Framer Motion', category: 'Full-Stack UI' },
   { id: 33, name: 'Electron', category: 'Full-Stack UI' },
 
-  // Cloud, DevOps & Testing
   { id: 34, name: 'Microsoft Azure', category: 'Cloud & DevOps' },
   { id: 35, name: 'Docker', category: 'Cloud & DevOps' },
   { id: 36, name: 'Kubernetes', category: 'Cloud & DevOps' },
@@ -57,9 +52,6 @@ export const skills: Skill[] = [
   { id: 41, name: 'Linux', category: 'Cloud & DevOps' },
 ];
 
-/**
- * Groups skills by their primary category.
- */
 export function getGroupedSkills(): Record<string, Skill[]> {
   return skills.reduce<Record<string, Skill[]>>((acc, sk) => {
     if (!sk || !sk.category) return acc;
@@ -69,27 +61,18 @@ export function getGroupedSkills(): Record<string, Skill[]> {
   }, {});
 }
 
-/**
- * Searches for a skill by name (case-insensitive).
- */
 export function getSkillByName(name: string): Skill | undefined {
   if (!name || typeof name !== 'string' || !name.trim()) return undefined;
   const normalized = name.trim().toLowerCase();
   return skills.find((skill) => skill.name.toLowerCase() === normalized);
 }
 
-/**
- * Returns all skills belonging to a specific category.
- */
 export function getSkillsByCategory(category: string): Skill[] {
   if (!category || typeof category !== 'string' || !category.trim()) return [];
   const normalized = category.trim().toLowerCase();
   return skills.filter((skill) => skill.category.toLowerCase() === normalized);
 }
 
-/**
- * Searches skills across names and categories.
- */
 export function searchSkills(query: string): Skill[] {
   if (!query || typeof query !== 'string' || !query.trim()) return [];
   const normalized = query.trim().toLowerCase();

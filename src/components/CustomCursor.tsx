@@ -18,16 +18,10 @@ interface Point2D {
   y: number;
 }
 
-/**
- * Linearly interpolates between current and target numeric values.
- */
 function linearInterpolate(currentValue: number, targetValue: number, factor: number): number {
   return currentValue + (targetValue - currentValue) * factor;
 }
 
-/**
- * Renders the smoothly trailing aura ring around the cursor.
- */
 function drawFollowerRing(
   context: CanvasRenderingContext2D,
   center: Point2D,
@@ -53,9 +47,6 @@ function drawFollowerRing(
   context.restore();
 }
 
-/**
- * Renders an instant-response diamond reticle dot directly at the mouse coordinates.
- */
 function drawPrecisionReticle(
   context: CanvasRenderingContext2D,
   position: Point2D,
@@ -73,7 +64,6 @@ function CustomCursorComponent() {
   const canvasReference = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // Only execute on environments with precise pointer (mouse) inputs
     if (typeof window === 'undefined' || typeof document === 'undefined') {
       return;
     }

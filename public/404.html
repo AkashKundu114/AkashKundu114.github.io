@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Akash Kundu - Page Redirect</title>
+    <script>
+      // Single Page Application redirect for GitHub Pages
+      // Converts direct paths like /projects/copper to /#/projects/copper
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      window.location.replace('/#' + path + search + hash);
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p>Redirecting to <a href="/">portfolio home</a>...</p>
+    </noscript>
+  </body>
+</html>

@@ -14,9 +14,10 @@
 The portfolio was evaluated as an externally accessible public attack surface. The assessment audited client-side data flows, authentication mechanisms, URL protocol handling, cross-site scripting (XSS) vectors, open redirect possibilities, third-party dependency vulnerabilities, privacy disclosures, and asset optimization.
 
 ### Key Security Achievements:
+
 1. **Elimination of Cleartext Credential Inlining (CWE-312 / CWE-200):**
-   - *Previous state:* `VITE_ADMIN_PASSWORD` in `.env` was inlined verbatim into `dist/assets/Admin-*.js` by Vite at build time, exposing the raw administrative password to anyone inspecting client bundles.
-   - *Hardened state:* Migrated authentication verification to client-side cryptographic SHA-256 digests (`crypto.subtle.digest('SHA-256')`). The `.env` and CI workflow now specify `VITE_ADMIN_PASSWORD_HASH`. Plaintext passwords are never compiled into or transmitted by any JavaScript bundle.
+   - _Previous state:_ `VITE_ADMIN_PASSWORD` in `.env` was inlined verbatim into `dist/assets/Admin-*.js` by Vite at build time, exposing the raw administrative password to anyone inspecting client bundles.
+   - _Hardened state:_ Migrated authentication verification to client-side cryptographic SHA-256 digests (`crypto.subtle.digest('SHA-256')`). The `.env` and CI workflow now specify `VITE_ADMIN_PASSWORD_HASH`. Plaintext passwords are never compiled into or transmitted by any JavaScript bundle.
 2. **Defensive URL Protocol Sanitization (CWE-79 / Stored & DOM XSS):**
    - Created `src/utils/security.ts` implementing `sanitizeUrl()` and `isSafeUrl()`.
    - Enforces strict allowlists: `https:`, `http:`, `mailto:`, `tel:`, or internal relative paths starting with single `/`.
@@ -32,27 +33,29 @@ The portfolio was evaluated as an externally accessible public attack surface. T
 
 ## 2. Threat Modeling & Vulnerability Ledger
 
-| ID | Vulnerability / Threat Vector | Severity | Affected File(s) | Status | Remediation & Verification |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **SEC-01** | **Cleartext Password Inlining into Client JS Bundle** (CWE-312) | **High** | `src/pages/Admin.tsx`, `.env`, `.github/workflows/deploy.yml` | **RESOLVED** | Replaced cleartext equality check with Web Crypto `crypto.subtle.digest('SHA-256')`. Replaced `VITE_ADMIN_PASSWORD` with `VITE_ADMIN_PASSWORD_HASH`. Bundle scan confirms 0 plaintext password occurrences. |
-| **SEC-02** | **Potential Protocol-Based DOM XSS via Unsanitized External Links** (CWE-79) | **Medium** | `src/components/EvilButtons.tsx`, `src/pages/Projects.tsx`, `src/pages/Home.tsx`, `src/pages/CertificateDetail.tsx` | **RESOLVED** | Wrapped all external hrefs with `sanitizeUrl()`. Rejects `javascript:`, `data:`, and `vbscript:` schemes. Verified with 12 automated unit tests in `src/__tests__/security.test.ts`. |
-| **SEC-03** | **Open Redirects via Backslash / Protocol-Relative Paths** (CWE-601 / CVE-2025-68470) | **Medium** | `src/components/EvilButtons.tsx` (`PolymorphicActionContainer`) | **RESOLVED** | Implemented `sanitizeRedirectPath()`, transforming `//attacker.com` and `/\attacker.com` into safe internal fallbacks. |
-| **SEC-04** | **Missing Browser Security Headers on GitHub Pages** | **Low** | `index.html` | **RESOLVED** | Embedded CSP, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Permissions-Policy` via `<meta http-equiv="...">` tags. |
-| **SEC-05** | **Contact Form Rapid Double-Submission Race Condition** | **Low** | `src/pages/Contact.tsx` | **RESOLVED** | Added guard condition checking `submissionStatus === 'sending'` before processing subsequent submit events. |
-| **SEC-06** | **Dependency Vulnerabilities in Transitive Tooling** | **Medium** | `package.json`, `package-lock.json` | **RESOLVED** | Executed `npm audit fix`, resolving 7 moderate/high advisories in `undici`, `browserslist`, `brace-expansion`, `fast-uri`, and `@vitest/mocker`. Remaining Tailwind 3 / React Router advisories verified non-exploitable in static SPA mode. |
-| **SEC-07** | **PWA Manifest 404 Missing Asset** | **Low** | `public/manifest.json`, `index.html` | **RESOLVED** | Corrected `index.html` reference to `/manifest.webmanifest` and created fallback `public/manifest.json`. |
+| ID         | Vulnerability / Threat Vector                                                         | Severity   | Affected File(s)                                                                                                    | Status       | Remediation & Verification                                                                                                                                                                                                                   |
+| :--------- | :------------------------------------------------------------------------------------ | :--------- | :------------------------------------------------------------------------------------------------------------------ | :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SEC-01** | **Cleartext Password Inlining into Client JS Bundle** (CWE-312)                       | **High**   | `src/pages/Admin.tsx`, `.env`, `.github/workflows/deploy.yml`                                                       | **RESOLVED** | Replaced cleartext equality check with Web Crypto `crypto.subtle.digest('SHA-256')`. Replaced `VITE_ADMIN_PASSWORD` with `VITE_ADMIN_PASSWORD_HASH`. Bundle scan confirms 0 plaintext password occurrences.                                  |
+| **SEC-02** | **Potential Protocol-Based DOM XSS via Unsanitized External Links** (CWE-79)          | **Medium** | `src/components/EvilButtons.tsx`, `src/pages/Projects.tsx`, `src/pages/Home.tsx`, `src/pages/CertificateDetail.tsx` | **RESOLVED** | Wrapped all external hrefs with `sanitizeUrl()`. Rejects `javascript:`, `data:`, and `vbscript:` schemes. Verified with 12 automated unit tests in `src/__tests__/security.test.ts`.                                                         |
+| **SEC-03** | **Open Redirects via Backslash / Protocol-Relative Paths** (CWE-601 / CVE-2025-68470) | **Medium** | `src/components/EvilButtons.tsx` (`PolymorphicActionContainer`)                                                     | **RESOLVED** | Implemented `sanitizeRedirectPath()`, transforming `//attacker.com` and `/\attacker.com` into safe internal fallbacks.                                                                                                                       |
+| **SEC-04** | **Missing Browser Security Headers on GitHub Pages**                                  | **Low**    | `index.html`                                                                                                        | **RESOLVED** | Embedded CSP, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Permissions-Policy` via `<meta http-equiv="...">` tags.                                                                            |
+| **SEC-05** | **Contact Form Rapid Double-Submission Race Condition**                               | **Low**    | `src/pages/Contact.tsx`                                                                                             | **RESOLVED** | Added guard condition checking `submissionStatus === 'sending'` before processing subsequent submit events.                                                                                                                                  |
+| **SEC-06** | **Dependency Vulnerabilities in Transitive Tooling**                                  | **Medium** | `package.json`, `package-lock.json`                                                                                 | **RESOLVED** | Executed `npm audit fix`, resolving 7 moderate/high advisories in `undici`, `browserslist`, `brace-expansion`, `fast-uri`, and `@vitest/mocker`. Remaining Tailwind 3 / React Router advisories verified non-exploitable in static SPA mode. |
+| **SEC-07** | **PWA Manifest 404 Missing Asset**                                                    | **Low**    | `public/manifest.json`, `index.html`                                                                                | **RESOLVED** | Corrected `index.html` reference to `/manifest.webmanifest` and created fallback `public/manifest.json`.                                                                                                                                     |
 
 ---
 
 ## 3. Cryptographic Verification & Secret Scanning
 
 A comprehensive pattern scan was executed across the Git repository history, local configuration files, and generated production artifacts (`dist/`):
+
 - **API Keys & Bearer Tokens:** 0 found.
 - **Private SSH / TLS Keys:** 0 found.
 - **Internal IP Addresses or Local Filesystem Paths:** 0 found in public assets.
 - **Cleartext Passwords in Production Bundles:** 0 found in `dist/assets/*.js`.
 
 ### Client Bundle Verification Command:
+
 ```powershell
 Get-ChildItem -Path dist/assets -Filter Admin-*.js | Select-String -Pattern "Gagan1414@|admin2024"
 # Output: (Clean - zero matches)
@@ -63,7 +66,7 @@ Get-ChildItem -Path dist/assets -Filter Admin-*.js | Select-String -Pattern "Gag
 ## 4. Content Security Policy (CSP) Directives
 
 ```http
-Content-Security-Policy: 
+Content-Security-Policy:
   default-src 'self';
   script-src 'self' 'unsafe-inline';
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;

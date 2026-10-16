@@ -2,12 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  ShinyButton,
-  Tactile3DButton,
-  GlitchButton,
-  GlassButton,
-} from '../components/EvilButtons';
+import { ShinyButton, Tactile3DButton, GlitchButton, GlassButton } from '../components/EvilButtons';
 
 const renderWithRouter = (ui: React.ReactElement) =>
   render(
@@ -20,9 +15,7 @@ describe('EvilButtons Component Suite', () => {
   describe('ShinyButton', () => {
     it('renders as a standard button when neither "to" nor "href" is specified', () => {
       const handleClick = vi.fn();
-      const { getByRole } = render(
-        <ShinyButton onClick={handleClick}>Click Me</ShinyButton>
-      );
+      const { getByRole } = render(<ShinyButton onClick={handleClick}>Click Me</ShinyButton>);
 
       const button = getByRole('button');
       expect(button).toBeInTheDocument();
@@ -58,16 +51,12 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('applies variant styling accurately and defaults unknown variant to primary styles', () => {
-      const { getByRole, rerender } = render(
-        <ShinyButton variant="danger">Delete</ShinyButton>
-      );
+      const { getByRole, rerender } = render(<ShinyButton variant="danger">Delete</ShinyButton>);
       let button = getByRole('button');
       expect(button.style.color).toBe('var(--danger)');
 
-      // Fallback for unexpected variant
       rerender(
-        // @ts-expect-error testing invalid variant fallback
-        <ShinyButton variant="unknown-variant">Fallback</ShinyButton>
+        <ShinyButton variant={'unknown-variant' as unknown as 'primary'}>Fallback</ShinyButton>
       );
       button = getByRole('button');
       expect(button.style.color).toBe('var(--bg)');
@@ -100,16 +89,14 @@ describe('EvilButtons Component Suite', () => {
 
       const button = getByRole('button');
       expect(button.className).toContain('evil-tactile-secondary');
-      expect(button.className).toContain('px-4.5'); // default md
+      expect(button.className).toContain('px-4.5');
 
       fireEvent.click(button);
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
     it('applies primary variant class when specified', () => {
-      const { getByRole } = render(
-        <Tactile3DButton variant="primary">Submit</Tactile3DButton>
-      );
+      const { getByRole } = render(<Tactile3DButton variant="primary">Submit</Tactile3DButton>);
       expect(getByRole('button').className).toContain('evil-tactile-primary');
     });
 
@@ -137,9 +124,7 @@ describe('EvilButtons Component Suite', () => {
 
   describe('GlitchButton', () => {
     it('renders button with data-text attribute matching string children', () => {
-      const { container, getByRole } = render(
-        <GlitchButton size="sm">CYBER</GlitchButton>
-      );
+      const { container, getByRole } = render(<GlitchButton size="sm">CYBER</GlitchButton>);
 
       const button = getByRole('button');
       expect(button.className).toContain('evil-glitch-btn');
@@ -161,9 +146,7 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('renders as Router Link when "to" is provided', () => {
-      const { getByRole } = renderWithRouter(
-        <GlitchButton to="/skills">Skills</GlitchButton>
-      );
+      const { getByRole } = renderWithRouter(<GlitchButton to="/skills">Skills</GlitchButton>);
       expect(getByRole('link').getAttribute('href')).toBe('/skills');
     });
 
@@ -201,9 +184,7 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('renders as Link when "to" is provided', () => {
-      const { getByRole } = renderWithRouter(
-        <GlassButton to="/about">About Us</GlassButton>
-      );
+      const { getByRole } = renderWithRouter(<GlassButton to="/about">About Us</GlassButton>);
 
       expect(getByRole('link').getAttribute('href')).toBe('/about');
     });

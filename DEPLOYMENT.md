@@ -6,6 +6,7 @@ Complete step-by-step guide to deploy your React portfolio to your custom domain
 ---
 
 ## 📋 Prerequisites
+
 - Git installed on your machine
 - Node.js 18+ installed
 - A GitHub account (yours: AkashKundu114)
@@ -16,12 +17,15 @@ Complete step-by-step guide to deploy your React portfolio to your custom domain
 ## PART 1 — Local Project Setup
 
 ### Step 1 — Install dependencies
+
 Open a terminal inside the `portfolio-react` folder and run:
+
 ```bash
 npm install
 ```
 
 ### Step 2 — Add your personal files to /public
+
 Place these files inside the `public/` folder before building:
 
 ```
@@ -42,21 +46,26 @@ public/
 ```
 
 ### Step 3 — Update data files with real info
+
 - `src/data/certificates.ts` → Real certificate details + image paths
-- `src/data/projects.ts`     → Real project details & screenshot paths
-- `src/data/skills.ts`       → Technical skills & categorizations
-- `src/pages/Contact.tsx`    → Contact form integration / API endpoint
+- `src/data/projects.ts` → Real project details & screenshot paths
+- `src/data/skills.ts` → Technical skills & categorizations
+- `src/pages/Contact.tsx` → Contact form integration / API endpoint
 
 ### Step 4 — Test locally
+
 ```bash
 npm run dev
 ```
+
 Open http://localhost:5173 and verify everything looks correct.
 
 ### Step 5 — Build for production
+
 ```bash
 npm run build
 ```
+
 This creates a `dist/` folder — that's what gets deployed.
 
 ---
@@ -64,6 +73,7 @@ This creates a `dist/` folder — that's what gets deployed.
 ## PART 2 — GitHub Repository Setup
 
 ### Step 6 — Create a GitHub repository
+
 1. Go to https://github.com/new
 2. Name it exactly: `portfolio` (or any name you prefer)
 3. Set it to **Public**
@@ -71,7 +81,9 @@ This creates a `dist/` folder — that's what gets deployed.
 5. Click **Create repository**
 
 ### Step 7 — Push your code to GitHub
+
 In your terminal inside `portfolio-react/`:
+
 ```bash
 git init
 git add .
@@ -86,6 +98,7 @@ git push -u origin main
 ## PART 3 — GitHub Actions Auto-Deploy
 
 ### Step 8 — Create the GitHub Actions workflow
+
 Create this file in your project (the path matters exactly):
 
 **File:** `.github/workflows/deploy.yml`
@@ -104,7 +117,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -144,6 +157,7 @@ jobs:
 ```
 
 ### Step 9 — Commit and push the workflow
+
 ```bash
 git add .github/
 git commit -m "Add GitHub Actions deploy workflow"
@@ -155,6 +169,7 @@ git push
 ## PART 4 — Enable GitHub Pages
 
 ### Step 10 — Configure Pages in GitHub settings
+
 1. Go to your repository on GitHub
 2. Click **Settings** tab
 3. Click **Pages** in the left sidebar
@@ -169,6 +184,7 @@ You can watch the build at: `https://github.com/AkashKundu114/portfolio/actions`
 ## PART 5 — Connect Custom Domain akashkundu.me
 
 ### Step 11 — Add your domain in GitHub Pages settings
+
 1. Still in **Settings → Pages**
 2. Under **Custom domain**, type: `akashkundu.me`
 3. Click **Save**
@@ -176,14 +192,16 @@ You can watch the build at: `https://github.com/AkashKundu114/portfolio/actions`
 5. Check **Enforce HTTPS** once it appears ✓
 
 ### Step 12 — Configure DNS at your domain registrar
+
 Your domain `akashkundu.me` was registered via GitHub Student Pack (Namecheap or similar).
 Log in to your registrar's DNS settings and add these records:
 
 #### Option A — Root domain (akashkundu.me) → Recommended ✓
+
 Add 4 **A records** pointing to GitHub Pages IPs:
 
 | Type | Host | Value           | TTL  |
-|------|------|-----------------|------|
+| ---- | ---- | --------------- | ---- |
 | A    | @    | 185.199.108.153 | 3600 |
 | A    | @    | 185.199.109.153 | 3600 |
 | A    | @    | 185.199.110.153 | 3600 |
@@ -191,11 +209,12 @@ Add 4 **A records** pointing to GitHub Pages IPs:
 
 Also add a **CNAME** for www:
 
-| Type  | Host | Value                        | TTL  |
-|-------|------|------------------------------|------|
-| CNAME | www  | AkashKundu114.github.io.     | 3600 |
+| Type  | Host | Value                    | TTL  |
+| ----- | ---- | ------------------------ | ---- |
+| CNAME | www  | AkashKundu114.github.io. | 3600 |
 
 #### If you used Namecheap (GitHub Student Pack):
+
 1. Log in → Domain List → Manage → Advanced DNS
 2. Delete any existing A records
 3. Add the 4 A records above (Host = @)
@@ -203,11 +222,14 @@ Also add a **CNAME** for www:
 5. Click ✓ to save each record
 
 ### Step 13 — Wait for DNS propagation
+
 DNS changes take **5 minutes to 48 hours** to propagate worldwide.
 Check status at: https://dnschecker.org/#A/akashkundu.me
 
 ### Step 14 — Verify everything works
+
 Once DNS propagates:
+
 - Visit: https://akashkundu.me → should show your portfolio ✓
 - Visit: https://www.akashkundu.me → should redirect to akashkundu.me ✓
 - HTTPS padlock should be green ✓
@@ -217,12 +239,14 @@ Once DNS propagates:
 ## PART 6 — Updating Your Portfolio
 
 Every time you make changes:
+
 ```bash
 
 git add .
 git commit -m "Update: added new project screenshots"
 git push
 ```
+
 GitHub Actions will automatically rebuild and redeploy in ~2 minutes.
 
 ---
@@ -278,23 +302,28 @@ portfolio-react/
 ## ❓ Common Issues
 
 ### Build fails on GitHub Actions
+
 - Check the Actions tab for the error log
 - Usually a missing import or syntax error — fix locally with `npm run build` first
 
 ### Custom domain shows "404" or old site
+
 - Check that `public/CNAME` contains exactly `akashkundu.me` (no spaces, no https://)
 - Re-enter the custom domain in GitHub Pages settings and save again
 
 ### HTTPS not working / "Not Secure"
+
 - Wait up to 24 hours after DNS propagation for GitHub to issue an SSL certificate
 - Make sure "Enforce HTTPS" is checked in Pages settings
 
 ### Contact form not sending
+
 - Sign up at https://formspree.io (free: 50 submissions/month)
 - Create a new form → copy the endpoint like `https://formspree.io/f/xyzabcde`
 - Replace `YOUR_FORM_ID` in `src/pages/Contact.jsx`
 
 ### Screenshots not showing
+
 - Ensure images are placed in `public/projects/<project-id>/` folder
 - Update the `screenshots` array in `src/data/projects.js` with the correct paths
 - Paths start with `/` e.g. `/projects/copper-ai-assistant/chat.png`

@@ -7,23 +7,26 @@ A comprehensive, ground-up refactoring of the portfolio codebase emphasizing mod
 ---
 
 ### 1. Academic & Profile Updates
+
 - **CGPA**: Updated cumulative grade point average to **7.59 / 10.0** till 6th semester in `src/data/education.ts` and `src/pages/Education.tsx`.
 - **Status**: Updated academic status to reflect completion of 6 semesters with active 4th-year coursework.
 
 ---
 
 ### 2. Procedural 3D WebGL Integration (ThreeUI-Inspired)
+
 - Added [`AdvertisingCloud3D.tsx`](src/components/AdvertisingCloud3D.tsx) utilizing Three.js and hardware-accelerated WebGL.
 - **Architectural Design**:
   - Procedural geodesic wireframe icosahedron with an emissive inner core and spherical particle starfield.
   - 5 interactive orbital satellite nodes modeling multi-channel AdTech & AI streams (AI Agent Swarm, Search & RTB Engine, Social Attribution Mesh, Multi-Tenant Data Store, ELK Telemetry).
   - Smooth inertial mouse-tilt tracking with canvas dimension boundary guards.
-  - Interactive mode toggles (*Advertising Cloud*, *AI Agent Swarm*, *Multi-Tenant Mesh*) and clickable telemetry cards.
+  - Interactive mode toggles (_Advertising Cloud_, _AI Agent Swarm_, _Multi-Tenant Mesh_) and clickable telemetry cards.
   - Memory-safe lifecycle: Full GPU asset disposal (`disposeSceneBundle`) and `IntersectionObserver` pause mechanics to maintain 60 FPS without leaking VRAM.
 
 ---
 
 ### 3. Component Architecture (`src/components/`)
+
 - **Polymorphic Action Container**: Unified navigation routing across `ShinyButton`, `Tactile3DButton`, `GlitchButton`, and `GlassButton` in `EvilButtons.tsx`, eliminating repeated branching and casting.
 - **Defensive Boundary Handling**:
   - `CustomCursor.tsx`: Added window/document undefined checks, sanitized dimensions with `Math.max(1, innerWidth)`, and extracted modular canvas drawing functions.
@@ -35,6 +38,7 @@ A comprehensive, ground-up refactoring of the portfolio codebase emphasizing mod
 ---
 
 ### 4. Data, Context & Hooks (`src/data/`, `src/context/`, `src/hooks/`)
+
 - **Eliminated Redundant Legacy Files**: Removed obsolete `src/hooks/useScrollReveal.js`.
 - **Hardened Scroll Reveal Hook** (`src/hooks/useScrollReveal.ts`):
   - Generic typing (`RefObject<T | null>`).
@@ -50,6 +54,7 @@ A comprehensive, ground-up refactoring of the portfolio codebase emphasizing mod
 ---
 
 ### 5. Page Components Hardening (`src/pages/`)
+
 - **Route Parameter Boundaries**: Sanitized ID route parameters in `ProjectDetail.tsx` and `CertificateDetail.tsx` with dedicated 404 fallback cards.
 - **Search & Filter Boundaries**: Clamped search queries in `Projects.tsx` to 80 characters, sanitized non-printable control characters, and added clear filter reset actions.
 - **Form Validation & Accessibility**: Formulated strict RFC-compliant regex validation and character count boundaries in `Contact.tsx`.
@@ -59,6 +64,7 @@ A comprehensive, ground-up refactoring of the portfolio codebase emphasizing mod
 ---
 
 ### 6. Backend Microservice (`backend/contact_api.py`)
+
 - **Input Validation**: Strict min/max boundaries on `name` (2–100 chars), `email` (max 254 chars, RFC regex, disposable domain blocklist), and `message` (10–3000 chars).
 - **SMTP Injection Protection**: Prohibited carriage returns (`\r`) and line breaks (`\n`) in the name and subject fields to block header injection attacks.
 - **Network Resilience**: Configured explicit socket timeouts (`DEFAULT_SMTP_TIMEOUT_SECONDS = 10`) on SMTP connections to prevent thread starvation.
@@ -67,7 +73,9 @@ A comprehensive, ground-up refactoring of the portfolio codebase emphasizing mod
 ---
 
 ### 7. Comprehensive Test Suite Expansion (`src/__tests__/`)
+
 Expanded the test suite from 1 smoke test to **107 comprehensive automated unit tests** across 9 test files (100% pass rate):
+
 - `data.test.ts` (32 tests): Validates schemas, uniqueness invariants, and search/lookup helpers.
 - `useScrollReveal.test.tsx` (13 tests): Validates immediate viewport triggers, observer registration, and timeout fallbacks.
 - `DataContext.test.tsx` (16 tests): Validates initial state hydration, CRUD operations, and storage quota resilience.

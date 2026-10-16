@@ -11,9 +11,6 @@ interface MetadataRow {
   value: string;
 }
 
-/**
- * Builds display metadata rows for a certificate, filtering out undefined or empty values.
- */
 function extractCertificateMetadata(cert: Certificate): MetadataRow[] {
   const candidateRows: Array<{ label: string; value: string | undefined | null }> = [
     { label: 'Issued by', value: cert.issuer },
@@ -22,7 +19,9 @@ function extractCertificateMetadata(cert: Certificate): MetadataRow[] {
   ];
 
   return candidateRows
-    .filter((row): row is MetadataRow => typeof row.value === 'string' && row.value.trim().length > 0)
+    .filter(
+      (row): row is MetadataRow => typeof row.value === 'string' && row.value.trim().length > 0
+    )
     .map((row) => ({ label: row.label, value: row.value.trim() }));
 }
 
@@ -66,13 +65,19 @@ export default function CertificateDetail() {
         <section className="section" style={{ paddingTop: '100px', minHeight: '60vh' }}>
           <div className="container" style={{ textAlign: 'center', maxWidth: '520px' }}>
             <div className="label" style={{ marginBottom: '12px', color: 'var(--danger)' }}>
-              404 // NOT FOUND
+              404
             </div>
-            <h2 style={{ fontSize: '1.75rem', marginBottom: '12px' }}>
-              Certificate Not Found
-            </h2>
-            <p style={{ marginBottom: '24px', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--muted-2)' }}>
-              The certificate credential you requested could not be located in the verification registry.
+            <h2 style={{ fontSize: '1.75rem', marginBottom: '12px' }}>Certificate Not Found</h2>
+            <p
+              style={{
+                marginBottom: '24px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '13px',
+                color: 'var(--muted-2)',
+              }}
+            >
+              The certificate credential you requested could not be located in the verification
+              registry.
             </p>
             <Link to="/certificates" className="btn btn-primary">
               ← Return to Certificates
@@ -154,7 +159,6 @@ export default function CertificateDetail() {
             }}
             id="cert-detail-grid"
           >
-            {/* Certificate Media Panel */}
             <div className="reveal">
               {isPdfDocument ? (
                 <iframe
@@ -201,14 +205,19 @@ export default function CertificateDetail() {
                   className="card"
                   style={{ padding: '60px 24px', textAlign: 'center', marginBottom: '10px' }}
                 >
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--muted-2)' }}>
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '12px',
+                      color: 'var(--muted-2)',
+                    }}
+                  >
                     No certificate preview image provided.
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Certificate Details Column */}
             <div style={{ position: 'sticky', top: '5rem' }}>
               <div className="reveal" style={{ marginBottom: '12px' }}>
                 <span
@@ -239,7 +248,12 @@ export default function CertificateDetail() {
               </h1>
               <p
                 className="reveal"
-                style={{ fontSize: '13px', marginBottom: '24px', fontFamily: 'var(--font-mono)', color: 'var(--muted-2)' }}
+                style={{
+                  fontSize: '13px',
+                  marginBottom: '24px',
+                  fontFamily: 'var(--font-mono)',
+                  color: 'var(--muted-2)',
+                }}
               >
                 {currentCert.issuer}
               </p>
@@ -293,7 +307,14 @@ export default function CertificateDetail() {
 
               {currentCert.description && (
                 <div className="reveal" style={{ marginBottom: '20px' }}>
-                  <p style={{ fontSize: '13px', lineHeight: 1.8, fontFamily: 'var(--font-body)', color: 'var(--ink-2)' }}>
+                  <p
+                    style={{
+                      fontSize: '13px',
+                      lineHeight: 1.8,
+                      fontFamily: 'var(--font-body)',
+                      color: 'var(--ink-2)',
+                    }}
+                  >
                     {currentCert.description}
                   </p>
                 </div>

@@ -46,7 +46,6 @@ describe('Data Module: projects.ts', () => {
       expect(typeof proj.id).toBe('string');
       expect(proj.id.trim().length).toBeGreaterThan(0);
 
-      // Unique ID check
       expect(ids.has(proj.id)).toBe(false);
       ids.add(proj.id);
 
@@ -60,14 +59,12 @@ describe('Data Module: projects.ts', () => {
       expect(typeof proj.description).toBe('string');
       expect(typeof proj.problem).toBe('string');
 
-      // AI Architecture checks
       expect(proj.aiArchitecture).toBeDefined();
       expect(typeof proj.aiArchitecture.heading).toBe('string');
       expect(typeof proj.aiArchitecture.body).toBe('string');
       expect(Array.isArray(proj.aiArchitecture.points)).toBe(true);
       expect(Array.isArray(proj.aiArchitecture.stack)).toBe(true);
 
-      // UI Deployment checks
       expect(proj.uiDeployment).toBeDefined();
       expect(typeof proj.uiDeployment.heading).toBe('string');
       expect(typeof proj.uiDeployment.body).toBe('string');
@@ -75,13 +72,11 @@ describe('Data Module: projects.ts', () => {
       expect(Array.isArray(proj.uiDeployment.stack)).toBe(true);
       expect(typeof proj.uiDeployment.deployed).toBe('string');
 
-      // Technologies and features
       expect(Array.isArray(proj.technologies)).toBe(true);
       expect(proj.technologies.length).toBeGreaterThan(0);
       expect(Array.isArray(proj.features)).toBe(true);
       expect(proj.features.length).toBeGreaterThan(0);
 
-      // Year and screenshots
       expect(typeof proj.year).toBe('string');
       expect(/^\d{4}$/.test(proj.year)).toBe(true);
       expect(Array.isArray(proj.screenshots)).toBe(true);
@@ -118,7 +113,6 @@ describe('Data Module: projects.ts', () => {
         expect(hasPython).toBe(true);
       });
 
-      // Boundary: non-existent technology
       const nonExistentTech = projects.filter((p) =>
         p.technologies.includes('CobolAncientLanguage99')
       );
@@ -187,11 +181,9 @@ describe('Data Module: skills.ts', () => {
         expect(grouped[cat].length).toBeGreaterThan(0);
       });
 
-      // Total count across all categories must equal skills.length
       const totalGrouped = Object.values(grouped).reduce((sum, list) => sum + list.length, 0);
       expect(totalGrouped).toBe(skills.length);
 
-      // Verify skills match the category key
       Object.entries(grouped).forEach(([cat, list]) => {
         list.forEach((item) => {
           expect(item.category).toBe(cat);
@@ -291,7 +283,6 @@ describe('Data Module: certificates.ts', () => {
   it('defines valid hex colors for all certificate categories', () => {
     expect(typeof categoryColors).toBe('object');
 
-    // Every category used in certificates must be present in categoryColors
     const uniqueCategories = new Set(certificates.map((c) => c.category));
     uniqueCategories.forEach((cat) => {
       expect(categoryColors[cat]).toBeDefined();
@@ -322,9 +313,7 @@ describe('Data Module: certificates.ts', () => {
       const filterBySkill = (skillName: string): Certificate[] => {
         if (!skillName.trim()) return [];
         const target = skillName.trim().toLowerCase();
-        return certificates.filter((c) =>
-          c.skills.some((s) => s.toLowerCase() === target)
-        );
+        return certificates.filter((c) => c.skills.some((s) => s.toLowerCase() === target));
       };
 
       const agenticCerts = filterBySkill('AI Agents');
@@ -449,4 +438,3 @@ describe('Exported Education Helpers with Boundary Checks', () => {
     );
   });
 });
-

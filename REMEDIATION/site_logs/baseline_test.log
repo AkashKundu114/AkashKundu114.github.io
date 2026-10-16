@@ -1,0 +1,78 @@
+
+> akash-kundu-portfolio@2.0.0 test
+> vitest run --run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.12 [39m[90mD:/akashkundu[39m
+
+ [32m✓[39m src/__tests__/security.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+Error: Simulated component crash
+    at ProblemChild (D:/akashkundu/src/__tests__/ErrorBoundary.test.tsx:7:11)
+    at renderWithHooks (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (D:\akashkundu\node_modules\jsdom\lib\generated\idl\EventListener.js:26:30)
+    at innerInvokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:360:16)
+    at invokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:243:9)
+    at HTMLUnknownElementImpl.dispatchEvent (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:114:17)
+ [32m✓[39m src/__tests__/data.test.ts [2m([22m[2m32 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+Error: Simulated component crash
+    at ProblemChild (D:/akashkundu/src/__tests__/ErrorBoundary.test.tsx:7:11)
+    at renderWithHooks (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (D:\akashkundu\node_modules\jsdom\lib\generated\idl\EventListener.js:26:30)
+    at innerInvokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:360:16)
+    at invokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:243:9)
+    at HTMLUnknownElementImpl.dispatchEvent (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:114:17)
+ [32m✓[39m src/__tests__/ThemeContext.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32m✓[39m src/__tests__/useScrollReveal.test.tsx [2m([22m[2m13 tests[22m[2m)[22m[32m 82[2mms[22m[39m
+Error: useData must be used inside <DataProvider>
+    at useData (D:/akashkundu/src/context/DataContext.tsx:190:11)
+    at D:/akashkundu/src/__tests__/DataContext.test.tsx:19:35
+    at TestComponent (D:\akashkundu\node_modules\@testing-library\react\dist\pure.js:330:27)
+    at renderWithHooks (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (D:\akashkundu\node_modules\jsdom\lib\generated\idl\EventListener.js:26:30)
+    at innerInvokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:360:16)
+    at invokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:296:3)
+Error: useData must be used inside <DataProvider>
+    at useData (D:/akashkundu/src/context/DataContext.tsx:190:11)
+    at D:/akashkundu/src/__tests__/DataContext.test.tsx:19:35
+    at TestComponent (D:\akashkundu\node_modules\@testing-library\react\dist\pure.js:330:27)
+    at renderWithHooks (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (D:\akashkundu\node_modules\react-dom\cjs\react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (D:\akashkundu\node_modules\jsdom\lib\generated\idl\EventListener.js:26:30)
+    at innerInvokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:360:16)
+    at invokeEventListeners (D:\akashkundu\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:296:3)
+[90mstderr[2m | src/__tests__/DataContext.test.tsx[2m > [22m[2mDataContext and useData Hook[2m > [22m[2mthrows an error when useData is used outside of DataProvider
+[22m[39mThe above error occurred in the <TestComponent> component:
+
+    at TestComponent (D:\akashkundu\node_modules\@testing-library\react\dist\pure.js:328:5)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+ [32m✓[39m src/__tests__/DataContext.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32m✓[39m src/__tests__/ErrorBoundary.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 159[2mms[22m[39m
+ [32m✓[39m src/__tests__/Footer.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 105[2mms[22m[39m
+ [32m✓[39m src/__tests__/LiquidGlassLens.test.tsx [2m([22m[2m13 tests[22m[2m)[22m[32m 197[2mms[22m[39m
+ [32m✓[39m src/__tests__/App.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 94[2mms[22m[39m
+ [32m✓[39m src/__tests__/NotFound.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 155[2mms[22m[39m
+ [32m✓[39m src/__tests__/EvilButtons.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[32m 199[2mms[22m[39m
+ [32m✓[39m src/__tests__/Navbar.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[32m 215[2mms[22m[39m
+ [32m✓[39m src/__tests__/Projects.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 394[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+[2m      Tests [22m [1m[32m129 passed[39m[22m[90m (129)[39m
+[2m   Start at [22m 00:37:45
+[2m   Duration [22m 5.54s[2m (transform 1.49s, setup 14.55s, import 5.15s, tests 1.76s, environment 36.42s)[22m
+

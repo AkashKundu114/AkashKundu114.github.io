@@ -23,9 +23,6 @@ const CATEGORY_DEFINITIONS: readonly SkillCategoryDefinition[] = [
   { name: 'Cloud & DevOps', icon: '◬', color: '#AFD2FA' },
 ];
 
-/**
- * Organizes skills by declared category definitions with empty array boundary checks.
- */
 function buildSkillGroups(
   allSkills: readonly Skill[],
   definitions: readonly SkillCategoryDefinition[]
@@ -60,10 +57,7 @@ export default function Skills() {
     window.scrollTo(0, 0);
   }, []);
 
-  const skillGroups = useMemo(
-    () => buildSkillGroups(skills, CATEGORY_DEFINITIONS),
-    []
-  );
+  const skillGroups = useMemo(() => buildSkillGroups(skills, CATEGORY_DEFINITIONS), []);
 
   const marqueeSkills = useMemo(
     () => (skills && skills.length > 0 ? skills.map((skill) => skill.name) : []),
@@ -88,12 +82,15 @@ export default function Skills() {
               fontFamily: 'var(--font-mono)',
             }}
           >
-            Engineered across the full lifecycle: model fine-tuning, vector pipelines, low-latency FastAPI
-            gateways, and responsive reactive interfaces.
+            Engineered across the full lifecycle: model fine-tuning, vector pipelines, low-latency
+            FastAPI gateways, and responsive reactive interfaces.
           </p>
 
           {skillGroups.length > 0 ? (
-            <div className="stagger" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div
+              className="stagger"
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+            >
               {skillGroups.map((group, groupIndex) => (
                 <div
                   key={group.name}
@@ -176,9 +173,9 @@ export default function Skills() {
               PROVEN
             </span>
             <p style={{ fontSize: '12px', lineHeight: 1.75, fontFamily: 'var(--font-mono)' }}>
-              Every skill listed above has been validated in production or offline benchmarked pipelines
-              (AI-SATHI, COPPER, OphthalmoAI, Portfolio CMS) — backed by passing Pytest suites, Alembic
-              migrations, and real latency profiles.
+              Every skill listed above has been validated in production or offline benchmarked
+              pipelines (AI-SATHI, COPPER, OphthalmoAI, Portfolio CMS) — backed by passing Pytest
+              suites, Alembic migrations, and real latency profiles.
             </p>
           </div>
 

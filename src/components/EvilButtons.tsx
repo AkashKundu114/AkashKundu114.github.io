@@ -96,9 +96,6 @@ const SHINY_SPRING_TRANSITION = {
   damping: 25,
 } as const;
 
-/**
- * Ensures external links automatically include safe rel attributes.
- */
 function resolveAnchorSecurityRel(target?: string, rel?: string): string | undefined {
   if (rel) {
     return rel;
@@ -123,9 +120,6 @@ interface PolymorphicActionContainerProps {
   ariaLabel?: string;
 }
 
-/**
- * Unified polymorphic component rendering React Router Link, anchor, or HTML button.
- */
 function PolymorphicActionContainer({
   to,
   href,
@@ -212,10 +206,6 @@ function PolymorphicActionContainer({
   );
 }
 
-/**
- * 1. ShinyButton
- * Dynamic sweeping light beam with tactile spring bounce and neon rim.
- */
 export const ShinyButton = memo(function ShinyButton({
   children,
   variant = 'primary',
@@ -296,10 +286,6 @@ export const ShinyButton = memo(function ShinyButton({
   );
 });
 
-/**
- * 2. Tactile3DButton
- * Mechanical push button with true isometric bottom depth and physical spring recoil.
- */
 export const Tactile3DButton = memo(function Tactile3DButton({
   children,
   variant = 'secondary',
@@ -347,10 +333,6 @@ export const Tactile3DButton = memo(function Tactile3DButton({
   );
 });
 
-/**
- * 3. GlitchButton
- * Cyberpunk / terminal button with chromatic RGB split flash and corner tech brackets.
- */
 export const GlitchButton = memo(function GlitchButton({
   children,
   size = 'md',
@@ -400,10 +382,6 @@ export const GlitchButton = memo(function GlitchButton({
   );
 });
 
-/**
- * 4. GlassButton
- * Apple-style liquid glass lens button with live refraction blur and specular highlight.
- */
 export const GlassButton = memo(function GlassButton({
   children,
   size = 'md',

@@ -19,10 +19,6 @@ const STORAGE_KEYS = {
   CERTIFICATES: 'portfolio_certificates',
 } as const;
 
-/**
- * Safely reads and parses JSON from localStorage with robust error handling
- * for privacy sandboxes (e.g., SecurityError) and malformed payloads.
- */
 function safeReadStore<T>(key: string, fallback: T): T {
   if (typeof window === 'undefined') return fallback;
   try {
@@ -43,9 +39,6 @@ function safeReadStore<T>(key: string, fallback: T): T {
   }
 }
 
-/**
- * Safely persists an item into localStorage, catching security or quota exceptions.
- */
 function safeWriteStore<T>(key: string, value: T): boolean {
   if (typeof window === 'undefined') return false;
   try {
@@ -123,9 +116,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const updateProject = (id: string, updates: Partial<Project>) => {
     if (!id) return;
     saveProjects(
-      projects.map((project) =>
-        project.id === id ? { ...project, ...updates } : project
-      )
+      projects.map((project) => (project.id === id ? { ...project, ...updates } : project))
     );
   };
 
@@ -154,11 +145,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const updateCertificate = (id: string, updates: Partial<Certificate>) => {
     if (!id) return;
-    saveCertificates(
-      certificates.map((cert) =>
-        cert.id === id ? { ...cert, ...updates } : cert
-      )
-    );
+    saveCertificates(certificates.map((cert) => (cert.id === id ? { ...cert, ...updates } : cert)));
   };
 
   const deleteCertificate = (id: string) => {

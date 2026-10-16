@@ -25,7 +25,6 @@ interface CareerMilestone {
 const PROFILE_METADATA: readonly ProfileMetadataItem[] = [
   { label: 'Location', value: 'Kolkata, West Bengal (Open to Relocate / Remote)' },
   { label: 'Email', value: 'akashkundu7487@gmail.com', href: 'mailto:akashkundu7487@gmail.com' },
-  { label: 'Phone', value: '+91 9064349004', href: 'tel:+919064349004' },
   { label: 'Status', value: 'Open to Full-Time & Pre-Placement Roles (2027)' },
   { label: 'Languages', value: 'Bengali · English · Hindi' },
   { label: 'Education', value: 'B.Tech CSE - Techno India University, 2027' },
@@ -109,11 +108,10 @@ export default function About() {
         <div className="container">
           <div className="label reveal">about</div>
           <h1 className="reveal heading-lg" style={{ marginBottom: '48px', maxWidth: '28ch' }}>
-            B.Tech CSE student &amp; aspiring AI Engineer / SWE building scalable ML systems and agentic
-            workflows.
+            B.Tech CSE student &amp; aspiring AI Engineer / SWE building scalable ML systems and
+            agentic workflows.
           </h1>
 
-          {/* Profile Overview & Metadata Grid */}
           <div
             className="reveal"
             style={{
@@ -125,7 +123,6 @@ export default function About() {
             }}
             id="about-grid"
           >
-            {/* Metadata Card */}
             <div className="card card-hover" style={{ padding: 0, overflow: 'hidden' }}>
               {PROFILE_METADATA.map(({ label, value, href }) => (
                 <div
@@ -184,7 +181,6 @@ export default function About() {
               </div>
             </div>
 
-            {/* Narrative Bio */}
             <div>
               {BIO_PARAGRAPHS.map((paragraph, index) => (
                 <p
@@ -203,7 +199,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Core Engineering Principles */}
           <div className="reveal" style={{ marginBottom: '64px' }}>
             <div className="label">how I work</div>
             <div
@@ -236,7 +231,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Career Milestones Timeline */}
           <div className="reveal">
             <div className="label">timeline</div>
             <div className="timeline stagger">

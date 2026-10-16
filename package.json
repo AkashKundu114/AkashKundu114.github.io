@@ -7,8 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": " vitest run",
-    "lint": "eslint . "
+    "test": "vitest run",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "verify:comments": "node scripts/verify_no_comments.cjs",
+    "audit:security": "node scripts/security_audit.cjs",
+    "ci": "npm run format:check && npm run verify:comments && npm run lint && npm run typecheck && npm test && npm run build && npm run audit:security"
   },
   "dependencies": {
     "framer-motion": "^11.3.0",

@@ -19,7 +19,6 @@ describe('ThemeContext and useTheme Hook', () => {
     expect(result.current.theme).toBe('theme-1');
     expect(typeof result.current.changeTheme).toBe('function');
 
-    // Calling default changeTheme should not throw
     expect(() => result.current.changeTheme('theme-2')).not.toThrow();
   });
 
@@ -36,7 +35,7 @@ describe('ThemeContext and useTheme Hook', () => {
   });
 
   it('initializes with a random theme between theme-1 and theme-5 when no saved theme exists', () => {
-    vi.spyOn(Math, 'random').mockReturnValue(0.4); // index 2 -> theme-3
+    vi.spyOn(Math, 'random').mockReturnValue(0.4);
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
@@ -72,13 +71,10 @@ describe('ThemeContext and useTheme Hook', () => {
 
     expect(result.current.theme).toBe('theme-1');
 
-    // Attempting invalid updates
     act(() => {
       result.current.changeTheme('');
-      // @ts-expect-error testing invalid input
-      result.current.changeTheme(null);
-      // @ts-expect-error testing invalid input
-      result.current.changeTheme(undefined);
+      result.current.changeTheme(null as unknown as string);
+      result.current.changeTheme(undefined as unknown as string);
     });
 
     expect(result.current.theme).toBe('theme-1');
