@@ -15,7 +15,9 @@ Object.defineProperty(window, 'matchMedia', {
   }),
 });
 
-HTMLCanvasElement.prototype.getContext = () => {
+window.scrollTo = vi.fn();
+
+HTMLCanvasElement.prototype.getContext = (() => {
   return {
     clearRect: () => {},
     beginPath: () => {},
@@ -24,8 +26,8 @@ HTMLCanvasElement.prototype.getContext = () => {
     fillRect: () => {},
     fillStyle: '',
     globalAlpha: 1,
-  } as any;
-};
+  };
+}) as unknown as typeof HTMLCanvasElement.prototype.getContext;
 
 class MockIntersectionObserver {
   readonly root: Element | Document | null = null;

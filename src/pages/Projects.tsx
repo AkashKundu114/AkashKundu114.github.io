@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useDeferredValue } from 'react';
 import { Link } from 'react-router-dom';
 import Fuse, { IFuseOptions } from 'fuse.js';
 import { useData } from '../context/DataContext';
@@ -7,6 +7,7 @@ import PageTransition from '../components/PageTransition';
 import LiquidGlassLens from '../components/LiquidGlassLens';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { Project } from '../data/projects';
+import { sanitizeUrl } from '../utils/security';
 
 const MAX_SEARCH_LENGTH = 80;
 
@@ -65,9 +66,20 @@ function filterProjects(
   if (!projectList || projectList.length === 0) return [];
 
   const trimmedQuery = query.trim();
-  let searchResults: Project[] = trimmedQuery
-    ? fuseInstance.search(trimmedQuery).map((match) => match.item)
-    : [...projectList];
+  let searchResults: Project[];
+
+  if (!trimmedQuery) {
+    searchResults = [...projectList];
+  } else if (trimmedQuery.length < 2) {
+    const lowerQuery = trimmedQuery.toLowerCase();
+    searchResults = projectList.filter(
+      (project) =>
+        project.title.toLowerCase().includes(lowerQuery) ||
+        (project.technologies ?? []).some((tech) => tech.toLowerCase().includes(lowerQuery))
+    );
+  } else {
+    searchResults = fuseInstance.search(trimmedQuery).map((match) => match.item);
+  }
 
   if (selectedTags.length > 0) {
     searchResults = searchResults.filter((project) => {
@@ -90,6 +102,7 @@ export default function Projects() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -106,8 +119,8 @@ export default function Projects() {
   );
 
   const filteredProjects = useMemo(
-    () => filterProjects(projects, searchQuery, selectedTags, fuseInstance),
-    [projects, searchQuery, selectedTags, fuseInstance]
+    () => filterProjects(projects, deferredSearchQuery, selectedTags, fuseInstance),
+    [projects, deferredSearchQuery, selectedTags, fuseInstance]
   );
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -371,9 +384,9 @@ export default function Projects() {
                         ))}
                       </div>
                       <div style={{ display: 'flex', gap: '6px' }}>
-                        {project.github && (
+                        {sanitizeUrl(project.github) && (
                           <a
-                            href={project.github}
+                            href={sanitizeUrl(project.github)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-sm"

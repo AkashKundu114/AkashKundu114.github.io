@@ -37,8 +37,8 @@ The portfolio was tested using real headless Chrome browser automation across al
   - `word-break: break-word` and `flex-wrap: wrap` applied to technology tag containers and meta badges.
 
 ### 2. Navigation Bar & Mobile Drawer Dynamics
-- **Desktop (>= 768px):** Fixed translucent glass navbar (`backdrop-filter: blur(16px)`), horizontal nav items with active route indicator, theme picker dropdown, and status badge.
-- **Mobile (< 768px):** Compact branding pill with hamburger toggle button (`aria-label="Toggle Navigation"`). Clicking opens a full-screen drawer with large touch-friendly route targets (minimum 48px height), preventing misclicks.
+- **Desktop (>= 768px):** Fixed translucent glass navbar (`backdrop-filter: blur(16px)`), horizontal nav items with active route indicator, Theme Palette cycler with live color swatch, Eco Mode battery toggle pill (`Eco ON / OFF`), CV download button, and GitHub profile link.
+- **Mobile (< 768px):** Compact branding pill with hamburger toggle button (`aria-label="Toggle navigation menu"`). Clicking opens a full-screen drawer with large touch-friendly route targets (minimum 48px height), full-width CV and GitHub buttons, theme cycle button, and dedicated Eco Mode toggle (`⚡ Eco Active / 🔋 Eco OFF`), preventing misclicks.
 - **Escape Key Handling:** Drawer listens for Escape key and outside clicks to smoothly dismiss.
 
 ### 3. Bento Grid & Card Breakpoints

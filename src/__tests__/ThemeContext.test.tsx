@@ -107,4 +107,34 @@ describe('ThemeContext and useTheme Hook', () => {
       expect.any(Error)
     );
   });
+
+  it('provides default isEcoMode and toggleEcoMode, and toggles eco mode on demand', () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    const initialEco = result.current.isEcoMode;
+    expect(typeof result.current.toggleEcoMode).toBe('function');
+
+    act(() => {
+      result.current.toggleEcoMode();
+    });
+
+    expect(result.current.isEcoMode).toBe(!initialEco);
+    expect(document.documentElement.getAttribute('data-eco')).toBe(String(!initialEco));
+    expect(localStorage.getItem('portfolio_eco_mode')).toBe(String(!initialEco));
+  });
+
+  it('restores saved eco mode setting from localStorage', () => {
+    localStorage.setItem('portfolio_eco_mode', 'true');
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    expect(result.current.isEcoMode).toBe(true);
+    expect(document.documentElement.getAttribute('data-eco')).toBe('true');
+  });
 });

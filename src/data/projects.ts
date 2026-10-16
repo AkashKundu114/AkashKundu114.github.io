@@ -95,7 +95,7 @@ export const projects: Project[] = [
     shortDesc:
       '100% offline personal AI OS featuring 12 specialized agent types (+5 roadmap targets), TFP cascade routing (<0.10ms, ~9,856 QPS), DFM-Guard safety, and an Electron desktop UI. Zero cloud egress.',
     description:
-      'Architected C.O.P.P.E.R. (Centralized Omnifunctional Personal Productivity and Execution Routine), an independent, 100% offline personal AI OS running on local consumer hardware. Powered by a 14B Sovereign Core fleet across 12 specialized agent types (+5 roadmap targets), it achieves ~9,856 QPS dispatch with <0.10ms latency, 100% Guardian threat intercept across 350 adversarial test cases, and 614 passing automated tests (573 Pytest backend + 41 Vitest frontend).',
+      'Architected C.O.P.P.E.R. (Centralized Omnifunctional Personal Productivity and Execution Routine), an independent, 100% offline personal AI OS running on local consumer hardware. Powered by a 14B Sovereign Core fleet across 12 specialized agent types (+5 roadmap targets), it achieves ~9,856 QPS dispatch with <0.10ms latency, 100% Guardian threat intercept across 350 adversarial test cases, and 685 passing automated tests (644 Pytest backend + 41 Vitest frontend).',
     problem:
       'Cloud AI assistants introduce recurring subscription costs, API rate limits, and severe privacy risks through telemetry surveillance and prompt data leakage. Developers lack a low-latency offline desktop environment combining multi-agent orchestration, native system automation, and strict safety guardrails.',
     aiArchitecture: {
@@ -111,11 +111,11 @@ export const projects: Project[] = [
     },
     uiDeployment: {
       heading: 'Electron React 19 Desktop App with DFM-Guard Friction Safety Engine',
-      body: 'Built a persistent desktop UI using Electron and React 19, consuming <1.0 GB RAM. Integrated the DFM-Guard 4-tier friction protocol (Levels 0-3) intercepting destructive terminal commands with 100% sensitivity across 350 test cases, backed by 614 automated tests (573 backend Pytest + 41 frontend Vitest) and Playwright E2E suites.',
+      body: 'Built a persistent desktop UI using Electron and React 19, consuming <1.0 GB RAM. Integrated the DFM-Guard 4-tier friction protocol (Levels 0-3) intercepting destructive terminal commands with 100% sensitivity across 350 test cases, backed by 685 automated tests (644 backend Pytest + 41 frontend Vitest) and Playwright E2E suites.',
       points: [
         'DFM-Guard 4-tier friction protocol achieving 100% threat catch sensitivity across 350 adversarial triggers',
         'Forge Sandbox with Layer 1 AST static security analysis and Layer 2 OS process sandboxing',
-        '614 passing automated tests (573 Pytest backend + 41 Vitest frontend) and Playwright E2E validation',
+        '685 passing automated tests (644 Pytest backend + 41 Vitest frontend) and Playwright E2E validation',
         'Zero-Trust Data Firewall scrubbing credentials, PII, and sensitive filesystem paths in-line',
       ],
       deployed: 'Native desktop application via Electron + React 19 | Proprietary Source-Available',
@@ -158,7 +158,7 @@ export const projects: Project[] = [
     shortDesc:
       'Calibrated tri-backbone retinal screening platform achieving 85.18% test accuracy, 0.9818 Macro AUROC, 0.0381 ECE, optical domain guardrails, and ONNX Runtime Web edge screening.',
     description:
-      'Engineered OphthalmoAI, a point-of-care retinal disease screening and clinical decision-support platform. Fuses a temperature-calibrated tri-backbone vision ensemble (DenseNet-201, ConvNeXt-Small, EfficientNet-V2-M) with Platt scaling (0.0381 ECE), deterministic optical aperture domain guardrails (OAC-DG), dedicated Grad-CAM explainability, and 2.15x accelerated ONNX serving, validated across 285 passing automated tests.',
+      'Engineered OphthalmoAI, a point-of-care retinal disease screening and clinical decision-support platform. Fuses a temperature-calibrated tri-backbone vision ensemble (DenseNet-201, ConvNeXt-Small, EfficientNet-V2-M) with Platt scaling (0.0381 ECE), deterministic optical aperture domain guardrails (OAC-DG), dedicated Grad-CAM explainability, and 2.15x accelerated ONNX serving, validated across 335 passing automated tests (312 backend + 23 frontend).',
     problem:
       'Preventable vision loss from Diabetic Retinopathy, Glaucoma, and AMD is compounded by severe clinical ophthalmologist shortages. Existing automated diagnostic models suffer from neural overconfidence, black-box unexplainability, and domain hallucination when fed non-fundus imagery.',
     aiArchitecture: {
@@ -174,11 +174,11 @@ export const projects: Project[] = [
     },
     uiDeployment: {
       heading: '84.2ms ONNX Serving, In-Browser Edge Telemedicine & Multi-Tenant RLS',
-      body: 'Compiled model graphs to FP16 ONNX Runtime (84.2ms p50 latency, 2.15x speedup). Built a client-side ONNX Runtime Web WASM edge screening pipeline (<2MB quantized MobileNetV3-Small INT8, 9.03ms mean latency) with zero cloud data transmission, backed by 285 passing automated tests (262 Pytest + 23 Vitest).',
+      body: 'Compiled model graphs to FP16 ONNX Runtime (84.2ms p50 latency, 2.15x speedup). Built a client-side ONNX Runtime Web WASM edge screening pipeline (<2MB quantized MobileNetV3-Small INT8, 9.03ms mean latency) with zero cloud data transmission, backed by 335 passing automated tests (312 Pytest + 23 Vitest).',
       points: [
         '84.2ms p50 inference latency (2.15x acceleration) via FP16 ONNX graph compilation',
         'Client-side in-browser edge screening via ONNX Runtime Web WASM (9.03ms mean latency)',
-        '285 passing automated tests (262 backend Pytest + 23 frontend Vitest) covering guardrails, calibration, and edge inference',
+        '335 passing automated tests (312 backend Pytest + 23 frontend Vitest) covering guardrails, calibration, and edge inference',
         'External clinical validation: 91.30% DR sensitivity on IDRiD cohort and 100% safety escalation on RIM-ONE DL',
       ],
       deployed: 'Production REST API via FastAPI & Docker | Live on Vercel & Hugging Face',
@@ -193,7 +193,7 @@ export const projects: Project[] = [
       'Eliminated neural overconfidence, achieving 0.0381 ECE through post-hoc Platt temperature scaling.',
       'Rejected 97.84% of non-fundus stress images before GPU allocation with 0.00% False Rejection Rate on clinical scans.',
       'Shipped client-side ONNX Runtime Web WASM edge screening (<2MB, 9.03ms latency) with zero cloud egress.',
-      'Validated across 285 automated tests with 91.30% external DR sensitivity on the IDRiD clinical cohort.',
+      'Validated across 335 automated tests (312 Pytest + 23 Vitest) with 91.30% external DR sensitivity on the IDRiD clinical cohort.',
     ],
     screenshots: [
       {
@@ -207,9 +207,9 @@ export const projects: Project[] = [
     title: 'Inductive Consensus Clustering (ICC-v2)',
     status: 'Research / Completed',
     shortDesc:
-      'Geometry-calibrated high-dimensional consensus clustering introducing VSSG feature gating, O(NL) bipartite anchor consensus, and closed-form inductive projection. Evaluated across 13 datasets with 76 passing pytest tests.',
+      'Geometry-calibrated high-dimensional consensus clustering introducing VSSG feature gating, O(NL) bipartite anchor consensus, and closed-form inductive projection. Evaluated across 13 datasets with 113 passing pytest tests and -74.2% peak RAM reduction.',
     description:
-      'Engineered Inductive Consensus Clustering (ICC-v2), a geometry-calibrated consensus clustering framework designed to overcome high-dimensional distractor noise (D >> N) and quadratic memory scaling. Couples linear unsupervised feature screening via Sarle\'s Bimodality Coefficient (VSSG) with an O(NL) bipartite co-association matrix and closed-form stability-weighted centroid assignment for out-of-sample projection. Evaluated across 13 datasets and 1,430 model executions, achieving Rank #1 on cancer genomics assays, backed by 76 passing pytest tests and a submitted IEEE TKDE publication manuscript.',
+      'Engineered Inductive Consensus Clustering (ICC-v2), a geometry-calibrated consensus clustering framework designed to overcome high-dimensional distractor noise (D >> N) and quadratic memory scaling. Couples linear unsupervised feature screening via Sarle\'s Bimodality Coefficient (VSSG) with an O(NL) bipartite co-association matrix and closed-form stability-weighted centroid assignment for out-of-sample projection. Evaluated across 13 datasets and 1,430 model executions, achieving Rank #1 on cancer genomics assays, backed by 113 passing pytest tests, -74.2% peak RAM reduction, and submitted IEEE TKDE and ICDE 2027 publication manuscripts.',
     problem:
       'Classical consensus clustering co-association matrices scale quadratically as O(N^2) in memory and runtime, rendering full spectral consensus intractable on large datasets with no closed-form inductive projection mechanism. Furthermore, high-dimensional ambient noise (D >> N) causes distance concentration that degrades base partitions into false stability traps.',
     aiArchitecture: {
@@ -217,7 +217,7 @@ export const projects: Project[] = [
       body: 'Introduced Variable Subspace Screening Gating (VSSG), a linear O(N·D) unsupervised filter based on Sarle\'s Bimodality Coefficient that isolates informative multi-modal dimensions from unimodal background noise before base clustering. Formulated a rectangular bipartite co-association graph that reduces auxiliary memory from O(N^2) to O(NL) while preserving exact spectral cluster extraction, paired with an Anchor-Space Perturbation Profiler (ASPP) for interpretable multi-family stability diagnostics.',
       points: [
         'Linear O(N·D) unsupervised feature screening (VSSG) filtering unimodal distractor noise with 0.94-0.96 precision@50',
-        'Rectangular O(NL) bipartite co-association graph reducing auxiliary memory by 39.1% over dense O(N^2) consensus at N=8,000',
+        'Rectangular O(NL) bipartite co-association graph reducing auxiliary memory by 39.1% at N=8,000, with column-chunked VSSG slashing high-D peak RAM by 74.2%',
         'Closed-form inductive out-of-sample query projection requiring only O(K·|F_active|) operations without graph re-clustering',
         'Anchor-Space Perturbation Profiler (ASPP) calculating Perturbation Sensitivity Index (PSI) in linear memory',
       ],
@@ -230,7 +230,7 @@ export const projects: Project[] = [
         'Rank #1 performance on ultra-high-dimensional biomedical cancer assays (D/N > 20, Leukemia ARI = 0.680 vs DEC 0.148, SRBCT ARI = 0.538)',
         '1,430 benchmark executions across 13 datasets and 11 baseline methods (Grand Mean ARI = 0.1599)',
         'Linear O(N) sample scaling verified up to N=1,000,000 points and D=100,000 dimensions',
-        '76/76 automated unit/integration tests passing (100% pass rate) with PEP 517/621 packaging',
+        '113/113 automated unit/integration tests passing (100% pass rate) with PEP 517/621 packaging',
       ],
       deployed: 'Open-Source Python Package & Benchmark CLI | IEEE TKDE / ICDE Manuscript',
       stack: ['Python 3.11', 'Scikit-learn', 'SciPy', 'Pytest', 'Sphinx', 'IEEE LaTeX'],
@@ -241,10 +241,10 @@ export const projects: Project[] = [
     liveLink: null,
     features: [
       'Filtered high-dimensional distractor noise with 0.94-0.96 precision@50 up to D=5,000 via VSSG bimodality coefficient screening.',
-      'Reduced auxiliary consensus memory from quadratic O(N^2) to linear bipartite O(NL), saving 39.1% RAM at N=8,000.',
+      'Reduced auxiliary consensus memory from quadratic O(N^2) to linear bipartite O(NL) (-39.1% RAM at N=8,000) and slashed high-D peak RAM by 74.2% on D=5,000.',
       'Enabled instant inductive out-of-sample projection at O(K·|F_active|) operations per query without full ensemble re-clustering.',
       'Achieved Rank #1 cluster recovery on ultra-high-dimensional cancer microarrays (D/N > 20) including Leukemia and SRBCT.',
-      'Maintained 100% test pass rate across 76 automated pytest tests with Grade A+ IEEE publication compliance.',
+      'Maintained 100% test pass rate across 113 automated pytest tests with Grade A+ IEEE publication compliance.',
     ],
     screenshots: [
       {

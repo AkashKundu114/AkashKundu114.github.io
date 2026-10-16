@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { sanitizeUrl, sanitizeRedirectPath } from '../utils/security';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'accent' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -142,9 +143,10 @@ function PolymorphicActionContainer({
   ariaLabel,
 }: PolymorphicActionContainerProps) {
   if (to && !disabled) {
+    const safeTo = sanitizeRedirectPath(to);
     return (
       <Link
-        to={to}
+        to={safeTo}
         id={id}
         title={title}
         className={className}
@@ -158,9 +160,26 @@ function PolymorphicActionContainer({
   }
 
   if (href && !disabled) {
+    const safeHref = sanitizeUrl(href);
+    if (!safeHref) {
+      return (
+        <button
+          id={id}
+          title={title}
+          className={className}
+          style={style}
+          disabled={true}
+          aria-label={ariaLabel}
+          aria-disabled="true"
+        >
+          {children}
+        </button>
+      );
+    }
+
     return (
       <a
-        href={href}
+        href={safeHref}
         id={id}
         title={title}
         className={className}

@@ -200,6 +200,8 @@ export default function ProjectDetail() {
             <img
               src={activeScreenshot.src}
               alt={activeScreenshot.caption}
+              loading="lazy"
+              decoding="async"
               style={{
                 maxWidth: '100%',
                 maxHeight: '80vh',
@@ -480,6 +482,8 @@ export default function ProjectDetail() {
                           <img
                             src={shot.src}
                             alt={shot.caption}
+                            loading="lazy"
+                            decoding="async"
                             style={{
                               width: '100%',
                               aspectRatio: '16/9',

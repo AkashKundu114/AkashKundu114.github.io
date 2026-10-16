@@ -9,6 +9,13 @@ import {
   GlassButton,
 } from '../components/EvilButtons';
 
+const renderWithRouter = (ui: React.ReactElement) =>
+  render(
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      {ui}
+    </MemoryRouter>
+  );
+
 describe('EvilButtons Component Suite', () => {
   describe('ShinyButton', () => {
     it('renders as a standard button when neither "to" nor "href" is specified', () => {
@@ -26,10 +33,8 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('renders as a React Router Link when "to" is provided', () => {
-      const { getByRole } = render(
-        <MemoryRouter>
-          <ShinyButton to="/projects">View Projects</ShinyButton>
-        </MemoryRouter>
+      const { getByRole } = renderWithRouter(
+        <ShinyButton to="/projects">View Projects</ShinyButton>
       );
 
       const link = getByRole('link');
@@ -109,10 +114,8 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('renders as a Router Link when "to" is provided', () => {
-      const { getByRole } = render(
-        <MemoryRouter>
-          <Tactile3DButton to="/contact">Contact</Tactile3DButton>
-        </MemoryRouter>
+      const { getByRole } = renderWithRouter(
+        <Tactile3DButton to="/contact">Contact</Tactile3DButton>
       );
 
       const link = getByRole('link');
@@ -158,10 +161,8 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('renders as Router Link when "to" is provided', () => {
-      const { getByRole } = render(
-        <MemoryRouter>
-          <GlitchButton to="/skills">Skills</GlitchButton>
-        </MemoryRouter>
+      const { getByRole } = renderWithRouter(
+        <GlitchButton to="/skills">Skills</GlitchButton>
       );
       expect(getByRole('link').getAttribute('href')).toBe('/skills');
     });
@@ -200,10 +201,8 @@ describe('EvilButtons Component Suite', () => {
     });
 
     it('renders as Link when "to" is provided', () => {
-      const { getByRole } = render(
-        <MemoryRouter>
-          <GlassButton to="/about">About Us</GlassButton>
-        </MemoryRouter>
+      const { getByRole } = renderWithRouter(
+        <GlassButton to="/about">About Us</GlassButton>
       );
 
       expect(getByRole('link').getAttribute('href')).toBe('/about');

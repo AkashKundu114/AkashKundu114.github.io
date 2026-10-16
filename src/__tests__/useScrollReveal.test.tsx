@@ -10,7 +10,7 @@ describe('useScrollReveal Hook', () => {
   let disconnectMock: ReturnType<typeof vi.fn>;
   let observerCallback: IntersectionObserverCallback;
   let observerOptions: IntersectionObserverInit | undefined;
-  let observerInstance: any;
+  let observerInstance: IntersectionObserver;
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -54,7 +54,7 @@ describe('useScrollReveal Hook', () => {
     options,
     rect = { top: 1200, bottom: 1400 },
   }: {
-    options?: any;
+    options?: Parameters<typeof useScrollReveal>[0];
     rect?: { top: number; bottom: number };
   }) {
     const ref = useScrollReveal(options);
@@ -72,7 +72,7 @@ describe('useScrollReveal Hook', () => {
                 height: 200,
               } as DOMRect);
           }
-          (ref as any).current = el;
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
         }}
         data-testid="reveal-target"
       >
@@ -192,7 +192,7 @@ describe('useRevealChildren Hook', () => {
   let unobserveMock: ReturnType<typeof vi.fn>;
   let disconnectMock: ReturnType<typeof vi.fn>;
   let observerCallback: IntersectionObserverCallback;
-  let observerInstance: any;
+  let observerInstance: IntersectionObserver;
 
   beforeEach(() => {
     vi.useFakeTimers();

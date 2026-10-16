@@ -4,6 +4,7 @@ import { useData } from '../context/DataContext';
 import { categoryColors, Certificate } from '../data/certificates';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { sanitizeUrl } from '../utils/security';
 
 interface MetadataRow {
   label: string;
@@ -104,6 +105,8 @@ export default function CertificateDetail() {
             <img
               src={currentCert.image}
               alt={currentCert.title}
+              loading="lazy"
+              decoding="async"
               style={{
                 maxWidth: '100%',
                 maxHeight: '85vh',
@@ -183,6 +186,8 @@ export default function CertificateDetail() {
                   <img
                     src={currentCert.image}
                     alt={currentCert.title}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       width: '100%',
                       display: 'block',
@@ -313,9 +318,9 @@ export default function CertificateDetail() {
                 className="reveal"
                 style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}
               >
-                {currentCert.file && (
+                {sanitizeUrl(currentCert.file) && (
                   <a
-                    href={currentCert.file}
+                    href={sanitizeUrl(currentCert.file)}
                     download
                     className="btn btn-primary"
                     style={{ justifyContent: 'center' }}
@@ -323,9 +328,9 @@ export default function CertificateDetail() {
                     Download certificate ↓
                   </a>
                 )}
-                {currentCert.verifyUrl && (
+                {sanitizeUrl(currentCert.verifyUrl) && (
                   <a
-                    href={currentCert.verifyUrl}
+                    href={sanitizeUrl(currentCert.verifyUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn"

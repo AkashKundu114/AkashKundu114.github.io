@@ -123,9 +123,18 @@ interface MobileDrawerProps {
   onLinkClick: () => void;
   theme: string;
   onCycleTheme: () => void;
+  isEcoMode: boolean;
+  onToggleEcoMode: () => void;
 }
 
-function MobileDrawer({ currentPath, onLinkClick, theme, onCycleTheme }: MobileDrawerProps) {
+function MobileDrawer({
+  currentPath,
+  onLinkClick,
+  theme,
+  onCycleTheme,
+  isEcoMode,
+  onToggleEcoMode,
+}: MobileDrawerProps) {
   return (
     <div
       className="liquid-glass-panel"
@@ -226,6 +235,53 @@ function MobileDrawer({ currentPath, onLinkClick, theme, onCycleTheme }: MobileD
           Cycle Theme 🎨
         </button>
       </div>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '8px 4px',
+          borderTop: '1px solid var(--border)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
+            style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              background: isEcoMode ? '#34d399' : 'var(--muted-2)',
+              boxShadow: isEcoMode ? '0 0 6px #34d399' : 'none',
+            }}
+          />
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              textTransform: 'uppercase',
+              color: 'var(--ink)',
+            }}
+          >
+            Eco Mode: {isEcoMode ? 'ON' : 'OFF'}
+          </span>
+        </div>
+        <button
+          onClick={onToggleEcoMode}
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            padding: '4px 10px',
+            background: isEcoMode ? 'rgba(52, 211, 153, 0.15)' : 'var(--surface-2)',
+            border: `1px solid ${isEcoMode ? 'rgba(52, 211, 153, 0.4)' : 'var(--border-2)'}`,
+            color: isEcoMode ? '#34d399' : 'var(--muted)',
+            cursor: 'pointer',
+          }}
+          aria-label={`Toggle Eco Mode. Currently ${isEcoMode ? 'ON' : 'OFF'}`}
+        >
+          {isEcoMode ? '⚡ Eco Active' : '🔋 Eco OFF'}
+        </button>
+      </div>
     </div>
   );
 }
@@ -234,7 +290,7 @@ function NavbarComponent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const { theme, changeTheme } = useTheme();
+  const { theme, changeTheme, isEcoMode, toggleEcoMode } = useTheme();
 
   const cycleTheme = useCallback(() => {
     const currentIndex = AVAILABLE_THEMES.indexOf(theme);
@@ -315,6 +371,40 @@ function NavbarComponent() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button
+              onClick={toggleEcoMode}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: isEcoMode ? 'rgba(52, 211, 153, 0.12)' : 'var(--surface-2)',
+                border: `1px solid ${isEcoMode ? 'rgba(52, 211, 153, 0.4)' : 'var(--border-2)'}`,
+                padding: '4px 9px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                color: isEcoMode ? '#34d399' : 'var(--ink)',
+                cursor: 'pointer',
+                borderRadius: 0,
+                transition: 'all 0.15s ease',
+              }}
+              aria-label={`Eco Mode is currently ${isEcoMode ? 'ON' : 'OFF'}. Click to toggle low-resource power saving.`}
+              title={`Toggle Eco Mode (Currently ${isEcoMode ? 'ON' : 'OFF'})`}
+            >
+              <span
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: isEcoMode ? '#34d399' : 'var(--muted-2)',
+                  boxShadow: isEcoMode ? '0 0 6px #34d399' : 'none',
+                  flexShrink: 0,
+                }}
+              />
+              <span className="hidden sm:inline" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Eco {isEcoMode ? 'ON' : 'OFF'}
+              </span>
+            </button>
+
+            <button
               onClick={cycleTheme}
               style={{
                 display: 'inline-flex',
@@ -383,6 +473,8 @@ function NavbarComponent() {
             onLinkClick={closeMobileMenu}
             theme={theme}
             onCycleTheme={cycleTheme}
+            isEcoMode={isEcoMode}
+            onToggleEcoMode={toggleEcoMode}
           />
         )}
       </div>

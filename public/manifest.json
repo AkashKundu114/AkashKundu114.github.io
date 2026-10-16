@@ -1,0 +1,24 @@
+{
+  "name": "Akash Kundu — AI Engineer & Full-Stack Developer",
+  "short_name": "Akash.dev",
+  "description": "Portfolio of Akash Kundu - AI Engineer and Full-Stack Developer building production AI architectures, local multi-agent systems, and robust web apps.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1228",
+  "theme_color": "#0B1228",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

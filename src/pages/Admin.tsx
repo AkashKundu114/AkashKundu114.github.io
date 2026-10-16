@@ -3,8 +3,12 @@ import { useData } from '../context/DataContext';
 import { categoryColors, Certificate } from '../data/certificates';
 import { Project } from '../data/projects';
 import PageTransition from '../components/PageTransition';
+import { hashPasswordSha256 } from '../utils/security';
 
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin2024';
+// Default SHA-256 hash corresponds to fallback 'admin2024'
+const DEFAULT_ADMIN_HASH = 'b8b8eb83374c0bf3b1c3224159f6119dbfff1b7ed6dfecdd80d4e8a895790a34';
+// Expected administrative hash (avoids exposing cleartext credentials in client-side bundles)
+const EXPECTED_ADMIN_HASH = import.meta.env.VITE_ADMIN_PASSWORD_HASH || DEFAULT_ADMIN_HASH;
 
 const EMPTY_PROJECT: Omit<Project, 'id'> = {
   title: '',
@@ -85,14 +89,19 @@ function LoginScreen({ onSuccess }: LoginScreenProps) {
   const [isShaking, setIsShaking] = useState(false);
   const inputId = useId();
 
-  const handleAttempt = () => {
-    if (passwordInput === ADMIN_PASSWORD) {
-      onSuccess();
-    } else {
-      setHasError(true);
-      setIsShaking(true);
-      setTimeout(() => setIsShaking(false), 500);
+  const handleAttempt = async () => {
+    try {
+      const hashedInput = await hashPasswordSha256(passwordInput);
+      if (hashedInput === EXPECTED_ADMIN_HASH) {
+        onSuccess();
+        return;
+      }
+    } catch {
+      // Storage or crypto error fallback
     }
+    setHasError(true);
+    setIsShaking(true);
+    setTimeout(() => setIsShaking(false), 500);
   };
 
   return (
@@ -193,7 +202,7 @@ function LoginScreen({ onSuccess }: LoginScreenProps) {
             color: 'var(--muted-2)',
           }}
         >
-          Configured via VITE_ADMIN_PASSWORD in .env
+          Configured via VITE_ADMIN_PASSWORD_HASH in .env
         </p>
       </div>
       <style>{`@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}`}</style>
@@ -1284,7 +1293,7 @@ function Dashboard({ onLogout }: DashboardProps) {
                     lineHeight: 1.8,
                   }}
                 >
-                  {`VITE_ADMIN_PASSWORD=your_secret_here\nVITE_CONTACT_API=http://localhost:8000/api/contact`}
+                  {`VITE_ADMIN_PASSWORD_HASH=your_sha256_hash_here\nVITE_CONTACT_API=https://api.akashkundu.me/api/contact`}
                 </pre>
               </div>
 

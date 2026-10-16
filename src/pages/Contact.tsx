@@ -161,6 +161,10 @@ export default function Contact() {
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (submissionStatus === 'sending') {
+      return;
+    }
+
     const allTouched: FormTouched = { name: true, email: true, message: true };
     setTouchedFields(allTouched);
 

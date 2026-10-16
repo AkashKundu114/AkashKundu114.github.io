@@ -137,4 +137,13 @@ describe('Navbar Component', () => {
     expect(githubLink?.getAttribute('target')).toBe('_blank');
     expect(githubLink?.getAttribute('rel')).toBe('noopener noreferrer');
   });
+
+  it('renders Eco Mode toggle button and toggles state when clicked', () => {
+    const { getByTitle } = renderNavbar();
+    const ecoBtn = getByTitle(/Toggle Eco Mode/i);
+    expect(ecoBtn).toBeInTheDocument();
+
+    fireEvent.click(ecoBtn);
+    expect(document.documentElement.getAttribute('data-eco')).toBe('true');
+  });
 });

@@ -1054,4 +1054,35 @@ select.form-input {
   }
 }
 
+/* Eco Mode / Low-Resource Performance Profile:
+   Bypasses GPU backdrop-filter compositing passes, disables heavy ambient orbs,
+   and optimizes paint surfaces for low CPU/GPU power consumption and battery conservation. */
+[data-eco="true"] .liquid-glass-panel,
+[data-eco="true"] .liquid-glass-lens {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border-2) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-eco="true"] .nav-fixed {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--bg) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+[data-eco="true"] .glass-ambient-orb {
+  display: none !important;
+}
+
+[data-eco="true"] .orb-accent,
+[data-eco="true"] .orb-link,
+[data-eco="true"] .orb-secondary {
+  animation: none !important;
+  display: none !important;
+}
+
+
 

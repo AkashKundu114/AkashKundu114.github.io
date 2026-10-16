@@ -74,7 +74,7 @@ const CAREER_TIMELINE: readonly CareerMilestone[] = [
   {
     year: '2026',
     event:
-      'AI Research Intern at Purposive AI, building AI-SATHI: a voice-first LangGraph operating system deployed on Azure. Launched COPPER, a local-first Electron AI OS orchestrating 30 specialized agents.',
+      'AI Research Intern at Purposive AI, building AI-SATHI: a voice-first LangGraph operating system deployed on Azure. Launched COPPER, a local-first Electron AI OS orchestrating 12 specialized agents (+5 roadmap).',
     isCurrent: true,
   },
   {

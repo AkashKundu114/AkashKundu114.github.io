@@ -253,8 +253,9 @@ export default function Privacy() {
               fast offline loading. LocalStorage is used exclusively for:
             </p>
             <ul style={{ paddingLeft: '20px', fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)', marginTop: '8px' }}>
-              <li>Preserving your selected interface theme (e.g. <code>theme-1</code>, <code>theme-2</code>).</li>
-              <li>Storing administrative authentication session tokens for portfolio content updates.</li>
+              <li>Preserving your selected interface theme preference (e.g. <code>theme-1</code> through <code>theme-5</code>) in <code>localStorage</code>.</li>
+              <li>Storing custom project/certificate edits locally in your browser (<code>localStorage</code>) if using the client-side content manager.</li>
+              <li>Maintaining ephemeral session state (<code>sessionStorage</code>) while accessing the administrative dashboard.</li>
             </ul>
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--ink-2)', marginTop: '8px' }}>
               No marketing cookies, session trackers, or third-party storage vectors are utilized.

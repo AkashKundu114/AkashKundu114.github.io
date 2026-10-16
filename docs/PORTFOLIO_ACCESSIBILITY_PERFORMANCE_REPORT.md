@@ -31,6 +31,11 @@
   - `.reveal` scroll transitions set to immediate opacity `1` without transform translation.
   - `AdvertisingCloud3D` orbital rotation disabled via `window.matchMedia('(prefers-reduced-motion: reduce)')`.
 
+### 1.5 Low-Resource Eco Mode Accessibility (WCAG 1.4.3, 2.1.1, 2.4.6)
+- **Automatic Auto-Sensing:** Eco Mode (`data-eco="true"`) automatically activates on devices with `prefers-reduced-motion` enabled or `navigator.hardwareConcurrency <= 4`, ensuring users with vestibular conditions or low-tier assistive devices are not subjected to unsolicited 3D animation or GPU heat throttling.
+- **Accessible State Toggles:** The Eco Mode button in the desktop navbar and mobile drawer carries explicit descriptive accessible names: `aria-label="Eco Mode is currently [ON/OFF]. Click to toggle low-resource power saving."`
+- **Fallback High-Contrast Affordance:** When Eco Mode is active, WebGL is replaced with a clear 2D system telemetry panel maintaining a 7:1+ contrast ratio with accessible text labels and an opt-in `Enable 3D Visualizer ↗` action.
+
 ---
 
 ## 2. Core Web Vitals & Frontend Performance Engineering

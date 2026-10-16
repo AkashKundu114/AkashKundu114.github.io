@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from 'react';
 import * as THREE from 'three';
+import { useTheme } from '../context/ThemeContext';
 
 export type NodeCategory = 'channel' | 'ai' | 'infra' | 'data';
 export type CloudDisplayMode = 'cloud' | 'agent' | 'datamesh';
@@ -591,7 +592,9 @@ const NodeDeck = memo(function NodeDeck({
 function AdvertisingCloud3DComponent() {
   const containerReference = useRef<HTMLDivElement | null>(null);
   const canvasReference = useRef<HTMLCanvasElement | null>(null);
+  const isHoveredRef = useRef(false);
 
+  const { isEcoMode, toggleEcoMode } = useTheme();
   const defaultNode = useMemo(() => NODES_DATA[0] ?? ({} as CloudNode), []);
   const [activeNode, setActiveNode] = useState<CloudNode>(defaultNode);
   const [activeMode, setActiveMode] = useState<CloudDisplayMode>('cloud');
@@ -607,7 +610,7 @@ function AdvertisingCloud3DComponent() {
   }, []);
 
   useEffect(() => {
-    if (!isWebGLAvailableState) {
+    if (!isWebGLAvailableState || isEcoMode) {
       return;
     }
 
@@ -624,20 +627,20 @@ function AdvertisingCloud3DComponent() {
     const camera = new THREE.PerspectiveCamera(45, initialWidth / canvasHeight, 0.1, 100);
     camera.position.set(0, 0, 14);
 
+    const pixelRatio = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
         canvas,
         alpha: true,
-        antialias: true,
-        powerPreference: 'high-performance',
+        antialias: pixelRatio < 2,
+        powerPreference: 'low-power',
       });
     } catch {
       return;
     }
 
     renderer.setSize(initialWidth, canvasHeight);
-    const pixelRatio = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
     renderer.setPixelRatio(pixelRatio);
 
     setupSceneLighting(scene);
@@ -708,6 +711,30 @@ function AdvertisingCloud3DComponent() {
     let targetRotationX = 0;
     let targetRotationY = 0;
 
+    let animationFrameId: number = 0;
+    let isSceneVisible = true;
+    let lastTime = performance.now();
+    let lastRenderTime = performance.now();
+    let lastInteractionTime = performance.now();
+    let isSleeping = false;
+    let elapsedTime = 0;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const wakeAnimationLoop = () => {
+      lastInteractionTime = performance.now();
+      if (isSleeping && isSceneVisible && document.visibilityState === 'visible') {
+        isSleeping = false;
+        lastTime = performance.now();
+        lastRenderTime = performance.now();
+        if (!animationFrameId) {
+          renderAnimationLoop();
+        }
+      }
+    };
+
     const handlePointerMove = (event: MouseEvent) => {
       const boundingRectangle = canvas.getBoundingClientRect();
       if (boundingRectangle.width <= 0 || boundingRectangle.height <= 0) {
@@ -718,6 +745,7 @@ function AdvertisingCloud3DComponent() {
 
       targetRotationY = normalizedX * 0.45;
       targetRotationX = -normalizedY * 0.35;
+      wakeAnimationLoop();
     };
 
     canvas.addEventListener('mousemove', handlePointerMove, { passive: true });
@@ -732,28 +760,65 @@ function AdvertisingCloud3DComponent() {
 
     window.addEventListener('resize', handleWindowResize, { passive: true });
 
-    let animationFrameId: number = 0;
-    let isSceneVisible = true;
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let lastTime = performance.now();
-    let elapsedTime = 0;
-
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       if (!entry) return;
       isSceneVisible = entry.isIntersecting;
-      if (isSceneVisible) {
+      if (isSceneVisible && document.visibilityState === 'visible') {
         lastTime = performance.now();
-        renderAnimationLoop();
+        lastRenderTime = performance.now();
+        lastInteractionTime = performance.now();
+        isSleeping = false;
+        if (!animationFrameId) {
+          renderAnimationLoop();
+        }
+      } else if (!isSceneVisible && animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
       }
     });
 
     intersectionObserver.observe(container);
 
+    const handleVisibilityChange = () => {
+      const isTabActive = document.visibilityState === 'visible';
+      if (isTabActive && isSceneVisible) {
+        lastTime = performance.now();
+        lastRenderTime = performance.now();
+        lastInteractionTime = performance.now();
+        isSleeping = false;
+        if (!animationFrameId) {
+          renderAnimationLoop();
+        }
+      } else if (!isTabActive && animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    };
+
     const renderAnimationLoop = () => {
-      if (!isSceneVisible) return;
+      if (!isSceneVisible || document.visibilityState !== 'visible') return;
+
       const now = performance.now();
+
+      // Inactivity sleep: after 25s without mouse movement or interaction, pause loop
+      if (now - lastInteractionTime > 25000 && !isHoveredRef.current) {
+        isSleeping = true;
+        animationFrameId = 0;
+        return;
+      }
+
+      // Adaptive frame rate cap: 30 FPS ambient, 60 FPS interactive hover
+      const targetFps = isHoveredRef.current ? 60 : 30;
+      const frameInterval = 1000 / targetFps;
+      const elapsedSinceLastRender = now - lastRenderTime;
+
+      if (elapsedSinceLastRender < frameInterval) {
+        animationFrameId = requestAnimationFrame(renderAnimationLoop);
+        return;
+      }
+
+      lastRenderTime = now - (elapsedSinceLastRender % frameInterval);
+
       const delta = prefersReducedMotion ? 0 : Math.min((now - lastTime) / 1000, 0.1);
       lastTime = now;
       elapsedTime += delta;
@@ -805,17 +870,24 @@ function AdvertisingCloud3DComponent() {
         cancelAnimationFrame(animationFrameId);
       }
       intersectionObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       canvas.removeEventListener('mousemove', handlePointerMove);
       window.removeEventListener('resize', handleWindowResize);
       disposeSceneBundle(sceneBundle);
     };
-  }, [isWebGLAvailableState]);
+  }, [isWebGLAvailableState, isEcoMode]);
 
   return (
     <div
       ref={containerReference}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        isHoveredRef.current = true;
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        isHoveredRef.current = false;
+      }}
       style={{
         position: 'relative',
         width: '100%',
@@ -832,7 +904,79 @@ function AdvertisingCloud3DComponent() {
       <CloudHeader activeMode={activeMode} onSelectMode={handleSelectMode} />
 
       <div style={{ position: 'relative', height: '360px', width: '100%', cursor: 'grab' }}>
-        {isWebGLAvailableState ? (
+        {isEcoMode ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              padding: '24px',
+              textAlign: 'center',
+              background: 'rgba(7, 11, 18, 0.45)',
+            }}
+          >
+            <div
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                background: 'rgba(52, 211, 153, 0.12)',
+                border: '1px solid rgba(52, 211, 153, 0.35)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#34d399',
+                fontSize: '16px',
+                marginBottom: '12px',
+              }}
+            >
+              ⚡
+            </div>
+            <h3
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '13px',
+                fontWeight: 700,
+                color: 'var(--ink)',
+                marginBottom: '6px',
+              }}
+            >
+              Eco Mode Active · WebGL Suspended
+            </h3>
+            <p
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                color: 'var(--muted)',
+                maxWidth: '52ch',
+                lineHeight: 1.6,
+                marginBottom: '14px',
+              }}
+            >
+              Procedural 3D WebGL context is suspended to ensure 0% GPU utilization, preserving battery and memory.
+              System architecture and telemetry remain fully accessible below.
+            </p>
+            <button
+              type="button"
+              onClick={toggleEcoMode}
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                padding: '6px 14px',
+                background: 'rgba(52, 211, 153, 0.15)',
+                border: '1px solid rgba(52, 211, 153, 0.35)',
+                color: '#34d399',
+                cursor: 'pointer',
+                borderRadius: '4px',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              Enable 3D Visualizer ↗
+            </button>
+          </div>
+        ) : isWebGLAvailableState ? (
           <canvas
             ref={canvasReference}
             style={{ width: '100%', height: '100%', display: 'block' }}
@@ -867,9 +1011,11 @@ function AdvertisingCloud3DComponent() {
             pointerEvents: 'none',
           }}
         >
-          {isHovered
-            ? 'Interactive orbital tracking active'
-            : 'Hover / drag to inspect 3D node vectors'}
+          {isEcoMode
+            ? '0% GPU · Battery optimized'
+            : isHovered
+            ? 'Interactive orbital tracking active (60 FPS)'
+            : 'Ambient orbit (30 FPS) · Hover/drag to inspect'}
         </div>
       </div>
 

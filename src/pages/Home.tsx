@@ -9,6 +9,7 @@ import { Project } from '../data/projects';
 import { Certificate } from '../data/certificates';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 import LiquidGlassLens from '../components/LiquidGlassLens';
+import { sanitizeUrl } from '../utils/security';
 
 const AdvertisingCloud3D = lazy(() => import('../components/AdvertisingCloud3D'));
 
@@ -216,7 +217,7 @@ export default function Home() {
     window.scrollTo(0, 0);
   }, []);
 
-  const featuredProjects = useMemo(() => projects.slice(0, 3), [projects]);
+  const featuredProjects = useMemo(() => projects.slice(0, 4), [projects]);
 
   const summaryStats = useMemo(
     () => calculatePortfolioMetrics(projects, certificates),
@@ -596,9 +597,9 @@ export default function Home() {
                           ))}
                         </div>
                         <div style={{ display: 'flex', gap: '6px' }}>
-                          {project.github && (
+                          {sanitizeUrl(project.github) && (
                             <a
-                              href={project.github}
+                              href={sanitizeUrl(project.github)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="btn btn-sm"

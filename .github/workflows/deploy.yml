@@ -23,7 +23,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
+          VITE_ADMIN_PASSWORD_HASH: ${{ secrets.VITE_ADMIN_PASSWORD_HASH || '45cbd2273491a7d411b202c15a0ca20bbc270d3fc838cfd7f363d30e8d5a83be' }}
           VITE_CONTACT_API: ${{ secrets.VITE_CONTACT_API }}
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3

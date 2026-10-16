@@ -5,9 +5,12 @@ export type ThemeName = 'theme-1' | 'theme-2' | 'theme-3' | 'theme-4' | 'theme-5
 export interface ThemeContextValue {
   theme: ThemeName;
   changeTheme: (newTheme: ThemeName) => void;
+  isEcoMode: boolean;
+  toggleEcoMode: () => void;
 }
 
 export const THEME_STORAGE_KEY = 'portfolio_theme';
+export const ECO_STORAGE_KEY = 'portfolio_eco_mode';
 export const DEFAULT_THEME: ThemeName = 'theme-1';
 export const AVAILABLE_THEMES: readonly ThemeName[] = [
   'theme-1',
@@ -43,6 +46,27 @@ function getInitialTheme(): ThemeName {
   return getRandomTheme();
 }
 
+function getInitialEcoMode(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const savedEco = window.localStorage.getItem(ECO_STORAGE_KEY);
+    if (savedEco !== null) {
+      return savedEco === 'true';
+    }
+    const prefersReducedMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isLowCore =
+      typeof navigator !== 'undefined' &&
+      typeof navigator.hardwareConcurrency === 'number' &&
+      navigator.hardwareConcurrency <= 4;
+    return Boolean(prefersReducedMotion || isLowCore);
+  } catch (error) {
+    console.warn('[ThemeContext] Unable to read eco mode from localStorage:', error);
+    return false;
+  }
+}
+
 function persistTheme(theme: ThemeName): void {
   if (typeof window === 'undefined') return;
   try {
@@ -52,23 +76,45 @@ function persistTheme(theme: ThemeName): void {
   }
 }
 
+function persistEcoMode(isEco: boolean): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(ECO_STORAGE_KEY, String(isEco));
+  } catch (error) {
+    console.warn('[ThemeContext] Unable to persist eco mode to localStorage:', error);
+  }
+}
+
 function applyThemeToDocument(theme: ThemeName): void {
   if (typeof document === 'undefined') return;
   document.documentElement.setAttribute('data-theme', theme);
 }
 
+function applyEcoModeToDocument(isEco: boolean): void {
+  if (typeof document === 'undefined') return;
+  document.documentElement.setAttribute('data-eco', isEco ? 'true' : 'false');
+}
+
 const ThemeContext = createContext<ThemeContextValue>({
   theme: DEFAULT_THEME,
   changeTheme: () => {},
+  isEcoMode: false,
+  toggleEcoMode: () => {},
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<ThemeName>(getInitialTheme);
+  const [isEcoMode, setIsEcoMode] = useState<boolean>(getInitialEcoMode);
 
   useEffect(() => {
     applyThemeToDocument(theme);
     persistTheme(theme);
   }, [theme]);
+
+  useEffect(() => {
+    applyEcoModeToDocument(isEcoMode);
+    persistEcoMode(isEcoMode);
+  }, [isEcoMode]);
 
   const changeTheme = (newTheme: ThemeName) => {
     if (!newTheme || typeof newTheme !== 'string') return;
@@ -76,8 +122,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme(sanitizedTheme);
   };
 
+  const toggleEcoMode = () => {
+    setIsEcoMode((previousState) => !previousState);
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, changeTheme }}>
+    <ThemeContext.Provider value={{ theme, changeTheme, isEcoMode, toggleEcoMode }}>
       {children}
     </ThemeContext.Provider>
   );

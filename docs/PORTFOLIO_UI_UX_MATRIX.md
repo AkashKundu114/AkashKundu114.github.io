@@ -98,3 +98,21 @@ The portfolio employs a specialized suite of evil tactile buttons (`EvilButtons.
 | **Architecture Diagram** | Vector dark-aesthetic diagram | Vector fundus calibration flow | Custom dark SVG graph (`icc-clustering-architecture.svg`)|
 | **Technical Stack Tags** | PyTorch, LangGraph, FastAPI, Ollama | PyTorch, ONNX Web, FastAPI, Docker | Python, NumPy, SciPy, Matplotlib |
 | **Action CTAs** | `GitHub ↗` + `Deep Dive →` | `GitHub ↗` + `Deep Dive →` | `GitHub ↗` + `Deep Dive →` |
+
+---
+
+## 7. Eco Mode & Low-Power UX Ergonomics
+
+To respect low-resource devices, battery health, and users with vestibular or motion sensitivity, the portfolio includes a dedicated **Eco Mode** control directly in the primary navigation header (desktop and mobile drawer):
+
+### Visual & Behavioral Ergonomics
+- **Navbar Affordance:** Tactile pill button with leaf iconography (`🌱 ECO` when inactive, `⚡ ECO` with glowing active badge when enabled).
+- **Graceful Visual Degradation:**
+  - When enabled, the GPU-heavy Three.js 3D canvas is cleanly unmounted from the DOM.
+  - Replaced by a high-contrast CSS 2D blueprint dot grid (`radial-gradient(var(--ink-2) 1px, transparent 1px)` with 28px spacing) requiring zero WebGL contexts, zero shader compilation, and 0% GPU draw.
+  - CSS animations and micro-interactions transition immediately to static zero-lag layouts.
+- **Accessibility & Contrast:**
+  - Fallback 2D blueprint background maintains >12:1 contrast with all typography tokens.
+  - Button carries dynamic `aria-label="Toggle eco low-power mode (currently [enabled/disabled])"` and `aria-pressed` state.
+  - Automatically respects system `prefers-reduced-motion` and constrained hardware (`navigator.hardwareConcurrency <= 4`).
+
