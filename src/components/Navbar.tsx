@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Tactile3DButton, GlassButton } from './EvilButtons';
+import { useTheme, AVAILABLE_THEMES, THEME_METADATA } from '../context/ThemeContext';
 
 export interface NavItem {
   readonly to: string;
@@ -120,9 +121,11 @@ function DesktopNavLinks({ currentPath }: DesktopNavLinksProps) {
 interface MobileDrawerProps {
   currentPath: string;
   onLinkClick: () => void;
+  theme: string;
+  onCycleTheme: () => void;
 }
 
-function MobileDrawer({ currentPath, onLinkClick }: MobileDrawerProps) {
+function MobileDrawer({ currentPath, onLinkClick, theme, onCycleTheme }: MobileDrawerProps) {
   return (
     <div
       className="liquid-glass-panel"
@@ -175,6 +178,54 @@ function MobileDrawer({ currentPath, onLinkClick }: MobileDrawerProps) {
           </Tactile3DButton>
         </div>
       </div>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '10px 4px',
+          borderTop: '1px solid var(--border)',
+          marginTop: '6px',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
+            style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              background: THEME_METADATA[theme]?.accentColor || 'var(--accent)',
+              boxShadow: '0 0 6px var(--accent)',
+            }}
+          />
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              textTransform: 'uppercase',
+              color: 'var(--ink)',
+            }}
+          >
+            Palette: {THEME_METADATA[theme]?.label || theme}
+          </span>
+        </div>
+        <button
+          onClick={onCycleTheme}
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            padding: '4px 10px',
+            background: 'var(--surface-2)',
+            border: '1px solid var(--border-2)',
+            color: 'var(--accent)',
+            cursor: 'pointer',
+          }}
+          aria-label="Switch to next theme palette"
+        >
+          Cycle Theme 🎨
+        </button>
+      </div>
     </div>
   );
 }
@@ -183,6 +234,13 @@ function NavbarComponent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { theme, changeTheme } = useTheme();
+
+  const cycleTheme = useCallback(() => {
+    const currentIndex = AVAILABLE_THEMES.indexOf(theme);
+    const nextTheme = AVAILABLE_THEMES[(currentIndex + 1) % AVAILABLE_THEMES.length] ?? 'theme-1';
+    changeTheme(nextTheme);
+  }, [theme, changeTheme]);
 
   // Close mobile drawer on route transition
   useEffect(() => {
@@ -256,6 +314,40 @@ function NavbarComponent() {
           <DesktopNavLinks currentPath={location.pathname} />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={cycleTheme}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'var(--surface-2)',
+                border: '1px solid var(--border-2)',
+                padding: '4px 9px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11px',
+                color: 'var(--ink)',
+                cursor: 'pointer',
+                borderRadius: 0,
+                transition: 'all 0.15s ease',
+              }}
+              aria-label={`Current theme palette: ${THEME_METADATA[theme]?.label || theme}. Click to cycle palette.`}
+              title={`Switch Theme Palette (Current: ${THEME_METADATA[theme]?.label || theme})`}
+            >
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: THEME_METADATA[theme]?.accentColor || 'var(--accent)',
+                  boxShadow: '0 0 6px var(--accent)',
+                  flexShrink: 0,
+                }}
+              />
+              <span className="hidden sm:inline" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                {THEME_METADATA[theme]?.label || theme}
+              </span>
+            </button>
+
             <GlassButton
               href={RESUME_CV_URL}
               download
@@ -289,6 +381,8 @@ function NavbarComponent() {
           <MobileDrawer
             currentPath={location.pathname}
             onLinkClick={closeMobileMenu}
+            theme={theme}
+            onCycleTheme={cycleTheme}
           />
         )}
       </div>

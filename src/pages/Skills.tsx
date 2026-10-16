@@ -3,6 +3,7 @@ import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { skills, Skill } from '../data/skills';
 import { ShinyButton, Tactile3DButton } from '../components/EvilButtons';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 interface SkillCategoryDefinition {
   name: string;
@@ -48,6 +49,11 @@ function buildSkillGroups(
 }
 
 export default function Skills() {
+  useDocumentTitle(
+    'Skills — Akash Kundu',
+    'Technical stack, languages, AI frameworks, and engineering tools.'
+  );
+
   const containerRef = useRevealChildren();
 
   useEffect(() => {
@@ -69,9 +75,9 @@ export default function Skills() {
       <section style={{ paddingTop: '88px' }} ref={containerRef}>
         <div className="container">
           <div className="label reveal">technical stack</div>
-          <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
+          <h1 className="reveal heading-lg" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
             What I work with day to day.
-          </h2>
+          </h1>
           <p
             className="reveal"
             style={{

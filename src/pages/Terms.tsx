@@ -33,7 +33,7 @@ function TermsSectionCard({ label, title, children, useLiquidLens = false }: Ter
   );
 
   if (useLiquidLens) {
-    return <LiquidGlassLens preset="subtle">{content}</LiquidGlassLens>;
+    return <LiquidGlassLens intensity="subtle">{content}</LiquidGlassLens>;
   }
 
   return <div className="card">{content}</div>;

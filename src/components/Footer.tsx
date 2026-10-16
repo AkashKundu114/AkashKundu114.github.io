@@ -48,7 +48,7 @@ function BrandBadge() {
 function LegalLinksNav() {
   return (
     <>
-      {LEGAL_LINKS.map((item, index) => (
+      {LEGAL_LINKS.map((item) => (
         <React.Fragment key={item.to}>
           <span style={{ color: 'var(--border)', fontSize: '10px', margin: '0 4px' }}>·</span>
           <Link

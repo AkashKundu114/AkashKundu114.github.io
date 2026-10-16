@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useId } from 'react';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 interface ContactFormData {
   name: string;
@@ -107,6 +108,11 @@ function FormNotice({ borderColor, backgroundColor, textColor, children }: FormN
 }
 
 export default function Contact() {
+  useDocumentTitle(
+    'Contact — Akash Kundu',
+    'Get in touch for AI engineering, full-stack development, and research collaborations.'
+  );
+
   const containerRef = useRevealChildren();
   const nameId = useId();
   const emailId = useId();
@@ -203,9 +209,9 @@ export default function Contact() {
       <section className="section" ref={containerRef}>
         <div className="container">
           <div className="label reveal">contact</div>
-          <h2 className="reveal" style={{ marginBottom: '0.85rem', maxWidth: '32ch' }}>
+          <h1 className="reveal heading-lg" style={{ marginBottom: '0.85rem', maxWidth: '32ch' }}>
             Let&apos;s work together.
-          </h2>
+          </h1>
           <p
             className="reveal"
             style={{ fontSize: '0.95rem', maxWidth: '56ch', lineHeight: 1.8, marginBottom: '3rem' }}

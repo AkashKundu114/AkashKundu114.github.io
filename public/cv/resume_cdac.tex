@@ -1,0 +1,168 @@
+%-------------------------
+% Resume in Latex - C-DAC Kolkata R&D Internship Drive (Batch of 2027)
+% Candidate: Akash Kundu
+% Target: Centre for Development of Advanced Computing (C-DAC), Kolkata
+%--------------------------------------------------------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins for a balanced single-page layout
+\addtolength{\oddsidemargin}{-0.55in}
+\addtolength{\evensidemargin}{-0.55in}
+\addtolength{\textwidth}{1.1in}
+\addtolength{\topmargin}{-.62in}
+\addtolength{\textheight}{1.28in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-5pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-3pt}]
+
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Akash Kundu} \\ \vspace{2pt}
+    \small +91-9064349004 $|$ \href{mailto:akashkundu1152@gmail.com}{akashkundu1152@gmail.com} $|$ Kolkata, West Bengal, India \\ \vspace{1pt}
+    \href{https://akashkundu114.github.io}{Portfolio} $|$ \href{https://github.com/AkashKundu114}{GitHub} $|$ \href{https://linkedin.com/in/akashkundu114}{LinkedIn}
+\end{center}
+
+%-----------PROFESSIONAL SUMMARY-----------
+\section{Summary}
+\vspace{-2pt}
+\small{AI/ML \& Systems Engineer with core competence in \textbf{Computer Vision}, \textbf{Medical Informatics}, \textbf{Edge Model Acceleration (ONNX/FP16)}, and \textbf{High-Performance Distributed Systems}. Lead author of \textbf{OphthalmoAI} (calibrated tri-backbone vision ensemble, 85.18\% accuracy, 0.9818 Macro AUROC, 2.15x serving acceleration) with peer-reviewed research manuscript in preparation. Experienced in building sovereign/local AI pipelines (Whisper Bengali speech processing, local Ollama fallback) and secure microservices. Strong academic foundation with \textbf{SGPA 7.93} in latest completed semester, current \textbf{CGPA 7.59}, and \textbf{95.4\% in Class X (CBSE)}.}
+\vspace{-2pt}
+
+%-----------EDUCATION-----------
+\section{Education (Class X Onwards)}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Techno India University}{Kolkata, West Bengal, India}
+      {B.Tech in Computer Science and Engineering; \textbf{CGPA: 7.59} (75.9\%)}{Sep 2023 -- Sep 2027 (Expected)}
+      \resumeItemListStart
+        \resumeItem{\textbf{Latest Completed Semesters:} \textbf{SGPA: 7.93} (5th Semester) $|$ \textbf{SGPA: 8.29} (4th Semester).}
+      \resumeItemListEnd
+    \resumeSubheading
+      {Arambagh Vivekananda Academy (CBSE)}{Arambagh, West Bengal, India}
+      {Higher Secondary Certificate (Class XII Science); \textbf{Percentage: 71.6\%}}{April 2021 -- May 2023}
+    \resumeSubheading
+      {Arambagh Vivekananda Academy (CBSE)}{Arambagh, West Bengal, India}
+      {Secondary School Examination (Class X); \textbf{Percentage: 95.4\%}}{April 2020 -- May 2021}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Purposive AI}{July 2026 -- Present}
+      {Software Engineering Intern (Backend \& Systems)}{Kolkata, India (Hybrid)}
+      \resumeItemListStart
+        \resumeItem{Architected an asynchronous ledger pipeline using FastAPI, Celery, and Whisper, translating conversational \textbf{Bengali speech audio} into bank-submittable structured records and cutting manual bookkeeping effort by \textbf{80\%}.}
+        \resumeItem{Engineered an automated fallback circuit breaker to local \textbf{Ollama LLM} instances when cloud APIs degraded, ensuring sovereign data governance, 99.9\% uptime, and slashing operational inference expenditures by \textbf{87\%}.}
+        \resumeItem{Designed high-throughput task worker queues with PostgreSQL \textbf{pgvector} semantic state tracking, sustaining \textbf{sub-500ms} turnaround under production SLAs; enforced 100\% TDD pass rate across 156 Pytest test suites.}
+        \resumeItem{Implemented token-bucket rate limiting, structured transactional logging, and strict input sanitization to guarantee complete auditability across concurrent user transactions.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS & RESEARCH-----------
+\section{Projects \& Research}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{OphthalmoAI -- Point-of-Care Retinal Disease Screening Platform} $|$ \emph{PyTorch, ONNX, FastAPI, React 19}}{\href{https://github.com/AkashKundu114/OphthalmoAI}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Architected a calibrated soft-voting ensemble (\textbf{DenseNet-201, ConvNeXt-Small, EfficientNet-V2-M}) with Platt temperature scaling (\textbf{0.0381 ECE}), achieving \textbf{85.18\% accuracy and 0.9818 Macro AUROC} over 6 retinal classes ($n=938$).}
+            \resumeItem{Engineered pre-inference biophysical domain guardrails (\textbf{OAC-DG}) evaluating circular aperture geometry and chromophore backscatter ($\rho_{\text{RB}} \ge 1.05$), deterministically blocking 100\% non-fundus imagery before GPU allocation.}
+            \resumeItem{Validated across external clinical cohorts: \textbf{91.30\% DR recall, 100\% Proliferative DR recall} on IDRiD (India), and \textbf{100\% fail-safe clinical escalation} on out-of-distribution optical crops on RIM-ONE DL (Spain).}
+            \resumeItem{Accelerated serving latency to \textbf{84.2 ms p50 (2.15x speedup)} at 17.3 QPS via ONNX Runtime FP16 compilation, alongside sub-50 ms in-browser edge screening, PostgreSQL RLS, and \textbf{253 passing automated tests (100\% pass rate)}.}
+            \resumeItem{\textbf{Research Manuscript (In Preparation):} Author of comprehensive biomedical informatics paper documenting TC-MBE ensemble, OAC-DG guardrails, US-CRC conformal risk control, and PASG-GradCAM saliency grounding.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{C.O.P.P.E.R. -- Local AI Operating System \& Microservices Engine} $|$ \emph{FastAPI, Electron, React 19, Python, Docker}}{\href{https://github.com/AkashKundu114/COPPER}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Architected a 30-agent orchestration hierarchy with a topological cascade router dispatching tasks at \textbf{\textasciitilde 9,856 QPS} ($<0.10$~ms cache dispatch) across 1,390 benchmark test cases, validated against \textbf{538 automated tests}.}
+            \resumeItem{Constructed Forge Sandbox with AST security validation and 4-tier friction protocol, achieving \textbf{100\% threat sensitivity across 350 adversarial triggers} and Zero-Trust credential firewall.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{AI/ML \& Computer Vision}{: PyTorch, OpenCV, Deep Vision (DenseNet, ConvNeXt, EfficientNet), Grad-CAM (XAI), Medical Image Processing, Model Calibration (Platt / ECE), Conformal Prediction, scikit-learn} \\
+     \textbf{Edge AI, HPC \& Serving}{: ONNX Runtime (FP16 Graph Optimization), TensorRT, Distributed Model Serving, Redis, Celery Worker Queues, Asyncio Concurrency} \\
+     \textbf{Speech \& Vernacular NLP}{: Speech-to-Text (Whisper), Bengali Audio Transcription, Local LLMs (Ollama), LangChain, Vector DBs (pgvector, ChromaDB)} \\
+     \textbf{Languages \& Systems}{: Python, C++, Java, SQL (PostgreSQL RLS, SQLite WAL), JavaScript, TypeScript, FastAPI, React 19, Docker, Linux/Unix CLI, Git, CI/CD}
+    }}
+ \end{itemize}
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+\vspace{-2pt}
+\begin{itemize}[leftmargin=0.15in, label={}, noitemsep, topsep=-3pt]
+    \small{\item{
+     $\bullet$ \textbf{Azure AI Developer Associate (AI-103)} $|$ Microsoft \hfill $\bullet$ \textbf{Machine Learning Operations Engineer (AI-300)} $|$ Microsoft \\
+     $\bullet$ \textbf{Oracle AI Database Foundations (1Z0-1195)} $|$ Oracle \hfill $\bullet$ \textbf{Oracle Agentic AI Foundations (1Z0-1157)} $|$ Oracle \\
+     $\bullet$ \textbf{AI-ML Virtual Internship Accreditation} $|$ All India Council for Technical Education (AICTE)
+    }}
+\end{itemize}
+\vspace{-6pt}
+
+%-------------------------------------------
+\end{document}

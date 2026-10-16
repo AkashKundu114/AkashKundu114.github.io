@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 interface ProfileMetadataItem {
   label: string;
@@ -87,10 +88,15 @@ const CAREER_TIMELINE: readonly CareerMilestone[] = [
 const BIO_PARAGRAPHS = [
   'I build agentic AI systems, RAG pipelines, and computer vision models. I got into this because a model that works well in a Jupyter notebook is still a long way from something a person can actually use. Closing that gap — between a trained model and a usable interface — is what my projects are about.',
   'In practice, that means spending time on data prep and model fine-tuning, then just as much time engineering the FastAPI backend, LangGraph state-machines, and Electron/React frontends that sit in front of it.',
-  'Currently, I am an AI Research & Social Innovation Intern at Purposive AI, building voice-first Bengali AI tools (AI-SATHI) for rural micro-entrepreneurs, while scaling COPPER, my local-first 30-agent personal AI OS.',
+  'Currently, I am an AI Research & Social Innovation Intern at Purposive AI, building voice-first Bengali AI tools (AI-SATHI) for rural micro-entrepreneurs, while scaling COPPER, my local-first 12-agent personal AI OS.',
 ];
 
 export default function About() {
+  useDocumentTitle(
+    'About — Akash Kundu',
+    'Background, engineering principles, and experience of Akash Kundu.'
+  );
+
   const containerRef = useRevealChildren();
 
   useEffect(() => {
@@ -102,10 +108,10 @@ export default function About() {
       <section className="section" ref={containerRef}>
         <div className="container">
           <div className="label reveal">about</div>
-          <h2 className="reveal" style={{ marginBottom: '48px', maxWidth: '28ch' }}>
+          <h1 className="reveal heading-lg" style={{ marginBottom: '48px', maxWidth: '28ch' }}>
             B.Tech CSE student &amp; aspiring AI Engineer / SWE building scalable ML systems and agentic
             workflows.
-          </h2>
+          </h1>
 
           {/* Profile Overview & Metadata Grid */}
           <div

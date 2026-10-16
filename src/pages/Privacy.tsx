@@ -33,7 +33,7 @@ function PolicySectionCard({ label, title, children, useLiquidLens = false }: Po
   );
 
   if (useLiquidLens) {
-    return <LiquidGlassLens preset="subtle">{content}</LiquidGlassLens>;
+    return <LiquidGlassLens intensity="subtle">{content}</LiquidGlassLens>;
   }
 
   return <div className="card">{content}</div>;

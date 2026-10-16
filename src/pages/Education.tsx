@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { education, EducationItem } from '../data/education';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 interface EducationStatCard {
   label: string;
@@ -51,6 +52,11 @@ function extractEducationStats(items: readonly EducationItem[]): EducationStatCa
 }
 
 export default function Education() {
+  useDocumentTitle(
+    'Education — Akash Kundu',
+    'Academic background, coursework, and degree details.'
+  );
+
   const containerRef = useRevealChildren();
 
   useEffect(() => {
@@ -64,9 +70,9 @@ export default function Education() {
       <section className="section" ref={containerRef}>
         <div className="container">
           <div className="label reveal">education</div>
-          <h2 className="reveal" style={{ marginBottom: '0.85rem', maxWidth: '32ch' }}>
+          <h1 className="reveal heading-lg" style={{ marginBottom: '0.85rem', maxWidth: '32ch' }}>
             Academic background.
-          </h2>
+          </h1>
           <p
             className="reveal"
             style={{ fontSize: '0.95rem', maxWidth: '56ch', lineHeight: 1.8, marginBottom: '3rem' }}

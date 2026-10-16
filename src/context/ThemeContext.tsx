@@ -7,15 +7,23 @@ export interface ThemeContextValue {
   changeTheme: (newTheme: ThemeName) => void;
 }
 
-const THEME_STORAGE_KEY = 'portfolio_theme';
-const DEFAULT_THEME: ThemeName = 'theme-1';
-const AVAILABLE_THEMES: readonly ThemeName[] = [
+export const THEME_STORAGE_KEY = 'portfolio_theme';
+export const DEFAULT_THEME: ThemeName = 'theme-1';
+export const AVAILABLE_THEMES: readonly ThemeName[] = [
   'theme-1',
   'theme-2',
   'theme-3',
   'theme-4',
   'theme-5',
 ];
+
+export const THEME_METADATA: Record<string, { label: string; accentColor: string }> = {
+  'theme-1': { label: 'Crimson', accentColor: '#fbf59c' },
+  'theme-2': { label: 'Amethyst', accentColor: '#a8cf17' },
+  'theme-3': { label: 'Magenta', accentColor: '#ff6206' },
+  'theme-4': { label: 'Moss', accentColor: '#96a142' },
+  'theme-5': { label: 'Cobalt', accentColor: '#ff5c6d' },
+};
 
 function getRandomTheme(): ThemeName {
   const randomIndex = Math.floor(Math.random() * AVAILABLE_THEMES.length);

@@ -47,8 +47,7 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
 
     const { fallbackDelayMs = 1200, ...observerInit } = options;
 
-    let localObserver: IntersectionObserver;
-    localObserver = new IntersectionObserver(
+    const localObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[], observerInstance: IntersectionObserver) => {
         const activeObserver = observerInstance || localObserver;
         for (const entry of entries) {
@@ -127,8 +126,7 @@ export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
       return;
     }
 
-    let localObserver: IntersectionObserver;
-    localObserver = new IntersectionObserver(
+    const localObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[], observerInstance: IntersectionObserver) => {
         const activeObserver = observerInstance || localObserver;
         for (const entry of entries) {

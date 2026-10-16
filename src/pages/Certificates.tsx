@@ -4,6 +4,7 @@ import { useData } from '../context/DataContext';
 import { categoryColors, Certificate } from '../data/certificates';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const DEFAULT_CATEGORY = 'All';
 const CURRENT_BENCHMARK_YEAR = '2026';
@@ -38,6 +39,11 @@ function filterCertificatesByCategory(
 }
 
 export default function Certificates() {
+  useDocumentTitle(
+    'Certificates — Akash Kundu',
+    'Industry certifications in AI, cloud systems, and software engineering.'
+  );
+
   const { certificates = [] } = useData();
   const [activeCategory, setActiveCategory] = useState<string>(DEFAULT_CATEGORY);
   const [failedImageIds, setFailedImageIds] = useState<Set<string>>(() => new Set());
@@ -84,11 +90,11 @@ export default function Certificates() {
       <section className="section" ref={containerRef}>
         <div className="container">
           <div className="label reveal">Achievements</div>
-          <h2 className="reveal" style={{ marginBottom: '1rem' }}>
+          <h1 className="reveal heading-lg" style={{ marginBottom: '1rem' }}>
             Certificates &amp;
             <br />
             <em style={{ color: 'var(--accent)', fontStyle: 'normal' }}>Credentials.</em>
-          </h2>
+          </h1>
           <p className="reveal" style={{ marginBottom: '3.5rem', maxWidth: '52ch' }}>
             Certifications spanning AI agents, cloud platforms, data science, and software
             engineering.

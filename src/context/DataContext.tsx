@@ -90,32 +90,32 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const addProject = (projectData: Partial<Project> & { title: string }) => {
     const newProject: Project = {
-      id: projectData.id || `proj-${Date.now()}`,
-      title: projectData.title || 'Untitled Project',
-      status: projectData.status || 'In Progress',
-      shortDesc: projectData.shortDesc || '',
-      description: projectData.description || '',
-      problem: projectData.problem || '',
-      aiArchitecture: projectData.aiArchitecture || {
+      status: 'In Progress',
+      shortDesc: '',
+      description: '',
+      problem: '',
+      aiArchitecture: {
         heading: '',
         body: '',
         points: [],
         stack: [],
       },
-      uiDeployment: projectData.uiDeployment || {
+      uiDeployment: {
         heading: '',
         body: '',
         points: [],
         deployed: '',
         stack: [],
       },
-      technologies: projectData.technologies || [],
-      year: projectData.year || new Date().getFullYear().toString(),
-      github: projectData.github || null,
-      liveLink: projectData.liveLink || null,
-      features: projectData.features || [],
-      screenshots: projectData.screenshots || [],
+      technologies: [],
+      year: new Date().getFullYear().toString(),
+      github: null,
+      liveLink: null,
+      features: [],
+      screenshots: [],
       ...projectData,
+      id: projectData.id || `proj-${Date.now()}`,
+      title: projectData.title || 'Untitled Project',
     };
     saveProjects([...projects, newProject]);
   };
@@ -136,18 +136,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const addCertificate = (certificateData: Partial<Certificate> & { title: string }) => {
     const newCertificate: Certificate = {
+      issuer: '',
+      date: '',
+      credentialId: '',
+      category: 'General',
+      skills: [],
+      image: '',
+      file: '',
+      verifyUrl: null,
+      description: '',
+      ...certificateData,
       id: certificateData.id || `cert-${Date.now()}`,
       title: certificateData.title || 'Untitled Certificate',
-      issuer: certificateData.issuer || '',
-      date: certificateData.date || '',
-      credentialId: certificateData.credentialId || '',
-      category: certificateData.category || 'General',
-      skills: certificateData.skills || [],
-      image: certificateData.image || '',
-      file: certificateData.file || '',
-      verifyUrl: certificateData.verifyUrl || null,
-      description: certificateData.description || '',
-      ...certificateData,
     };
     saveCertificates([...certificates, newCertificate]);
   };

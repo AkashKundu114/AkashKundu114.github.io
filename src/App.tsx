@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AmbientBackground from './components/AmbientBackground';
 import CustomCursor from './components/CustomCursor';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -20,6 +21,7 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Admin = lazy(() => import('./pages/Admin'));
 const Terms = lazy(() => import('./pages/Terms'));
 const Privacy = lazy(() => import('./pages/Privacy'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function PageLoader() {
   return (
@@ -65,6 +67,7 @@ function AnimatedRoutes() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/policy" element={<Terms />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
@@ -74,15 +77,44 @@ export default function App() {
   return (
     <ThemeProvider>
       <DataProvider>
-        <HashRouter>
+        <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--muted)' }}>
+            <a
+              href="#main-content"
+              style={{
+                position: 'fixed',
+                top: '-9999px',
+                left: '16px',
+                zIndex: 99999,
+                padding: '10px 18px',
+                background: 'var(--ink)',
+                color: 'var(--bg)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '12px',
+                fontWeight: 600,
+                borderRadius: '6px',
+                textDecoration: 'none',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                transition: 'top 0.15s ease-out',
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.top = '16px';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.top = '-9999px';
+              }}
+            >
+              Skip to main content
+            </a>
             <AmbientBackground />
             <CustomCursor />
             <Navbar />
-            <main style={{ position: 'relative', zIndex: 2 }}>
-              <Suspense fallback={<PageLoader />}>
-                <AnimatedRoutes />
-              </Suspense>
+            <main id="main-content" tabIndex={-1} style={{ position: 'relative', zIndex: 2, outline: 'none' }}>
+              <ErrorBoundary>
+                <Suspense fallback={<PageLoader />}>
+                  <AnimatedRoutes />
+                </Suspense>
+              </ErrorBoundary>
             </main>
             <Footer />
           </div>

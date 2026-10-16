@@ -1,19 +1,19 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/favicon.svg', 'icons/icon-192.png', 'icons/icon-512.png'],
+      includeAssets: ['icons/favicon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/og-image.png'],
       manifest: {
-        name: 'Akash Kundu — Portfolio',
+        name: 'Akash Kundu — AI Engineer & Full-Stack Developer',
         short_name: 'Akash.dev',
-        description: 'B.Tech CSE Student — Data Analytics & AI/ML Portfolio',
-        theme_color: "#0B1228",
-        background_color: "#0B1228",
+        description: 'Portfolio of Akash Kundu - AI Engineer and Full-Stack Developer building production AI architectures, local multi-agent systems, and robust web apps.',
+        theme_color: '#0B1228',
+        background_color: '#0B1228',
         display: 'standalone',
         start_url: '/',
         icons: [
@@ -22,9 +22,18 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globPatterns: ['**/*.{js,css,html,ico,woff2,svg}'],
+        globIgnores: ['certificates/**', 'cv/**'],
         navigateFallbackDenylist: [/^\/certificates\//, /\.pdf$/],
         runtimeCaching: [
+          {
+            urlPattern: /\/certificates\/.*\.(?:png|jpg|jpeg|svg|webp)$/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'certificate-images-cache',
+              expiration: { maxEntries: 20, maxAgeSeconds: 30 * 24 * 60 * 60 },
+            },
+          },
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: 'CacheFirst',
@@ -39,5 +48,16 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/three')) {
+            return 'three';
+          }
+        },
+      },
+    },
+  },
   base: '/',
-})
+});

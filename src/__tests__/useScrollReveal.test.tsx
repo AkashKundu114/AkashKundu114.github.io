@@ -30,6 +30,7 @@ describe('useScrollReveal Hook', () => {
       constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
         observerCallback = callback;
         observerOptions = options;
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         observerInstance = this;
       }
 
@@ -209,6 +210,7 @@ describe('useRevealChildren Hook', () => {
 
       constructor(callback: IntersectionObserverCallback) {
         observerCallback = callback;
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         observerInstance = this;
       }
 

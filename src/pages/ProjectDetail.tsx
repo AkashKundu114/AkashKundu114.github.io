@@ -5,6 +5,7 @@ import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 import LiquidGlassLens from '../components/LiquidGlassLens';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { ProjectScreenshot } from '../data/projects';
 
 interface ArchitecturalSectionProps {
@@ -98,6 +99,11 @@ export default function ProjectDetail() {
   const currentProject = useMemo(
     () => (sanitizedId ? projects.find((project) => project.id === sanitizedId) : undefined),
     [projects, sanitizedId]
+  );
+
+  useDocumentTitle(
+    currentProject ? `${currentProject.title} — Akash Kundu` : 'Project Blueprint — Akash Kundu',
+    currentProject?.shortDesc
   );
 
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);

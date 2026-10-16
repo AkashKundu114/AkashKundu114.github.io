@@ -734,13 +734,17 @@ function AdvertisingCloud3DComponent() {
 
     let animationFrameId: number = 0;
     let isSceneVisible = true;
-    const animationClock = new THREE.Clock();
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let lastTime = performance.now();
+    let elapsedTime = 0;
 
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       if (!entry) return;
       isSceneVisible = entry.isIntersecting;
       if (isSceneVisible) {
-        animationClock.start();
+        lastTime = performance.now();
         renderAnimationLoop();
       }
     });
@@ -749,10 +753,13 @@ function AdvertisingCloud3DComponent() {
 
     const renderAnimationLoop = () => {
       if (!isSceneVisible) return;
-      const elapsedTime = animationClock.getElapsedTime();
+      const now = performance.now();
+      const delta = prefersReducedMotion ? 0 : Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+      elapsedTime += delta;
 
       // Smooth inertia tilt
-      rootGroup.rotation.y += (targetRotationY - rootGroup.rotation.y) * 0.05 + 0.002;
+      rootGroup.rotation.y += (targetRotationY - rootGroup.rotation.y) * 0.05 + (prefersReducedMotion ? 0 : 0.002);
       rootGroup.rotation.x += (targetRotationX - rootGroup.rotation.x) * 0.05;
 
       // Rotate internal geodesic nuclei

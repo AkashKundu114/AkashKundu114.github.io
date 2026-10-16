@@ -1,14 +1,16 @@
-import { useEffect, useRef, useMemo, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useMemo, lazy, Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { skills } from '../data/skills';
 import { Project } from '../data/projects';
 import { Certificate } from '../data/certificates';
 import { ShinyButton, Tactile3DButton, GlassButton } from '../components/EvilButtons';
 import LiquidGlassLens from '../components/LiquidGlassLens';
-import AdvertisingCloud3D from '../components/AdvertisingCloud3D';
+
+const AdvertisingCloud3D = lazy(() => import('../components/AdvertisingCloud3D'));
 
 interface EngineeringDomain {
   label: string;
@@ -202,8 +204,12 @@ function ParticleNetworkCanvas() {
 }
 
 export default function Home() {
+  useDocumentTitle(
+    'Akash Kundu — AI Systems & Research Engineer',
+    'Personal engineering portfolio of Akash Kundu — AI Systems, Autonomous Agents, and ML Research.'
+  );
+
   const { projects = [], certificates = [] } = useData();
-  const navigate = useNavigate();
   const containerRef = useRevealChildren();
 
   useEffect(() => {
@@ -220,14 +226,6 @@ export default function Home() {
   const marqueeSkillsList = useMemo(
     () => (skills && skills.length > 0 ? skills.map((s) => s.name) : []),
     []
-  );
-
-  const handleProjectClick = useCallback(
-    (projectId: string) => {
-      if (!projectId) return;
-      navigate(`/projects/${projectId}`);
-    },
-    [navigate]
   );
 
   return (
@@ -456,7 +454,27 @@ export default function Home() {
             </div>
 
             <div className="reveal">
-              <AdvertisingCloud3D />
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      height: '420px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--surface)',
+                      border: '1px solid var(--border)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: 'var(--muted)',
+                    }}
+                  >
+                    Initializing 3D Simulation...
+                  </div>
+                }
+              >
+                <AdvertisingCloud3D />
+              </Suspense>
             </div>
           </div>
         </section>
@@ -490,18 +508,9 @@ export default function Home() {
                 style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
               >
                 {featuredProjects.map((project, index) => (
-                  <div
+                  <article
                     key={project.id}
                     className="row-card reveal"
-                    onClick={() => handleProjectClick(project.id)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleProjectClick(project.id);
-                      }
-                    }}
                     style={{ '--i': index, padding: '20px 24px' } as React.CSSProperties}
                   >
                     <div
@@ -547,8 +556,16 @@ export default function Home() {
                             </span>
                           )}
                         </div>
-                        <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
-                          {project.title}
+                        <h3 style={{ marginBottom: '6px', fontSize: '1rem' }}>
+                          <Link
+                            to={`/projects/${project.id}`}
+                            style={{
+                              color: 'var(--ink)',
+                              textDecoration: 'none',
+                            }}
+                          >
+                            {project.title}
+                          </Link>
                         </h3>
                         <p style={{ fontSize: '13px', lineHeight: 1.65, maxWidth: '56ch', color: 'var(--ink-2)' }}>
                           {project.shortDesc}
@@ -584,23 +601,23 @@ export default function Home() {
                               href={project.github}
                               target="_blank"
                               rel="noopener noreferrer"
-                              onClick={(event) => event.stopPropagation()}
                               className="btn btn-sm"
                               style={{ padding: '3px 10px', fontSize: '10px' }}
                             >
                               Code ↗
                             </a>
                           )}
-                          <span
+                          <Link
+                            to={`/projects/${project.id}`}
                             className="btn btn-sm btn-primary"
                             style={{ padding: '3px 10px', fontSize: '10px' }}
                           >
                             Details →
-                          </span>
+                          </Link>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </article>
                 ))}
               </div>
             ) : (

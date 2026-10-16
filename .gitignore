@@ -1,10 +1,8 @@
--e node_modules
-dist
-.env
-.DS_Store
-*.local
-package-lock.json
 node_modules/
 dist/
+.env
+.env.*
+!.env.example
 .DS_Store
 *.local
+audit_screenshots/

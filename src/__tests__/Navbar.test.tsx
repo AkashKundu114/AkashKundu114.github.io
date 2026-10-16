@@ -3,6 +3,7 @@ import { render, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { ThemeProvider } from '../context/ThemeContext';
 
 describe('Navbar Component', () => {
   beforeEach(() => {
@@ -15,9 +16,11 @@ describe('Navbar Component', () => {
 
   const renderNavbar = (initialEntries = ['/']) => {
     return render(
-      <MemoryRouter initialEntries={initialEntries}>
-        <Navbar />
-      </MemoryRouter>
+      <ThemeProvider>
+        <MemoryRouter initialEntries={initialEntries} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <Navbar />
+        </MemoryRouter>
+      </ThemeProvider>
     );
   };
 
@@ -28,6 +31,16 @@ describe('Navbar Component', () => {
     const brandLink = getByText('Akash Kundu').closest('a');
     expect(brandLink).toBeInTheDocument();
     expect(brandLink?.getAttribute('href')).toBe('/');
+  });
+
+  it('renders theme palette switcher button and allows cycling themes', () => {
+    const { getByLabelText } = renderNavbar();
+
+    const themeButton = getByLabelText(/Current theme palette/i);
+    expect(themeButton).toBeInTheDocument();
+
+    fireEvent.click(themeButton);
+    expect(document.documentElement.getAttribute('data-theme')).toBeTruthy();
   });
 
   it('renders all primary desktop navigation links with correct active status', () => {

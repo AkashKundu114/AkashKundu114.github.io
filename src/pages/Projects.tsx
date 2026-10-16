@@ -1,10 +1,11 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import Fuse, { IFuseOptions } from 'fuse.js';
 import { useData } from '../context/DataContext';
 import { useRevealChildren } from '../hooks/useScrollReveal';
 import PageTransition from '../components/PageTransition';
 import LiquidGlassLens from '../components/LiquidGlassLens';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { Project } from '../data/projects';
 
 const MAX_SEARCH_LENGTH = 80;
@@ -79,8 +80,12 @@ function filterProjects(
 }
 
 export default function Projects() {
+  useDocumentTitle(
+    'Projects — Akash Kundu',
+    'Flagship AI systems, medical screening platforms, and consensus clustering research.'
+  );
+
   const { projects = [] } = useData();
-  const navigate = useNavigate();
   const containerRef = useRevealChildren();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,29 +110,21 @@ export default function Projects() {
     [projects, searchQuery, selectedTags, fuseInstance]
   );
 
-  const handleQueryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const cleanValue = sanitizeSearchQuery(event.target.value);
     setSearchQuery(cleanValue);
-  }, []);
+  };
 
-  const toggleTag = useCallback((tag: string) => {
+  const toggleTag = (tag: string) => {
     setSelectedTags((prevTags) =>
       prevTags.includes(tag) ? prevTags.filter((t) => t !== tag) : [...prevTags, tag]
     );
-  }, []);
+  };
 
-  const clearAllFilters = useCallback(() => {
+  const clearAllFilters = () => {
     setSearchQuery('');
     setSelectedTags([]);
-  }, []);
-
-  const handleProjectNavigate = useCallback(
-    (projectId: string) => {
-      if (!projectId) return;
-      navigate(`/projects/${projectId}`);
-    },
-    [navigate]
-  );
+  };
 
   const hasActiveFilters = searchQuery.trim().length > 0 || selectedTags.length > 0;
 
@@ -136,9 +133,9 @@ export default function Projects() {
       <section className="section" style={{ paddingTop: '96px' }} ref={containerRef}>
         <div className="container">
           <div className="label reveal">portfolio &amp; systems</div>
-          <h2 className="reveal" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
+          <h1 className="reveal heading-lg" style={{ marginBottom: '12px', maxWidth: '28ch' }}>
             Production &amp; Research Systems.
-          </h2>
+          </h1>
           <p
             className="reveal"
             style={{
@@ -263,18 +260,9 @@ export default function Projects() {
               style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
             >
               {filteredProjects.map((project, index) => (
-                <div
+                <article
                   key={project.id}
                   className="row-card reveal"
-                  onClick={() => handleProjectNavigate(project.id)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleProjectNavigate(project.id);
-                    }
-                  }}
                   style={{ '--i': index, padding: '20px 24px' } as React.CSSProperties}
                 >
                   <div
@@ -332,8 +320,16 @@ export default function Projects() {
                           </span>
                         )}
                       </div>
-                      <h3 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--ink)' }}>
-                        {project.title}
+                      <h3 style={{ marginBottom: '6px', fontSize: '1rem' }}>
+                        <Link
+                          to={`/projects/${project.id}`}
+                          style={{
+                            color: 'var(--ink)',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          {project.title}
+                        </Link>
                       </h3>
                       <p
                         style={{
@@ -380,23 +376,23 @@ export default function Projects() {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={(event) => event.stopPropagation()}
                             className="btn btn-sm"
                             style={{ padding: '3px 10px', fontSize: '10px' }}
                           >
                             GitHub ↗
                           </a>
                         )}
-                        <span
+                        <Link
+                          to={`/projects/${project.id}`}
                           className="btn btn-sm btn-primary"
                           style={{ padding: '3px 10px', fontSize: '10px' }}
                         >
                           Deep Dive →
-                        </span>
+                        </Link>
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           ) : (
