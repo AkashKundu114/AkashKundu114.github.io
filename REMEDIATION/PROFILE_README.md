@@ -1,11 +1,11 @@
-# Hi, I'm Akash Kundu 👋
+# Akash Kundu
 
 **AI Systems, Autonomous Agents & Machine Learning Research Engineer**  
 Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akashkundu7487@gmail.com](mailto:akashkundu7487@gmail.com) • [LinkedIn](https://www.linkedin.com/in/akashkundu114/)
 
 ---
 
-### 🚀 Flagship Systems & Research
+### Flagship Systems & Research
 
 - **[C.O.P.P.E.R.](https://github.com/AkashKundu114/COPPER)** — *Local-First Autonomous Personal AI Operating System*
   - 100% offline multi-agent architecture powered by a 14B Sovereign Core fleet across 12 specialized agent types.
@@ -29,10 +29,20 @@ Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akas
   - Voice-ledger pipeline auto-extracting spoken Bengali into bank-submittable financial PDFs.
   - 2-stage per-chunk grounding RAG chatbot eliminating scheme-matching hallucinations to 0.0%.
   - Sarvam AI + Ollama fallback cascade deployed on Azure Container Apps. Field-tested with 8 rural SHGs.
+  - 389 automated tests passing across voice extraction and grounding validation.
 
 ---
 
-### 💻 Core Tech Stack
+### Industry Certifications
+
+- **Microsoft Certified:** Azure AI Apps and Agents Developer Associate (`AI-103`)
+- **Microsoft Certified:** Machine Learning Operations Engineer Associate (`AI-300`)
+- **Oracle Certified:** Agentic AI Foundations Associate (`1Z0-1157-26`)
+- **Oracle Certified:** AI Database Foundations Associate (`1Z0-1195-26`)
+
+---
+
+### Core Tech Stack
 
 - **Languages:** Python, TypeScript, JavaScript, SQL, C++, Java, Bash
 - **AI & Deep Learning:** PyTorch, ONNX / ONNX Runtime, Hugging Face, OpenCV, Scikit-learn, CatBoost, NumPy, SciPy
@@ -43,8 +53,9 @@ Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akas
 
 ---
 
-### 📊 Verified Engineering Metrics
-- **4 Flagship Systems** actively synchronized across repositories
-- **1,500+ Automated Tests** across production and research codebases
-- **0.0% Hallucination & 100% Guardrail Intercept** in verified safety testing
-- **Live Portfolio:** [akashkundu.me](https://akashkundu.me)
+### Verified Engineering Highlights
+
+- **4 Flagship Systems** actively synchronized across repositories with reproducible benchmarks.
+- **1,500+ Automated Tests** across production and research codebases.
+- **0.0% Hallucination & 100% Guardrail Intercept** in verified safety testing.
+- **Live Portfolio & Engineering Showcase:** [akashkundu.me](https://akashkundu.me)

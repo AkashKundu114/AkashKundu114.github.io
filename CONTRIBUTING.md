@@ -4,7 +4,7 @@ Thank you for your interest in contributing to this repository. This document ou
 
 ---
 
-## 🛠️ Development Setup
+## ️ Development Setup
 
 1. **Fork and clone the repository:**
 
@@ -34,7 +34,7 @@ Thank you for your interest in contributing to this repository. This document ou
 
 ---
 
-## 🌿 Git Workflow & Branching
+## Git Workflow & Branching
 
 - Always create a new branch from `main`:
   - `feat/feature-name` for new user-facing capabilities
@@ -52,7 +52,7 @@ Thank you for your interest in contributing to this repository. This document ou
 
 ---
 
-## 📐 Coding Conventions
+## Coding Conventions
 
 - **Language:** TypeScript 5.x with strict type checking. Avoid `any` types; prefer explicit interfaces or generics.
 - **Styling:** CSS Custom Properties (CSS variables) adhering to the 5 defined theme palettes (`data-theme="theme-1"` through `"theme-5"`), Tailwind CSS utilities, and custom modular classes in `src/index.css`.
@@ -63,7 +63,7 @@ Thank you for your interest in contributing to this repository. This document ou
 
 ---
 
-## 🧪 Quality Verification Checklist
+## Quality Verification Checklist
 
 Before creating a Pull Request, verify that all quality gates pass locally:
 
@@ -83,7 +83,7 @@ npm run build
 
 ---
 
-## 📬 Submitting a Pull Request
+## Submitting a Pull Request
 
 1. Push your branch to your fork.
 2. Open a Pull Request targeting `main`.

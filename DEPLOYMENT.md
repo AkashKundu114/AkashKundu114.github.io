@@ -1,11 +1,11 @@
-# 🚀 Hosting Guide — akashkundu.me on GitHub Pages
+# Hosting Guide — akashkundu.me on GitHub Pages
 
 Complete step-by-step guide to deploy your React portfolio to your custom domain
 `akashkundu.me` using GitHub Pages and GitHub Actions (free, auto-deploys on every push).
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Git installed on your machine
 - Node.js 18+ installed
@@ -189,14 +189,14 @@ You can watch the build at: `https://github.com/AkashKundu114/portfolio/actions`
 2. Under **Custom domain**, type: `akashkundu.me`
 3. Click **Save**
 4. GitHub will try to verify the domain (wait 1–2 minutes)
-5. Check **Enforce HTTPS** once it appears ✓
+5. Check **Enforce HTTPS** once it appears
 
 ### Step 12 — Configure DNS at your domain registrar
 
 Your domain `akashkundu.me` was registered via GitHub Student Pack (Namecheap or similar).
 Log in to your registrar's DNS settings and add these records:
 
-#### Option A — Root domain (akashkundu.me) → Recommended ✓
+#### Option A — Root domain (akashkundu.me) → Recommended
 
 Add 4 **A records** pointing to GitHub Pages IPs:
 
@@ -219,7 +219,7 @@ Also add a **CNAME** for www:
 2. Delete any existing A records
 3. Add the 4 A records above (Host = @)
 4. Add the CNAME record (Host = www)
-5. Click ✓ to save each record
+5. Click to save each record
 
 ### Step 13 — Wait for DNS propagation
 
@@ -230,9 +230,9 @@ Check status at: https://dnschecker.org/#A/akashkundu.me
 
 Once DNS propagates:
 
-- Visit: https://akashkundu.me → should show your portfolio ✓
-- Visit: https://www.akashkundu.me → should redirect to akashkundu.me ✓
-- HTTPS padlock should be green ✓
+- Visit: https://akashkundu.me → should show your portfolio
+- Visit: https://www.akashkundu.me → should redirect to akashkundu.me
+- HTTPS padlock should be green
 
 ---
 
@@ -251,7 +251,7 @@ GitHub Actions will automatically rebuild and redeploy in ~2 minutes.
 
 ---
 
-## 🗂 File Structure Reference
+## File Structure Reference
 
 ```
 portfolio-react/
@@ -299,7 +299,7 @@ portfolio-react/
 
 ---
 
-## ❓ Common Issues
+## Common Issues
 
 ### Build fails on GitHub Actions
 
@@ -330,7 +330,7 @@ portfolio-react/
 
 ---
 
-## ✅ Launch Checklist
+## Launch Checklist
 
 - [ ] `npm install` completed without errors
 - [ ] `npm run build` completed without errors
@@ -343,5 +343,5 @@ portfolio-react/
 - [ ] Custom domain `akashkundu.me` entered in Pages settings
 - [ ] DNS A records added at your domain registrar
 - [ ] DNS propagated (check dnschecker.org)
-- [ ] https://akashkundu.me loads correctly ✓
-- [ ] HTTPS enforced ✓
+- [ ] https://akashkundu.me loads correctly
+- [ ] HTTPS enforced

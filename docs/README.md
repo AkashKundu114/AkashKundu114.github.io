@@ -4,7 +4,7 @@ This directory contains the exhaustive technical audits, benchmarks, security re
 
 ---
 
-## 📑 Documentation Index
+## Documentation Index
 
 | Document                                                                                         | Primary Focus                 | Key Metrics / Findings                                                                |
 | ------------------------------------------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------- |
@@ -26,7 +26,7 @@ This directory contains the exhaustive technical audits, benchmarks, security re
 
 ---
 
-## 🔍 How to Run Quality Audits Locally
+## How to Run Quality Audits Locally
 
 ```bash
 # Run the automated test suite

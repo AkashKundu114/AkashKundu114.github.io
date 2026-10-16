@@ -14,7 +14,7 @@ Deployed on **GitHub Pages** with a custom domain at [akashkundu.me](https://aka
 
 ---
 
-## 🌟 Featured Engineering Projects
+## Featured Engineering Projects
 
 | Project                                                                                        | Domain                            | Architecture & Technologies                                                                                                             | Validated Metrics                                                                                                                                                                    |
 | ---------------------------------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -26,7 +26,7 @@ Deployed on **GitHub Pages** with a custom domain at [akashkundu.me](https://aka
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -56,7 +56,7 @@ graph TD
 
 ---
 
-## 📁 Repository Directory Map
+## Repository Directory Map
 
 ```
 AkashKundu114.github.io/
@@ -143,7 +143,7 @@ AkashKundu114.github.io/
 
 ---
 
-## 🚀 Quickstart & Local Development
+## Quickstart & Local Development
 
 ### Prerequisites
 
@@ -182,7 +182,7 @@ Open `http://localhost:5173/` in your browser.
 
 ---
 
-## 🧪 Testing & Quality Gates
+## Testing & Quality Gates
 
 The repository enforces strict verification standards. All commands can be run locally:
 
@@ -211,7 +211,7 @@ npm run preview
 
 ---
 
-## 🔌 Running the Contact API Microservice (Optional)
+## Running the Contact API Microservice (Optional)
 
 The contact form in `src/pages/Contact.tsx` submits to a FastAPI backend microservice located in `backend/`:
 
@@ -238,7 +238,7 @@ uvicorn contact_api:app --reload --port 8000
 
 ---
 
-## 🔒 Security & Privacy Engineering
+## Security & Privacy Engineering
 
 - **Strict Content-Security-Policy (CSP):** Configured in `index.html` preventing unauthorized script execution, malicious form actions, or protocol-relative injection.
 - **Defensive URL Sanitization:** All internal and external links are validated using `sanitizeUrl()` and `sanitizeRedirectPath()`, mitigating open redirect and XSS attack vectors.
@@ -250,7 +250,7 @@ For detailed security policies or vulnerability reporting, see [SECURITY.md](SEC
 
 ---
 
-## 📜 License
+## License
 
 This project is open source and available under the terms of the [MIT License](LICENSE).
 

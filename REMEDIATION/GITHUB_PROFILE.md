@@ -3,14 +3,14 @@
 *Recommended content for `https://github.com/AkashKundu114/AkashKundu114` (`README.md`)*
 
 ```markdown
-# Hi, I'm Akash Kundu 👋
+# Akash Kundu
 
 **AI Systems, Autonomous Agents & Machine Learning Research Engineer**  
 Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akashkundu7487@gmail.com](mailto:akashkundu7487@gmail.com) • [LinkedIn](https://www.linkedin.com/in/akashkundu114/)
 
 ---
 
-### 🚀 Flagship Systems & Research
+### Flagship Systems & Research
 
 - **[C.O.P.P.E.R.](https://github.com/AkashKundu114/COPPER)** — *Local-First Autonomous Personal AI Operating System*
   - 100% offline multi-agent architecture powered by a 14B Sovereign Core fleet across 12 specialized agent types.
@@ -37,7 +37,7 @@ Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akas
 
 ---
 
-### 💻 Core Tech Stack
+### Core Tech Stack
 
 - **Languages:** Python, TypeScript, JavaScript, SQL, C++, Java, Bash
 - **AI & Deep Learning:** PyTorch, ONNX / ONNX Runtime, Hugging Face, OpenCV, Scikit-learn, CatBoost, NumPy, SciPy
@@ -48,7 +48,7 @@ Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akas
 
 ---
 
-### 📊 Portfolio Metrics
+### Portfolio Metrics
 - **4 Flagship Systems** actively synchronized across repositories
 - **1,500+ Automated Tests** across production and research codebases
 - **0.0% Hallucination & 100% Guardrail Intercept** in verified safety testing
