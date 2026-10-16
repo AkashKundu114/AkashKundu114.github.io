@@ -54,3 +54,20 @@ Kolkata, West Bengal, India • [akashkundu.me](https://akashkundu.me) • [akas
 - **0.0% Hallucination & 100% Guardrail Intercept** in verified safety testing
 - **Live Site:** [akashkundu.me](https://akashkundu.me)
 ```
+
+---
+
+## 2. Live Repository Metadata & Topics Matrix
+
+The following metadata, homepages, and topics are synchronized across GitHub repositories via the GitHub CLI:
+
+| Repository | Description | Homepage | Topics |
+| :--- | :--- | :--- | :--- |
+| **`AkashKundu114.github.io`** | Aura Core — Cognitive Mapping: Personal portfolio & AI engineering showcase for Akash Kundu | `https://akashkundu.me` | `portfolio`, `react`, `typescript`, `vite`, `tailwindcss`, `threejs`, `webgl`, `personal-website`, `github-pages`, `developer-portfolio`, `design-system` |
+| **`AkashKundu114`** | Config and profile README for Akash Kundu — AI Systems, Autonomous Agents & Machine Learning Research Engineer | `https://akashkundu.me` | `akashkundu`, `profile`, `ai-engineer`, `portfolio`, `machine-learning`, `agentic-ai`, `autonomous-agents` |
+| **`COPPER`** | Sovereign, local-first personal AI desktop OS. Zero-egress multi-agent intelligence powered by Ollama, continuous epistemic decaying memory, proactive Guardian safety firewall, and an Electron HUD. | `https://akashkundu.me/projects/copper` | `agentic-ai`, `chromadb`, `desktop-app`, `electron`, `fastapi`, `guardian-ai`, `llm-orchestration`, `multi-agent-systems`, `offline-first`, `ollama`, `personal-assistant`, `privacy`, `python`, `react`, `sqlite`, `typescript`, `vector-database` |
+| **`OphthalmoAI`** | Point-of-care retinal disease screening prototype: calibrated vision ensemble, Grad-CAM, conformal uncertainty, and offline ONNX edge inference (academic research prototype, non-diagnostic) | `https://ophthalmo-ai-mu.vercel.app` | `computer-vision`, `docker`, `ensemble-learning`, `fastapi`, `gemini-api`, `grad-cam`, `machine-learning`, `medical-ai`, `pytorch`, `react`, `conformal-prediction`, `deep-learning`, `efficientnet`, `kubernetes`, `medical-imaging`, `ophthalmology` |
+| **`icc-clustering`** | Reference implementation of Inductive Consensus Clustering (ICC-v2): linear-time bipartite anchor consensus with Sarle bimodality subspace gating and closed-form out-of-sample assignment for D >> N. | `https://akashkundu.me/projects/icc-clustering` | `anchor-graph`, `bioinformatics`, `clustering`, `consensus-clustering`, `ensemble-clustering`, `feature-selection`, `high-dimensional-data`, `out-of-sample`, `python`, `scikit-learn`, `spectral-clustering` |
+| **`ResumePilot`** | Production AI-powered resume builder and ATS optimization engine — Next.js 15, React 19, Supabase, Clerk, Stripe, Gemini API, and Tailwind CSS. | `https://akashkundu.me/projects/resume-pilot` | `nextjs`, `react`, `typescript`, `supabase`, `clerk`, `stripe`, `gemini-api`, `ats-scanner`, `resume-builder`, `tailwind-css` |
+| **`TenantAPI`** | Multi-tenant ophthalmic screening REST API — ASP.NET Core 8, EF Core, JWT auth, LINQ, xUnit | `https://akashkundu.me/projects/ophthalmo` | `dotnet`, `aspnetcore`, `entity-framework-core`, `jwt-authentication`, `rest-api`, `multitenancy`, `xunit`, `csharp` |
+
