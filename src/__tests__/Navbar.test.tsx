@@ -136,11 +136,12 @@ describe('Navbar Component', () => {
   });
 
   it('renders Eco Mode toggle button and toggles state when clicked', () => {
+    const initialEco = document.documentElement.getAttribute('data-eco') === 'true';
     const { getByTitle } = renderNavbar();
     const ecoBtn = getByTitle(/Toggle Eco Mode/i);
     expect(ecoBtn).toBeInTheDocument();
 
     fireEvent.click(ecoBtn);
-    expect(document.documentElement.getAttribute('data-eco')).toBe('true');
+    expect(document.documentElement.getAttribute('data-eco')).toBe(String(!initialEco));
   });
 });
